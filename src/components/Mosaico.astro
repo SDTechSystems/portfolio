@@ -94,11 +94,75 @@ const RECORTE = { arriba: '50% 0%', centro: '50% 50%', abajo: '50% 100%', izquie
 {!varias && <div class="detalle-unico"><DetallesCompra producto={unica} /></div>}
 </div>
 
+<script>
+  // Mejora progresiva: sin este módulo, Detalles sigue siendo un desplegable nativo.
+  document.querySelectorAll<HTMLElement>('.mosaico:not(.ancho)').forEach((tarjeta) => {
+    const seleccion = tarjeta.querySelector<HTMLElement>('.seleccion');
+    const pie = tarjeta.querySelector<HTMLElement>('.detalle-unico');
+    const detalles = pie?.querySelector<HTMLDetailsElement>('details');
+    const contenido = detalles?.querySelector<HTMLElement>('.contenido');
+    const resumen = detalles?.querySelector<HTMLElement>('summary');
+    if (!seleccion || !pie || !detalles || !contenido || !resumen) return;
+
+    const frente = document.createElement('div');
+    frente.className = 'frente';
+    const reverso = document.createElement('div');
+    reverso.className = 'reverso';
+    const cabecera = document.createElement('div');
+    cabecera.className = 'cabecera-reverso';
+    const nombre = document.createElement('p');
+    nombre.className = 'nombre-reverso';
+    nombre.textContent = seleccion.querySelector('.n')?.textContent ?? '';
+    const volver = document.createElement('button');
+    volver.type = 'button';
+    volver.className = 'volver';
+    volver.textContent = 'Volver';
+    volver.setAttribute('aria-label', `Volver a ${nombre.textContent}`);
+    cabecera.append(nombre, volver);
+    reverso.append(cabecera, contenido);
+    frente.append(seleccion, pie);
+    tarjeta.append(frente, reverso);
+    reverso.inert = true;
+    tarjeta.setAttribute('data-giro-listo', '');
+
+    const actualizar = () => {
+      const abierto = detalles.open;
+      tarjeta.toggleAttribute('data-girada', abierto);
+      frente.inert = abierto;
+      reverso.inert = !abierto;
+      (abierto ? volver : resumen).focus({ preventScroll: true });
+    };
+    detalles.addEventListener('toggle', actualizar);
+    volver.addEventListener('click', () => { detalles.open = false; });
+    reverso.addEventListener('keydown', (evento) => {
+      if (evento.key === 'Escape') {
+        evento.preventDefault();
+        evento.stopPropagation();
+        detalles.open = false;
+      }
+    });
+  });
+</script>
+
 <style>
   .mosaico { --fondo: var(--mosaico); grid-column: span 3; display: flex; flex-direction: column; border-radius: 8px; overflow: hidden; background: var(--fondo); cursor: pointer; transition: transform .15s, background-color .15s; }
+  .mosaico[data-giro-listo] { position: relative; perspective: 1000px; overflow: visible; background: none; }
+  .mosaico[data-giro-listo]:active { transform: none; }
+  :global(.frente), :global(.reverso) { border-radius: 8px; background: var(--fondo); backface-visibility: hidden; transition: transform .32s ease; }
+  :global(.frente) { display: flex; flex-direction: column; flex: 1; min-height: 0; overflow: hidden; }
+  :global(.reverso) { position: absolute; inset: 0; display: flex; flex-direction: column; padding: 12px; transform: rotateY(180deg); cursor: auto; }
+  .mosaico[data-girada] > :global(.frente) { transform: rotateY(-180deg); }
+  .mosaico[data-girada] > :global(.reverso) { transform: rotateY(0); }
+  :global(.cabecera-reverso) { display: flex; align-items: start; gap: 8px; flex: none; padding-bottom: 8px; }
+  :global(.nombre-reverso) { flex: 1; font-size: 14px; font-weight: 800; line-height: 1.2; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  :global(.volver) { min-height: 44px; margin-top: -12px; padding: 0 4px; border: 0; background: none; color: inherit; font: inherit; font-size: 13px; font-weight: 800; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+  :global(.reverso > .contenido) { min-height: 0; overflow-y: auto; overscroll-behavior: contain; container-type: inline-size; font-size: 13px; color: var(--texto-secundario, var(--suave)); padding: 0 4px 4px 0; }
+  @media (prefers-reduced-motion: reduce) {
+    :global(.frente), :global(.reverso) { transition: none; }
+  }
   .seleccion { display: flex; flex-direction: column; flex: 1; min-width: 0; color: inherit; }
   .detalle-unico { padding: 0 12px; }
-  .mosaico:has(.seleccion[aria-pressed='true']) { --fondo: var(--tinta); --texto-secundario: #b9b9c2; color: #fff; }
+  .mosaico:has(.seleccion[aria-pressed='true']) { --fondo: var(--tinta); --texto-secundario: #b9b9c2; --texto-detalle: #fff; color: #fff; }
   .mosaico:has(:global(.detalles-compra:active)) { transform: none; }
   .mosaico:active { transform: scale(.98); }
   .img { aspect-ratio: 16 / 9; background: #d6d6dc; position: relative; }

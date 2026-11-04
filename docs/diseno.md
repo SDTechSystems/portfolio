@@ -152,11 +152,22 @@ Así el respaldo también funciona si el script falla. Si falla `showModal`, se 
 
 ### Detalles de compra (#24)
 
-Desplegable nativo con texto secundario de 13px, separado del enlace de selección.
+En juegos individuales, «Detalles» gira el mosaico 180° en 320ms y muestra el
+reverso en el mismo espacio. Frente y reverso mantienen el radio de 8px y el fondo
+del estado de selección. «Volver» permanece visible; el contenido se desplaza
+internamente si no cabe. Solo la cara visible recibe foco (`inert`); Escape vuelve
+al frente y devuelve el foco a «Detalles». Sin movimiento si se pide movimiento reducido.
+
+Sin JavaScript, y en las filas del panel de versiones, se conserva el desplegable
+nativo con texto secundario de 13px, separado del enlace de selección.
 Objetivo táctil de al menos 44px; abrirlo o consultar no altera el pedido.
 Usa los tokens existentes; en el mosaico seleccionado el texto secundario es
-`#b9b9c2`. Los detalles crecen en el flujo y el panel conserva su desplazamiento.
+`#b9b9c2`. El respaldo sin JavaScript crece en el flujo; el panel conserva su desplazamiento.
 La consola se puede repetir dentro de los detalles para identificar la variante.
+Las condiciones usan filas de etiqueta y valor cuando el ancho interior alcanza 260px;
+en mosaicos estrechos se apilan. Etiquetas breves en tinta, valores en suave, sin
+márgenes nativos de `dl`. Tipo a 14px/800 y pie flexible con pendientes y consulta.
+Sin bordes, fondos adicionales ni nuevos colores.
 
 ## 5. Textos
 

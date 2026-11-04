@@ -122,7 +122,9 @@ son `true` o `false`. No se admiten textos vacíos ni saltos de línea.
 Omitir un campo hereda la regla general; poner `null` la anula y deja ese dato
 por confirmar. Añade idiomas solo cuando estén verificados para esa versión.
 
-«Detalles» permite consultar las condiciones antes de elegir, también sin
-JavaScript. Las mejoras indican siempre que requieren el juego base de Switch 1
+«Detalles» gira la tarjeta individual para consultar las condiciones antes de elegir,
+sin mover el tablero. «Volver» o Escape recuperan la portada. Si el contenido no cabe,
+se puede desplazar dentro del reverso. Sin JavaScript funciona como desplegable;
+las versiones conservan sus detalles en el panel. Las mejoras indican siempre que requieren el juego base de Switch 1
 y que se usan en Switch 2. «Consultar condiciones» abre una consulta independiente
 por WhatsApp; el pedido también incluye la variante y sus condiciones.

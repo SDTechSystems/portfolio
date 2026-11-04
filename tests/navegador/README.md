@@ -34,7 +34,8 @@ La suite contiene 27 casos (9 flujos en tres anchos) y comprueba:
 - Sin JavaScript: todos los productos publicados mantienen enlaces de WhatsApp visibles,
   incluyendo variantes y productos de consulta. Los ocultos no deben aparecer.
 
-- Detalles con teclado sin alterar la selección, condiciones confirmadas e idiomas
+- Giro con teclado sin alterar la selección ni el alto de la tarjeta, retorno de foco,
+  Escape, cara oculta inerte y movimiento reducido; condiciones confirmadas e idiomas
   pendientes, enlace de consulta y ausencia de controles interactivos anidados.
 - Requisito de mejora visible, detalles dentro del panel, foco/Escape y WhatsApp.
 - Desplegables nativos y selección directa sin JavaScript.

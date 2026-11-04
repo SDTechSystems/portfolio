@@ -2,6 +2,10 @@
 import { consultaCondiciones, type Producto } from '../lib/catalogo';
 interface Props { producto: Producto }
 const { producto: p } = Astro.props;
+// Etiquetas breves para la ficha; WhatsApp conserva el resumen completo.
+const etiquetas: Record<string, string> = {
+  'Región de canje': 'Región', 'Cambio de región': 'Canje', 'Canje en tu cuenta': 'Cuenta',
+};
 ---
 <details class="detalles-compra" data-condiciones={p.id}>
   <summary>Detalles<span class="solo-lector"> de {p.nombre}</span></summary>
@@ -10,19 +14,27 @@ const { producto: p } = Astro.props;
     {p.compra.requisitoBase && <p>{p.compra.requisitoBase}</p>}
     {p.nota && <p>{p.nota}</p>}
     {p.compra.datos.length > 0 && <dl>
-      {p.compra.datos.map(({ nombre, valor }) => <div><dt>{nombre}</dt><dd>{valor}</dd></div>)}
+      {p.compra.datos.map(({ nombre, valor }) => <div><dt>{etiquetas[nombre] ?? nombre}</dt><dd>{valor}</dd></div>)}
     </dl>}
+    <div class="consulta">
     {p.compra.pendientes.length > 0 && <p>Por confirmar: {p.compra.pendientes.join(', ')}.</p>}
     <a class="consulta-condiciones" href={consultaCondiciones(p)} target="_blank" rel="noopener">Consultar condiciones</a>
+    </div>
   </div>
 </details>
 <style>
-  .detalles-compra { min-width: 0; font-size: 13px; color: var(--texto-secundario, var(--suave)); }
-  summary { min-height: 44px; padding: 12px 0; cursor: pointer; color: inherit; }
-  .contenido { display: grid; gap: 8px; padding-bottom: 12px; overflow-wrap: anywhere; }
-  .tipo, dt { font-weight: 800; }
-  dl { display: grid; gap: 8px; }
+  .detalles-compra { min-width: 0; font-size: 13px; color: var(--texto-secundario, var(--suave)); container-type: inline-size; }
+  summary { min-height: 44px; padding: 12px 0; cursor: pointer; color: inherit; font-weight: 800; }
+  .contenido { display: grid; gap: 12px; padding-bottom: 12px; overflow-wrap: anywhere; line-height: 1.4; }
+  .tipo { font-size: 14px; font-weight: 800; color: var(--texto-detalle, var(--tinta)); }
+  dl { display: grid; gap: 8px; margin: 0; }
+  dl > div { display: grid; grid-template-columns: 1fr; gap: 2px; }
+  dt { font-weight: 800; color: var(--texto-detalle, var(--tinta)); }
   dd { margin: 0; }
-  .consulta-condiciones { color: inherit; text-decoration: underline; text-underline-offset: 3px; padding-block: 8px; }
+  .consulta { display: flex; align-items: baseline; flex-wrap: wrap; column-gap: 16px; }
+  .consulta-condiciones { display: inline-flex; align-items: center; min-height: 44px; color: var(--texto-detalle, var(--tinta)); font-weight: 800; text-decoration: underline; text-underline-offset: 3px; }
+  @container (min-width: 260px) {
+    dl > div { grid-template-columns: 64px minmax(0, 1fr); gap: 12px; }
+  }
   .solo-lector { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 </style>

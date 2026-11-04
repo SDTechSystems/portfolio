@@ -190,6 +190,12 @@ Solo se restauran listas de cadenas; otros formatos inician un pedido vacío.
 **Última actualización:** 2026-11-04 (issue #24: condiciones de compra).
 
 Hecho:
+- [x] **Ajuste visual #24 tras revisión del dueño:** condiciones en filas compactas,
+      etiquetas cortas, tipo y acción en tinta; pie compartido de consulta y pendientes.
+      Eliminados los márgenes nativos de la lista. A petición del dueño, «Detalles» gira
+      las tarjetas individuales sin cambiar su tamaño: reverso con Volver fijo y contenido
+      desplazable, Escape/foco y movimiento reducido. Sin JavaScript conserva el desplegable.
+      Las versiones conservan sus detalles dentro del panel.
 - [x] **#24 — condiciones de compra:** detalles nativos independientes de la selección,
       también sin JavaScript; tipo de producto y requisito del juego base en mejoras.
       Datos generales y excepciones por producto, validados al compilar; códigos japoneses,
@@ -544,6 +550,8 @@ La revisión humana de diseño y la prueba en celular real siguen siendo necesar
 | 2026-11-04 | Atribución de Claude desactivada en `.claude/settings.json` del repo (no solo en `~/.claude`) | Lo pidió el dueño. En la nube `~/.claude` se borra al terminar cada sesión; en el repo vale siempre. Se dejan las dos claves: `includeCoAuthoredBy` es la antigua y `attribution` la actual. |
 | 2026-11-04 | #24: condiciones generales con excepciones por producto y `null` para desconocidos | Mantiene un JSON editable, sin duplicar la regla comercial ni inventar idiomas a partir de Japón. El dueño confirmó código japonés, cambio de región, canje en su cuenta y guía. |
 | 2026-11-04 | #24: `<details>` independiente de selección; requisitos de mejora visibles | Información previa a compra sin nueva página, dependencias ni controles anidados; funciona sin JavaScript. Variante y condiciones viajan al WhatsApp. |
+| 2026-11-04 | Condiciones compactas tras anotación visual del dueño | La lista vertical tenía demasiado espacio y repetía etiquetas largas. Filas alineadas según ancho disponible y jerarquía de tinta/suave integran los detalles al tablero sin adornos. |
+| 2026-11-04 | Giro de tarjeta solicitado por el dueño | Los detalles individuales ocupan el reverso y no estiran la retícula. Transición de 320ms, caras inactivas inertes, retorno de foco, Escape y movimiento reducido; respaldo nativo si falla JavaScript. |
 
 ## 9. Cómo verificar un cambio
 

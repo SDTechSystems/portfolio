@@ -136,7 +136,7 @@ test('dos títulos: selección, total, WhatsApp y restauración', async ({ page 
   expect(dos).toHaveLength(2);
   for (const p of dos) await elegir(page, p);
   await comprobarPedido(page, dos);
-  for (const p of dos) await expect(page.locator('.mosaico').filter({ has: item(page, p.id) })).toHaveCSS('background-color', 'rgb(18, 18, 20)');
+  for (const p of dos) await expect(page.locator('.mosaico').filter({ has: item(page, p.id) }).locator('.frente')).toHaveCSS('background-color', 'rgb(18, 18, 20)');
   await page.reload();
   for (const p of dos) await expect(item(page, p.id)).toHaveAttribute('aria-pressed', 'true');
   await comprobarPedido(page, dos);
@@ -238,29 +238,40 @@ test.describe('sin JavaScript', () => {
   });
 });
 
-test('detalles del juego: condiciones confirmadas, consulta y selección independiente', async ({ page }) => {
+test('detalles del juego: giro estable, condiciones y selección independiente', async ({ page }) => {
   await page.goto('/');
   const p = vendibles.find((p) => !p.grupo)!;
   const detalles = page.locator(`[data-condiciones="${p.id}"]`);
+  const tarjeta = page.locator('.mosaico').filter({ has: detalles });
+  const reverso = tarjeta.locator('.reverso');
+  const antes = await tarjeta.boundingBox();
   await detalles.locator('summary').press('Enter');
-  await expect(detalles).toHaveAttribute('open', '');
-  await expect(detalles).toContainText('Juego completo');
-  await expect(detalles).toContainText('Japón');
-  await expect(detalles).toContainText('Requiere cambiar la región de la cuenta');
-  await expect(detalles).toContainText('guía para cambiar la región');
-  await expect(detalles).toContainText('Código para canjear en tu cuenta');
-  await expect(detalles).toContainText('Por confirmar: idiomas');
+  await expect(tarjeta).toHaveAttribute('data-girada', '');
+  await expect(reverso.getByRole('button', { name: /Volver/ })).toBeFocused();
+  await expect(reverso).toContainText('Juego completo');
+  await expect(reverso).toContainText('Japón');
+  await expect(reverso).toContainText('Requiere cambiar la región de la cuenta');
+  await expect(reverso).toContainText('guía para cambiar la región');
+  await expect(reverso).toContainText('Código para canjear en tu cuenta');
+  await expect(reverso).toContainText('Por confirmar: idiomas');
   await expect(item(page, p.id)).toHaveAttribute('aria-pressed', 'false');
-  const consulta = comprobarDestino((await detalles.getByRole('link', { name: 'Consultar condiciones' }).getAttribute('href'))!);
+  expect((await tarjeta.boundingBox())!.height).toBe(antes!.height);
+  expect(await tarjeta.locator('.frente').evaluate((e) => (e as HTMLElement).inert)).toBe(true);
+  const consulta = comprobarDestino((await reverso.getByRole('link', { name: 'Consultar condiciones' }).getAttribute('href'))!);
   expect(consulta).toBe(`Hola, quiero confirmar las condiciones de ${p.titulo} (${detalle(p)})`);
-  // Nada interactivo anidado dentro de los controles de selección o apertura.
   await expect(page.locator('[data-item] a, [data-item] button, [data-item] summary, button summary')).toHaveCount(0);
-  await detalles.locator('summary').press('Space');
-  await expect(detalles).not.toHaveAttribute('open');
+  await page.keyboard.press('Escape');
+  await expect(tarjeta).not.toHaveAttribute('data-girada');
+  await expect(detalles.locator('summary')).toBeFocused();
   await elegir(page, p);
   await comprobarPedido(page, [p]);
-  await detalles.locator('summary').click();
+  await detalles.locator('summary').press('Space');
+  await expect(tarjeta).toHaveAttribute('data-girada', '');
   await expect(item(page, p.id)).toHaveAttribute('aria-pressed', 'true');
+  await reverso.getByRole('button', { name: /Volver/ }).click();
+  await expect(detalles.locator('summary')).toBeFocused();
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  expect(await reverso.evaluate((e) => getComputedStyle(e).transitionDuration)).toBe('0s');
   await sinDesborde(page);
 });
 
