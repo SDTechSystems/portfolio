@@ -222,6 +222,7 @@ Hecho:
       bloquea editar `package-lock.json`, `dist/`, `.astro/` y `node_modules/`; skills `/nuevo-producto`
       y `/cerrar-sesion`; subagente `revisor-diseno`. Sin `.mcp.json`: `mcp.docs.astro.build` está
       bloqueado por la red del entorno en la nube.
+- [x] `CLAUDE.md` con comandos y arquitectura para Claude Code; importa `AGENTS.md` en vez de repetirlo.
 
 Pendiente de datos del dueño: confirmar si los precios mostrados (referencia eShop) son los de venta (D5);
 logo de la tienda (opcional, va en lugar del nombre en `.cabecera`, ver `diseno.md` §7).
@@ -299,6 +300,7 @@ logo de la tienda (opcional, va en lugar del nombre en `.cabecera`, ver `diseno.
 | 2026-11-04 | Hook de Claude Code que corre `npm run build` al editar el catálogo | La validación de `catalogo.ts` ya existe pero solo se veía en el CI; así el error aparece al editar. Un build completo (~5 s) en vez de un validador aparte: una sola fuente de reglas. |
 | 2026-11-04 | Skills `/nuevo-producto` y `/cerrar-sesion` solo a pedido del usuario | Editan el catálogo y el spec; no deben dispararse sin que el usuario lo pida. |
 | 2026-11-04 | Sin servidor MCP de documentación de Astro en el repo | Su host está bloqueado en el entorno en la nube; en el repo daría un error de conexión en cada sesión. Se agrega localmente con `claude mcp add`. |
+| 2026-11-04 | `CLAUDE.md` importa `AGENTS.md` (`@AGENTS.md`) | Una sola copia de las reglas del flujo de trabajo; `CLAUDE.md` solo agrega lo que exige leer varios archivos (validación, contrato del pedido, publicación). |
 
 ## 9. Cómo verificar un cambio
 
