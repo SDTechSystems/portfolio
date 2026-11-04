@@ -673,7 +673,8 @@
         "ancho": 1920,
         "alto": 1080,
         "fuente_pagina": "https://www.nintendo.com/us/store/products/the-legend-of-zelda-ocarina-of-time-switch-2/",
-        "fuente_imagen": "https://assets.nintendo.com/image/upload/c_fill,w_1200/q_auto/f_auto/dpr_2.0/store/software/switch2/70010000130792/21d17919819cffebda2817f9b0110116c28568e0b6fa30a9778f1679271be809"
+        "fuente_imagen": "https://assets.nintendo.com/image/upload/c_fill,w_1200/q_auto/f_auto/dpr_2.0/store/software/switch2/70010000130792/21d17919819cffebda2817f9b0110116c28568e0b6fa30a9778f1679271be809",
+        "recorte": "derecha"
       },
       "precio_venta_cop": 185900,
       "publicar": true,

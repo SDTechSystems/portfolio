@@ -48,7 +48,8 @@ Cada juego es un bloque como este:
     `"tipo_producto": "paquete_mejora"`.
   - El mosaico usa la portada de la versión de Switch 2: ponle `imagen` a ese bloque. En celular la
     portada se recorta y se conserva la parte de abajo; si el logo está arriba, agrega
-    `"recorte": "arriba"` dentro de `imagen` (también vale `"centro"`).
+    `"recorte": "arriba"` dentro de `imagen` (también vale `"centro"`). Si el juego es el destacado grande y en
+    computador se corta el logo por un lado, usa `"izquierda"` o `"derecha"` (el lado donde está el logo).
   - Ejemplos en el archivo: los dos Zelda, Mario Wonder y Animal Crossing.
 
 ### Datos de la tienda: `src/data/tienda.ts`

@@ -4,7 +4,7 @@ import { tienda } from '../data/tienda';
 
 export type Tipo = 'Juego' | 'DLC' | 'Update' | 'Mejora';
 export type Consola = 'Switch 1' | 'Switch 2';
-export type Recorte = 'arriba' | 'centro' | 'abajo';
+export type Recorte = 'arriba' | 'centro' | 'abajo' | 'izquierda' | 'derecha';
 export interface Producto {
   id: string;
   nombre: string;
@@ -45,7 +45,8 @@ interface Fila {
   /** Opcional: precio de venta propio. Si no está, se usa el de referencia de la eShop. */
   precio_venta_cop?: number | null;
   precio_referencia_eshop_colombia_cop: number | null;
-  /** recorte: opcional, dónde está el logo de la portada ("arriba", "centro" o "abajo"; por defecto "abajo"). */
+  /** recorte: opcional, dónde está el logo de la portada ("arriba", "centro" o "abajo"; por defecto "abajo").
+   *  "izquierda"/"derecha": para el destacado grande, que en escritorio recorta los lados. */
   imagen?: { ruta: string; recorte?: string };
   /** Opcional: mismo texto en las filas de un juego con versión para cada consola, ej. "zelda-totk". */
   grupo?: string;
@@ -69,7 +70,7 @@ const filas = todas.filter((f) => f.publicar !== false);
 // mensaje claro, en vez de publicar un juego en la consola equivocada o sin portada.
 const PLATAFORMAS = ['Nintendo Switch', 'Nintendo Switch 2'];
 const TIPOS = ['juego_digital', 'juego_con_accesorios', 'dlc', 'update', 'paquete_mejora'];
-const RECORTES = ['arriba', 'centro', 'abajo'];
+const RECORTES = ['arriba', 'centro', 'abajo', 'izquierda', 'derecha'];
 const precioValido = (n: unknown) => n === null || (typeof n === 'number' && Number.isInteger(n) && n > 0);
 const errores: string[] = [];
 const vistos = new Set<string>();

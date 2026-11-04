@@ -381,7 +381,7 @@ Pendiente de datos del dueño: logo de la tienda (opcional, va en lugar del nomb
 | D6 | ¿Marcar los juegos de Switch 1 como "Switch 1 y 2"? (casi todos corren en Switch 2) | No: van en la sección "Switch 1", tal como dice `plataforma`. |
 | D7 | Ring Fit Adventure no tiene precio digital y necesita el accesorio Ring-Con. ¿Se vende? | Se muestra con "Consultar" y abre WhatsApp para preguntar; no entra al pedido. |
 | D9 | Logos oficiales de Switch y Switch 2, y permiso para usarlos | Ícono de Simple Icons; Switch 2 compuesto (ícono + "2"). Pedir los archivos al distribuidor y confirmar que la tienda puede mostrarlos. |
-| D8 | ¿Qué títulos van destacados? | Los 3 más recientes: Mario Kart World (2025), Super Mario Bros. Wonder (2023), Zelda: Tears of the Kingdom (2023). |
+| D8 | ¿Qué títulos van destacados? | Pedido del dueño: Zelda: Ocarina of Time (Switch 2) como estelar, en lugar de Mario Kart World (vuelve al catálogo); siguen Super Mario Bros. Wonder y Zelda: Tears of the Kingdom. |
 
 ## 8. Registro de decisiones
 
@@ -457,6 +457,7 @@ Pendiente de datos del dueño: logo de la tienda (opcional, va en lugar del nomb
 | 2026-11-04 | Tablero de máx. 1440 px, centrado | Más ancho los mosaicos se agrandan sin sumar información y las portadas pierden nitidez. |
 | 2026-11-04 | Precios del listado copiados a `productos.json` (no se cambió el archivo que lee la web) | `productos.json` sigue siendo la única fuente; el listado nuevo trae portadas de 960 y sin los datos de las 6 portadas agregadas. Si el dueño prefiere editar el listado nuevo, se puede apuntar `catalogo.ts` a él y borrar el otro. |
 | 2026-11-04 | Campo `publicar` (por defecto true) | El listado lo trae: Ring Fit tiene precio pendiente y `publicar: false`. Ocultar sin borrar deja los datos listos para cuando haya precio. |
+| 2026-11-04 | `recorte`: "izquierda" / "derecha" (7 % / 93 % horizontal) | El destacado grande en escritorio deja ver 72–85 % del ancho (es más alto que 16:9). El logo de Ocarina llega al 96,7 % del ancho y se cortaba con el centro; con 93 % queda entero a 1024, 1280, 1440 y 1920 px (medido), a cambio de recortar un poco la mochila de Link a 1024 y 1920. En celular no recorta los lados. |
 
 ## 9. Cómo verificar un cambio
 

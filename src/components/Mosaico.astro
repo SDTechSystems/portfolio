@@ -33,6 +33,10 @@ const panel = varias && tamano !== 'grande';
 const juegos = f.versiones.filter((v) => v.tipo !== 'Mejora' && v.precio !== null).map((v) => v.precio!);
 const desde = juegos.length ? Math.min(...juegos) : null;
 const Caja = varias ? 'div' : 'a';
+// Qué parte de la portada se conserva al recortarla. Izquierda/derecha: el destacado grande en escritorio deja ver
+// 72–85 % del ancho según la pantalla; 7 %/93 % corre la ventana hacia ese lado (con 93 % un logo que llega al 97 %
+// del ancho sigue entero aunque solo se vea el 72 %).
+const RECORTE = { arriba: '50% 0%', centro: '50% 50%', abajo: '50% 100%', izquierda: '7% 50%', derecha: '93% 50%' };
 ---
 <Caja class:list={['mosaico', tamano, { ancho: varias, panel }]} {...(varias ? {} : item(unica))}>
   <div class="img">
@@ -43,7 +47,7 @@ const Caja = varias ? 'div' : 'a';
       <Image
         src={f.imagen}
         alt=""
-        style={f.recorte ? `object-position: 50% ${{ arriba: '0%', centro: '50%', abajo: '100%' }[f.recorte]}` : undefined}
+        style={f.recorte ? `object-position: ${RECORTE[f.recorte]}` : undefined}
         widths={ANCHOS.filter((w) => w <= f.imagen!.width)}
         sizes={sizes}
         format="webp"
