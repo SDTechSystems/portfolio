@@ -271,8 +271,8 @@ Hecho:
       Con los 2 destacados chicos con versiones, en escritorio llevan alto mínimo `max(190px, 50svh − 140px)`
       para que la portada grande no se recorte: Mario Kart World 2,01:1 a 1366×768 (era 2,58:1) y los 9 precios
       destacados visibles sin desplazar desde 1100×700 hasta 1920×1080. axe: 0 fallos.
-      ⚠️ **Precio de Wonder (Switch 1):** `nintendo.com/es-co` lo muestra hoy a $ 239.900 (regular, sin
-      descuento); el archivo dice $ 279.900 (referencia del 2026-11-03). No se cambió: decide el dueño. Sin grupos, el HTML es igual al de `main` (solo cambia el orden
+      Precio de Wonder (Switch 1) actualizado de $ 279.900 a **$ 239.900**, como lo muestra hoy
+      `nintendo.com/es-co` (regular, sin descuento); decisión del dueño. Sin grupos, el HTML es igual al de `main` (solo cambia el orden
       de los atributos). Verificado a 320, 390, 1000, 1366, 1440 y 1920 px: sin scroll horizontal, sin
       filas que se salgan, precios alineados; los 3 destacados con su primer precio visibles sin
       desplazar a 1366×768, 1440×900 y 1920×1080 (todas las filas de Zelda TotK también). Pedido: elegir
@@ -397,6 +397,7 @@ logo de la tienda (opcional, va en lugar del nombre en `.cabecera`, ver `diseno.
 | 2026-11-04 | Las filas se **mueven** al panel (no se copian) | Siguen siendo los mismos botones: conservan `aria-pressed`, los eventos de `Pedido.astro` y `sessionStorage` sin duplicar estado. |
 | 2026-11-04 | Juego con versiones = ancho de 2 mosaicos (en escritorio, 4 columnas) | Sello + precio de 22 px + "+" piden ~180 px y un mosaico chico a 320 px deja 122 px. Desde 1100 px la portada va a la izquierda y el mosaico mide lo mismo que sus vecinos. |
 | 2026-11-04 | Filas de versión: sello a la izquierda y precio alineado a la derecha junto al "+"; ~~portada 3:1 en celular~~ (con el panel, en celular la portada vuelve a 16:9) | Crítica de diseño: con el precio después del sello más ancho ("Mejora a ⊞2", 106 px) los precios empezaban a mitad del mosaico y el sello de Switch 1 flotaba solo; alineados a la derecha se comparan como en una lista. La portada a 3:1 baja el mosaico de 341 a 310 px a 390 px (3 versiones sueltas ocuparían ~290 px). |
+| 2026-11-04 | Mario Wonder (Switch 1) a $ 239.900 | Nintendo Colombia lo bajó de $ 279.900 (precio regular, sin descuento); el dueño pidió seguir la referencia. |
 | 2026-11-04 | Precios de Switch 2 y paquete de mejora tomados de `nintendo.com/es-co` | Mismo origen que los demás (referencia eShop Colombia, D5): los precios de Switch 1 de esa página coinciden con los del archivo. Se usó el precio regular (`discounted: false`). |
 | 2026-11-04 | Portada del mosaico con versiones anclada abajo (`object-position: 50% 100%`) | Las cajas de Switch 2 Edition llevan la franja "Nintendo Switch 2 Edition" abajo; el recorte 3:1 centrado la cortaba. Desde 1100 px (portada a la izquierda) el recorte es por los lados y la franja o el logo pueden cortarse: la pestaña ⊞2 ya marca la versión. |
 | 2026-11-04 | Campo opcional `imagen.recorte` en vez de un recorte fijo | La franja "Nintendo Switch 2 Edition" va abajo en Zelda y Wonder pero arriba en Animal Crossing; no hay un recorte que sirva para todas. Por defecto "abajo" (el caso común). |
