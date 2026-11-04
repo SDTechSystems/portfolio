@@ -150,11 +150,21 @@ Así el respaldo también funciona si el script falla. Si falla `showModal`, se 
 - Lector de pantalla: el "+" / "✓" es decorativo (`content: '+' / ''`); el estado lo da `aria-pressed`. Al
   cambiar el pedido se anuncia "Total del pedido: $ …" desde un párrafo oculto (`#anuncio`), no desde la barra.
 
+### Detalles de compra (#24)
+
+Desplegable nativo con texto secundario de 13px, separado del enlace de selección.
+Objetivo táctil de al menos 44px; abrirlo o consultar no altera el pedido.
+Usa los tokens existentes; en el mosaico seleccionado el texto secundario es
+`#b9b9c2`. Los detalles crecen en el flujo y el panel conserva su desplazamiento.
+La consola se puede repetir dentro de los detalles para identificar la variante.
+
 ## 5. Textos
 
 Todo el texto de la página: nombre de la tienda, **"Códigos para Switch 1 y 2"** (dice que se venden códigos digitales, no juegos físicos), nombres,
 nota, precios, "Mejora a" (sello del paquete de mejora), "N versiones · desde" y "Listo" (juego con versiones, celular), "¿No ves tu juego?", y en la barra "Vaciar" / "Pedir por WhatsApp". Con DLC
-visibles, además "DLC y updates" y "¿Buscas otro DLC?". **No agregar más.**
+visibles, además "DLC y updates" y "¿Buscas otro DLC?". Se permite además «Detalles» en cada producto y versión (#24), con condiciones
+comerciales y «Consultar condiciones» al desplegarlo. En versiones se muestra el tipo
+y, para mejoras, el requisito de juego base antes de seleccionar. Sin textos promocionales.
 
 **La consola siempre se distingue, con la pestaña y no con texto:** cada mosaico, en cualquier
 lugar del tablero, lleva la pestaña de su consola. El lector de pantalla la lee como

@@ -1,3 +1,4 @@
+import { informacionCompra, type InformacionCompra } from './condiciones-compra';
 import { precioVenta } from './precio-venta';
 import type { ImageMetadata } from 'astro';
 import datos from '../assets/Catalogo_Nintendo_Switch_Colombia/productos.json';
@@ -13,6 +14,7 @@ export interface Producto {
   /** null = sin precio: se muestra "Consultar" y no se puede sumar al pedido. */
   precio: number | null;
   tipo: Tipo;
+  compra: InformacionCompra;
   consola: Consola;
   /** Requisito extra para jugar (ej. "Necesita Ring-Con"); se muestra bajo el nombre. */
   nota?: string;
@@ -48,12 +50,16 @@ const CARPETA = 'Catalogo_Nintendo_Switch_Colombia';
 const ruta = (r: string) => `../assets/${CARPETA}/${r}`;
 const filas = validarCatalogo(datos, tienda, (r) => !!portadas[ruta(r)]);
 
+const tipoDe = (f: typeof filas[number]): Tipo => f.tipo_producto === 'dlc' ? 'DLC' : f.tipo_producto === 'update' ? 'Update' : f.tipo_producto === 'paquete_mejora' ? 'Mejora' : 'Juego';
+const consolaDe = (f: typeof filas[number]): Consola => f.plataforma === 'Nintendo Switch 2' ? 'Switch 2' : 'Switch 1';
 const productos: Producto[] = filas.map((f) => ({
   id: f.id,
   nombre: f.titulo,
   precio: precioVenta(f),
-  tipo: f.tipo_producto === 'dlc' ? 'DLC' : f.tipo_producto === 'update' ? 'Update' : f.tipo_producto === 'paquete_mejora' ? 'Mejora' : 'Juego',
-  consola: f.plataforma === 'Nintendo Switch 2' ? 'Switch 2' : 'Switch 1',
+  tipo: tipoDe(f),
+  consola: consolaDe(f),
+  compra: informacionCompra(tipoDe(f), consolaDe(f), { ...datos.condiciones_generales, ...f.condiciones },
+    f.grupo ? filas.find((base) => base.grupo === f.grupo && base.plataforma === 'Nintendo Switch' && tipoDe(base) === 'Juego')?.titulo : undefined),
   nota: f.tipo_producto === 'juego_con_accesorios' ? 'Necesita Ring-Con' : undefined,
   imagen: f.imagen && portadas[ruta(f.imagen.ruta)]?.default,
   archivo: f.imagen && `src/assets/${CARPETA}/${f.imagen.ruta}`,
@@ -89,7 +95,9 @@ export const secciones: Seccion[] = [
 const fmt = new Intl.NumberFormat(tienda.locale, { style: 'currency', currency: tienda.moneda, maximumFractionDigits: 0 });
 export const precio = (n: number | null) => (n === null ? 'Consultar' : fmt.format(n));
 
-const detalle = (p: Producto) => (p.tipo === 'Mejora' ? 'Paquete de mejora a Switch 2' : `${p.tipo} · ${p.consola}`);
+const detalle = (p: Producto) => p.compra.resumen;
+
+export const consultaCondiciones = (p: Producto) => whatsapp(`Hola, quiero confirmar las condiciones de ${p.nombre} (${detalle(p)})`);
 
 export const whatsapp = (texto: string) => `https://wa.me/${tienda.whatsapp}?text=${encodeURIComponent(texto)}`;
 const linkWhatsApp = (p: Producto) =>

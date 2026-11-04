@@ -1,0 +1,28 @@
+---
+import { consultaCondiciones, type Producto } from '../lib/catalogo';
+interface Props { producto: Producto }
+const { producto: p } = Astro.props;
+---
+<details class="detalles-compra" data-condiciones={p.id}>
+  <summary>Detalles<span class="solo-lector"> de {p.nombre}</span></summary>
+  <div class="contenido">
+    <p class="tipo">{p.compra.tipo} · {p.consola}</p>
+    {p.compra.requisitoBase && <p>{p.compra.requisitoBase}</p>}
+    {p.nota && <p>{p.nota}</p>}
+    {p.compra.datos.length > 0 && <dl>
+      {p.compra.datos.map(({ nombre, valor }) => <div><dt>{nombre}</dt><dd>{valor}</dd></div>)}
+    </dl>}
+    {p.compra.pendientes.length > 0 && <p>Por confirmar: {p.compra.pendientes.join(', ')}.</p>}
+    <a class="consulta-condiciones" href={consultaCondiciones(p)} target="_blank" rel="noopener">Consultar condiciones</a>
+  </div>
+</details>
+<style>
+  .detalles-compra { min-width: 0; font-size: 13px; color: var(--texto-secundario, var(--suave)); }
+  summary { min-height: 44px; padding: 12px 0; cursor: pointer; color: inherit; }
+  .contenido { display: grid; gap: 8px; padding-bottom: 12px; overflow-wrap: anywhere; }
+  .tipo, dt { font-weight: 800; }
+  dl { display: grid; gap: 8px; }
+  dd { margin: 0; }
+  .consulta-condiciones { color: inherit; text-decoration: underline; text-underline-offset: 3px; padding-block: 8px; }
+  .solo-lector { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+</style>
