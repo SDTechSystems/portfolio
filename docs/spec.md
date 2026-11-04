@@ -153,7 +153,7 @@ volver de WhatsApp; si el almacenamiento está bloqueado, todo funciona igual si
 
 ## 5. Estado (actualizar al cerrar cada sesión)
 
-**Última actualización:** 2026-11-04 (ajustes de CI y Dependabot), rama `ccr-1435d390-b65ozp` (sale de `main`).
+**Última actualización:** 2026-11-04 (automatizaciones de Claude Code), rama `ccr-1435d390-b65ozp` (sale de `main`).
 
 Hecho:
 - [x] Entrevista y requisitos (sección 3).
@@ -214,6 +214,15 @@ Hecho:
       runner y se puede relanzar a mano; `.gitignore` ignora `.wrangler/` y `.dev.vars*`; `.gitattributes`
       fija finales LF. Pendiente en Settings (lo hace el dueño): borrar ramas al fusionar y activar alertas
       de Dependabot.
+- [x] Automatizaciones de Claude Code en `.claude/` (rama `ccr-1435d390-b65ozp`):
+      hook de inicio que instala dependencias en sesiones en la nube (5 s la primera vez, 0,005 s si no
+      cambió nada; reinstala al cambiar `package.json`, `package-lock.json` o `.nvmrc`); hook que compila
+      al editar `productos.json`, `tienda.ts`, `catalogo.ts` o `astro.config.mjs` y devuelve la lista
+      "Revisa el catálogo" (probado con 2 errores a propósito: los 2 se reportan; build ~5 s); hook que
+      bloquea editar `package-lock.json`, `dist/`, `.astro/` y `node_modules/`; skills `/nuevo-producto`
+      y `/cerrar-sesion`; subagente `revisor-diseno`. Sin `.mcp.json`: `mcp.docs.astro.build` está
+      bloqueado por la red del entorno en la nube.
+- [x] `CLAUDE.md` con comandos y arquitectura para Claude Code; importa `AGENTS.md` en vez de repetirlo.
 
 Pendiente de datos del dueño: confirmar si los precios mostrados (referencia eShop) son los de venta (D5);
 logo de la tienda (opcional, va en lugar del nombre en `.cabecera`, ver `diseno.md` §7).
@@ -288,6 +297,10 @@ logo de la tienda (opcional, va en lugar del nombre en `.cabecera`, ver `diseno.
 | 2026-11-04 | `cooldown` de Dependabot (3 días; 7 en mayores) | Las versiones comprometidas en npm suelen retirarse en horas o días; las actualizaciones de seguridad no esperan. |
 | 2026-11-04 | CI: cancelar solo en PR, `persist-credentials: false`, `workflow_dispatch` | En `main` cada fusión debe quedar con su build; el job no hace push, así que no necesita el token guardado. |
 | 2026-11-04 | `.gitattributes` con `eol=lf` | Editar `productos.json` desde Windows no debe cambiar los finales de línea de todo el archivo. |
+| 2026-11-04 | Hook de Claude Code que corre `npm run build` al editar el catálogo | La validación de `catalogo.ts` ya existe pero solo se veía en el CI; así el error aparece al editar. Un build completo (~5 s) en vez de un validador aparte: una sola fuente de reglas. |
+| 2026-11-04 | Skills `/nuevo-producto` y `/cerrar-sesion` solo a pedido del usuario | Editan el catálogo y el spec; no deben dispararse sin que el usuario lo pida. |
+| 2026-11-04 | Sin servidor MCP de documentación de Astro en el repo | Su host está bloqueado en el entorno en la nube; en el repo daría un error de conexión en cada sesión. Se agrega localmente con `claude mcp add`. |
+| 2026-11-04 | `CLAUDE.md` importa `AGENTS.md` (`@AGENTS.md`) | Una sola copia de las reglas del flujo de trabajo; `CLAUDE.md` solo agrega lo que exige leer varios archivos (validación, contrato del pedido, publicación). |
 
 ## 9. Cómo verificar un cambio
 
