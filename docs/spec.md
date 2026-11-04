@@ -167,9 +167,11 @@ volver de WhatsApp; si el almacenamiento está bloqueado, todo funciona igual si
 
 ## 5. Estado (actualizar al cerrar cada sesión)
 
-**Última actualización:** 2026-11-04 (escritorio simétrico y portadas de 1920 px), rama `claude/beautiful-cannon-3a7uu7` (sale de `main`).
+**Última actualización:** 2026-11-04 (correcciones de auditoría #17–#20 sobre `c20ba4c`).
 
 Hecho:
+- [x] **Auditoría #17:** Respaldo del panel mediante mejora progresiva; filas visibles hasta inicializar los eventos y recuperación si falla `showModal`. Conserva el panel centrado en escritorio de PR #21.
+
 - [x] Entrevista y requisitos (sección 3).
 - [x] Diseño A · Tablero como página principal `/` (celular y escritorio). Diseños B y C y selector borrados.
 - [x] Catálogo real de Colombia: 24 juegos de `productos.json` (23 Switch 1, 1 Switch 2), sin DLC ni updates.
@@ -440,6 +442,7 @@ Pendiente de datos del dueño: logo de la tienda (opcional, va en lugar del nomb
 | 2026-11-04 | Paquete de mejora con sello "Mejora a ⊞2" (único texto nuevo) | El dueño lo vende. Un logo no basta para decir "pasar de Switch 1 a Switch 2"; dos palabras sí. |
 | 2026-11-04 | ~~Celular: juego con versiones a todo el ancho~~ → **mosaico normal + panel de versiones** | El sitio es sobre todo para celular: a todo el ancho la página crecía +31 % (3,4 → 4,4 pantallas) y crecería con cada juego con versiones. De 2 propuestas (mosaico compacto horizontal, −35 % de alto; mosaico normal + panel) el dueño eligió el panel: la página vuelve a medir como `main` y no crece. Cuesta un toque más, una vez por juego. |
 | 2026-11-04 | "N versiones · desde $ …" con el precio del juego más barato (sin el paquete de mejora) | Sin las filas a la vista, el mosaico tiene que decir que hay varias opciones y cuánto cuesta entrar. La mejora no cuenta: solo sirve a quien ya tiene el juego, y "desde $ 39.900" engañaría. |
+| 2026-11-04 | Corrección #17 | Las filas permanecen visibles hasta inicializar el panel, tanto en celular como en escritorio. El respaldo ya no depende de `<noscript>`. |
 | 2026-11-04 | Las filas se **mueven** al panel (no se copian) | Siguen siendo los mismos botones: conservan `aria-pressed`, los eventos de `Pedido.astro` y `sessionStorage` sin duplicar estado. |
 | 2026-11-04 | ~~Juego con versiones = ancho de 2 mosaicos (en escritorio, 4 columnas)~~ → **en escritorio también mosaico normal + panel** (ver abajo) | Sello + precio de 22 px + "+" piden ~180 px y un mosaico chico a 320 px deja 122 px. Desde 1100 px la portada va a la izquierda y el mosaico mide lo mismo que sus vecinos. |
 | 2026-11-04 | Filas de versión: sello a la izquierda y precio alineado a la derecha junto al "+"; ~~portada 3:1 en celular~~ (con el panel, en celular la portada vuelve a 16:9) | Crítica de diseño: con el precio después del sello más ancho ("Mejora a ⊞2", 106 px) los precios empezaban a mitad del mosaico y el sello de Switch 1 flotaba solo; alineados a la derecha se comparan como en una lista. La portada a 3:1 baja el mosaico de 341 a 310 px a 390 px (3 versiones sueltas ocuparían ~290 px). |

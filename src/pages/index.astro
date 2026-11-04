@@ -47,13 +47,6 @@ const escritorio = cierres(piezas(false), 10, 2);
 </main>
 <Pedido />
 <PanelVersiones />
-<!-- Sin JavaScript no hay panel: las versiones se ven dentro del mosaico (celular: todo el ancho; escritorio: 4 columnas). -->
-<noscript><style>
-  .tablero .panel .abrir { display: none !important; }
-  .tablero .panel .versiones { display: grid !important; }
-  @media (max-width: 759px) { .tablero .panel { grid-column: span 6 !important; } .tablero .panel .img { aspect-ratio: 3 / 1 !important; } }
-  @media (min-width: 760px) { .tablero .panel:not(.medio) { grid-column: span 4 !important; } .tablero .panel:not(.medio) .img { aspect-ratio: 3 / 1 !important; } }
-</style></noscript>
 </Layout>
 
 <style>
