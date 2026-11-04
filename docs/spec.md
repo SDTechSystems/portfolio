@@ -190,6 +190,8 @@ Solo se restauran listas de cadenas; otros formatos inician un pedido vacío.
 **Última actualización:** 2026-11-04 (issue #24: condiciones de compra).
 
 Hecho:
+- [x] **Reverso diferenciado:** fondo tinta, texto blanco y secundario gris claro,
+      con foco blanco, solicitado por el dueño para identificar la cara de detalles.
 - [x] **Ajuste visual #24 tras revisión del dueño:** condiciones en filas compactas,
       etiquetas cortas, tipo y acción en tinta; pie compartido de consulta y pendientes.
       Eliminados los márgenes nativos de la lista. A petición del dueño, «Detalles» gira
@@ -552,6 +554,7 @@ La revisión humana de diseño y la prueba en celular real siguen siendo necesar
 | 2026-11-04 | #24: `<details>` independiente de selección; requisitos de mejora visibles | Información previa a compra sin nueva página, dependencias ni controles anidados; funciona sin JavaScript. Variante y condiciones viajan al WhatsApp. |
 | 2026-11-04 | Condiciones compactas tras anotación visual del dueño | La lista vertical tenía demasiado espacio y repetía etiquetas largas. Filas alineadas según ancho disponible y jerarquía de tinta/suave integran los detalles al tablero sin adornos. |
 | 2026-11-04 | Giro de tarjeta solicitado por el dueño | Los detalles individuales ocupan el reverso y no estiran la retícula. Transición de 320ms, caras inactivas inertes, retorno de foco, Escape y movimiento reducido; respaldo nativo si falla JavaScript. |
+| 2026-11-04 | Reverso con fondo tinta permanente | Pedido del dueño: distinguir visualmente la cara de condiciones. Reutiliza la paleta existente y conserva contraste y foco visibles. |
 
 ## 9. Cómo verificar un cambio
 

@@ -153,8 +153,8 @@ Así el respaldo también funciona si el script falla. Si falla `showModal`, se 
 ### Detalles de compra (#24)
 
 En juegos individuales, «Detalles» gira el mosaico 180° en 320ms y muestra el
-reverso en el mismo espacio. Frente y reverso mantienen el radio de 8px y el fondo
-del estado de selección. «Volver» permanece visible; el contenido se desplaza
+reverso en el mismo espacio. Ambas caras mantienen el radio de 8px. El reverso usa siempre `--tinta`, texto
+blanco y secundario `#b9b9c2`, con foco blanco, para distinguirlo de la portada. «Volver» permanece visible; el contenido se desplaza
 internamente si no cabe. Solo la cara visible recibe foco (`inert`); Escape vuelve
 al frente y devuelve el foco a «Detalles». Sin movimiento si se pide movimiento reducido.
 

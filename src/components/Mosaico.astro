@@ -150,9 +150,10 @@ const RECORTE = { arriba: '50% 0%', centro: '50% 50%', abajo: '50% 100%', izquie
   .mosaico[data-giro-listo]:active { transform: none; }
   :global(.frente), :global(.reverso) { border-radius: 8px; background: var(--fondo); backface-visibility: hidden; transition: transform .32s ease; }
   :global(.frente) { display: flex; flex-direction: column; flex: 1; min-height: 0; overflow: hidden; }
-  :global(.reverso) { position: absolute; inset: 0; display: flex; flex-direction: column; padding: 12px; transform: rotateY(180deg); cursor: auto; }
+  :global(.reverso) { background: var(--tinta); color: #fff; --texto-detalle: #fff; --texto-secundario: #b9b9c2; color-scheme: dark; position: absolute; inset: 0; display: flex; flex-direction: column; padding: 12px; transform: rotateY(180deg); cursor: auto; }
   .mosaico[data-girada] > :global(.frente) { transform: rotateY(-180deg); }
   .mosaico[data-girada] > :global(.reverso) { transform: rotateY(0); }
+  :global(.reverso :focus-visible) { outline-color: #fff; }
   :global(.cabecera-reverso) { display: flex; align-items: start; gap: 8px; flex: none; padding-bottom: 8px; }
   :global(.nombre-reverso) { flex: 1; font-size: 14px; font-weight: 800; line-height: 1.2; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
   :global(.volver) { min-height: 44px; margin-top: -12px; padding: 0 4px; border: 0; background: none; color: inherit; font: inherit; font-size: 13px; font-weight: 800; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
