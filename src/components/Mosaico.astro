@@ -5,7 +5,7 @@
 // una fila por versión; cada fila es su propio botón con su precio y su "+".
 // Mosaico normal con "N versiones · desde $ …"; tocarlo abre el panel (PanelVersiones.astro), al que se
 // mueven las filas. Igual en celular y escritorio, para que todos los mosaicos de una fila midan lo mismo.
-// Sin JavaScript (<noscript> en index.astro) las filas se ven en el mosaico. El destacado grande las muestra.
+// Hasta que el panel esté listo, las filas se ven en el mosaico. El destacado grande las muestra.
 // Sin portada queda el fondo gris de .img. alt vacío: el nombre ya está escrito debajo.
 import { Image } from 'astro:assets';
 import LogoSwitch from '../assets/switch.svg';
@@ -114,19 +114,23 @@ const RECORTE = { arriba: '50% 0%', centro: '50% 50%', abajo: '50% 100%', izquie
   /* Juego con varias versiones: mosaico normal; el botón .abrir cubre todo el mosaico y abre el panel. */
   .ancho { position: relative; }
   /* Sin panel (destacado grande) el mosaico no es tocable: solo sus filas. */
-  .ancho:not(.panel) { cursor: auto; }
-  .ancho:not(.panel):active { transform: none; }
-  .abrir { margin-top: auto; padding: 0; border: 0; background: none; color: inherit; font: inherit; text-align: left; display: flex; flex-direction: column; gap: 2px; cursor: pointer; }
+  .ancho:not([data-panel-listo]) { cursor: auto; }
+  .ancho:not([data-panel-listo]):active { transform: none; }
+  .abrir { margin-top: auto; padding: 0; border: 0; background: none; color: inherit; font: inherit; text-align: left; display: none; flex-direction: column; gap: 2px; cursor: pointer; }
   .abrir::before { content: ''; position: absolute; inset: 0; z-index: 2; }
   .abrir:focus-visible { outline: none; }
   .ancho:has(.abrir:focus-visible) { outline: 3px solid var(--tinta); outline-offset: 2px; }
   .abrir strong::after { content: '+'; content: '+' / ''; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: var(--suelo); font-size: 20px; font-weight: 500; letter-spacing: 0; }
   /* Con alguna versión elegida, el mosaico se ve elegido (sus filas no están a la vista). */
-  .panel:has(.version[aria-pressed='true']) { --fondo: var(--tinta); color: #fff; }
-  .panel:has(.version[aria-pressed='true']) .c { color: #b9b9c2; }
+  .panel[data-panel-listo]:has(.version[aria-pressed='true']) { --fondo: var(--tinta); color: #fff; }
+  .panel[data-panel-listo]:has(.version[aria-pressed='true']) .c { color: #b9b9c2; }
   /* El ✓ lleva texto para el lector de pantalla: las filas con aria-pressed están ocultas en el panel. */
-  .panel:has(.version[aria-pressed='true']) .abrir strong::after { content: '✓'; content: '✓' / 'versión elegida'; background: var(--rojo); font-size: 15px; }
-  .panel .versiones { display: none; }
+  .panel[data-panel-listo]:has(.version[aria-pressed='true']) .abrir strong::after { content: '✓'; content: '✓' / 'versión elegida'; background: var(--rojo); font-size: 15px; }
+  .panel[data-panel-listo] .abrir { display: flex; }
+  .panel[data-panel-listo] .versiones { display: none; }
+  /* Respaldo por defecto, también si falla el script con JavaScript habilitado. */
+  .panel:not([data-panel-listo]) { grid-column: span 6; }
+  .panel:not([data-panel-listo]) .img { aspect-ratio: 3 / 1; }
   /* Las portadas de Switch 2 Edition suelen llevar la franja "Nintendo Switch 2 Edition" abajo: si la portada
      se recorta (destacados, sin JavaScript), se conserva. Si está en otro lugar, productos.json → imagen.recorte. */
   .ancho img { object-position: 50% 100%; }
@@ -152,6 +156,7 @@ const RECORTE = { arriba: '50% 0%', centro: '50% 50%', abajo: '50% 100%', izquie
 
   @media (min-width: 760px) {
     .mosaico { grid-column: span 2; }
+    .panel:not([data-panel-listo]) { grid-column: span 4; }
     .grande { grid-column: span 6; grid-row: span 2; }
     .grande .img { aspect-ratio: auto; flex: 1; }
     .grande .pie { flex: none; }
