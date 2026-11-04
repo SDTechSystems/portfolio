@@ -151,7 +151,7 @@ volver de WhatsApp; si el almacenamiento está bloqueado, todo funciona igual si
 
 ## 5. Estado (actualizar al cerrar cada sesión)
 
-**Última actualización:** 2026-11-04 (URL pública), rama `mejoras/url-publica` (sale de `main`).
+**Última actualización:** 2026-11-04 (número de WhatsApp real), rama `mejoras/whatsapp-real` (sale de `main`).
 
 Hecho:
 - [x] Entrevista y requisitos (sección 3).
@@ -195,13 +195,19 @@ Hecho:
       igual que `main` (0,12 % de píxeles distintos a 390 px, 0,05 % a 1440 px: suavizado de letra).
       Probado con `astro build` y `astro dev`.
 
-Pendiente de datos del dueño: número de WhatsApp real (hoy `573001234567`), nombre de la tienda,
-y confirmar si los precios mostrados (referencia eShop) son los de venta (D5).
+- [x] Sitio publicado revisado en vivo (PR #8): HTML idéntico al de `main` compilado; 26/26 comprobaciones
+      de navegador a 320, 390 y 1440 px (retícula, 24/24 portadas, pestañas, fuente propia, 0 peticiones
+      externas, pedido, recarga, barra con los 23 elegidos); `og.jpg` 200 `image/jpeg` 164 KB; `/no-existe` → 404.
+- [x] WhatsApp real: `573058147293` (WhatsApp Business del dueño). Verificado en el build: 25 enlaces
+      `wa.me` y la barra del pedido usan el número nuevo; 0 restos del falso.
+
+Pendiente de datos del dueño: nombre de la tienda (¿"SD Tech Import", como el Worker?), y confirmar si
+los precios mostrados (referencia eShop) son los de venta (D5).
 
 ## 6. Tareas pendientes (en orden)
 
 - [x] **T1. Consolidar el diseño A.**
-- [~] **T2. Datos reales de la tienda:** país/moneda listos (Colombia). Faltan nombre y WhatsApp (D2).
+- [~] **T2. Datos reales de la tienda:** país/moneda y WhatsApp listos. Falta el nombre (D2).
 - [x] **T3. Catálogo real** (con la salvedad de precios, D5).
 - [x] **T4. Portadas reales.**
 - [ ] **T4b. Contenido de DLC y updates:** agregarlos a `productos.json` (con portada) y
@@ -219,7 +225,7 @@ y confirmar si los precios mostrados (referencia eShop) son los de venta (D5).
 | # | Pregunta | Supuesto actual |
 |---|---|---|
 | D1 | ~~¿País de venta?~~ | **Resuelta:** Colombia (`es-CO`, `$ 239.900`). |
-| D2 | Nombre de la tienda, logo y número de WhatsApp | "Tu Tienda", `573001234567` (falso). |
+| D2 | Nombre de la tienda y logo (~~número de WhatsApp~~: `573058147293`, resuelto) | "Tu Tienda". El Worker se llama `sdtechimport`; falta confirmar el nombre escrito. |
 | D3 | ¿Volver a poner las píldoras rojas "NUEVO" de la referencia? | No (ver `diseno.md` §6). Los destacados se distinguen por tamaño. |
 | D4 | ~~¿Dónde se publicará?~~ | **Resuelta:** Cloudflare Workers, https://sdtechimport.madaeauchija.workers.dev (en `tienda.ts → url`). Si se agrega un dominio propio, cambiar `url` y regenerar el QR. El repo es privado: GitHub Pages exige plan de pago; Cloudflare Pages y Netlify publican gratis desde repo privado y leen `.nvmrc`. |
 | D5 | ¿Los precios de venta son los de referencia de la eShop? `productos.json` dice que **no** representan tu precio. | Se muestran los de referencia. Para usar el tuyo, añade `"precio_venta_cop"` a cada producto. |
