@@ -34,14 +34,42 @@ const portadas = import.meta.glob<{ default: ImageMetadata }>(
   { eager: true },
 );
 
-const productos: Producto[] = (datos.productos as Fila[]).map((f) => ({
+const ruta = (r: string) => `../assets/Catalogo_Nintendo_Switch_Colombia/${r}`;
+const filas = datos.productos as Fila[];
+
+// Revisión de productos.json y tienda.ts: un error de tipeo detiene `npm run build` con un
+// mensaje claro, en vez de publicar un juego en la consola equivocada o sin portada.
+const PLATAFORMAS = ['Nintendo Switch', 'Nintendo Switch 2'];
+const TIPOS = ['juego_digital', 'juego_con_accesorios', 'dlc', 'update'];
+const precioValido = (n: unknown) => n === null || (typeof n === 'number' && Number.isInteger(n) && n > 0);
+const errores: string[] = [];
+const vistos = new Set<string>();
+filas.forEach((f, i) => {
+  const quien = `Producto ${i + 1} (${f.id || 'sin id'})`;
+  if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(f.id ?? '')) errores.push(`${quien}: "id" debe ir en minúsculas y con guiones, ej. "mario-kart-world".`);
+  if (vistos.has(f.id)) errores.push(`${quien}: el id "${f.id}" está repetido.`);
+  vistos.add(f.id);
+  if (!f.titulo?.trim()) errores.push(`${quien}: falta "titulo".`);
+  if (!PLATAFORMAS.includes(f.plataforma)) errores.push(`${quien}: "plataforma" es "${f.plataforma}"; debe ser ${PLATAFORMAS.map((x) => `"${x}"`).join(' o ')}.`);
+  if (!TIPOS.includes(f.tipo_producto)) errores.push(`${quien}: "tipo_producto" es "${f.tipo_producto}"; debe ser uno de ${TIPOS.map((x) => `"${x}"`).join(', ')}.`);
+  if (!precioValido(f.precio_referencia_eshop_colombia_cop ?? null)) errores.push(`${quien}: "precio_referencia_eshop_colombia_cop" debe ser un número entero sin puntos (ej. 239900) o null.`);
+  if (f.precio_venta_cop !== undefined && !precioValido(f.precio_venta_cop)) errores.push(`${quien}: "precio_venta_cop" debe ser un número entero sin puntos (ej. 239900) o null.`);
+  if (f.imagen && !portadas[ruta(f.imagen.ruta)]) errores.push(`${quien}: no existe la portada "${f.imagen.ruta}" (revisa el nombre del archivo en la carpeta imagenes/).`);
+});
+if (tienda.destacados.length !== 3) errores.push(`tienda.ts: "destacados" debe tener exactamente 3 ids (tiene ${tienda.destacados.length}).`);
+if (new Set(tienda.destacados).size !== tienda.destacados.length) errores.push('tienda.ts: hay un id repetido en "destacados".');
+tienda.destacados.filter((id) => !vistos.has(id)).forEach((id) => errores.push(`tienda.ts: el destacado "${id}" no existe en productos.json.`));
+if (!/^\d{11,15}$/.test(tienda.whatsapp)) errores.push('tienda.ts: "whatsapp" debe ser solo dígitos con código de país (Colombia: 57 + 10 dígitos).');
+if (errores.length) throw new Error(`Revisa el catálogo:\n- ${errores.join('\n- ')}`);
+
+const productos: Producto[] = filas.map((f) => ({
   id: f.id,
   nombre: f.titulo,
   precio: f.precio_venta_cop ?? f.precio_referencia_eshop_colombia_cop ?? null,
   tipo: f.tipo_producto === 'dlc' ? 'DLC' : f.tipo_producto === 'update' ? 'Update' : 'Juego',
   consola: f.plataforma === 'Nintendo Switch 2' ? 'Switch 2' : 'Switch 1',
   nota: f.tipo_producto === 'juego_con_accesorios' ? 'Necesita Ring-Con' : undefined,
-  imagen: f.imagen && portadas[`../assets/Catalogo_Nintendo_Switch_Colombia/${f.imagen.ruta}`]?.default,
+  imagen: f.imagen && portadas[ruta(f.imagen.ruta)]?.default,
 }));
 
 export const destacados = tienda.destacados
