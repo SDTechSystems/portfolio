@@ -164,6 +164,7 @@ JavaScript no aparece ningún "+" y el enlace `wa.me` funciona solo. Los colores
 tokens globales de `Layout.astro`. La selección (lista de `data-item`) se guarda en
 `sessionStorage` bajo la clave `pedido`, para que sobreviva si el celular recarga la pestaña al
 volver de WhatsApp; si el almacenamiento está bloqueado, todo funciona igual sin guardar.
+Solo se restauran listas de cadenas; otros formatos inician un pedido vacío.
 
 ## 5. Estado (actualizar al cerrar cada sesión)
 
@@ -186,6 +187,8 @@ Hecho:
       Verificado en navegador a 320, 390 y 1440 px: 24/24 pestañas, Switch 2 en rojo, al elegir
       la pestaña de Switch 1 se vuelve negra con el mosaico, sin scroll horizontal ni huecos,
       barra sin desbordes, mensaje con la consola de cada juego.
+
+- [x] **Auditoría #19:** Restauración del pedido desde listas de cadenas; formatos inválidos no interrumpen la selección. Nueve pruebas de regresión, incorporadas al CI.
 
 - [x] Robustez (rama `mejoras/pedido-y-validacion`): validación de `productos.json` y `tienda.ts`
       al compilar (probada con 6 errores a propósito: los 6 se reportan y el build falla); Espacio
@@ -412,6 +415,7 @@ Pendiente de datos del dueño: logo de la tienda (opcional, va en lugar del nomb
 | 2026-11-04 | `aria-pressed` como único estado del pedido; tokens en `:root` | Una sola fuente de verdad para CSS, script y lector de pantalla; los componentes ya no dependen de estar dentro de `<main>`. |
 | 2026-11-04 | Barra sin "N títulos"; "Vaciar" oculto ≤ 420 px | Los mosaicos marcados ya muestran qué se eligió; así cabe un total de 7 cifras a 320 px. |
 | 2026-11-04 | Validar `productos.json` y `tienda.ts` al compilar; `tipo_producto` desconocido ya no cae en "Juego" | El dueño no es técnico: un error de tipeo (ej. `"Nintendo switch 2"`, `"DLC"`) publicaba el juego mal sin aviso. Mejor que el build falle con un mensaje claro. |
+| 2026-11-04 | Corrección #19 | Validar el tipo del JSON además de capturar errores de lectura; formatos inesperados no deben impedir seleccionar productos. |
 | 2026-11-04 | Pedido guardado en `sessionStorage` (no `localStorage`) | Basta para sobrevivir a la ida y vuelta a WhatsApp; no deja un pedido viejo marcado días después. |
 | 2026-11-04 | Favicon generado desde `tienda.nombre` | Los de `public/` eran el logo de Astro; así se actualiza solo con el nombre real (D2) sin diseñar un archivo. No usa el logo de Nintendo (`diseno.md` §7). |
 | 2026-11-04 | Cloudflare **Workers** con `wrangler.jsonc` de solo assets, y no Pages | El dueño creó el proyecto como Worker desde el panel (Cloudflare lo propone por defecto). Un archivo de 6 líneas lo deja funcionando sin rehacer el proyecto; es el mismo sitio estático, sin servidor. |
