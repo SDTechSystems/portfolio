@@ -36,7 +36,7 @@ Cada juego es un bloque como este:
 | `imagen` | Opcional. Sin imagen, la portada queda gris. |
 
 - **Cambiar un precio:** edita `precio_venta_cop` (o agrégalo).
-- **Agregar un juego:** copia un bloque, cambia los datos y pon su portada (imagen 16:9, ej. 960×540)
+- **Agregar un juego:** copia un bloque, cambia los datos y pon su portada (imagen 16:9, ideal 1920×1080 para que se vea nítida en computador)
   en `src/assets/Catalogo_Nintendo_Switch_Colombia/imagenes/<id>.webp`.
 - **Quitar un juego:** borra su bloque (y las comas sobrantes).
 - **Juego con versión de Switch 1 y de Switch 2** (y paquete de mejora): pon un bloque por cada

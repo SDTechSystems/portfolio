@@ -5,13 +5,12 @@ import Mosaico from '../components/Mosaico.astro';
 import Pedido from '../components/Pedido.astro';
 import PanelVersiones from '../components/PanelVersiones.astro';
 import { tienda } from '../data/tienda';
-import { destacados, secciones, whatsapp, type Ficha } from '../lib/catalogo';
+import { destacados, secciones, whatsapp } from '../lib/catalogo';
 import { cierres, type Pieza } from '../lib/reticula';
 const [principal, ...secundarios] = destacados;
 // El mosaico "¿No ves...?" ocupa lo que falte para cerrar su sección sin huecos (ver lib/reticula.ts).
-// Celular: 6 columnas, mosaicos de 3 (un juego con versiones también: las abre en un panel).
-// Escritorio: 10 columnas, mosaico de 2, juego con varias versiones de 4, destacados 6×2 y 4.
-const varias = (f: Ficha) => f.versiones.length > 1;
+// Celular: 6 columnas, mosaicos de 3. Escritorio: 10 columnas, mosaicos de 2, destacados 6×2 y 4.
+// Un juego con versiones mide lo mismo que cualquier juego: las abre en un panel.
 const piezas = (movil: boolean): Pieza[] => {
   const fila = { ancho: movil ? 6 : 10 };
   return [
@@ -20,7 +19,7 @@ const piezas = (movil: boolean): Pieza[] => {
     ...secundarios.map(() => ({ ancho: movil ? 3 : 4 })),
     ...secciones.flatMap((s) => [
       ...(s.titulo ? [fila] : []),
-      ...s.fichas.map((f) => ({ ancho: movil ? 3 : varias(f) ? 4 : 2 })),
+      ...s.fichas.map(() => ({ ancho: movil ? 3 : 2 })),
       'cierre' as const,
     ]),
   ];
@@ -48,14 +47,12 @@ const escritorio = cierres(piezas(false), 10, 2);
 </main>
 <Pedido />
 <PanelVersiones />
-<!-- Sin JavaScript no hay panel: en celular las versiones se ven dentro del mosaico, a todo el ancho. -->
+<!-- Sin JavaScript no hay panel: las versiones se ven dentro del mosaico (celular: todo el ancho; escritorio: 4 columnas). -->
 <noscript><style>
-  @media (max-width: 759px) {
-    .tablero .panel { grid-column: span 6 !important; }
-    .tablero .panel .img { aspect-ratio: 3 / 1 !important; }
-    .tablero .panel .abrir { display: none !important; }
-    .tablero .panel .versiones { display: grid !important; }
-  }
+  .tablero .panel .abrir { display: none !important; }
+  .tablero .panel .versiones { display: grid !important; }
+  @media (max-width: 759px) { .tablero .panel { grid-column: span 6 !important; } .tablero .panel .img { aspect-ratio: 3 / 1 !important; } }
+  @media (min-width: 760px) { .tablero .panel:not(.medio) { grid-column: span 4 !important; } .tablero .panel:not(.medio) .img { aspect-ratio: 3 / 1 !important; } }
 </style></noscript>
 </Layout>
 
@@ -72,7 +69,8 @@ const escritorio = cierres(piezas(false), 10, 2);
   }
 
   @media (min-width: 760px) {
-    .tablero { grid-template-columns: repeat(10, 1fr); padding: 12px; }
+    /* Hasta 1440px: más ancho, los mosaicos se agrandan de más y las portadas pierden nitidez. */
+    .tablero { grid-template-columns: repeat(10, 1fr); padding: 12px; max-width: 1440px; margin: 0 auto; }
     /* Cabecera baja en escritorio: el título en 1 línea deja ver los 3 destacados con su precio sin desplazar. */
     .cabecera { padding: 22px 28px 26px; }
     h1 { margin-top: 18px; max-width: none; }

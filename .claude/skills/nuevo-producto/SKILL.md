@@ -32,7 +32,7 @@ No inventes precios: si el usuario no da uno, pregunta o usa `null`.
 ## 2. Portada
 
 - Nómbrala `<id>.webp` (también valen `.jpg`, `.jpeg`, `.png`) y déjala en `imagenes/`.
-- Proporción 16:9 (como las demás, 960×540). Comprueba el tamaño real del archivo y pon `ancho`/`alto` correctos.
+- Proporción 16:9 (como las demás, 1920×1080; mínimo 960×540, pero en computador se verá borrosa). Comprueba el tamaño real del archivo y pon `ancho`/`alto` correctos.
 - Astro la optimiza al compilar: no la reduzcas a mano.
 
 ## 3. Orden y visibilidad

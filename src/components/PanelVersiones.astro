@@ -1,6 +1,6 @@
 ---
-// Panel de versiones (solo celular): al tocar un juego con varias versiones (botón .abrir de Mosaico.astro),
-// sus filas se mueven aquí y el panel sube desde abajo; al cerrar vuelven al mosaico. Mover las filas (y no
+// Panel de versiones: al tocar un juego con varias versiones (botón .abrir de Mosaico.astro),
+// sus filas se mueven aquí y se abre el panel (celular: pegado abajo; escritorio: centrado); al cerrar vuelven al mosaico. Mover las filas (y no
 // copiarlas) conserva su estado aria-pressed y los eventos de Pedido.astro: siguen siendo los mismos botones.
 // <dialog> modal: atrapa el foco, cierra con Escape y devuelve el foco al mosaico.
 ---
@@ -35,8 +35,6 @@
     vuelta = null;
   });
   hoja.querySelector('.listo')!.addEventListener('click', () => hoja.close());
-  // Si el ancho pasa a escritorio con el panel abierto (girar el teléfono), se cierra: ahí las filas van en el mosaico.
-  matchMedia('(min-width: 760px)').addEventListener('change', (e) => { if (e.matches) hoja.close(); });
   // Tocar el fondo oscuro (fuera de .caja) también cierra.
   hoja.addEventListener('click', (e) => { if (e.target === hoja) hoja.close(); });
 </script>
@@ -52,5 +50,10 @@
   .listo:active { transform: scale(.96); }
   .listo:focus-visible { outline-offset: 3px; }
   .solo-lector { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  /* Escritorio: ventana centrada (no pegada abajo), con todas las esquinas redondeadas. */
+  @media (min-width: 760px) {
+    .hoja { margin: auto; max-width: 420px; border-radius: 8px; }
+    .caja { padding: 20px; }
+  }
   @media (prefers-reduced-motion: reduce) { .hoja[open] { animation: none; } }
 </style>

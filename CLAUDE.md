@@ -60,7 +60,7 @@ No hay tests, linter ni `astro check` (no está instalado `@astrojs/check`). El 
   `docs/diseno.md` §2. La fuente (Schibsted Grotesk 500/800) se sirve localmente mediante la API
   `fonts` de `astro.config.mjs`, sin Google.
 - **Portadas:** `import.meta.glob` sobre `imagenes/*.{webp,jpg,jpeg,png}`. Astro genera las variantes
-  webp de 320 a 960 px. Agregar un juego es solo datos + portada; no hay que tocar el diseño.
+  webp de 320 a 1920 px (originales de 1920×1080). Agregar un juego es solo datos + portada; no hay que tocar el diseño.
 
 ## Publicación
 
