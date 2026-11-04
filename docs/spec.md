@@ -48,7 +48,7 @@ en menos de 30 segundos.
   (oculta hoy). Un juego con versión para cada consola es **un solo mosaico** con un precio por
   versión (Switch 1, Switch 2 y paquete de mejora): en `productos.json` cada versión es su propia
   entrada y comparten `"grupo"`. Cada precio se elige por separado y llega al pedido con su consola.
-  En celular y escritorio el mosaico es de tamaño normal ("3 versiones · desde $ …") y al tocarlo las
+  En celular y escritorio el mosaico es de tamaño normal ("3 versiones · Switch 1 desde $ …") y al tocarlo las
   versiones se eligen en un panel (abajo en celular, centrado en escritorio); sin JavaScript se ven en el mosaico.
 - **F2. Arma tu pedido:** cada precio lleva un "+"; tocar el mosaico lo marca (✓) y lo suma
   a una barra fija inferior ("$ 1.648 · Vaciar · Pedir por WhatsApp"). El "+" sustituye al
@@ -148,8 +148,12 @@ máximo uno de cada clase (Switch 1, Switch 2, paquete de mejora); el `paquete_m
 no pueden ser versiones del mismo juego.
 
 **Versiones de un juego** (ej. Zelda: Tears of the Kingdom): una entrada por cosa que se vende, con
-el mismo `grupo`. El mosaico usa el nombre y la nota del juego de Switch 1, la portada de la versión
-de Switch 2 si la tiene (si no, la primera que haya) y va en el lugar de la primera entrada del
+el mismo `grupo`. El mosaico usa el nombre y la nota del juego de Switch 1 y su línea dice
+"N versiones · Switch 1 desde $ …" con la edición del juego completo más barato (el paquete de
+mejora no cuenta). Portada: la general del grupo si existe (`"grupos": { "<grupo>": { "imagen":
+{ "ruta", "recorte"? } } }` en la raíz de `productos.json`, validada igual que las demás); si no,
+la de esa misma edición (sin imagen: gris, nunca la de otra edición). En el panel, cada versión de
+juego con imagen muestra su portada (96 px) con el sello en la esquina. El mosaico va en el lugar de la primera entrada del
 grupo. Un destacado puede nombrar cualquiera de sus ids.
 
 Orden: el del archivo (por `puesto_ranking`). Los **destacados** se eligen en `tienda.ts → destacados`
@@ -172,9 +176,18 @@ Solo se restauran listas de cadenas; otros formatos inician un pedido vacío.
 
 ## 5. Estado (actualizar al cerrar cada sesión)
 
-**Última actualización:** 2026-11-04 (QR de la tienda, T6; antes issue #34: pruebas de navegador y CI).
+**Última actualización:** 2026-11-04 (issue #27: portada y precio "desde" de la misma edición).
 
 Hecho:
+- [x] Issue #27: el mosaico con versiones ya no muestra la caja de Switch 2 junto al precio de
+      Switch 1. Portada = imagen general del grupo (nuevo `grupos` opcional en `productos.json`) o,
+      si no hay, la de la edición del "desde"; la línea dice "3 versiones · Switch 1 desde". En el
+      panel cada edición lleva su portada con su sello y precio (la mejora, solo el sello). No hay
+      filtros en el sitio, así que ese criterio no aplica. Verificado: 23 pruebas unitarias
+      (validación de `grupos`), 21 de navegador (nueva: portada/"desde"/miniaturas por grupo, también
+      con una portada general temporal), build, y capturas a 320, 390 y 1440 px (panel sin desborde;
+      "Switch 1 desde" no se parte). Hoy ningún grupo tiene portada general: Wonder, los dos Zelda y
+      Animal Crossing muestran la caja de Switch 1.
 - [x] **QR (T6):** `/qr.svg` y `/qr.png` apuntan a `tienda.url` (si está vacía, al WhatsApp). Verificado con un lector
       independiente (jsQR): los dos abren https://sdtechimport.madaeauchija.workers.dev, también el SVG reducido a 300 px.
 - [x] **#34 — prueba de humo en navegador:** `@playwright/test` como dependencia de desarrollo;
@@ -493,7 +506,7 @@ La revisión humana de diseño y la prueba en celular real siguen siendo necesar
 | 2026-11-04 | "¿No ves tu juego?" sigue cerrando la fila | Limitarlo a 4 columnas dejaría un hueco de 2 mosaicos con 21 juegos (§8). Su peso visual se acepta. |
 | 2026-11-04 | ~~Un juego con versión para cada consola son dos mosaicos~~ → **un mosaico con un precio por versión** (`grupo`) | Pedido del dueño: muchos juegos tienen versión de Switch 1 y de Switch 2, más el paquete de mejora; con un mosaico por versión el catálogo crecería un 17 % solo con los juegos actuales que la tienen. De 3 ideas (un mosaico con 2–3 precios, selector de consola, mosaicos pegados) eligió la primera. |
 | 2026-11-04 | Cada versión sigue siendo su propia entrada en `productos.json`, unidas por `grupo` | Cada cosa que se vende tiene su id, precio y mensaje de pedido; no se agrupan por nombre porque los títulos no coinciden ("… Nintendo Switch 2 Edition") y podría juntar juegos equivocados. |
-| 2026-11-04 | Portada de la versión de Switch 2 en el mosaico con versiones | Elección del dueño: la caja de Switch 2 (franja roja) dice de un vistazo que hay versión nueva. Hasta que la agregue se usa la de Switch 1. |
+| 2026-11-04 | ~~Portada de la versión de Switch 2 en el mosaico con versiones~~ (reemplazada por #27, abajo) | Elección del dueño: la caja de Switch 2 (franja roja) dice de un vistazo que hay versión nueva. Hasta que la agregue se usa la de Switch 1. |
 | 2026-11-04 | Paquete de mejora con sello "Mejora a ⊞2" (único texto nuevo) | El dueño lo vende. Un logo no basta para decir "pasar de Switch 1 a Switch 2"; dos palabras sí. |
 | 2026-11-04 | ~~Celular: juego con versiones a todo el ancho~~ → **mosaico normal + panel de versiones** | El sitio es sobre todo para celular: a todo el ancho la página crecía +31 % (3,4 → 4,4 pantallas) y crecería con cada juego con versiones. De 2 propuestas (mosaico compacto horizontal, −35 % de alto; mosaico normal + panel) el dueño eligió el panel: la página vuelve a medir como `main` y no crece. Cuesta un toque más, una vez por juego. |
 | 2026-11-04 | "N versiones · desde $ …" con el precio del juego más barato (sin el paquete de mejora) | Sin las filas a la vista, el mosaico tiene que decir que hay varias opciones y cuánto cuesta entrar. La mejora no cuenta: solo sirve a quien ya tiene el juego, y "desde $ 39.900" engañaría. |
@@ -519,6 +532,8 @@ La revisión humana de diseño y la prueba en celular real siguen siendo necesar
 | 2026-11-04 | Barra de pedido ≤ 340 px: separación 6 px y botón con relleno 10 px | A 320 px con todo elegido (total de 7 cifras) el botón "Pedir por WhatsApp" se salía 5 px de la barra; ya pasaba en `main`. Ahora queda 5 px dentro; de 341 px en adelante no cambia nada. |
 | 2026-11-04 | Plantillas de issue «Error» / «Solicitud» y sin issues en blanco | Separar errores de pedidos con el label correcto sin depender de acordarse; los campos son los que ya usaban los issues (problema, reproducción o propuesta, criterios de aceptación). |
 | 2026-11-04 | Label de prioridad puesto por un workflow propio (`gh issue edit`), sin Actions de terceros | Las plantillas de GitHub solo ponen labels fijos. El texto del issue va por variable de entorno, nunca dentro del script (evita inyección de comandos). Sin dependencias nuevas que mantener. |
+| 2026-11-04 | #27: portada del mosaico con versiones = imagen general del grupo o, si no hay, la de la edición del "desde"; la línea nombra esa edición ("Switch 1 desde") | La caja de Switch 2 junto a un precio de Switch 1 hacía esperar el juego de Switch 2 a ese precio. Sin imagen de esa edición queda gris en vez de usar la de otra. La portada general va en `grupos` (raíz del JSON) y no en una fila, porque es del juego, no de una versión. |
+| 2026-11-04 | #27: miniatura de 96 px por edición, solo en el panel, con el sello encima como la pestaña | Asocia cada caja con su precio donde se elige. Junto al sello no cabía a 320 px (332 px de fila en 288); encima, la fila mide lo mismo que hoy. En el mosaico y sin JavaScript no se muestran: no hay sitio y las portadas siguen siendo protagonistas. |
 | 2026-11-04 | Atribución de Claude desactivada en `.claude/settings.json` del repo (no solo en `~/.claude`) | Lo pidió el dueño. En la nube `~/.claude` se borra al terminar cada sesión; en el repo vale siempre. Se dejan las dos claves: `includeCoAuthoredBy` es la antigua y `attribution` la actual. |
 
 ## 9. Cómo verificar un cambio

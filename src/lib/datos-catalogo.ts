@@ -107,6 +107,20 @@ export function validarCatalogo(
     if (g.length >= 2 && !g.some((f) => clase(f) === 'juego de Switch 1')) errores.push(`${donde}: le falta el juego de Switch 1.`);
     if (g.some((f) => f.tipo_producto === 'dlc' || f.tipo_producto === 'update')) errores.push(`${donde}: los DLC y updates no se agrupan.`);
   });
+  // Portada general de un grupo (opcional): "grupos": { "mario-wonder": { "imagen": { "ruta": "…" } } }.
+  const portadasGrupo = esObjeto(datos) ? datos.grupos : undefined;
+  if (portadasGrupo !== undefined && !esObjeto(portadasGrupo)) errores.push('productos.json: "grupos" debe ser un objeto, ej. { "mario-wonder": { "imagen": { "ruta": "imagenes/mario-wonder.webp" } } }.');
+  if (esObjeto(portadasGrupo)) Object.entries(portadasGrupo).forEach(([nombre, g]) => {
+    const donde = `grupos → "${nombre}"`;
+    const imagen = esObjeto(g) ? g.imagen : undefined;
+    if (!todas.some((f) => f.grupo === nombre)) errores.push(`${donde}: ningún producto tiene "grupo": "${nombre}".`);
+    if (!esObjeto(imagen) || typeof imagen.ruta !== 'string') {
+      errores.push(`${donde}: debe tener "imagen" con "ruta", ej. { "imagen": { "ruta": "imagenes/${nombre}.webp" } }.`);
+      return;
+    }
+    if (!existePortada(imagen.ruta)) errores.push(`${donde}: no existe la portada "${imagen.ruta}" (revisa el nombre del archivo en la carpeta imagenes/).`);
+    if (imagen.recorte !== undefined && !RECORTES.includes(imagen.recorte as string)) errores.push(`${donde}: "recorte" de la imagen es "${imagen.recorte}"; debe ser ${RECORTES.map((x) => `"${x}"`).join(', ')}.`);
+  });
   if (tienda.destacados.length !== 3) errores.push(`tienda.ts: "destacados" debe tener exactamente 3 ids (tiene ${tienda.destacados.length}).`);
   if (new Set(tienda.destacados).size !== tienda.destacados.length) errores.push('tienda.ts: hay un id repetido en "destacados".');
   tienda.destacados.filter((id) => !vistos.has(id)).forEach((id) => errores.push(`tienda.ts: el destacado "${id}" no existe en productos.json.`));

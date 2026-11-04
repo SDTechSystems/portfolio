@@ -26,7 +26,7 @@ Definidos en `:root` (`Layout.astro`). Usar **solo** estos.
 | `--suelo` | `#e9e9ec` | Fondo de la página (entre mosaicos). |
 | `--mosaico` | `#ffffff` | Fondo de cada mosaico normal. |
 | `--tinta` | `#121214` | Texto; fondo de la barra de pedido y de mosaicos seleccionados. |
-| `--suave` | `#5b5b63` | La línea bajo el nombre (consola y/o nota, o "N versiones · desde"). Nada más. |
+| `--suave` | `#5b5b63` | La línea bajo el nombre (consola y/o nota, o "N versiones · Switch 1 desde"). Nada más. |
 | `--rojo` | `#e60012` | Acento: cabecera, "¿No ves tu juego?", pestaña y sello de Switch 2, ✓ de seleccionado, botón de la barra. |
 
 Proporción: el suelo gris claro domina, los mosaicos blancos llevan el contenido, el rojo
@@ -42,7 +42,7 @@ No agregar rojo en otros sitios.
 | Títulos de sección `h2` | `clamp(26px, 6.4vw, 44px)` | 800 | tracking -0.03em |
 | Precio | 22px (destacado grande: 30px) | 800 | tracking -0.02em, **sin** `tabular-nums` (deja huecos en la coma) |
 | Nombre del juego | 14px (grande: 18px) | 800 | máximo 2 líneas con `line-clamp`. En 800 porque casi todos los precios son iguales: el nombre es lo que distingue un mosaico de otro. |
-| Nota ("Necesita Ring-Con", "3 versiones · desde") | 13px | 500 | color `--suave` |
+| Nota ("Necesita Ring-Con", "3 versiones · Switch 1 desde"; la edición no se parte de línea) | 13px | 500 | color `--suave` |
 | Pestaña de consola | logo 17px; "2" 17px | 800 | 32px de alto, relleno 0 9px |
 | Sello de versión (juego con versiones) | logo 17px; "2" 17px; "Mejora a" 13px | 800 | 28px de alto, relleno 0 8px, radio 6px; fondo `--suelo` (Switch 2: `--rojo`) |
 | "¿No ves tu juego?" | 22px | 800 | tracking -0.02em |
@@ -100,14 +100,16 @@ Celular y escritorio: mosaico normal; tocarlo (en cualquier parte) abre el panel
 
 Panel: `<dialog>` modal, fondo `--mosaico`, fondo de atrás `--tinta` al 50 %, máx. 85svh de alto. Celular: pegado
 abajo, radio 8px solo arriba, máx. 560px de ancho. Escritorio: centrado, radio 8px, máx. 420px de ancho. "Listo": píldora `--tinta` de 44px (no roja: no es la acción del
-pedido). Sin sombra. Sube en 250 ms, como la barra.
+pedido). Sin sombra. Sube en 250 ms, como la barra. En el panel, cada versión de juego con imagen lleva
+su portada (96 px, 16:9, radio 6px) con el sello encima en la esquina, como la pestaña del mosaico; la
+mejora y las versiones sin imagen, solo el sello.
 
 Sin JavaScript (y en el destacado grande), las filas van dentro del mosaico:
 
 ```
 ┌──────────────────────────────────┐
 │[⊞|⊞2]                            │  .consola.doble: pestaña doble (Switch 2 en rojo)
-│ portada de Switch 2              │
+│ portada general o de la edición  │  la del precio "desde" si no hay general
 ├──────────────────────────────────┤
 │ Nombre                           │  .n
 │ [⊞]                $ 279.900 (+) │  .version: cada fila es su propio botón
@@ -153,7 +155,7 @@ Así el respaldo también funciona si el script falla. Si falla `showModal`, se 
 ## 5. Textos
 
 Todo el texto de la página: nombre de la tienda, **"Códigos para Switch 1 y 2"** (dice que se venden códigos digitales, no juegos físicos), nombres,
-nota, precios, "Mejora a" (sello del paquete de mejora), "N versiones · desde" y "Listo" (juego con versiones, celular), "¿No ves tu juego?", y en la barra "Vaciar" / "Pedir por WhatsApp". Con DLC
+nota, precios, "Mejora a" (sello del paquete de mejora), "N versiones · Switch 1 desde" y "Listo" (juego con versiones, celular), "¿No ves tu juego?", y en la barra "Vaciar" / "Pedir por WhatsApp". Con DLC
 visibles, además "DLC y updates" y "¿Buscas otro DLC?". **No agregar más.**
 
 **La consola siempre se distingue, con la pestaña y no con texto:** cada mosaico, en cualquier
