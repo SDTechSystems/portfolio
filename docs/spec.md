@@ -134,7 +134,8 @@ Cada entrada de `productos` (campos que usa la web; el resto se ignora):
 }
 ```
 
-**Validación al compilar** (`lib/catalogo.ts`): `npm run build` se detiene con una lista en español
+**Validación al compilar** (`lib/datos-catalogo.ts`, llamado por `lib/catalogo.ts`):
+primero se revisan la lista, los objetos y los tipos, incluso en productos no publicados; `npm run build` se detiene con una lista en español
 si un `id` no es kebab-case o está repetido, falta `titulo`, `plataforma` o `tipo_producto` no son
 uno de los valores de arriba, un precio no es entero positivo o `null`, la portada no existe, o en
 `tienda.ts` los destacados no son 3 ids existentes y distintos o el WhatsApp no son 11–15 dígitos.
@@ -167,7 +168,7 @@ volver de WhatsApp; si el almacenamiento está bloqueado, todo funciona igual si
 
 ## 5. Estado (actualizar al cerrar cada sesión)
 
-**Última actualización:** 2026-11-04 (escritorio simétrico y portadas de 1920 px), rama `claude/beautiful-cannon-3a7uu7` (sale de `main`).
+**Última actualización:** 2026-11-04 (correcciones de auditoría #17–#20 sobre `c20ba4c`).
 
 Hecho:
 - [x] Entrevista y requisitos (sección 3).
@@ -193,6 +194,8 @@ Hecho:
       reescrito como guía para el dueño.
 
 - [x] Robustez fusionada en `main` (PR #3).
+- [x] **Auditoría #20:** Validación de estructura antes de filtrar productos o revisar reglas de negocio; conserva `publicar`, grupos y los cinco recortes. Pruebas de regresión en CI.
+
 - [x] Repo: CI de build, `.nvmrc` (Node 22.23.4), Dependabot y plantilla de PR (rama `ci/build-y-dependabot`).
       Verificado: YAML válido; `npm ci` + `npm run build` desde una copia limpia pasan (0 vulnerabilidades).
       El CI solo se verá correr en GitHub al abrir el PR. Fusionado (PR #4).
@@ -406,6 +409,7 @@ Pendiente de datos del dueño: logo de la tienda (opcional, va en lugar del nomb
 | 2026-11-04 | Logo de Switch desde Simple Icons (CC0); Switch 2 = mismo ícono + "2" | No hay archivo abierto del logo de Switch 2 y los sitios de Nintendo/Wikimedia no eran accesibles. Vive en `src/assets/switch.svg` para cambiarlo por el oficial sin tocar código. |
 | 2026-11-04 | `aria-pressed` como único estado del pedido; tokens en `:root` | Una sola fuente de verdad para CSS, script y lector de pantalla; los componentes ya no dependen de estar dentro de `<main>`. |
 | 2026-11-04 | Barra sin "N títulos"; "Vaciar" oculto ≤ 420 px | Los mosaicos marcados ya muestran qué se eligió; así cabe un total de 7 cifras a 320 px. |
+| 2026-11-04 | Corrección #20 | Validar tipos antes de usar campos o filtrar por publicar evita TypeError. Reglas extraídas a datos-catalogo.ts para probarlas sin cargar imágenes. |
 | 2026-11-04 | Validar `productos.json` y `tienda.ts` al compilar; `tipo_producto` desconocido ya no cae en "Juego" | El dueño no es técnico: un error de tipeo (ej. `"Nintendo switch 2"`, `"DLC"`) publicaba el juego mal sin aviso. Mejor que el build falle con un mensaje claro. |
 | 2026-11-04 | Pedido guardado en `sessionStorage` (no `localStorage`) | Basta para sobrevivir a la ida y vuelta a WhatsApp; no deja un pedido viejo marcado días después. |
 | 2026-11-04 | Favicon generado desde `tienda.nombre` | Los de `public/` eran el logo de Astro; así se actualiza solo con el nombre real (D2) sin diseñar un archivo. No usa el logo de Nintendo (`diseno.md` §7). |
