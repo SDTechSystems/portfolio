@@ -103,7 +103,7 @@ src/
   assets/switch.svg   ← logo de Switch de la pestaña (reemplazable por el archivo oficial, D9)
   assets/Catalogo_Nintendo_Switch_Colombia/
     productos.json    ← la lista de títulos (lo único que edita el dueño a diario)
-    imagenes/<id>.webp← portadas 16:9 (Astro genera 320/480/640/960 px en webp)
+    imagenes/<id>.webp← portadas 16:9 (Astro genera 320/400/480/560/640/800/960 px en webp)
   lib/catalogo.ts     ← lee productos.json → destacados, secciones; precio(), whatsapp(), item()
   components/
     Mosaico.astro     ← un producto: portada optimizada + pestaña de consola, nombre, nota, precio con "+"/"✓"
@@ -166,7 +166,7 @@ volver de WhatsApp; si el almacenamiento está bloqueado, todo funciona igual si
 
 ## 5. Estado (actualizar al cerrar cada sesión)
 
-**Última actualización:** 2026-11-04 (versiones de un juego), rama `catalogo/dos-versiones` (sale de `main`).
+**Última actualización:** 2026-11-04 (peso de portadas, T7), rama `claude/beautiful-cannon-3a7uu7` (sale de `main`).
 
 Hecho:
 - [x] Entrevista y requisitos (sección 3).
@@ -304,6 +304,19 @@ Hecho:
       con versiones, puede quedar un hueco de un mosaico (lo permite §8); un grupo con solo Switch 1 +
       paquete de mejora muestra igual la pestaña doble (el juego se puede jugar en Switch 2 con la mejora).
 
+- [x] **Peso de portadas** (T7, rama `claude/beautiful-cannon-3a7uu7`): `sizes` con el ancho exacto de cada
+      mosaico (antes `50vw`, un 8 % de más) y variantes cada 80–160 px (320, 400, 480, 560, 640, 800, 960).
+      Medido con Playwright, sumando el archivo que elige el navegador en cada portada (24/24):
+      iPhone 13, Pixel 5 y Galaxy S8 1.057 → 898 KB (−15 %); iPhone 14 Pro Max 1.964 → 1.057 KB (−46 %;
+      con `50vw` creía necesitar 645 px y bajaba la de 960); escritorio ×2 1.057 → 898 KB; iPhone SE y
+      escritorio ×1 sin cambio. Nitidez igual: el mínimo de píxeles servidos por píxel en pantalla no
+      cambia (0,57–1,13 según el equipo; lo limita el original de 960 px del destacado grande), el
+      máximo baja de 1,59 a ≤ 1,12. HTML idéntico salvo `srcset`/`sizes`; mismo alto de página a 320,
+      390 y 1440 px, sin scroll horizontal, 2 títulos → `$ 559.800`. `dist/` 4,9 → 7,6 MB (72 variantes
+      más; no las baja nadie). Build en caché ~4 s.
+      **AVIF probado y descartado** (ver registro): con la misma nitidez ahorra 4 % y el build pasa de
+      ~5 s a 1 min 16 s.
+
 Pendiente de datos del dueño: confirmar si los precios mostrados (referencia eShop) son los de venta (D5);
 logo de la tienda (opcional, va en lugar del nombre en `.cabecera`, ver `diseno.md` §7).
 
@@ -320,8 +333,9 @@ logo de la tienda (opcional, va en lugar del nombre en `.cabecera`, ver `diseno.
 - [~] **T6. Publicación:** hecho en Cloudflare Workers. Falta el QR del enlace (en el entorno de
       trabajo no hay generador de QR instalado ni permiso para descargar uno).
 - [~] **T7. Auditoría:** hecho: Espacio en los mosaicos; fuente alojada en el sitio; accesibilidad WCAG 2.1 AA
-      (contraste, foco, lector de pantalla). Falta: peso de imágenes (1,1 MB al abrir en celular; AVIF ahorraría ~18 %), y prueba en un celular real
-      con WhatsApp.
+      (contraste, foco, lector de pantalla); peso de portadas (−15 % en celular, −46 % en iPhone grande, sin
+      perder nitidez). Falta: prueba en un celular real con WhatsApp. Opcional (decide el dueño): bajar la
+      calidad webp de 78 a 70 ahorraría otro ~11 % con una pérdida pequeña de nitidez (SSIM 0,991 → 0,984).
 
 ## 7. Decisiones abiertas (preguntar al dueño)
 
@@ -404,6 +418,8 @@ logo de la tienda (opcional, va en lugar del nombre en `.cabecera`, ver `diseno.
 | 2026-11-04 | Alto mínimo de los destacados chicos con versiones en escritorio | En horizontal miden menos y el destacado grande (que ocupa las 2 filas) se encogía hasta recortar el logo de Mario Kart World. |
 | 2026-11-04 | Ancho de "¿No ves tu juego?" calculado simulando la retícula (`lib/reticula.ts`) | Con mosaicos de dos anchos, contar mosaicos ya no dice cuánto falta para cerrar la fila. |
 | 2026-11-04 | Sin `flex-wrap` en el precio para WCAG 1.4.12 | Probado: a 320 px el "+" bajaba de línea siempre (+369 px de alto). Con espaciado aumentado el "+" se recorta, pero es decorativo: el precio sigue visible y el estado lo dan el color y `aria-pressed`. |
+| 2026-11-04 | **Sin AVIF**: las portadas siguen solo en webp q78 | Medido en las 28 portadas a 640 px (SSIM en luminancia, 1 = idéntica): con la misma nitidez AVIF casi no ahorra (q60: 926 KB y 0,9805 contra webp q65: 968 KB y 0,9806, −4 %); igualar a webp q78 (0,9912) cuesta +14 % (q72). Los originales ya son webp con pérdida a 960 px, así que AVIF no tiene detalle que comprimir mejor. Además el build pasaba de ~5 s a 1 min 16 s. El "~18 %" anterior comparaba con el mismo número de calidad, que no significa lo mismo en los dos formatos. Revisar si el dueño entrega portadas sin pérdida y más grandes. |
+| 2026-11-04 | `sizes` con el ancho exacto del mosaico y variantes cada 80–160 px | Casi todo el peso estaba en 23 mosaicos de ~181 px que en celulares de densidad 3 bajaban 640 px (necesitan 543). Con escalones más finos cada equipo baja la variante justa por encima de lo que necesita: −15 % a −46 % sin perder nitidez. Las fórmulas de `sizes` salen de la retícula (comentario en `Mosaico.astro`): si cambian márgenes, separación o columnas, actualizarlas. |
 
 ## 9. Cómo verificar un cambio
 
