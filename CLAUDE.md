@@ -19,12 +19,16 @@ Fuente de verdad: `docs/spec.md` (requisitos F1–F6, fuera de alcance, decision
 | Comando | Para qué |
 |---|---|
 | `npm ci` | Instalar (Node 22.23.4 exacto, ver `.nvmrc`). En la nube lo hace el hook de inicio. |
+| `npm test` | Pruebas de lógica con el runner de Node. |
+| `npm run test:navegador` | Prueba de humo de Chromium sobre `dist/` (compilar antes). |
 | `npm run build` | Compila a `dist/` **y valida el catálogo**. |
 | `astro dev --background` | Servidor de desarrollo en `http://localhost:4321` (`astro dev stop\|status\|logs`). |
 | `npm run preview` | Sirve `dist/` tal como se publica. |
 
-Hay pruebas con `npm test` (runner de Node), sin dependencias adicionales. No hay linter ni `astro check` (no está instalado `@astrojs/check`). El CI
-(`.github/workflows/build.yml`) corre `npm ci`, `npm test` y `npm run build`.
+Las pruebas de lógica usan el runner de Node; las de navegador usan `@playwright/test` solo
+en desarrollo/CI. No hay linter ni `astro check` (no está instalado `@astrojs/check`). El CI
+(`.github/workflows/build.yml`) conserva `build` (pruebas de Node y compilación) y añade
+`navegador`, que comprueba el mismo `dist/` mediante un artefacto, sin recompilar.
 `.github/workflows/prioridad.yml` pone el label `P1`/`P2`/`P3` según el campo «Prioridad» de las
 plantillas de issue (`.github/ISSUE_TEMPLATE/`: «Error» → `bug`, «Solicitud» → `enhancement`).
 
@@ -84,6 +88,14 @@ adaptador de servidor de Astro: el sitio es estático a propósito.
 
 ## Verificar un cambio
 
-`npm run build`. Si es visual, revisa a 320, 390 y 1440 px: sin scroll horizontal, sin huecos en el
-tablero, y al elegir 2 títulos el total correcto en la barra (Chromium y Playwright ya están
-instalados en la nube). La lista completa está en `docs/diseno.md` §8 y en la plantilla de PR.
+`npm test`, `npm run build` y `npm run test:navegador`. Antes de la primera ejecución,
+instalar Chromium con `npx playwright install --only-shell chromium` (en Linux, añadir
+`--with-deps` si faltan bibliotecas). La suite abre el sitio compilado a 320, 390 y 1440 px,
+comprueba retícula, portadas, pedido, panel y enlaces sin JavaScript. Playwright inicia y
+cierra `preview` en el puerto 4327; no iniciar otro servidor para esta suite.
+
+Si es visual, completar la revisión humana de `docs/diseno.md` §8 y la plantilla de PR;
+las medidas automáticas no sustituyen toda la lista. Capturas y trazas de fallos en
+`test-results/`, o en el artefacto `fallos-navegador` de GitHub. Cobertura, comandos y
+limitaciones en `tests/navegador/README.md`. Exigir `navegador` junto a `build` en la
+protección de `main` es un ajuste de GitHub separado del workflow.
