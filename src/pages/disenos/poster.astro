@@ -1,0 +1,174 @@
+---
+// Diseño B · Póster (dirección "loud-flat-poster"): colores planos a toda intensidad,
+// la letra más pesada, frases cortas y portadas recortadas que se superponen.
+import Layout from '../../layouts/Layout.astro';
+import Portada from '../../components/Portada.astro';
+import Pedido from '../../components/Pedido.astro';
+import { tienda } from '../../data/tienda';
+import { estrenos, porTipo, precio, item, linkWhatsApp, etiquetaConsola } from '../../lib/catalogo';
+const portada = estrenos[0];
+const juegos = porTipo('juego').filter((p) => !p.estreno);
+const dlc = porTipo('dlc');
+const updates = porTipo('update');
+---
+<Layout titulo={`${tienda.nombre} · Juegos para Switch`} fuente="Archivo:wdth,wght@62..125,500;62..125,800">
+<main class="poster">
+  <header class="barra">
+    <p>{tienda.nombre}</p>
+    <a href={linkWhatsApp()}>WhatsApp</a>
+  </header>
+
+  <section class="hero">
+    <h1><span>Juegos para</span> <span>tu Switch</span></h1>
+    <p class="apoyo">Códigos oficiales de juegos, DLC y updates para Switch 1 y 2. Lo activas en tu propia cuenta.</p>
+    <a class="boton" href="#juegos">Ver precios</a>
+    {portada && (
+      <a class="recorte" {...item(portada)}>
+        <Portada p={portada} />
+        <span class="etq"><span>Estreno</span><strong>{precio(portada.precio)}</strong></span>
+      </a>
+    )}
+  </section>
+
+  <section class="estrenos">
+    <h2>Recién llegados</h2>
+    <div class="fila">
+      {estrenos.map((p, i) => (
+        <a class={`est e${i}`} {...item(p)}>
+          <div class="img"><Portada p={p} /></div>
+          <p class="n">{p.nombre}</p>
+          <p class="pr">{precio(p.precio)}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="lista blanca" id="juegos">
+    <h2>Juegos</h2>
+    <ul>
+      {juegos.map((p) => (
+        <li><a {...item(p)}>
+          <span class="mini"><Portada p={p} /></span>
+          <span class="txt"><span class="n">{p.nombre}</span><span class="c">{etiquetaConsola(p.consolas)}</span></span>
+          <span class="pr">{precio(p.precio)}</span>
+        </a></li>
+      ))}
+    </ul>
+  </section>
+
+  <section class="lista azul">
+    <h2>DLC y expansiones</h2>
+    <ul>
+      {dlc.map((p) => (
+        <li><a {...item(p)}>
+          <span class="mini"><Portada p={p} /></span>
+          <span class="txt"><span class="n">{p.nombre}</span><span class="c">{etiquetaConsola(p.consolas)}</span></span>
+          <span class="pr">{precio(p.precio)}</span>
+        </a></li>
+      ))}
+    </ul>
+    <h2 class="sub">Updates para Switch 2</h2>
+    <ul>
+      {updates.map((p) => (
+        <li><a {...item(p)}>
+          <span class="txt"><span class="n">{p.nombre}</span></span>
+          <span class="pr">{precio(p.precio)}</span>
+        </a></li>
+      ))}
+    </ul>
+  </section>
+
+  <section class="garantia">
+    <h2>Sin letra chica</h2>
+    <div class="paneles">
+      <p>Código oficial</p>
+      <p>Se activa en tu cuenta, no en una prestada</p>
+      <p>Sin riesgo de baneos</p>
+    </div>
+  </section>
+
+  <footer class="cierre">
+    <div class="marquesina" aria-hidden="true"><span>Toca varios juegos y pide todo junto · Toca varios juegos y pide todo junto · </span><span>Toca varios juegos y pide todo junto · Toca varios juegos y pide todo junto · </span></div>
+    <a class="boton grande" href={linkWhatsApp()}>Escríbenos por WhatsApp</a>
+    <p class="nombre">{tienda.nombre}</p>
+  </footer>
+<Pedido />
+</main>
+</Layout>
+
+<style>
+  .poster {
+    --rojo: #e60012; --negro: #0d0d0d; --blanco: #ffffff; --azul: #00a3e0;
+    --pedido-bg: var(--negro); --pedido-accent: var(--rojo);
+    font-family: 'Archivo', system-ui, sans-serif; font-stretch: 100%; color: var(--negro); background: var(--rojo); overflow-x: clip;
+  }
+  h1, h2, .pr, .nombre, .boton { font-stretch: 62%; font-weight: 800; text-transform: uppercase; }
+
+  .barra { display: flex; justify-content: space-between; align-items: center; padding: 18px 20px; color: var(--blanco); font-weight: 800; font-size: 18px; }
+  .barra a { background: var(--blanco); color: var(--rojo); padding: 8px 16px; border-radius: 999px; font-size: 16px; }
+
+  .hero { padding: 12px 20px 0; color: var(--blanco); position: relative; }
+  h1 { font-size: clamp(52px, 16vw, 230px); line-height: .84; letter-spacing: -.01em; }
+  h1 span { display: block; white-space: nowrap; }
+  .apoyo { margin-top: 28px; font-size: 19px; line-height: 1.45; max-width: 30ch; }
+  .boton { display: inline-block; margin-top: 24px; background: var(--negro); color: var(--blanco); font-size: 24px; padding: 14px 28px 12px; border-radius: 999px; transition: transform .15s; }
+  .boton:active { transform: scale(.96); }
+  .recorte { display: block; position: relative; margin: 40px -20px 0 auto; width: 92%; max-width: 760px; transform: rotate(-3deg) translateY(28px); z-index: 1; }
+  .recorte .portada { aspect-ratio: 2 / 1; }
+  .etq { position: absolute; left: 14px; bottom: 14px; display: flex; flex-direction: column; background: var(--blanco); color: var(--negro); padding: 8px 14px 6px; }
+  .etq span { font-size: 14px; font-weight: 500; }
+  .etq strong { font-size: 34px; font-weight: 800; font-stretch: 62%; line-height: 1; }
+
+  .estrenos { background: var(--negro); color: var(--blanco); padding: 72px 20px 64px; }
+  h2 { font-size: clamp(48px, 13vw, 140px); line-height: .86; }
+  .fila { margin-top: 28px; display: grid; gap: 28px; }
+  .est { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 4px 12px; }
+  .est .img { grid-column: 1 / -1; aspect-ratio: 16 / 9; }
+  .e1 .img { transform: rotate(2deg); }
+  .est .n { font-size: 17px; }
+  .est .pr { font-size: 40px; line-height: .9; }
+  .est.en-pedido .pr { color: var(--rojo); }
+
+  .lista { padding: 64px 20px; }
+  .blanca { background: var(--blanco); }
+  .azul { background: var(--azul); }
+  .lista ul { list-style: none; margin: 24px 0 0; padding: 0; }
+  .lista li a { display: flex; align-items: center; gap: 14px; padding: 12px 0; cursor: pointer; }
+  .lista li:nth-child(odd) a { background: transparent; }
+  .mini { flex: none; width: 92px; aspect-ratio: 16 / 9; overflow: hidden; }
+  .txt { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+  .n { font-size: 17px; font-weight: 500; line-height: 1.2; }
+  .c { font-size: 14px; opacity: .7; }
+  .lista .pr { font-size: 34px; letter-spacing: -.01em; font-variant-numeric: tabular-nums; }
+  .lista a.en-pedido { background: var(--negro) !important; color: var(--blanco); margin: 0 -20px; padding-inline: 20px; }
+  .lista a.en-pedido .pr { color: var(--rojo); }
+  .azul a.en-pedido .pr { color: var(--azul); }
+  .sub { margin-top: 56px; font-size: clamp(36px, 9vw, 90px); }
+
+  .garantia { padding: 64px 20px; background: var(--rojo); color: var(--blanco); }
+  .paneles { margin-top: 28px; display: grid; gap: 8px; }
+  .paneles p { font-size: 26px; font-weight: 800; line-height: 1.05; padding: 22px 20px; background: var(--blanco); color: var(--negro); }
+  .paneles p:nth-child(2) { background: var(--negro); color: var(--blanco); }
+
+  .cierre { background: var(--negro); color: var(--blanco); padding: 0 0 28px; overflow: hidden; }
+  .marquesina { display: flex; white-space: nowrap; padding: 18px 0; background: var(--azul); color: var(--negro); font-size: 26px; font-weight: 800; font-stretch: 62%; text-transform: uppercase; }
+  .marquesina span { animation: correr 22s linear infinite; padding-right: .3em; }
+  @keyframes correr { to { transform: translateX(-100%); } }
+  .boton.grande { margin: 40px 20px 0; background: var(--rojo); }
+  .nombre { margin-top: 48px; padding: 0 16px; font-size: clamp(80px, 27vw, 340px); line-height: .8; color: var(--rojo); }
+
+  @media (min-width: 760px) {
+    .hero { padding: 24px 32px 0; display: grid; grid-template-columns: 1fr 1fr; align-items: end; gap: 0 32px; }
+    h1 { grid-column: 1 / -1; }
+    .apoyo { grid-column: 1; font-size: 22px; }
+    .boton { grid-column: 1; justify-self: start; }
+    .recorte { grid-column: 2; grid-row: 2 / span 3; margin: 0 -32px 0 0; width: auto; }
+    .estrenos, .lista, .garantia { padding: 120px 32px; }
+    .fila { grid-template-columns: 2fr 1fr 1fr; align-items: end; }
+    .lista ul { columns: 2; column-gap: 48px; }
+    .lista li { break-inside: avoid; }
+    .paneles { grid-template-columns: 1fr 1.4fr 1fr; }
+    .paneles p { font-size: 34px; min-height: 220px; display: flex; align-items: flex-end; }
+  }
+  @media (prefers-reduced-motion: reduce) { .marquesina span { animation: none; } .boton { transition: none; } }
+</style>

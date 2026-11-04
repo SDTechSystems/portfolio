@@ -1,0 +1,144 @@
+---
+// Diseño C · Códigos (dirección "page-is-the-object"): lo que se vende es un código,
+// así que cada título es un boleto con talón perforado. Tres tintas: rojo, papel y negro.
+import Layout from '../../layouts/Layout.astro';
+import Portada from '../../components/Portada.astro';
+import Pedido from '../../components/Pedido.astro';
+import { tienda } from '../../data/tienda';
+import { estrenos, porTipo, precio, item, linkWhatsApp, etiquetaConsola, type Producto } from '../../lib/catalogo';
+const juegos = porTipo('juego').filter((p) => !p.estreno);
+const extras = [...porTipo('dlc'), ...porTipo('update')];
+const secciones: { titulo: string; items: Producto[]; ancho?: boolean }[] = [
+  { titulo: 'Estrenos', items: estrenos, ancho: true },
+  { titulo: 'Juegos disponibles', items: juegos },
+  { titulo: 'DLC y updates', items: extras },
+];
+---
+<Layout titulo={`${tienda.nombre} · Códigos para Switch`} fuente="Red+Hat+Display:wght@500;900">
+<main class="codigos">
+  <header class="portada-boleto">
+    <div class="cara">
+      <p class="marca">{tienda.nombre}</p>
+      <h1>Códigos para Switch 1 y 2</h1>
+      <p class="apoyo">Juegos, DLC y updates con código oficial. Lo canjeas en tu propia cuenta y empiezas a jugar.</p>
+    </div>
+    <div class="talon">
+      <a class="boton" href={linkWhatsApp()}>Pedir por WhatsApp</a>
+      <p class="mascara" aria-hidden="true">XXXX‑XXXX‑XXXX‑XXXX</p>
+    </div>
+  </header>
+
+  {secciones.map((s) => (
+    <section class={s.ancho ? 'sec ancho' : 'sec'}>
+      <h2>{s.titulo}</h2>
+      <div class="boletos">
+        {s.items.map((p) => (
+          <a class="boleto" {...item(p)}>
+            <div class="img"><Portada p={p} /></div>
+            <div class="talon">
+              <p class="n">{p.nombre}</p>
+              <p class="c">{p.tipo === 'juego' ? '' : p.tipo === 'dlc' ? 'DLC · ' : 'Update · '}{etiquetaConsola(p.consolas)}</p>
+              <p class="pr">{precio(p.precio)}</p>
+            </div>
+          </a>
+        ))}
+        {!s.ancho && (
+          <a class="boleto otro" href={linkWhatsApp()}>
+            <div class="talon"><p class="n">¿No ves tu juego?</p><p class="c">Pregúntanos, conseguimos más títulos.</p><p class="pr">Cotizar</p></div>
+          </a>
+        )}
+      </div>
+    </section>
+  ))}
+
+  <footer class="reverso">
+    <h2>Cómo funciona</h2>
+    <ol>
+      <li>Toca los títulos que quieres. Se suman abajo con el total.</li>
+      <li>Envías el pedido por WhatsApp y pagas.</li>
+      <li>Recibes tu código oficial y lo canjeas en tu propia cuenta, sin riesgo de baneos.</li>
+    </ol>
+    <p class="nombre">{tienda.nombre}</p>
+  </footer>
+<Pedido />
+</main>
+</Layout>
+
+<style>
+  .codigos {
+    --rojo: #e60012; --papel: #ffffff; --tinta: #111114; --suave: #64646c; --perf: #e60012;
+    --pedido-bg: var(--tinta); --pedido-accent: var(--rojo);
+    font-family: 'Red Hat Display', system-ui, sans-serif; background: var(--rojo); color: var(--tinta);
+    min-height: 100vh; padding: 16px 16px 56px;
+  }
+  h1, h2, .pr, .nombre { font-weight: 900; letter-spacing: -.03em; }
+
+  /* Boleto: papel con muescas redondas a los lados de la perforación */
+  .portada-boleto, .boleto { position: relative; background: var(--papel); border-radius: 10px; display: flex; flex-direction: column; }
+  .portada-boleto .talon, .boleto .talon { position: relative; border-top: 4px dotted var(--perf); }
+  .portada-boleto .talon::before, .portada-boleto .talon::after,
+  .boleto .talon::before, .boleto .talon::after {
+    content: ''; position: absolute; top: -13px; width: 22px; height: 22px; border-radius: 50%; background: var(--rojo);
+  }
+  .talon::before { left: -11px; } .talon::after { right: -11px; }
+
+  .cara { padding: 22px 20px 28px; }
+  .marca { font-size: 18px; font-weight: 900; color: var(--rojo); }
+  h1 { margin-top: 40px; font-size: clamp(42px, 12.5vw, 104px); line-height: .92; max-width: 11ch; }
+  .apoyo { margin-top: 20px; font-size: 18px; line-height: 1.45; max-width: 34ch; }
+  .portada-boleto .talon { padding: 22px 20px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px; }
+  .boton { background: var(--tinta); color: var(--papel); font-weight: 900; font-size: 18px; padding: 14px 22px; border-radius: 999px; transition: transform .15s; }
+  .boton:active { transform: scale(.96); }
+  .mascara { font-size: 17px; font-weight: 500; letter-spacing: .04em; color: var(--suave); font-variant-numeric: tabular-nums; }
+
+  .sec { margin-top: 64px; }
+  h2 { color: var(--papel); font-size: clamp(36px, 10vw, 80px); line-height: .95; }
+  .boletos { margin-top: 20px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px 10px; }
+  .boleto { overflow: visible; cursor: pointer; transition: transform .15s; }
+  .boleto:active { transform: scale(.98); }
+  .boleto .img { aspect-ratio: 16 / 9; border-radius: 10px 10px 0 0; overflow: hidden; position: relative; }
+  .otro { background: var(--tinta); color: var(--papel); }
+  .otro .talon { border-top: 0; justify-content: flex-end; min-height: 100%; }
+  .otro .talon::before, .otro .talon::after { display: none; }
+  .otro .n { font-size: 20px; font-weight: 900; -webkit-line-clamp: 3; }
+  .otro .c { color: #b4b4bc; }
+  .otro .pr { color: var(--rojo); }
+  .boleto .talon { padding: 12px 12px 14px; display: flex; flex-direction: column; gap: 2px; flex: 1; }
+  .n { font-size: 14px; font-weight: 500; line-height: 1.2; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .c { font-size: 13px; color: var(--suave); }
+  .pr { margin-top: auto; padding-top: 8px; font-size: 26px; font-variant-numeric: tabular-nums; }
+  .ancho .boleto:first-child { grid-column: 1 / -1; }
+  .ancho .boleto:first-child .pr { font-size: 36px; }
+  .ancho .boleto:first-child .n { font-size: 18px; font-weight: 900; }
+
+  .boleto.en-pedido { background: var(--tinta); color: var(--papel); }
+  .boleto.en-pedido .c { color: #b4b4bc; }
+  .boleto.en-pedido .talon { border-top-color: var(--papel); }
+
+  .reverso { margin-top: 72px; background: var(--tinta); color: var(--papel); border-radius: 10px; padding: 28px 20px 24px; }
+  .reverso h2 { font-size: clamp(32px, 8vw, 64px); }
+  ol { margin: 20px 0 0; padding-left: 1.3em; font-size: 18px; line-height: 1.5; display: grid; gap: 10px; }
+  .nombre { margin-top: 56px; color: var(--rojo); font-size: clamp(64px, 20vw, 220px); line-height: .82; }
+
+  @media (min-width: 760px) {
+    .codigos { padding: 28px 32px 80px; }
+    .portada-boleto { flex-direction: row; }
+    .cara { flex: 1; padding: 36px 40px 40px; }
+    .portada-boleto .talon { flex: 0 0 300px; flex-direction: column; align-items: flex-start; justify-content: flex-end; border-top: 0; border-left: 4px dotted var(--perf); padding: 36px 32px; }
+    .portada-boleto .talon::before { top: -11px; left: -13px; } .portada-boleto .talon::after { top: auto; bottom: -11px; right: auto; left: -13px; }
+    .sec { margin-top: 120px; }
+    .boletos { grid-template-columns: repeat(5, 1fr); gap: 20px 16px; }
+    .ancho .boletos { grid-template-columns: 2fr 1fr; }
+    .ancho .boleto:first-child { grid-column: auto; grid-row: span 2; }
+    .ancho .boleto:first-child .img { aspect-ratio: auto; flex: 1; min-height: 340px; }
+    .ancho .boleto:first-child .img :global(.portada) { position: absolute; inset: 0; }
+    .ancho .boleto:not(:first-child) { flex-direction: row; }
+    .ancho .boleto:not(:first-child) .img { flex: 0 0 58%; aspect-ratio: auto; border-radius: 10px 0 0 10px; }
+    .ancho .boleto:not(:first-child) .talon { border-top: 0; border-left: 4px dotted var(--perf); justify-content: flex-end; padding: 18px; }
+    .ancho .boleto:not(:first-child) .talon::before { top: -11px; left: -13px; }
+    .ancho .boleto:not(:first-child) .talon::after { top: auto; bottom: -11px; right: auto; left: -13px; }
+    .reverso { margin-top: 140px; padding: 48px 40px 36px; display: grid; grid-template-columns: 1fr 1.4fr; gap: 0 48px; }
+    .reverso .nombre { grid-column: 1 / -1; }
+  }
+  @media (prefers-reduced-motion: reduce) { .boleto, .boton { transition: none; } }
+</style>

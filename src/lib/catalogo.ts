@@ -36,3 +36,14 @@ export const linkWhatsApp = (p?: Producto) => {
     : `Hola, quiero información del catálogo`;
   return `https://wa.me/${tienda.whatsapp}?text=${encodeURIComponent(texto)}`;
 };
+
+export const detalle = (p: Producto) => `${etiquetaTipo[p.tipo]} · ${etiquetaConsola(p.consolas)}`;
+
+/** Atributos para que un elemento se pueda sumar al pedido (ver components/Pedido.astro). */
+export const item = (p: Producto) => ({
+  href: linkWhatsApp(p),
+  'data-item': p.id,
+  'data-nombre': p.nombre,
+  'data-precio': p.precio,
+  'data-detalle': detalle(p),
+});

@@ -2,18 +2,18 @@
 // Página temporal para comparar los diseños propuestos.
 import Layout from '../layouts/Layout.astro';
 const disenos = [
-  { href: '/disenos/bento', nombre: '1 · Bento', desc: 'Claro y rojo, como tu referencia. Mosaico de portadas con precio encima. Ideal para mostrar y capturar.' },
-  { href: '/disenos/vitrina', nombre: '2 · Vitrina oscura', desc: 'Tema oscuro tipo tienda. Carrusel de estrenos, filtros por tipo/consola y tarjetas con botón “Pedir”.' },
-  { href: '/disenos/lista', nombre: '3 · Lista de precios', desc: 'Estilo menú: rápido de leer, buscador y precios alineados. Lo más práctico para muchos títulos.' },
+  { href: '/disenos/tablero', nombre: 'A · Tablero', desc: 'La estructura de tu imagen como tablero de mosaicos: estrenos, juegos, DLC y cierre.' },
+  { href: '/disenos/poster', nombre: 'B · Póster', desc: 'Rojo a toda página, letra muy pesada y precios en grande, como un cartel.' },
+  { href: '/disenos/codigos', nombre: 'C · Códigos', desc: 'Cada título es un boleto con talón perforado, como el código que vendes.' },
 ];
 ---
 <Layout titulo="Elige un diseño">
-  <main style="max-width:640px;margin:0 auto;padding:24px 16px;">
-    <h1 style="font-weight:900;margin:0 0 4px">Propuestas de diseño</h1>
-    <p style="color:#666;margin:0 0 20px">Datos y precios de ejemplo.</p>
+  <main style="font-family:'Schibsted Grotesk',sans-serif;max-width:640px;margin:0 auto;padding:24px 16px;">
+    <h1 style="font-size:40px;font-weight:800;letter-spacing:-.03em">Propuestas de diseño</h1>
+    <p style="margin:8px 0 24px;font-size:17px">Precios de ejemplo. Toca varios juegos para probar el pedido.</p>
     {disenos.map((d) => (
-      <a href={d.href} style="display:block;padding:16px;margin-bottom:12px;border:1px solid #ddd;border-radius:12px">
-        <strong>{d.nombre}</strong><br /><span style="color:#555;font-size:.9rem">{d.desc}</span>
+      <a href={d.href} style="display:block;padding:20px;margin-bottom:8px;background:#efefF2;border-radius:8px">
+        <strong style="font-size:22px">{d.nombre}</strong><p style="margin-top:4px;font-size:16px">{d.desc}</p>
       </a>
     ))}
   </main>

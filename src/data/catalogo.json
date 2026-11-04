@@ -1,25 +1,265 @@
 [
-  { "id": "zelda-oot", "nombre": "The Legend of Zelda: Ocarina of Time", "precio": 1199, "tipo": "juego", "consolas": ["switch2"], "estreno": true, "color": "#2f6b3a" },
-  { "id": "stellar-blade", "nombre": "Stellar Blade", "precio": 1099, "tipo": "juego", "consolas": ["switch2"], "estreno": true, "color": "#26406e" },
-  { "id": "guardians", "nombre": "Guardians of the Galaxy", "precio": 699, "tipo": "juego", "consolas": ["switch1", "switch2"], "estreno": true, "color": "#8a2a6b" },
-  { "id": "mw4", "nombre": "Call of Duty: Modern Warfare 4", "precio": 1299, "tipo": "juego", "consolas": ["switch2"], "color": "#2b2b2b" },
-  { "id": "mario-wonder", "nombre": "Super Mario Bros. Wonder", "precio": 999, "tipo": "juego", "consolas": ["switch1", "switch2"], "color": "#d93a2b" },
-  { "id": "fe-fortune", "nombre": "Fire Emblem: Fortune's Weave", "precio": 1199, "tipo": "juego", "consolas": ["switch2"], "color": "#7a4a8c" },
-  { "id": "re2", "nombre": "Resident Evil 2", "precio": 649, "tipo": "juego", "consolas": ["switch2"], "color": "#3a3f4a" },
-  { "id": "pokopia", "nombre": "Pokémon Pokopia", "precio": 1099, "tipo": "juego", "consolas": ["switch2"], "color": "#5aa04a" },
-  { "id": "pokemon-dp", "nombre": "Pokémon Diamante Brillante / Perla Reluciente", "precio": 899, "tipo": "juego", "consolas": ["switch1", "switch2"], "color": "#3a5fc4" },
-  { "id": "mk-world", "nombre": "Mario Kart World", "precio": 1499, "tipo": "juego", "consolas": ["switch2"], "color": "#e0862b" },
-  { "id": "pokken", "nombre": "Pokkén Tournament DX", "precio": 699, "tipo": "juego", "consolas": ["switch1", "switch2"], "color": "#c4302b" },
-  { "id": "zelda-botw", "nombre": "Zelda: Breath of the Wild – NS2 Edition", "precio": 1199, "tipo": "juego", "consolas": ["switch2"], "color": "#4a7a9c" },
-  { "id": "mario-party", "nombre": "Super Mario Party Jamboree + TV", "precio": 1299, "tipo": "juego", "consolas": ["switch2"], "color": "#e8b02b" },
-  { "id": "dk-bananza", "nombre": "Donkey Kong Bananza", "precio": 1399, "tipo": "juego", "consolas": ["switch2"], "color": "#b8562b" },
-  { "id": "wii-sports", "nombre": "Wii Sports Resort", "precio": 599, "tipo": "juego", "consolas": ["switch1", "switch2"], "color": "#2b8ad9" },
-  { "id": "fc27", "nombre": "EA Sports FC 27", "precio": 1199, "tipo": "juego", "consolas": ["switch1", "switch2"], "color": "#1f6b5a" },
-  { "id": "diablo4", "nombre": "Diablo IV", "precio": 899, "tipo": "juego", "consolas": ["switch2"], "color": "#5a1f1f" },
-  { "id": "mk8-pase", "nombre": "Mario Kart 8 Deluxe – Pase de pistas extra", "precio": 499, "tipo": "dlc", "consolas": ["switch1", "switch2"], "color": "#d93a2b" },
-  { "id": "fe-pase", "nombre": "Fire Emblem: Fortune's Weave – Pase de expansión", "precio": 549, "tipo": "dlc", "consolas": ["switch2"], "color": "#4a3a6b" },
-  { "id": "pokemon-dlc", "nombre": "Pokémon – Pase de expansión", "precio": 599, "tipo": "dlc", "consolas": ["switch1", "switch2"], "color": "#7a3ad9" },
-  { "id": "pokken-pack", "nombre": "Pokkén Tournament DX – Battle Pack", "precio": 299, "tipo": "dlc", "consolas": ["switch1", "switch2"], "color": "#2ba0c4" },
-  { "id": "zelda-totk-up", "nombre": "Zelda: Tears of the Kingdom – Mejora NS2", "precio": 199, "tipo": "update", "consolas": ["switch2"], "color": "#3a8a6b" },
-  { "id": "mario-party-up", "nombre": "Mario Party Jamboree – Mejora NS2", "precio": 249, "tipo": "update", "consolas": ["switch2"], "color": "#d9a02b" }
+  {
+    "id": "zelda-oot",
+    "nombre": "The Legend of Zelda: Ocarina of Time",
+    "precio": 1199,
+    "tipo": "juego",
+    "consolas": [
+      "switch2"
+    ],
+    "estreno": true,
+    "color": "#2f6b3a",
+    "imagen": "/portadas/zelda-oot.jpg"
+  },
+  {
+    "id": "stellar-blade",
+    "nombre": "Stellar Blade",
+    "precio": 1099,
+    "tipo": "juego",
+    "consolas": [
+      "switch2"
+    ],
+    "estreno": true,
+    "color": "#26406e",
+    "imagen": "/portadas/stellar-blade.jpg"
+  },
+  {
+    "id": "guardians",
+    "nombre": "Guardians of the Galaxy",
+    "precio": 699,
+    "tipo": "juego",
+    "consolas": [
+      "switch1",
+      "switch2"
+    ],
+    "estreno": true,
+    "color": "#8a2a6b",
+    "imagen": "/portadas/guardians.jpg"
+  },
+  {
+    "id": "mw4",
+    "nombre": "Call of Duty: Modern Warfare 4",
+    "precio": 1299,
+    "tipo": "juego",
+    "consolas": [
+      "switch2"
+    ],
+    "color": "#2b2b2b",
+    "imagen": "/portadas/mw4.jpg"
+  },
+  {
+    "id": "mario-wonder",
+    "nombre": "Super Mario Bros. Wonder",
+    "precio": 999,
+    "tipo": "juego",
+    "consolas": [
+      "switch1",
+      "switch2"
+    ],
+    "color": "#d93a2b",
+    "imagen": "/portadas/mario-wonder.jpg"
+  },
+  {
+    "id": "fe-fortune",
+    "nombre": "Fire Emblem: Fortune's Weave",
+    "precio": 1199,
+    "tipo": "juego",
+    "consolas": [
+      "switch2"
+    ],
+    "color": "#7a4a8c",
+    "imagen": "/portadas/fe-fortune.jpg"
+  },
+  {
+    "id": "re2",
+    "nombre": "Resident Evil 2",
+    "precio": 649,
+    "tipo": "juego",
+    "consolas": [
+      "switch2"
+    ],
+    "color": "#3a3f4a",
+    "imagen": "/portadas/re2.jpg"
+  },
+  {
+    "id": "pokopia",
+    "nombre": "Pokémon Pokopia",
+    "precio": 1099,
+    "tipo": "juego",
+    "consolas": [
+      "switch2"
+    ],
+    "color": "#5aa04a",
+    "imagen": "/portadas/pokopia.jpg"
+  },
+  {
+    "id": "pokemon-dp",
+    "nombre": "Pokémon Diamante Brillante / Perla Reluciente",
+    "precio": 899,
+    "tipo": "juego",
+    "consolas": [
+      "switch1",
+      "switch2"
+    ],
+    "color": "#3a5fc4",
+    "imagen": "/portadas/pokemon-dp.jpg"
+  },
+  {
+    "id": "mk-world",
+    "nombre": "Mario Kart World",
+    "precio": 1499,
+    "tipo": "juego",
+    "consolas": [
+      "switch2"
+    ],
+    "color": "#e0862b",
+    "imagen": "/portadas/mk-world.jpg"
+  },
+  {
+    "id": "pokken",
+    "nombre": "Pokkén Tournament DX",
+    "precio": 699,
+    "tipo": "juego",
+    "consolas": [
+      "switch1",
+      "switch2"
+    ],
+    "color": "#c4302b",
+    "imagen": "/portadas/pokken.jpg"
+  },
+  {
+    "id": "zelda-botw",
+    "nombre": "Zelda: Breath of the Wild – NS2 Edition",
+    "precio": 1199,
+    "tipo": "juego",
+    "consolas": [
+      "switch2"
+    ],
+    "color": "#4a7a9c",
+    "imagen": "/portadas/zelda-botw.jpg"
+  },
+  {
+    "id": "mario-party",
+    "nombre": "Super Mario Party Jamboree + TV",
+    "precio": 1299,
+    "tipo": "juego",
+    "consolas": [
+      "switch2"
+    ],
+    "color": "#e8b02b",
+    "imagen": "/portadas/mario-party.jpg"
+  },
+  {
+    "id": "dk-bananza",
+    "nombre": "Donkey Kong Bananza",
+    "precio": 1399,
+    "tipo": "juego",
+    "consolas": [
+      "switch2"
+    ],
+    "color": "#b8562b",
+    "imagen": "/portadas/dk-bananza.jpg"
+  },
+  {
+    "id": "wii-sports",
+    "nombre": "Wii Sports Resort",
+    "precio": 599,
+    "tipo": "juego",
+    "consolas": [
+      "switch1",
+      "switch2"
+    ],
+    "color": "#2b8ad9",
+    "imagen": "/portadas/wii-sports.jpg"
+  },
+  {
+    "id": "fc27",
+    "nombre": "EA Sports FC 27",
+    "precio": 1199,
+    "tipo": "juego",
+    "consolas": [
+      "switch1",
+      "switch2"
+    ],
+    "color": "#1f6b5a",
+    "imagen": "/portadas/fc27.jpg"
+  },
+  {
+    "id": "diablo4",
+    "nombre": "Diablo IV",
+    "precio": 899,
+    "tipo": "juego",
+    "consolas": [
+      "switch2"
+    ],
+    "color": "#5a1f1f",
+    "imagen": "/portadas/diablo4.jpg"
+  },
+  {
+    "id": "mk8-pase",
+    "nombre": "Mario Kart 8 Deluxe – Pase de pistas extra",
+    "precio": 499,
+    "tipo": "dlc",
+    "consolas": [
+      "switch1",
+      "switch2"
+    ],
+    "color": "#d93a2b",
+    "imagen": "/portadas/mk8-pase.jpg"
+  },
+  {
+    "id": "fe-pase",
+    "nombre": "Fire Emblem: Fortune's Weave – Pase de expansión",
+    "precio": 549,
+    "tipo": "dlc",
+    "consolas": [
+      "switch2"
+    ],
+    "color": "#4a3a6b",
+    "imagen": "/portadas/fe-pase.jpg"
+  },
+  {
+    "id": "pokemon-dlc",
+    "nombre": "Pokémon – Pase de expansión",
+    "precio": 599,
+    "tipo": "dlc",
+    "consolas": [
+      "switch1",
+      "switch2"
+    ],
+    "color": "#7a3ad9",
+    "imagen": "/portadas/pokemon-dlc.jpg"
+  },
+  {
+    "id": "pokken-pack",
+    "nombre": "Pokkén Tournament DX – Battle Pack",
+    "precio": 299,
+    "tipo": "dlc",
+    "consolas": [
+      "switch1",
+      "switch2"
+    ],
+    "color": "#2ba0c4",
+    "imagen": "/portadas/pokken-pack.jpg"
+  },
+  {
+    "id": "zelda-totk-up",
+    "nombre": "Zelda: Tears of the Kingdom – Mejora NS2",
+    "precio": 199,
+    "tipo": "update",
+    "consolas": [
+      "switch2"
+    ],
+    "color": "#3a8a6b"
+  },
+  {
+    "id": "mario-party-up",
+    "nombre": "Mario Party Jamboree – Mejora NS2",
+    "precio": 249,
+    "tipo": "update",
+    "consolas": [
+      "switch2"
+    ],
+    "color": "#d9a02b"
+  }
 ]
