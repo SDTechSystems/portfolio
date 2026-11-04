@@ -21,7 +21,7 @@ libre; no reutiliza un servidor existente para evitar comprobar otro checkout.
 Volver a compilar después de cambiar código o datos: las pruebas leen el JSON actual
 y lo contrastan con `dist/`.
 
-La suite comprueba:
+La suite contiene 27 casos (9 flujos en tres anchos) y comprueba:
 
 - Carga de todas las imágenes declaradas, sin desborde horizontal y sin huecos entre
   piezas de la retícula; «¿No ves tu juego?» cierra la sección.
@@ -33,6 +33,12 @@ La suite comprueba:
   el pedido sigue funcionando y las versiones permanecen visibles.
 - Sin JavaScript: todos los productos publicados mantienen enlaces de WhatsApp visibles,
   incluyendo variantes y productos de consulta. Los ocultos no deben aparecer.
+
+- Giro con teclado sin alterar la selección ni el alto de la tarjeta, retorno de foco,
+  Escape, cara oculta inerte y movimiento reducido; condiciones confirmadas e idiomas
+  pendientes, enlace de consulta y ausencia de controles interactivos anidados.
+- Requisito de mejora visible, detalles dentro del panel, foco/Escape y WhatsApp.
+- Desplegables nativos y selección directa sin JavaScript.
 
 No compara capturas píxel a píxel ni sustituye toda la revisión visual de
 `docs/diseno.md` §8: nitidez del recorte, contraste, calidad de textos y pruebas en
@@ -66,7 +72,7 @@ npx playwright show-trace test-results/<prueba>/trace.zip
 
 ## Validación de esta implementación
 
-Con Node 22.23.4, las 22 pruebas de lógica y las 18 de Chromium pasan. Se comprobó
+En #34, con Node 22.23.4, las 22 pruebas de lógica y las 18 de Chromium pasaron. Se comprobó
 que la suite falla ante tres regresiones temporales independientes: sumar un peso
 extra por producto, dejar incompleto el cierre de la retícula y ocultar las versiones
 cuando falta el script del panel. Cada fallo generó captura y traza. Las fuentes

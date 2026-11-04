@@ -14,8 +14,27 @@ const vendibles = productos.filter((p) => precio(p) !== null);
 const moneda = (n: number) => new Intl.NumberFormat(tienda.locale, {
   style: 'currency', currency: tienda.moneda, maximumFractionDigits: 0,
 }).format(n);
-const detalle = (p: Fila) => p.tipo_producto === 'paquete_mejora' ? 'Paquete de mejora a Switch 2'
-  : `${p.tipo_producto === 'dlc' ? 'DLC' : p.tipo_producto === 'update' ? 'Update' : 'Juego'} · ${p.plataforma === 'Nintendo Switch 2' ? 'Switch 2' : 'Switch 1'}`;
+const detalle = (p: Fila) => {
+  const tipo = p.tipo_producto === 'paquete_mejora' ? 'Paquete de mejora'
+    : p.tipo_producto === 'dlc' ? 'DLC' : p.tipo_producto === 'update' ? 'Update' : 'Juego completo';
+  const lineas = [`${tipo} · ${p.plataforma === 'Nintendo Switch 2' ? 'Switch 2' : 'Switch 1'}`];
+  if (tipo === 'Paquete de mejora') {
+    const base = productos.find((b) => b.grupo === p.grupo && b.plataforma === 'Nintendo Switch')!;
+    lineas.push(`Requiere tener el juego base: ${base.titulo} (Switch 1). Se usa en Switch 2.`);
+  } else if (tipo === 'DLC' || tipo === 'Update') lineas.push('Requiere tener el juego base compatible.');
+  const c = { ...datos.condiciones_generales, ...p.condiciones };
+  const campos: [string, string | null | undefined][] = [
+    ['Región de canje', c.region_canje], ['Idiomas', c.idiomas?.join(', ')],
+    ['Cambio de región', c.requiere_cambio_region == null ? undefined : c.requiere_cambio_region ? 'Requiere cambiar la región de la cuenta' : 'No requiere cambiar la región de la cuenta'],
+    ['Entrega', c.modalidad_entrega],
+    ['Canje en tu cuenta', c.codigo_cuenta_propia == null ? undefined : c.codigo_cuenta_propia ? 'Código para canjear en tu cuenta' : 'No es un código para canjear en tu cuenta'],
+  ];
+  for (const [nombre, valor] of campos) if (valor != null) lineas.push(`${nombre}: ${valor}`);
+  if (c.requisitos) lineas.push(`Requisitos: ${c.requisitos}`);
+  const pendientes = campos.filter(([, valor]) => valor == null).map(([nombre]) => nombre.toLowerCase());
+  if (pendientes.length) lineas.push(`Por confirmar: ${pendientes.join(', ')}`);
+  return lineas.join('; ');
+};
 const item = (page: Page, id: string) => page.locator(`[data-item="${id}"]`);
 
 async function sinDesborde(page: Page) {
@@ -117,7 +136,7 @@ test('dos títulos: selección, total, WhatsApp y restauración', async ({ page 
   expect(dos).toHaveLength(2);
   for (const p of dos) await elegir(page, p);
   await comprobarPedido(page, dos);
-  for (const p of dos) await expect(item(page, p.id)).toHaveCSS('background-color', 'rgb(18, 18, 20)');
+  for (const p of dos) await expect(page.locator('.mosaico').filter({ has: item(page, p.id) }).locator('.frente')).toHaveCSS('background-color', 'rgb(18, 18, 20)');
   await page.reload();
   for (const p of dos) await expect(item(page, p.id)).toHaveAttribute('aria-pressed', 'true');
   await comprobarPedido(page, dos);
@@ -203,7 +222,7 @@ test.describe('sin JavaScript', () => {
   test.use({ javaScriptEnabled: false });
   test('cada producto conserva su enlace de WhatsApp visible', async ({ page }) => {
     await page.goto('/');
-    const enlaces = page.locator('a.mosaico, a.version');
+    const enlaces = page.locator('a.seleccion, a.version');
     await expect(enlaces).toHaveCount(productos.length);
     const mensajes: string[] = [];
     for (const enlace of await enlaces.all()) {
@@ -215,6 +234,85 @@ test.describe('sin JavaScript', () => {
       ? `Hola, quiero saber el precio de ${p.titulo} (${detalle(p)})`
       : `Hola, quiero ${p.titulo} (${detalle(p)}) a ${moneda(precio(p)!)}`).sort());
     await expect(page.locator('#pedido')).toBeHidden();
+    await sinDesborde(page);
+  });
+});
+
+test('detalles del juego: giro estable, condiciones y selección independiente', async ({ page }) => {
+  await page.goto('/');
+  const p = vendibles.find((p) => !p.grupo)!;
+  const detalles = page.locator(`[data-condiciones="${p.id}"]`);
+  const tarjeta = page.locator('.mosaico').filter({ has: detalles });
+  const reverso = tarjeta.locator('.reverso');
+  const antes = await tarjeta.boundingBox();
+  await detalles.locator('summary').press('Enter');
+  await expect(tarjeta).toHaveAttribute('data-girada', '');
+  await expect(reverso.getByRole('button', { name: /Volver/ })).toBeFocused();
+  await expect(reverso).toContainText('Juego completo');
+  await expect(reverso).toContainText('Japón');
+  await expect(reverso).toContainText('Requiere cambiar la región de la cuenta');
+  await expect(reverso).toContainText('guía para cambiar la región');
+  await expect(reverso).toContainText('Código para canjear en tu cuenta');
+  await expect(reverso).toContainText('Por confirmar: idiomas');
+  await expect(item(page, p.id)).toHaveAttribute('aria-pressed', 'false');
+  expect((await tarjeta.boundingBox())!.height).toBe(antes!.height);
+  expect(await tarjeta.locator('.frente').evaluate((e) => (e as HTMLElement).inert)).toBe(true);
+  const consulta = comprobarDestino((await reverso.getByRole('link', { name: 'Consultar condiciones' }).getAttribute('href'))!);
+  expect(consulta).toBe(`Hola, quiero confirmar las condiciones de ${p.titulo} (${detalle(p)})`);
+  await expect(page.locator('[data-item] a, [data-item] button, [data-item] summary, button summary')).toHaveCount(0);
+  await page.keyboard.press('Escape');
+  await expect(tarjeta).not.toHaveAttribute('data-girada');
+  await expect(detalles.locator('summary')).toBeFocused();
+  await elegir(page, p);
+  await comprobarPedido(page, [p]);
+  await detalles.locator('summary').press('Space');
+  await expect(tarjeta).toHaveAttribute('data-girada', '');
+  await expect(item(page, p.id)).toHaveAttribute('aria-pressed', 'true');
+  await reverso.getByRole('button', { name: /Volver/ }).click();
+  await expect(detalles.locator('summary')).toBeFocused();
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  expect(await reverso.evaluate((e) => getComputedStyle(e).transitionDuration)).toBe('0s');
+  await sinDesborde(page);
+});
+
+test('mejora: requisito visible y detalles accesibles dentro del panel', async ({ page }) => {
+  await page.goto('/');
+  const p = vendibles.find((p) => p.tipo_producto === 'paquete_mejora')!;
+  const mosaico = page.locator('.mosaico').filter({ has: item(page, p.id) });
+  const abrir = mosaico.locator('.abrir');
+  await abrir.click();
+  const dialogo = page.getByRole('dialog');
+  await expect(dialogo).toBeVisible();
+  await expect(item(page, p.id)).toContainText('Paquete de mejora');
+  await expect(item(page, p.id)).toContainText('Requiere tener el juego base');
+  const detalles = dialogo.locator(`[data-condiciones="${p.id}"]`);
+  await detalles.locator('summary').click();
+  await expect(detalles).toContainText('Japón');
+  await expect(item(page, p.id)).toHaveAttribute('aria-pressed', 'false');
+  await expect.poll(() => dialogo.evaluate((el) => el.scrollWidth <= el.clientWidth)).toBe(true);
+  await detalles.getByRole('link', { name: 'Consultar condiciones' }).focus();
+  await page.keyboard.press('Tab');
+  expect(await dialogo.evaluate((el) => el.contains(document.activeElement))).toBe(true);
+  await page.keyboard.press('Escape');
+  await expect(dialogo).toBeHidden();
+  await expect(abrir).toBeFocused();
+  await elegir(page, p);
+  await comprobarPedido(page, [p]);
+});
+
+test.describe('detalles sin JavaScript', () => {
+  test.use({ javaScriptEnabled: false });
+  test('el desplegable funciona y conserva la selección rápida por WhatsApp', async ({ page }) => {
+    await page.goto('/');
+    for (const p of [vendibles.find((p) => !p.grupo)!, vendibles.find((p) => p.tipo_producto === 'paquete_mejora')!]) {
+      const detalles = page.locator(`[data-condiciones="${p.id}"]`);
+      await detalles.locator('summary').click();
+      await expect(detalles).toHaveAttribute('open', '');
+      await expect(detalles).toContainText('Japón');
+      await expect(detalles.getByRole('link', { name: 'Consultar condiciones' })).toBeVisible();
+      await expect(item(page, p.id)).toBeVisible();
+      expect(comprobarDestino((await item(page, p.id).getAttribute('href'))!)).toContain(detalle(p));
+    }
     await sinDesborde(page);
   });
 });
