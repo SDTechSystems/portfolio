@@ -35,3 +35,49 @@ jobs:
       - run: npm ci
       - run: npm test
       - run: npm run build
+      - name: Guardar el sitio compilado
+        uses: actions/upload-artifact@v7
+        with:
+          name: sitio-compilado
+          path: dist/
+          if-no-files-found: error
+          retention-days: 1
+
+  # Nombre estable para exigir este check junto a build en la protección de main.
+  navegador:
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - name: Identificar la versión del navegador
+        id: playwright
+        run: node -e 'const fs = require("node:fs"); fs.appendFileSync(process.env.GITHUB_OUTPUT, "version=" + require("@playwright/test/package.json").version + "\n")'
+      - name: Caché de Chromium
+        uses: actions/cache@v6
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-${{ runner.arch }}-chromium-${{ steps.playwright.outputs.version }}
+      # También con caché: instala las bibliotecas del sistema y comprueba el binario.
+      - run: npx playwright install --with-deps --only-shell chromium
+      - name: Recuperar el mismo build
+        uses: actions/download-artifact@v8
+        with:
+          name: sitio-compilado
+          path: dist/
+      - run: npm run test:navegador
+      - name: Guardar capturas y trazas si falla
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: fallos-navegador
+          path: test-results/
+          if-no-files-found: ignore
+          retention-days: 7

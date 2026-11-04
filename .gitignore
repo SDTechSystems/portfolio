@@ -26,3 +26,7 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# Evidencia generada por Playwright
+/test-results/
+/playwright-report/

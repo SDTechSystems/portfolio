@@ -95,8 +95,8 @@ administración, buscador, varias páginas, multi-idioma.
   ejecuciones viejas solo en los PR, nunca en `main`, y se puede relanzar a mano desde Actions. Plantilla de PR con la lista
   de revisión de `diseno.md` §8. Plantillas de issue (`.github/ISSUE_TEMPLATE/`): «Error» pone `bug`,
   «Solicitud» pone `enhancement`, sin issues en blanco; `workflows/prioridad.yml` lee el campo «Prioridad»
-  y pone `P1`/`P2`/`P3`. El repo es público; en Settings (lo hizo el dueño) `main` exige PR y el check
-  `build`, las ramas se borran al fusionar y están activos Dependabot alerts/security updates, secret
+  y pone `P1`/`P2`/`P3`. El repo es público; en Settings (lo hizo el dueño) `main` exige PR; al revisar #34, la regla de checks obligatorios tiene la lista vacía
+  (pendiente exigir `build` y `navegador`). Las ramas se borran al fusionar y están activos Dependabot alerts/security updates, secret
   scanning y push protection.
 
 ```
@@ -172,11 +172,25 @@ Solo se restauran listas de cadenas; otros formatos inician un pedido vacío.
 
 ## 5. Estado (actualizar al cerrar cada sesión)
 
-**Última actualización:** 2026-11-04 (QR de la tienda, T6).
+**Última actualización:** 2026-11-04 (QR de la tienda, T6; antes issue #34: pruebas de navegador y CI).
 
 Hecho:
 - [x] **QR (T6):** `/qr.svg` y `/qr.png` apuntan a `tienda.url` (si está vacía, al WhatsApp). Verificado con un lector
       independiente (jsQR): los dos abren https://sdtechimport.madaeauchija.workers.dev, también el SVG reducido a 300 px.
+- [x] **#34 — prueba de humo en navegador:** `@playwright/test` como dependencia de desarrollo;
+      18 casos (6 flujos a 320×568, 390×844 y 1440×900) sobre `dist/` servido por `preview`.
+      Comprueba portadas, retícula, selección, total y mensaje de WhatsApp calculados desde los
+      datos, restauración, panel/Escape/foco, todos los productos, fallo del panel y sin JavaScript.
+      CI conserva `build` y añade `navegador` con el mismo build mediante artefacto, caché de
+      Chromium por versión y capturas/trazas de fallos durante siete días. Pruebas de Node
+      conservadas (22). Documentado en `CLAUDE.md`, plantilla de PR y `tests/navegador/README.md`.
+      Mutaciones temporales verificadas: total incorrecto, cierre de retícula incompleto y
+      versiones ocultas sin panel hacen fallar sus pruebas; fuentes restauradas y build regenerado.
+      Validación local final: 18/18 en 20,3 s, con Node 22.23.4; `npm ci`, 22 pruebas de lógica
+      y build correctos. Pendiente de verificar en GitHub: duración de CI (objetivo ~3 min)
+      y caché fría/caliente.
+      El check `navegador` queda disponible para exigirlo junto a `build`; el workflow no modifica
+      la protección de `main`. Sin cambios de interfaz ni de datos comerciales.
 - [x] **Auditoría #17:** Respaldo del panel mediante mejora progresiva; filas visibles hasta inicializar los eventos y recuperación si falla `showModal`. Conserva el panel centrado en escritorio de PR #21.
 
 - [x] Entrevista y requisitos (sección 3).
@@ -407,6 +421,22 @@ Pendiente de datos del dueño: logo de la tienda (opcional, va en lugar del nomb
 | D8 | ¿Qué títulos van destacados? | Pedido del dueño: Zelda: Ocarina of Time (Switch 2) como estelar, en lugar de Mario Kart World (vuelve al catálogo); siguen Super Mario Bros. Wonder y Zelda: Tears of the Kingdom. |
 
 ## 8. Registro de decisiones
+
+Implementación #34 (2026-11-04), autorizada tras la revisión de prioridades: Chromium
+con `@playwright/test` solo en desarrollo/CI; las pruebas de lógica conservan el runner de Node.
+Job `navegador` separado para tener un check estable, reutilizando el artefacto del job `build`
+para compilar una sola vez. Dos workers, sin reintentos automáticos, caché por versión de
+Playwright y dependencias del sistema instaladas incluso con caché. Capturas/trazas solo
+retenidas si falla; sin comparación píxel a píxel. El límite de cinco minutos del job es una
+protección, no una medición del objetivo de tres minutos.
+
+Los resultados esperados se obtienen del JSON y `tienda.ts`, sin importar la lógica de
+renderizado; se miden las cajas del DOM en lugar de repetir `reticula.ts`. Se espera el retorno
+de las filas tras `close`, y el fallo parcial bloquea únicamente el módulo del panel, tanto
+si Astro lo inserta en HTML como si lo emite aparte. Playwright administra `preview` con
+`--ignore-lock` para evitar el segundo plano automático de Astro; rechaza un puerto ocupado.
+La revisión humana de diseño y la prueba en celular real siguen siendo necesarias.
+
 
 | Fecha | Decisión | Motivo |
 |---|---|---|
