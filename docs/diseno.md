@@ -84,7 +84,7 @@ El precio va **debajo** de la portada, nunca encima de la imagen.
 
 - **Se puede elegir** (`[aria-pressed]`, lo pone el script): círculo de 28px en `--suelo`
   con "+" a la derecha del precio. Sin JavaScript no aparece.
-- **Seleccionado** (`[aria-pressed="true"]`): mosaico en `--tinta`, texto blanco, aviso en
+- **Seleccionado** (`[aria-pressed="true"]`): mosaico en `--tinta`, texto blanco, consola/nota en
   `#b9b9c2`, círculo rojo con ✓. Es la única señal: no agregar bordes ni sombras.
 - **Al tocar:** `transform: scale(.98)` (150 ms).
 - **Barra de pedido** (`Pedido.astro`): píldora negra fija abajo con el total, "Vaciar" y el
