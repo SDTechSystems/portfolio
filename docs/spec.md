@@ -153,7 +153,7 @@ volver de WhatsApp; si el almacenamiento está bloqueado, todo funciona igual si
 
 ## 5. Estado (actualizar al cerrar cada sesión)
 
-**Última actualización:** 2026-11-04 (accesibilidad WCAG 2.1 AA), rama `a11y/foco-y-lector` (sale de `main`).
+**Última actualización:** 2026-11-04 (crítica de diseño), rama `diseno/critica` (sale de `main`).
 
 Hecho:
 - [x] Entrevista y requisitos (sección 3).
@@ -231,6 +231,16 @@ Hecho:
       aria-label="Tu pedido">` (axe `region` → 0); anuncio "Total del pedido: $ …" (antes solo el monto, y
       no se anunciaba al aparecer la barra); "+"/"✓" fuera del nombre del botón. axe: 0 fallos. Aspecto:
       0 % de píxeles distintos a 320, 390 y 1440 px. No se probó con VoiceOver/NVDA reales.
+- [x] Crítica de diseño aplicada (rama `diseno/critica`). Escritorio: precios destacados visibles sin
+      desplazar 1/3 → 3/3 a 1366×768, 1440×900 y 1920×1080 (cabecera 304 → 171 px, `h1` en 1 línea, imagen de
+      los destacados chicos con alto máx. `50svh − 182px`; a 1366×768 queda en 2,63:1 y recorta el logo de
+      Wonder por abajo). `h1` "Códigos para Switch 1 y 2" (también en `og:title`). Nombres en 800: a 320 px se
+      cortan 3 de 24 (antes 2), a 390 px y más, 0. "Consultar" con "↗". Portadas de Let's Go Pikachu/Eevee sin
+      el cartel "Demo Available" (pintado con el cielo de alrededor). axe: 0 fallos. Celular sin cambios de
+      retícula (a 320×568 los destacados chicos ya quedaban bajo el pliegue y siguen igual).
+      No hecho: "¿No ves tu juego?" más angosto en escritorio (con 21 juegos deja un hueco de 4 columnas, =2
+      mosaicos, y rompe `diseno.md` §8); insignias "WINNER" de 3 portadas y caja de Ring Fit (hace falta otra
+      imagen; `assets.nintendo.com` está bloqueado en el entorno).
 
 Pendiente de datos del dueño: confirmar si los precios mostrados (referencia eShop) son los de venta (D5);
 logo de la tienda (opcional, va en lugar del nombre en `.cabecera`, ver `diseno.md` §7).
@@ -311,6 +321,11 @@ logo de la tienda (opcional, va en lugar del nombre en `.cabecera`, ver `diseno.
 | 2026-11-04 | `CLAUDE.md` importa `AGENTS.md` (`@AGENTS.md`) | Una sola copia de las reglas del flujo de trabajo; `CLAUDE.md` solo agrega lo que exige leer varios archivos (validación, contrato del pedido, publicación). |
 | 2026-11-04 | Contorno de foco en `--tinta` y no en `currentColor` | Con texto blanco (mosaico elegido, "¿No ves tu juego?") el contorno quedaba blanco sobre el suelo gris: 1,21:1, invisible. En tinta da 15,4:1 en todo el tablero. |
 | 2026-11-04 | Anuncio del total en un párrafo oculto fuera de la barra | Una región `aria-live` dentro de un elemento `hidden` no se anuncia al mostrarse; y el monto solo ("$ 559.800") no decía de qué era. Texto invisible: no rompe la regla de textos (`diseno.md` §5). Al recargar no se anuncia. |
+| 2026-11-04 | `h1` "Códigos para Switch 1 y 2" | Ningún texto visible decía que se venden códigos digitales; cambiar una palabra lo dice sin agregar textos (F6). |
+| 2026-11-04 | Escritorio: cabecera de 1 línea y destacados con alto según la pantalla | Con 304 px de cabecera y destacados de 2 filas, en escritorio solo se veía 1 precio de 24 al abrir. Se prefirió recortar más ancha la portada (hasta 2,63:1 a 768 px de alto) antes que poner el precio sobre la imagen (§3). |
+| 2026-11-04 | Nombre del juego en 800 | 15 de 24 títulos cuestan $ 279.900 y 6 $ 239.900: el precio no distingue; el nombre sí. Peso que ya existía (sin tamaños nuevos). |
+| 2026-11-04 | "↗" en mosaicos sin precio | "Consultar" sale a WhatsApp y los demás se suman al pedido; sin señal, el mismo gesto hacía dos cosas distintas. |
+| 2026-11-04 | "¿No ves tu juego?" sigue cerrando la fila | Limitarlo a 4 columnas dejaría un hueco de 2 mosaicos con 21 juegos (§8). Su peso visual se acepta. |
 | 2026-11-04 | Sin `flex-wrap` en el precio para WCAG 1.4.12 | Probado: a 320 px el "+" bajaba de línea siempre (+369 px de alto). Con espaciado aumentado el "+" se recorta, pero es decorativo: el precio sigue visible y el estado lo dan el color y `aria-pressed`. |
 
 ## 9. Cómo verificar un cambio

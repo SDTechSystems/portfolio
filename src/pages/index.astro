@@ -14,7 +14,7 @@ const cierreFila = (n: number) => `--movil:${6 - 3 * (n % 2)};--escritorio:${10 
 <main class="tablero">
   <header class="cabecera">
     <p class="marca">{tienda.nombre}</p>
-    <h1>Juegos para Switch 1 y 2</h1>
+    <h1>Códigos para Switch 1 y 2</h1>
   </header>
 
   {principal && <Mosaico p={principal} tamano="grande" />}
@@ -45,8 +45,9 @@ const cierreFila = (n: number) => `--movil:${6 - 3 * (n % 2)};--escritorio:${10 
 
   @media (min-width: 760px) {
     .tablero { grid-template-columns: repeat(10, 1fr); padding: 12px; }
-    .cabecera { padding: 28px 28px 32px; }
-    h1 { margin-top: 56px; }
+    /* Cabecera baja en escritorio: el título en 1 línea deja ver los 3 destacados con su precio sin desplazar. */
+    .cabecera { padding: 22px 28px 26px; }
+    h1 { margin-top: 18px; max-width: none; }
     .mas { grid-column: span var(--escritorio); }
   }
 </style>
