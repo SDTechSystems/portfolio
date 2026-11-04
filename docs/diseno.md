@@ -97,7 +97,12 @@ El precio va **debajo** de la portada, nunca encima de la imagen.
   mosaicos) para que quepa un total de 7 cifras. Es el **único** elemento con sombra, porque
   flota. Aparece con una subida de 250 ms.
 - `prefers-reduced-motion`: se quitan transiciones y la animación de la barra.
-- Foco visible: `outline: 3px solid currentColor` (global en `Layout.astro`).
+- Foco visible: `outline: 3px solid var(--tinta)` con 2px de separación (global en `Layout.astro`), que queda
+  sobre el suelo gris (15,4:1) aunque el mosaico sea negro o rojo. Dentro de la barra de pedido va en blanco.
+  No usar `currentColor`: en mosaicos con texto blanco el contorno quedaba blanco sobre gris (1,2:1).
+- Mientras la barra de pedido está visible, `scroll-padding-bottom` evita que tape el mosaico con foco.
+- Lector de pantalla: el "+" / "✓" es decorativo (`content: '+' / ''`); el estado lo da `aria-pressed`. Al
+  cambiar el pedido se anuncia "Total del pedido: $ …" desde un párrafo oculto (`#anuncio`), no desde la barra.
 
 ## 5. Textos
 
@@ -154,4 +159,5 @@ lugar del tablero, lleva la pestaña de su consola. El lector de pantalla la lee
 - [ ] Seleccionar 2 títulos: se ven en negro con ✓ y la barra muestra el total correcto.
 - [ ] A 320px con todos elegidos, la barra no se desborda.
 - [ ] Contraste: blanco sobre `--rojo` (4.8:1), `--suave` sobre blanco (6.7:1) y `#b9b9c2` sobre `--tinta` (9.6:1) cumplen AA.
+- [ ] Con Tab: el contorno de foco se ve en mosaicos blancos, elegidos y rojos, y ninguno queda bajo la barra.
 - [ ] Ningún elemento de la tabla "No hacer" del §6.

@@ -52,5 +52,6 @@ const canonica = Astro.site && new URL(Astro.url.pathname, Astro.site).href;
 	a { color: inherit; text-decoration: none; -webkit-tap-highlight-color: transparent; }
 	img { max-width: 100%; }
 	h1, h2, p { margin: 0; }
-	:focus-visible { outline: 3px solid currentColor; outline-offset: 2px; }
+	/* Foco en tinta: el contorno queda sobre el gris del suelo (15:1); en blanco no se veía (1,2:1). */
+	:focus-visible { outline: 3px solid var(--tinta); outline-offset: 2px; }
 </style>

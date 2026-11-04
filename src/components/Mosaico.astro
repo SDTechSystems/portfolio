@@ -49,10 +49,10 @@ const sizes = { grande: '(min-width: 760px) 60vw, 100vw', medio: '(min-width: 76
   strong { margin-top: auto; padding-top: 6px; display: flex; justify-content: space-between; align-items: center; font-size: 22px; font-weight: 800; letter-spacing: -.02em; }
 
   /* "+" / "✓": dice que el mosaico se suma al pedido. Solo aparece si el script de Pedido lo activó. */
-  [aria-pressed] strong::after { content: '+'; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: var(--suelo); font-size: 20px; font-weight: 500; letter-spacing: 0; }
+  [aria-pressed] strong::after { content: '+'; content: '+' / ''; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: var(--suelo); font-size: 20px; font-weight: 500; letter-spacing: 0; }
   [aria-pressed='true'] { --fondo: var(--tinta); color: #fff; }
   [aria-pressed='true'] .c { color: #b9b9c2; }
-  [aria-pressed='true'] strong::after { content: '✓'; background: var(--rojo); font-size: 15px; }
+  [aria-pressed='true'] strong::after { content: '✓'; content: '✓' / ''; background: var(--rojo); font-size: 15px; }
 
   .grande { grid-column: span 6; }
   .grande .img { aspect-ratio: 2 / 1; }
