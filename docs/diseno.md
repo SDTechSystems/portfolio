@@ -38,10 +38,10 @@ No agregar rojo en otros sitios.
 
 | Rol | Tamaño | Peso | Otros |
 |---|---|---|---|
-| Título `h1` | `clamp(38px, 11vw, 88px)` | 800 | interlineado .95, tracking -0.035em, máx. 12ch → siempre 2 líneas |
+| Título `h1` | `clamp(38px, 11vw, 88px)` | 800 | interlineado .95, tracking -0.035em; celular: máx. 12ch → 2 líneas; escritorio: 1 línea |
 | Títulos de sección `h2` | `clamp(26px, 6.4vw, 44px)` | 800 | tracking -0.03em |
 | Precio | 22px (destacado grande: 30px) | 800 | tracking -0.02em, **sin** `tabular-nums` (deja huecos en la coma) |
-| Nombre del juego | 14px (grande: 18px/800) | 500 | máximo 2 líneas con `line-clamp` |
+| Nombre del juego | 14px (grande: 18px) | 800 | máximo 2 líneas con `line-clamp`. En 800 porque casi todos los precios son iguales: el nombre es lo que distingue un mosaico de otro. |
 | Nota ("Necesita Ring-Con") | 13px | 500 | color `--suave` |
 | Pestaña de consola | logo 17px; "2" 17px | 800 | 32px de alto, relleno 0 9px |
 | "¿No ves tu juego?" | 22px | 800 | tracking -0.02em |
@@ -63,7 +63,7 @@ Tamaños de mosaico (clases) y cuántas columnas ocupan:
 | Cabecera (tienda + h1) | `.cabecera` | 6 | 10 |
 | Título de sección (solo "DLC y updates") | `h2` | 6 (sin fondo) | 10 |
 | Destacado grande | `<Mosaico tamano="grande">` | 6, imagen 2:1 | 6 × 2 filas, imagen llena el alto |
-| Destacados chicos | `<Mosaico tamano="medio">` | 3 | 4, imagen 2.1:1 |
+| Destacados chicos | `<Mosaico tamano="medio">` | 3 | 4, imagen 2.1:1 con alto máx. `50svh − 182px` (los 3 precios destacados se ven sin desplazar desde 768 px de alto) |
 | Juego / DLC / update | `<Mosaico>` | 3 (2 por fila) | 2 (5 por fila) |
 | ¿No ves tu juego? | `.mas` | lo que falte para cerrar la fila (3 o 6) | lo que falte (2–10) |
 
@@ -86,6 +86,7 @@ El precio va **debajo** de la portada, nunca encima de la imagen.
 
 - **Se puede elegir** (`[aria-pressed]`, lo pone el script): círculo de 28px en `--suelo`
   con "+" a la derecha del precio. Sin JavaScript no aparece.
+- **Sin precio** ("Consultar"): en lugar del "+" lleva un círculo igual con "↗", porque al tocarlo abre WhatsApp en vez de sumarse al pedido.
 - **Pestaña de consola:** esquina sólida arriba a la izquierda, radio solo en la esquina de
   abajo a la derecha (8px). Switch 1: fondo del mosaico (`--fondo`) y logo en tinta; Switch 2:
   `--rojo`, logo y "2" en blanco. Sin sombra ni borde.
@@ -106,7 +107,7 @@ El precio va **debajo** de la portada, nunca encima de la imagen.
 
 ## 5. Textos
 
-Todo el texto de la página: nombre de la tienda, **"Juegos para Switch 1 y 2"**, nombres,
+Todo el texto de la página: nombre de la tienda, **"Códigos para Switch 1 y 2"** (dice que se venden códigos digitales, no juegos físicos), nombres,
 nota, precios, "¿No ves tu juego?", y en la barra "Vaciar" / "Pedir por WhatsApp". Con DLC
 visibles, además "DLC y updates" y "¿Buscas otro DLC?". **No agregar más.**
 

@@ -44,7 +44,7 @@ const sizes = { grande: '(min-width: 760px) 60vw, 100vw', medio: '(min-width: 76
   .consola.dos { background: var(--rojo); color: #fff; }
   img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
   .pie { flex: 1; display: flex; flex-direction: column; gap: 2px; padding: 10px 12px 12px; }
-  .n { font-size: 14px; font-weight: 500; line-height: 1.2; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .n { font-size: 14px; font-weight: 800; line-height: 1.2; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
   .c { font-size: 13px; color: var(--suave); }
   strong { margin-top: auto; padding-top: 6px; display: flex; justify-content: space-between; align-items: center; font-size: 22px; font-weight: 800; letter-spacing: -.02em; }
 
@@ -53,6 +53,8 @@ const sizes = { grande: '(min-width: 760px) 60vw, 100vw', medio: '(min-width: 76
   [aria-pressed='true'] { --fondo: var(--tinta); color: #fff; }
   [aria-pressed='true'] .c { color: #b9b9c2; }
   [aria-pressed='true'] strong::after { content: '✓'; content: '✓' / ''; background: var(--rojo); font-size: 15px; }
+  /* Sin precio ("Consultar"): el mosaico abre WhatsApp en vez de sumarse al pedido; la flecha lo distingue del "+". */
+  .mosaico[target] strong::after { content: '↗'; content: '↗' / ''; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: var(--suelo); font-size: 16px; font-weight: 500; letter-spacing: 0; }
 
   .grande { grid-column: span 6; }
   .grande .img { aspect-ratio: 2 / 1; }
@@ -66,7 +68,9 @@ const sizes = { grande: '(min-width: 760px) 60vw, 100vw', medio: '(min-width: 76
     .grande .img { aspect-ratio: auto; flex: 1; }
     .grande .pie { flex: none; }
     .medio { grid-column: span 4; }
-    .medio .img { aspect-ratio: 2.1 / 1; }
+    /* Los 3 destacados caben con su precio en la primera pantalla (el grande mide lo que los dos chicos).
+       182px = cabecera (183) + 3 separaciones de 8 + 2 pies de 75 + margen de 12, repartido entre 2 filas. */
+    .medio .img { aspect-ratio: 2.1 / 1; max-height: max(140px, calc(50svh - 182px)); }
   }
   @media (prefers-reduced-motion: reduce) { .mosaico, .consola { transition: none; } }
 </style>
