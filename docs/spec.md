@@ -153,7 +153,7 @@ volver de WhatsApp; si el almacenamiento está bloqueado, todo funciona igual si
 
 ## 5. Estado (actualizar al cerrar cada sesión)
 
-**Última actualización:** 2026-11-04 (automatizaciones de Claude Code), rama `ccr-1435d390-b65ozp` (sale de `main`).
+**Última actualización:** 2026-11-04 (accesibilidad WCAG 2.1 AA), rama `a11y/foco-y-lector` (sale de `main`).
 
 Hecho:
 - [x] Entrevista y requisitos (sección 3).
@@ -223,6 +223,14 @@ Hecho:
       y `/cerrar-sesion`; subagente `revisor-diseno`. Sin `.mcp.json`: `mcp.docs.astro.build` está
       bloqueado por la red del entorno en la nube.
 - [x] `CLAUDE.md` con comandos y arquitectura para Claude Code; importa `AGENTS.md` en vez de repetirlo.
+- [x] Auditoría de accesibilidad WCAG 2.1 AA (axe-core + Chromium a 320, 390 y 1440 px), rama
+      `a11y/foco-y-lector`. Ya cumplía: contraste de texto (mínimo 4,80:1, blanco sobre rojo), teclado
+      (Enter y Espacio), orden de foco igual al visual, sin scroll horizontal a 320 px, `reduced-motion`.
+      Corregido: contorno de foco en tinta (antes blanco sobre gris, 1,21:1, en mosaicos elegidos y
+      "¿No ves tu juego?"); la barra ya no tapa el mosaico con foco (26 casos → 0); barra como `<aside
+      aria-label="Tu pedido">` (axe `region` → 0); anuncio "Total del pedido: $ …" (antes solo el monto, y
+      no se anunciaba al aparecer la barra); "+"/"✓" fuera del nombre del botón. axe: 0 fallos. Aspecto:
+      0 % de píxeles distintos a 320, 390 y 1440 px. No se probó con VoiceOver/NVDA reales.
 
 Pendiente de datos del dueño: confirmar si los precios mostrados (referencia eShop) son los de venta (D5);
 logo de la tienda (opcional, va en lugar del nombre en `.cabecera`, ver `diseno.md` §7).
@@ -239,8 +247,8 @@ logo de la tienda (opcional, va en lugar del nombre en `.cabecera`, ver `diseno.
       el enlace en un chat de WhatsApp real.
 - [~] **T6. Publicación:** hecho en Cloudflare Workers. Falta el QR del enlace (en el entorno de
       trabajo no hay generador de QR instalado ni permiso para descargar uno).
-- [~] **T7. Auditoría:** hecho: Espacio en los mosaicos; fuente alojada en el sitio. Falta: contraste,
-      peso de imágenes (1,1 MB al abrir en celular; AVIF ahorraría ~18 %), y prueba en un celular real
+- [~] **T7. Auditoría:** hecho: Espacio en los mosaicos; fuente alojada en el sitio; accesibilidad WCAG 2.1 AA
+      (contraste, foco, lector de pantalla). Falta: peso de imágenes (1,1 MB al abrir en celular; AVIF ahorraría ~18 %), y prueba en un celular real
       con WhatsApp.
 
 ## 7. Decisiones abiertas (preguntar al dueño)
@@ -301,6 +309,9 @@ logo de la tienda (opcional, va en lugar del nombre en `.cabecera`, ver `diseno.
 | 2026-11-04 | Skills `/nuevo-producto` y `/cerrar-sesion` solo a pedido del usuario | Editan el catálogo y el spec; no deben dispararse sin que el usuario lo pida. |
 | 2026-11-04 | Sin servidor MCP de documentación de Astro en el repo | Su host está bloqueado en el entorno en la nube; en el repo daría un error de conexión en cada sesión. Se agrega localmente con `claude mcp add`. |
 | 2026-11-04 | `CLAUDE.md` importa `AGENTS.md` (`@AGENTS.md`) | Una sola copia de las reglas del flujo de trabajo; `CLAUDE.md` solo agrega lo que exige leer varios archivos (validación, contrato del pedido, publicación). |
+| 2026-11-04 | Contorno de foco en `--tinta` y no en `currentColor` | Con texto blanco (mosaico elegido, "¿No ves tu juego?") el contorno quedaba blanco sobre el suelo gris: 1,21:1, invisible. En tinta da 15,4:1 en todo el tablero. |
+| 2026-11-04 | Anuncio del total en un párrafo oculto fuera de la barra | Una región `aria-live` dentro de un elemento `hidden` no se anuncia al mostrarse; y el monto solo ("$ 559.800") no decía de qué era. Texto invisible: no rompe la regla de textos (`diseno.md` §5). Al recargar no se anuncia. |
+| 2026-11-04 | Sin `flex-wrap` en el precio para WCAG 1.4.12 | Probado: a 320 px el "+" bajaba de línea siempre (+369 px de alto). Con espaciado aumentado el "+" se recorta, pero es decorativo: el precio sigue visible y el estado lo dan el color y `aria-pressed`. |
 
 ## 9. Cómo verificar un cambio
 

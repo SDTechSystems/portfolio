@@ -3,15 +3,19 @@
 // aria-pressed y se envían juntos en un solo WhatsApp. Sin JavaScript, cada uno abre su propio WhatsApp.
 import { tienda } from '../data/tienda';
 ---
-<div id="pedido" class="pedido" hidden data-locale={tienda.locale} data-moneda={tienda.moneda} data-wa={tienda.whatsapp}>
-  <strong class="total" aria-live="polite"></strong>
+<p id="anuncio" class="solo-lector" aria-live="polite"></p>
+<aside id="pedido" class="pedido" aria-label="Tu pedido" hidden data-locale={tienda.locale} data-moneda={tienda.moneda} data-wa={tienda.whatsapp}>
+  <strong class="total"></strong>
   <button type="button" class="vaciar">Vaciar</button>
   <a class="cta" href="#" target="_blank" rel="noopener">Pedir por WhatsApp</a>
-</div>
+</aside>
 
 <script>
   const bar = document.getElementById('pedido')!;
   const total = bar.querySelector('.total')!;
+  // El lector de pantalla oye "Total del pedido: …" al elegir o quitar; fuera de la barra para que
+  // también se anuncie cuando la barra pasa de oculta a visible.
+  const anuncio = document.getElementById('anuncio')!;
   const cta = bar.querySelector<HTMLAnchorElement>('.cta')!;
   const fmt = new Intl.NumberFormat(bar.dataset.locale, { style: 'currency', currency: bar.dataset.moneda, maximumFractionDigits: 0 });
   const items = [...document.querySelectorAll<HTMLAnchorElement>('[data-item]')];
@@ -28,23 +32,24 @@ import { tienda } from '../data/tienda';
     el.addEventListener('click', (e) => {
       e.preventDefault();
       marcar(el, el.getAttribute('aria-pressed') !== 'true');
-      pintar();
+      pintar(true);
     });
     // Un botón también se activa con Espacio (un enlace solo con Enter).
     el.addEventListener('keydown', (e) => {
       if (e.key === ' ') { e.preventDefault(); el.click(); }
     });
   });
-  bar.querySelector('.vaciar')!.addEventListener('click', () => { items.forEach((el) => marcar(el, false)); pintar(); });
+  bar.querySelector('.vaciar')!.addEventListener('click', () => { items.forEach((el) => marcar(el, false)); pintar(true); });
   pintar();
 
-  function pintar() {
+  function pintar(anunciar = false) {
     const elegidos = items.filter((el) => el.getAttribute('aria-pressed') === 'true');
     try { sessionStorage.setItem(CLAVE, JSON.stringify(elegidos.map((el) => el.dataset.item))); } catch {}
     const suma = elegidos.reduce((s, el) => s + Number(el.dataset.precio), 0);
     const lineas = elegidos.map((el) => `• ${el.dataset.nombre} (${el.dataset.detalle}) ${fmt.format(Number(el.dataset.precio))}`);
     bar.hidden = elegidos.length === 0;
     total.textContent = fmt.format(suma);
+    if (anunciar) anuncio.textContent = elegidos.length ? `Total del pedido: ${fmt.format(suma)}` : 'Pedido vacío';
     cta.href = `https://wa.me/${bar.dataset.wa}?text=${encodeURIComponent(`Hola, quiero pedir:\n${lineas.join('\n')}\nTotal: ${fmt.format(suma)}`)}`;
   }
 </script>
@@ -67,4 +72,9 @@ import { tienda } from '../data/tienda';
   /* Teléfonos estrechos: se vacía tocando de nuevo los mosaicos. */
   @media (max-width: 420px) { .vaciar { display: none; } .pedido { gap: 8px; padding-left: 16px; } .total { font-size: 17px; } .cta { padding: 12px 14px; } }
   :global(body:has(.pedido:not([hidden]))) { padding-bottom: 84px; }
+  /* Al moverse con Tab, el mosaico con foco se desplaza por encima de la barra y no queda tapado. */
+  :global(html:has(.pedido:not([hidden]))) { scroll-padding-bottom: 96px; }
+  /* Dentro de la barra negra el contorno de foco va en blanco. */
+  .pedido :focus-visible { outline-color: #fff; }
+  .solo-lector { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 </style>
