@@ -85,9 +85,17 @@
       "plataforma": "Nintendo Switch 2",
       "edicion": "nintendo_switch_2_edition",
       "tipo_producto": "juego_digital",
-      "precio_referencia_eshop_colombia_cop": null,
-      "estado_precio": "pendiente",
-      "grupo": "zelda-botw"
+      "precio_referencia_eshop_colombia_cop": 279900,
+      "estado_precio": "referencia",
+      "grupo": "zelda-botw",
+      "imagen": {
+        "ruta": "imagenes/the-legend-of-zelda-breath-of-the-wild-switch-2.webp",
+        "alt": "Arte oficial de The Legend of Zelda: Breath of the Wild – Nintendo Switch 2 Edition",
+        "ancho": 960,
+        "alto": 540,
+        "fuente_pagina": "https://www.nintendo.com/us/store/products/the-legend-of-zelda-breath-of-the-wild-nintendo-switch-2-edition-switch-2/",
+        "fuente_imagen": "https://assets.nintendo.com/image/upload/c_fill,w_1200/q_auto/f_auto/dpr_2.0/store/software/switch2/70010000096817/cfe9f8d674be958326d3ba11fc7598a4383e5c5d7809b6239ccac0783aac6cd8"
+      }
     },
     {
       "id": "the-legend-of-zelda-breath-of-the-wild-mejora",
@@ -96,8 +104,8 @@
       "plataforma": "Nintendo Switch 2",
       "edicion": "paquete_mejora",
       "tipo_producto": "paquete_mejora",
-      "precio_referencia_eshop_colombia_cop": null,
-      "estado_precio": "pendiente",
+      "precio_referencia_eshop_colombia_cop": 39900,
+      "estado_precio": "referencia",
       "grupo": "zelda-botw"
     },
     {
@@ -216,9 +224,17 @@
       "plataforma": "Nintendo Switch 2",
       "edicion": "nintendo_switch_2_edition",
       "tipo_producto": "juego_digital",
-      "precio_referencia_eshop_colombia_cop": null,
-      "estado_precio": "pendiente",
-      "grupo": "zelda-totk"
+      "precio_referencia_eshop_colombia_cop": 319900,
+      "estado_precio": "referencia",
+      "grupo": "zelda-totk",
+      "imagen": {
+        "ruta": "imagenes/the-legend-of-zelda-tears-of-the-kingdom-switch-2.webp",
+        "alt": "Arte oficial de The Legend of Zelda: Tears of the Kingdom – Nintendo Switch 2 Edition",
+        "ancho": 960,
+        "alto": 540,
+        "fuente_pagina": "https://www.nintendo.com/us/store/products/the-legend-of-zelda-tears-of-the-kingdom-nintendo-switch-2-edition-switch-2/",
+        "fuente_imagen": "https://assets.nintendo.com/image/upload/c_fill,w_1200/q_auto/f_auto/dpr_2.0/store/software/switch2/70010000096821/f20258999e8d852a496dad2961a87faf2b119488f97fb81442f378043e58b000"
+      }
     },
     {
       "id": "the-legend-of-zelda-tears-of-the-kingdom-mejora",
@@ -227,8 +243,8 @@
       "plataforma": "Nintendo Switch 2",
       "edicion": "paquete_mejora",
       "tipo_producto": "paquete_mejora",
-      "precio_referencia_eshop_colombia_cop": null,
-      "estado_precio": "pendiente",
+      "precio_referencia_eshop_colombia_cop": 39900,
+      "estado_precio": "referencia",
       "grupo": "zelda-totk"
     },
     {

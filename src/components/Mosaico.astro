@@ -89,6 +89,8 @@ const Caja = varias ? 'div' : 'a';
   .ancho { grid-column: span 6; cursor: auto; }
   .ancho:active { transform: none; }
   .ancho .img, .lleno .img { aspect-ratio: 3 / 1; }
+  /* Las portadas de Switch 2 Edition llevan la franja "Nintendo Switch 2 Edition" abajo: el recorte 3:1 la conserva. */
+  .ancho img { object-position: 50% 100%; }
   .lleno { grid-column: span 6; }
   /* Retícula común (subgrid): sellos en una columna a la izquierda y precios alineados a la derecha,
      junto al "+", para compararlos como en una lista de precios. */

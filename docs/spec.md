@@ -255,9 +255,13 @@ Hecho:
 
 - [x] Juegos con varias versiones en un solo mosaico (rama `catalogo/dos-versiones`): campo `grupo` y
       `tipo_producto: "paquete_mejora"` en `productos.json`; mosaico ancho con pestaña doble y una fila por
-      versión (sello de consola o "Mejora a ⊞2", precio y su propio "+"). Cargados los dos Zelda (Switch 2
-      Edition y paquete de mejora) **con precio `null`** ("Consultar") y con la portada de Switch 1: faltan los
-      precios y las portadas de Switch 2. Sin grupos, el HTML es igual al de `main` (solo cambia el orden
+      versión (sello de consola o "Mejora a ⊞2", precio y su propio "+"). Cargados los dos Zelda con Switch 2
+      Edition y paquete de mejora, con precios de referencia de la eShop de Colombia
+      (`nintendo.com/es-co`, precio regular, sin descuento): TotK $ 279.900 / $ 319.900 / $ 39.900;
+      BotW $ 239.900 / $ 279.900 / $ 39.900. Los de Switch 1 coinciden con los que ya tenía el archivo.
+      Portadas oficiales de Switch 2 Edition (2400×1350 → 960×540 webp, 99 y 86 KB); en celular se recortan
+      desde abajo para conservar la franja "Nintendo Switch 2 Edition". Elegir 3 versiones → `$ 639.700`
+      correcto. `og.jpg` con la portada nueva de TotK: 168 KB. Sin grupos, el HTML es igual al de `main` (solo cambia el orden
       de los atributos). Verificado a 320, 390, 1000, 1366, 1440 y 1920 px: sin scroll horizontal, sin
       filas que se salgan, precios alineados; los 3 destacados con su primer precio visibles sin
       desplazar a 1366×768, 1440×900 y 1920×1080 (todas las filas de Zelda TotK también). Pedido: elegir
@@ -275,8 +279,7 @@ Hecho:
       con versiones, puede quedar un hueco de un mosaico (lo permite §8); un grupo con solo Switch 1 +
       paquete de mejora muestra igual la pestaña doble (el juego se puede jugar en Switch 2 con la mejora).
 
-Pendiente de datos del dueño: precios de la versión de Switch 2 y del paquete de mejora de los dos Zelda,
-y sus portadas de Switch 2 (`www.nintendo.com` no está permitido en la red del entorno); confirmar si los precios mostrados (referencia eShop) son los de venta (D5);
+Pendiente de datos del dueño: confirmar si los precios mostrados (referencia eShop) son los de venta (D5);
 logo de la tienda (opcional, va en lugar del nombre en `.cabecera`, ver `diseno.md` §7).
 
 ## 6. Tareas pendientes (en orden)
@@ -366,6 +369,8 @@ logo de la tienda (opcional, va en lugar del nombre en `.cabecera`, ver `diseno.
 | 2026-11-04 | Paquete de mejora con sello "Mejora a ⊞2" (único texto nuevo) | El dueño lo vende. Un logo no basta para decir "pasar de Switch 1 a Switch 2"; dos palabras sí. |
 | 2026-11-04 | Juego con versiones = ancho de 2 mosaicos (6 col. en celular, 4 en escritorio) | Sello + precio de 22 px + "+" piden ~180 px y un mosaico chico a 320 px deja 122 px. Desde 1100 px la portada va a la izquierda y el mosaico mide lo mismo que sus vecinos. |
 | 2026-11-04 | Filas de versión: sello a la izquierda y precio alineado a la derecha junto al "+"; portada 3:1 en celular | Crítica de diseño: con el precio después del sello más ancho ("Mejora a ⊞2", 106 px) los precios empezaban a mitad del mosaico y el sello de Switch 1 flotaba solo; alineados a la derecha se comparan como en una lista. La portada a 3:1 baja el mosaico de 341 a 310 px a 390 px (3 versiones sueltas ocuparían ~290 px). |
+| 2026-11-04 | Precios de Switch 2 y paquete de mejora tomados de `nintendo.com/es-co` | Mismo origen que los demás (referencia eShop Colombia, D5): los precios de Switch 1 de esa página coinciden con los del archivo. Se usó el precio regular (`discounted: false`). |
+| 2026-11-04 | Portada del mosaico con versiones anclada abajo (`object-position: 50% 100%`) | Las cajas de Switch 2 Edition llevan la franja "Nintendo Switch 2 Edition" abajo; el recorte 3:1 centrado la cortaba. Desde 1100 px (portada a la izquierda) el recorte es por los lados y la franja o el logo pueden cortarse: la pestaña ⊞2 ya marca la versión. |
 | 2026-11-04 | Ancho de "¿No ves tu juego?" calculado simulando la retícula (`lib/reticula.ts`) | Con mosaicos de dos anchos, contar mosaicos ya no dice cuánto falta para cerrar la fila. |
 | 2026-11-04 | Sin `flex-wrap` en el precio para WCAG 1.4.12 | Probado: a 320 px el "+" bajaba de línea siempre (+369 px de alto). Con espaciado aumentado el "+" se recorta, pero es decorativo: el precio sigue visible y el estado lo dan el color y `aria-pressed`. |
 
