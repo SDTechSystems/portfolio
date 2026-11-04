@@ -657,6 +657,134 @@
       "precio_venta_cop": 156900,
       "publicar": true,
       "requiere_juego_base": false
+    },
+    {
+      "id": "the-legend-of-zelda-ocarina-of-time",
+      "puesto_ranking": null,
+      "titulo": "The Legend of Zelda: Ocarina of Time",
+      "plataforma": "Nintendo Switch 2",
+      "edicion": "base",
+      "tipo_producto": "juego_digital",
+      "precio_referencia_eshop_colombia_cop": 239900,
+      "estado_precio": "definido",
+      "imagen": {
+        "ruta": "imagenes/the-legend-of-zelda-ocarina-of-time.webp",
+        "alt": "Arte oficial de The Legend of Zelda: Ocarina of Time",
+        "ancho": 1920,
+        "alto": 1080,
+        "fuente_pagina": "https://www.nintendo.com/us/store/products/the-legend-of-zelda-ocarina-of-time-switch-2/",
+        "fuente_imagen": "https://assets.nintendo.com/image/upload/c_fill,w_1200/q_auto/f_auto/dpr_2.0/store/software/switch2/70010000130792/21d17919819cffebda2817f9b0110116c28568e0b6fa30a9778f1679271be809"
+      },
+      "precio_venta_cop": 185900,
+      "publicar": true,
+      "requiere_juego_base": false
+    },
+    {
+      "id": "pokemon-pokopia",
+      "puesto_ranking": null,
+      "titulo": "Pokémon Pokopia",
+      "plataforma": "Nintendo Switch 2",
+      "edicion": "base",
+      "tipo_producto": "juego_digital",
+      "precio_referencia_eshop_colombia_cop": 279900,
+      "estado_precio": "definido",
+      "imagen": {
+        "ruta": "imagenes/pokemon-pokopia.webp",
+        "alt": "Arte oficial de Pokémon Pokopia",
+        "ancho": 1920,
+        "alto": 1080,
+        "fuente_pagina": "https://www.nintendo.com/us/store/products/pokemon-pokopia-switch-2/",
+        "fuente_imagen": "https://assets.nintendo.com/image/upload/c_fill,w_1200/q_auto/f_auto/dpr_2.0/store/software/switch2/70010000107421/ccb2d70f7ad6878b78d366898a0f0baf94a2d3350b76725c88b591453a797502"
+      },
+      "precio_venta_cop": 205900,
+      "publicar": true,
+      "requiere_juego_base": false
+    },
+    {
+      "id": "super-mario-party-jamboree",
+      "puesto_ranking": null,
+      "titulo": "Super Mario Party Jamboree",
+      "plataforma": "Nintendo Switch",
+      "edicion": "base",
+      "tipo_producto": "juego_digital",
+      "precio_referencia_eshop_colombia_cop": 239900,
+      "estado_precio": "definido",
+      "grupo": "mario-party-jamboree",
+      "imagen": {
+        "ruta": "imagenes/super-mario-party-jamboree.webp",
+        "alt": "Arte oficial de Super Mario Party Jamboree",
+        "ancho": 1920,
+        "alto": 1080,
+        "fuente_pagina": "https://www.nintendo.com/us/store/products/super-mario-party-jamboree-switch/",
+        "fuente_imagen": "https://assets.nintendo.com/image/upload/c_fill,w_1200/q_auto/f_auto/dpr_2.0/store/software/switch/70010000084608/ba0572bf9d840b03bf9958809943fb3c76c3adfd6d8f2704b0f1b766f8aa4027"
+      },
+      "precio_venta_cop": 166900,
+      "publicar": true,
+      "requiere_juego_base": false
+    },
+    {
+      "id": "super-mario-party-jamboree-switch-2",
+      "puesto_ranking": null,
+      "titulo": "Super Mario Party Jamboree – Nintendo Switch 2 Edition + Jamboree TV",
+      "plataforma": "Nintendo Switch 2",
+      "edicion": "nintendo_switch_2_edition",
+      "tipo_producto": "juego_digital",
+      "precio_referencia_eshop_colombia_cop": 319900,
+      "estado_precio": "definido",
+      "grupo": "mario-party-jamboree",
+      "imagen": {
+        "ruta": "imagenes/super-mario-party-jamboree-switch-2.webp",
+        "alt": "Arte oficial de Super Mario Party Jamboree – Nintendo Switch 2 Edition + Jamboree TV",
+        "ancho": 1920,
+        "alto": 1080,
+        "fuente_pagina": "https://www.nintendo.com/us/store/products/super-mario-party-jamboree-nintendo-switch-2-edition-plus-jamboree-tv-switch-2/",
+        "fuente_imagen": "https://assets.nintendo.com/image/upload/c_fill,w_1200/q_auto/f_auto/dpr_2.0/store/software/switch2/70010000096825/1c6d36132c3f96d24ba95ebc60e6cb7534bfe9f81b0b590177adf1cf47d3cc81"
+      },
+      "precio_venta_cop": 215900,
+      "publicar": true,
+      "requiere_juego_base": false
+    },
+    {
+      "id": "metroid-prime-4-beyond-switch-2",
+      "puesto_ranking": null,
+      "titulo": "Metroid Prime 4: Beyond – Nintendo Switch 2 Edition",
+      "plataforma": "Nintendo Switch 2",
+      "edicion": "nintendo_switch_2_edition",
+      "tipo_producto": "juego_digital",
+      "precio_referencia_eshop_colombia_cop": 279900,
+      "estado_precio": "definido",
+      "imagen": {
+        "ruta": "imagenes/metroid-prime-4-beyond-switch-2.webp",
+        "alt": "Arte oficial de Metroid Prime 4: Beyond – Nintendo Switch 2 Edition",
+        "ancho": 1920,
+        "alto": 1080,
+        "fuente_pagina": "https://www.nintendo.com/us/store/products/metroid-prime-4-beyond-nintendo-switch-2-edition-switch-2/",
+        "fuente_imagen": "https://assets.nintendo.com/image/upload/c_fill,w_1200/q_auto/f_auto/dpr_2.0/store/software/switch2/70010000104849/6bc40d5d63f7139f26f29c3d0d9b82dbcbae85e2bebcd2995d39c991e665c802"
+      },
+      "precio_venta_cop": 205900,
+      "publicar": true,
+      "requiere_juego_base": false
+    },
+    {
+      "id": "splatoon-raiders",
+      "puesto_ranking": null,
+      "titulo": "Splatoon Raiders",
+      "plataforma": "Nintendo Switch 2",
+      "edicion": "base",
+      "tipo_producto": "juego_digital",
+      "precio_referencia_eshop_colombia_cop": 199900,
+      "estado_precio": "definido",
+      "imagen": {
+        "ruta": "imagenes/splatoon-raiders.webp",
+        "alt": "Arte oficial de Splatoon Raiders",
+        "ancho": 1920,
+        "alto": 1080,
+        "fuente_pagina": "https://www.nintendo.com/us/store/products/splatoon-raiders-switch-2/",
+        "fuente_imagen": "https://assets.nintendo.com/image/upload/c_fill,w_1200/q_auto/f_auto/dpr_2.0/store/software/switch2/70010000122824/cf587e01f6f115398f411f280dba21e025795eb69f234a41722341ea999d170d"
+      },
+      "precio_venta_cop": 156900,
+      "publicar": true,
+      "requiere_juego_base": false
     }
   ]
 }

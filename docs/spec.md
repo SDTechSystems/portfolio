@@ -344,8 +344,11 @@ Hecho:
       Verificado: los 31 precios de la página = `precio_venta_cop` del listado; Ring Fit (`publicar: false`, sin precio)
       no sale; 20 juegos → filas completas (escritorio 4×5, celular 10×2) y "¿No ves tu juego?" a todo el ancho;
       2 títulos → `$ 332.800`. `publicar` se valida (probado: `"no"` y un destacado oculto detienen el build).
-      **Pendiente:** los 6 productos nuevos del listado (Ocarina of Time, Pokopia, Jamboree ×2, Metroid Prime 4,
-      Splatoon Raiders) no se agregaron: no traen portada y 4 tienen un `grupo` de un solo producto, que el build rechaza.
+      Los 6 productos nuevos del listado (Ocarina of Time, Pokopia, Jamboree Switch 1 + Switch 2, Metroid Prime 4,
+      Splatoon Raiders) se agregaron al final con su portada oficial (`og:image` de su página en nintendo.com/us,
+      original 1920×1080, sin etiquetas; fuentes en `imagen.fuente_*`). A los 4 con un `grupo` de un solo producto se
+      les quitó el grupo (el build lo rechaza). Página: 37/37 productos publicables del listado con su precio exacto;
+      escritorio 5 filas de 5 + "¿No ves tu juego?" a todo el ancho; `og.jpg` 183 KB.
 
 Pendiente de datos del dueño: logo de la tienda (opcional, va en lugar del nombre en `.cabecera`, ver `diseno.md` §7).
 
@@ -452,7 +455,7 @@ Pendiente de datos del dueño: logo de la tienda (opcional, va en lugar del nomb
 | 2026-11-04 | **Escritorio igual que celular:** juego con versiones del tamaño de un juego, versiones en el panel (centrado) | El dueño veía el escritorio asimétrico: mosaicos de 2 y 4 columnas, portadas recortadas en vertical, catálogo desordenado por `dense`. Con el panel todas las filas tienen 5 mosaicos iguales. Cuesta un clic más por juego con versiones, como en celular. |
 | 2026-11-04 | Portadas originales de 1920×1080 (antes 960×540) | Con 960 px ninguna variante alcanzaba para el destacado grande ni para pantallas ×2: se veían borrosas. Son las mismas imágenes de `fuente_imagen`, sin recorte de Nintendo. El repo crece de 2,9 a 9 MB; el visitante solo baja la variante que necesita. |
 | 2026-11-04 | Tablero de máx. 1440 px, centrado | Más ancho los mosaicos se agrandan sin sumar información y las portadas pierden nitidez. |
-| 2026-11-04 | Precios del listado copiados a `productos.json` (no se cambió el archivo que lee la web) | `productos.json` sigue siendo la única fuente; el listado nuevo trae portadas de 960 y 6 productos aún sin portada. Si el dueño prefiere editar el listado nuevo, se puede apuntar `catalogo.ts` a él y borrar el otro. |
+| 2026-11-04 | Precios del listado copiados a `productos.json` (no se cambió el archivo que lee la web) | `productos.json` sigue siendo la única fuente; el listado nuevo trae portadas de 960 y sin los datos de las 6 portadas agregadas. Si el dueño prefiere editar el listado nuevo, se puede apuntar `catalogo.ts` a él y borrar el otro. |
 | 2026-11-04 | Campo `publicar` (por defecto true) | El listado lo trae: Ring Fit tiene precio pendiente y `publicar: false`. Ocultar sin borrar deja los datos listos para cuando haya precio. |
 
 ## 9. Cómo verificar un cambio
