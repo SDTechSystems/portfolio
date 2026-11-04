@@ -151,7 +151,7 @@ volver de WhatsApp; si el almacenamiento está bloqueado, todo funciona igual si
 
 ## 5. Estado (actualizar al cerrar cada sesión)
 
-**Última actualización:** 2026-11-04 (despliegue en Cloudflare), rama `fix/despliegue-cloudflare` (sale de `main`, incluye `fix/node-exacto-para-hosting`).
+**Última actualización:** 2026-11-04 (URL pública), rama `mejoras/url-publica` (sale de `main`).
 
 Hecho:
 - [x] Entrevista y requisitos (sección 3).
@@ -184,10 +184,13 @@ Hecho:
       que acepta WhatsApp); con `url` lleno salen 13 etiquetas con direcciones absolutas; sin `url`, no
       sale ninguna imagen rota; 3 URLs mal escritas (sin https, http, con ruta) detienen el build con
       mensaje claro.
-- [~] Publicación en Cloudflare Workers: el primer despliegue compiló bien (Node 22.23.4) pero falló al
-      publicar (`public/.assetsignore` no existe: `public/` desapareció al borrar los favicons de la
-      plantilla, y Wrangler intentó autoconfigurar). Arreglado con `wrangler.jsonc`; `wrangler deploy
-      --dry-run` lee los 105 archivos de `dist/`. Falta fusionar y confirmar el despliegue real.
+- [x] Publicado en Cloudflare Workers: **https://sdtechimport.madaeauchija.workers.dev** (PR #7). El
+      primer despliegue falló al publicar (`public/.assetsignore` no existe: `public/` desapareció al
+      borrar los favicons de la plantilla, y Wrangler intentó autoconfigurar); arreglado con
+      `wrangler.jsonc`. El dueño confirmó el despliegue; desde el entorno de trabajo `workers.dev`
+      está bloqueado, así que no se verificó en vivo.
+- [x] `tienda.ts → url` con la dirección pública: el build genera `og:image`, `og:url` y `canonical`
+      absolutos (rama `mejoras/url-publica`).
 - [x] Fuente propia: 0 peticiones a Google (antes 2); 49 KB de fuente (antes 46); la página se ve
       igual que `main` (0,12 % de píxeles distintos a 390 px, 0,05 % a 1440 px: suavizado de letra).
       Probado con `astro build` y `astro dev`.
@@ -203,10 +206,10 @@ y confirmar si los precios mostrados (referencia eShop) son los de venta (D5).
 - [x] **T4. Portadas reales.**
 - [ ] **T4b. Contenido de DLC y updates:** agregarlos a `productos.json` (con portada) y
       poner `mostrarDlcUpdates: true`. Revisar que la fila final no deje huecos.
-- [~] **T5. Metadatos para compartir:** hecho (`og:*`, imagen 1200×630). Falta solo poner la URL
-      final en `tienda.ts → url` (D4) y probar el enlace en un chat de WhatsApp real.
-- [ ] **T6. Publicación:** elegir hosting estático (Netlify, Vercel, Cloudflare Pages o
-      GitHub Pages) y generar el QR del enlace final.
+- [~] **T5. Metadatos para compartir:** hecho (`og:*`, imagen 1200×630, URL puesta). Falta probar
+      el enlace en un chat de WhatsApp real.
+- [~] **T6. Publicación:** hecho en Cloudflare Workers. Falta el QR del enlace (en el entorno de
+      trabajo no hay generador de QR instalado ni permiso para descargar uno).
 - [~] **T7. Auditoría:** hecho: Espacio en los mosaicos; fuente alojada en el sitio. Falta: contraste,
       peso de imágenes (1,1 MB al abrir en celular; AVIF ahorraría ~18 %), y prueba en un celular real
       con WhatsApp.
@@ -218,7 +221,7 @@ y confirmar si los precios mostrados (referencia eShop) son los de venta (D5).
 | D1 | ~~¿País de venta?~~ | **Resuelta:** Colombia (`es-CO`, `$ 239.900`). |
 | D2 | Nombre de la tienda, logo y número de WhatsApp | "Tu Tienda", `573001234567` (falso). |
 | D3 | ¿Volver a poner las píldoras rojas "NUEVO" de la referencia? | No (ver `diseno.md` §6). Los destacados se distinguen por tamaño. |
-| D4 | ~~¿Dónde se publicará?~~ | **Resuelta:** Cloudflare Workers, Worker `sdtechimport` (dirección `*.workers.dev`). Cuando funcione, va en `tienda.ts → url`. El repo es privado: GitHub Pages exige plan de pago; Cloudflare Pages y Netlify publican gratis desde repo privado y leen `.nvmrc`. |
+| D4 | ~~¿Dónde se publicará?~~ | **Resuelta:** Cloudflare Workers, https://sdtechimport.madaeauchija.workers.dev (en `tienda.ts → url`). Si se agrega un dominio propio, cambiar `url` y regenerar el QR. El repo es privado: GitHub Pages exige plan de pago; Cloudflare Pages y Netlify publican gratis desde repo privado y leen `.nvmrc`. |
 | D5 | ¿Los precios de venta son los de referencia de la eShop? `productos.json` dice que **no** representan tu precio. | Se muestran los de referencia. Para usar el tuyo, añade `"precio_venta_cop"` a cada producto. |
 | D6 | ¿Marcar los juegos de Switch 1 como "Switch 1 y 2"? (casi todos corren en Switch 2) | No: van en la sección "Switch 1", tal como dice `plataforma`. |
 | D7 | Ring Fit Adventure no tiene precio digital y necesita el accesorio Ring-Con. ¿Se vende? | Se muestra con "Consultar" y abre WhatsApp para preguntar; no entra al pedido. |
