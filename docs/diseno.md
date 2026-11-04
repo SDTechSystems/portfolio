@@ -7,7 +7,7 @@
 
 **La página es un tablero de mosaicos planos encajados borde a borde**, como el póster
 original de la tienda, pero ordenado. Cada mosaico es **una sola cosa**: el nombre de la
-tienda o un juego con su precio. El tablero empieza en la cabecera roja y termina en
+tienda o un juego con su precio (y la pestaña de su consola). El tablero empieza en la cabecera roja y termina en
 "¿No ves tu juego?".
 
 **Sin texto que explique la pantalla.** Nada de eslóganes, ayudas, beneficios ni etiquetas
@@ -27,10 +27,10 @@ Definidos en `:root` (`Layout.astro`). Usar **solo** estos.
 | `--mosaico` | `#ffffff` | Fondo de cada mosaico normal. |
 | `--tinta` | `#121214` | Texto; fondo de la barra de pedido y de mosaicos seleccionados. |
 | `--suave` | `#5b5b63` | La línea bajo el nombre (consola y/o nota). Nada más. |
-| `--rojo` | `#e60012` | Acento: cabecera, "¿No ves tu juego?", ✓ de seleccionado, botón de la barra. |
+| `--rojo` | `#e60012` | Acento: cabecera, "¿No ves tu juego?", pestaña de Switch 2, ✓ de seleccionado, botón de la barra. |
 
 Proporción: el suelo gris claro domina, los mosaicos blancos llevan el contenido, el rojo
-aparece en **4 lugares fijos** (cabecera, "¿No ves tu juego?", ✓, acción del pedido).
+aparece en **5 lugares fijos** (cabecera, "¿No ves tu juego?", pestaña de Switch 2, ✓, acción del pedido).
 No agregar rojo en otros sitios.
 
 **Tipografía:** una sola familia, **Schibsted Grotesk**, pesos **500** y **800**
@@ -42,7 +42,8 @@ No agregar rojo en otros sitios.
 | Títulos de sección `h2` | `clamp(26px, 6.4vw, 44px)` | 800 | tracking -0.03em |
 | Precio | 22px (destacado grande: 30px) | 800 | tracking -0.02em, **sin** `tabular-nums` (deja huecos en la coma) |
 | Nombre del juego | 14px (grande: 18px/800) | 500 | máximo 2 líneas con `line-clamp` |
-| Consola / nota | 13px | 500 | color `--suave` |
+| Nota ("Necesita Ring-Con") | 13px | 500 | color `--suave` |
+| Pestaña de consola | logo 17px; "2" 17px | 800 | 32px de alto, relleno 0 9px |
 | "¿No ves tu juego?" | 22px | 800 | tracking -0.02em |
 
 ## 3. Retícula
@@ -60,7 +61,7 @@ Tamaños de mosaico (clases) y cuántas columnas ocupan:
 | Mosaico | Clase | Celular | Escritorio |
 |---|---|---|---|
 | Cabecera (tienda + h1) | `.cabecera` | 6 | 10 |
-| Título de sección ("Switch 2", "Switch 1", "DLC y updates") | `h2` | 6 (sin fondo) | 10 |
+| Título de sección (solo "DLC y updates") | `h2` | 6 (sin fondo) | 10 |
 | Destacado grande | `<Mosaico tamano="grande">` | 6, imagen 2:1 | 6 × 2 filas, imagen llena el alto |
 | Destacados chicos | `<Mosaico tamano="medio">` | 3 | 4, imagen 2.1:1 |
 | Juego / DLC / update | `<Mosaico>` | 3 (2 por fila) | 2 (5 por fila) |
@@ -70,10 +71,11 @@ Estructura de un mosaico de juego (no cambiar el orden):
 
 ```
 ┌──────────────────────┐
+│[⊞2]                  │  .consola: pestaña pegada a la esquina (logo; Switch 2 en rojo + "2")
 │ portada 16:9         │  .img  (object-fit: cover)
 ├──────────────────────┤
 │ Nombre (2 líneas)    │  .n
-│ Switch 1             │  .c   consola (si la sección no la dice) · nota
+│ Necesita Ring-Con    │  .c   solo si hay nota
 │ $ 279.900        (+) │  strong (abajo del todo); "+"/"✓" sale de aria-pressed
 └──────────────────────┘
 ```
@@ -84,8 +86,11 @@ El precio va **debajo** de la portada, nunca encima de la imagen.
 
 - **Se puede elegir** (`[aria-pressed]`, lo pone el script): círculo de 28px en `--suelo`
   con "+" a la derecha del precio. Sin JavaScript no aparece.
-- **Seleccionado** (`[aria-pressed="true"]`): mosaico en `--tinta`, texto blanco, consola/nota en
-  `#b9b9c2`, círculo rojo con ✓. Es la única señal: no agregar bordes ni sombras.
+- **Pestaña de consola:** esquina sólida arriba a la izquierda, radio solo en la esquina de
+  abajo a la derecha (8px). Switch 1: fondo del mosaico (`--fondo`) y logo en tinta; Switch 2:
+  `--rojo`, logo y "2" en blanco. Sin sombra ni borde.
+- **Seleccionado** (`[aria-pressed="true"]`): mosaico en `--tinta` (la pestaña de Switch 1 lo
+  sigue porque usa `--fondo`), texto blanco, nota en `#b9b9c2`, círculo rojo con ✓. Es la única señal: no agregar bordes ni sombras.
 - **Al tocar:** `transform: scale(.98)` (150 ms).
 - **Barra de pedido** (`Pedido.astro`): píldora negra fija abajo con el total, "Vaciar" y el
   botón rojo "Pedir por WhatsApp". Hasta 420px "Vaciar" se oculta (se vacía tocando los
@@ -96,13 +101,13 @@ El precio va **debajo** de la portada, nunca encima de la imagen.
 
 ## 5. Textos
 
-Todo el texto de la página: nombre de la tienda, **"Juegos para Switch 1 y 2"**, secciones
-"Switch 2" / "Switch 1", nombres, consola/nota, precios, "¿No ves tu juego?", y en la barra
-"Vaciar" / "Pedir por WhatsApp". Con DLC visibles, además "DLC y updates" y "¿Buscas otro
-DLC?". **No agregar más.**
+Todo el texto de la página: nombre de la tienda, **"Juegos para Switch 1 y 2"**, nombres,
+nota, precios, "¿No ves tu juego?", y en la barra "Vaciar" / "Pedir por WhatsApp". Con DLC
+visibles, además "DLC y updates" y "¿Buscas otro DLC?". **No agregar más.**
 
-**La consola siempre se distingue, y una sola vez:** si el título de la sección la dice, el
-mosaico no la repite (`conConsola={false}`); si no (destacados, DLC), va bajo el nombre.
+**La consola siempre se distingue, con la pestaña y no con texto:** cada mosaico, en cualquier
+lugar del tablero, lleva la pestaña de su consola. El lector de pantalla la lee como
+"Nintendo Switch 1/2".
 
 - Tono: tuteo, frases cortas, español neutro latinoamericano. Botones que dicen lo que
   hacen ("Pedir por WhatsApp", "Vaciar"). Nada de "Descubre", "Increíble", emojis.
@@ -114,14 +119,14 @@ mosaico no la repite (`conConsola={false}`); si no (destacados, DLC), va bajo el
 | Degradados (fondos, botones, texto) | Colores planos de los tokens o la portada. |
 | Sombras en elementos quietos | Cambio de tono entre suelo y mosaico. La única sombra es la barra de pedido. |
 | Bordes finos o líneas divisorias de 1px | Separación de 8px del tablero. |
-| Píldoras/etiquetas sobre títulos ("NUEVO", "HOT", "-20%") | Decirlo en el título de la sección ("Estrenos"). *Decisión abierta D3 en el spec.* |
+| Píldoras/etiquetas sobre títulos ("NUEVO", "HOT", "-20%") | Destacar por tamaño. *Decisión abierta D3 en el spec.* La **única** marca sobre la portada es la pestaña de consola. |
 | Letras chiquitas en MAYÚSCULAS con espaciado | Texto normal, legible, en minúsculas con mayúscula inicial. |
 | Monospace, numeración 01/02/03 | Orden por posición y tamaño. |
 | Más de una familia tipográfica, o tamaños intermedios nuevos | La tabla del §2. |
 | Emojis, íconos decorativos, formas de relleno | Una portada real o nada. |
 | Títulos de más de 2 líneas | Recortar palabras; luego ensanchar; el tamaño, al final. |
 | Una palabra del título con otro color o cursiva | Un color, un peso. |
-| Eslóganes, textos de ayuda, beneficios, etiquetas que se repiten en todos los mosaicos | Cambiar el diseño hasta que no hagan falta (ej.: agrupar por consola en vez de etiquetar cada mosaico). |
+| Eslóganes, textos de ayuda, beneficios, etiquetas que se repiten en todos los mosaicos | Cambiar el diseño hasta que no hagan falta (ej.: la pestaña con logo en vez de escribir "Switch 1" en cada mosaico). |
 | Mosaicos vacíos o de relleno | Cada mosaico tiene contenido real; si sobra hueco, lo cubre `grid-auto-flow: dense` o un mosaico "¿No ves tu juego?". |
 
 ## 7. Cómo extender sin romper el diseño
@@ -137,6 +142,8 @@ mosaico no la repite (`conConsola={false}`); si no (destacados, DLC), va bajo el
   sobre rojo, alto máx. 40px. No usar el logo de Nintendo.
 - **Ofertas** (si el dueño las pide): precio anterior tachado en `--suave` a 14px junto
   al precio; sin píldora de "%".
+- **Logo de consola:** `src/assets/switch.svg` (`fill="currentColor"`). Para usar el oficial,
+  reemplazar ese archivo por uno cuadrado de una sola tinta; el "2" de Switch 2 lo pone `Mosaico.astro`.
 
 ## 8. Lista de revisión visual (antes de cada push)
 

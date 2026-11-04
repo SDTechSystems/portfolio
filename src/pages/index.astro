@@ -22,8 +22,8 @@ const cierreFila = (n: number) => `--movil:${6 - 3 * (n % 2)};--escritorio:${10 
 
   {secciones.map((s) => (
     <>
-      <h2>{s.titulo}</h2>
-      {s.productos.map((p) => <Mosaico p={p} conConsola={!s.consola} />)}
+      {s.titulo && <h2>{s.titulo}</h2>}
+      {s.productos.map((p) => <Mosaico p={p} />)}
       <a class="mas" href={whatsapp(s.mensaje)} target="_blank" rel="noopener" style={cierreFila(s.productos.length)}>{s.mas}</a>
     </>
   ))}

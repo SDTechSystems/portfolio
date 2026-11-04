@@ -48,14 +48,12 @@ export const destacados = tienda.destacados
   .map((id) => productos.find((p) => p.id === id))
   .filter((p): p is Producto => !!p);
 
-/** Secciones bajo los destacados. `consola`: la sección ya la dice, así que sus mosaicos no la repiten.
- *  Un juego con versión para cada consola aparece en las dos secciones, cada una con su precio. */
-export interface Seccion { titulo: string; consola?: Consola; productos: Producto[]; mas: string; mensaje: string }
+/** Bloques bajo los destacados. La consola la marca la pestaña de cada mosaico, así que los juegos
+ *  van juntos y sin título; un juego con versión para cada consola son dos mosaicos. */
+export interface Seccion { titulo?: string; productos: Producto[]; mas: string; mensaje: string }
 const resto = productos.filter((p) => !tienda.destacados.includes(p.id));
-const juegosDe = (c: Consola) => resto.filter((p) => p.tipo === 'Juego' && p.consola === c);
 export const secciones: Seccion[] = [
-  { titulo: 'Switch 2', consola: 'Switch 2' as const, productos: juegosDe('Switch 2'), mas: '¿No ves tu juego?', mensaje: 'Hola, busco un juego de Switch 2' },
-  { titulo: 'Switch 1', consola: 'Switch 1' as const, productos: juegosDe('Switch 1'), mas: '¿No ves tu juego?', mensaje: 'Hola, busco un juego de Switch 1' },
+  { productos: resto.filter((p) => p.tipo === 'Juego'), mas: '¿No ves tu juego?', mensaje: 'Hola, busco un juego' },
   { titulo: 'DLC y updates', productos: tienda.mostrarDlcUpdates ? resto.filter((p) => p.tipo !== 'Juego') : [], mas: '¿Buscas otro DLC?', mensaje: 'Hola, busco un DLC' },
 ].filter((s) => s.productos.length > 0);
 

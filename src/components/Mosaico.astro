@@ -1,16 +1,18 @@
 ---
-// Un producto: portada, nombre, consola/nota y precio. Tocarlo lo suma al pedido (Pedido.astro).
-// conConsola=false cuando el título de la sección ya dice la consola.
+// Un producto: portada con la pestaña de consola, nombre, nota y precio. Tocarlo lo suma al pedido (Pedido.astro).
+// Pestaña: logo de Switch (src/assets/switch.svg); en Switch 2, seguido de "2" y en rojo.
 // Sin portada queda el fondo gris de .img. alt vacío: el nombre ya está escrito debajo.
 import { Image } from 'astro:assets';
+import LogoSwitch from '../assets/switch.svg';
 import { precio, item, type Producto } from '../lib/catalogo';
-interface Props { p: Producto; tamano?: 'grande' | 'medio'; conConsola?: boolean }
-const { p, tamano, conConsola = true } = Astro.props;
-const linea = [conConsola && p.consola, p.nota].filter(Boolean).join(' · ');
+interface Props { p: Producto; tamano?: 'grande' | 'medio' }
+const { p, tamano } = Astro.props;
+const dos = p.consola === 'Switch 2';
 const sizes = { grande: '(min-width: 760px) 60vw, 100vw', medio: '(min-width: 760px) 40vw, 50vw' }[tamano ?? ''] ?? '(min-width: 760px) 20vw, 50vw';
 ---
 <a class:list={['mosaico', tamano]} {...item(p)}>
   <div class="img">
+    <span class:list={['consola', { dos }]} role="img" aria-label={`Nintendo ${p.consola}`}><LogoSwitch />{dos && <b>2</b>}</span>
     {p.imagen && (
       <Image
         src={p.imagen}
@@ -26,15 +28,20 @@ const sizes = { grande: '(min-width: 760px) 60vw, 100vw', medio: '(min-width: 76
   </div>
   <div class="pie">
     <span class="n">{p.nombre}</span>
-    {linea && <span class="c">{linea}</span>}
+    {p.nota && <span class="c">{p.nota}</span>}
     <strong>{precio(p.precio)}</strong>
   </div>
 </a>
 
 <style>
-  .mosaico { grid-column: span 3; display: flex; flex-direction: column; border-radius: 8px; overflow: hidden; background: var(--mosaico); cursor: pointer; transition: transform .15s, background-color .15s; }
+  .mosaico { --fondo: var(--mosaico); grid-column: span 3; display: flex; flex-direction: column; border-radius: 8px; overflow: hidden; background: var(--fondo); cursor: pointer; transition: transform .15s, background-color .15s; }
   .mosaico:active { transform: scale(.98); }
   .img { aspect-ratio: 16 / 9; background: #d6d6dc; position: relative; }
+  /* Pestaña de consola: esquina sólida pegada al borde; Switch 1 del color del mosaico, Switch 2 en rojo. */
+  .consola { position: absolute; top: 0; left: 0; z-index: 1; height: 32px; padding: 0 9px; display: flex; align-items: center; gap: 3px; border-radius: 0 0 8px 0; background: var(--fondo); font-size: 17px; line-height: 1; transition: background-color .15s; }
+  .consola svg { width: 1em; height: 1em; }
+  .consola b { font-weight: 800; letter-spacing: -.02em; }
+  .consola.dos { background: var(--rojo); color: #fff; }
   img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
   .pie { flex: 1; display: flex; flex-direction: column; gap: 2px; padding: 10px 12px 12px; }
   .n { font-size: 14px; font-weight: 500; line-height: 1.2; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
@@ -43,7 +50,7 @@ const sizes = { grande: '(min-width: 760px) 60vw, 100vw', medio: '(min-width: 76
 
   /* "+" / "✓": dice que el mosaico se suma al pedido. Solo aparece si el script de Pedido lo activó. */
   [aria-pressed] strong::after { content: '+'; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: var(--suelo); font-size: 20px; font-weight: 500; letter-spacing: 0; }
-  [aria-pressed='true'] { background: var(--tinta); color: #fff; }
+  [aria-pressed='true'] { --fondo: var(--tinta); color: #fff; }
   [aria-pressed='true'] .c { color: #b9b9c2; }
   [aria-pressed='true'] strong::after { content: '✓'; background: var(--rojo); font-size: 15px; }
 
@@ -61,5 +68,5 @@ const sizes = { grande: '(min-width: 760px) 60vw, 100vw', medio: '(min-width: 76
     .medio { grid-column: span 4; }
     .medio .img { aspect-ratio: 2.1 / 1; }
   }
-  @media (prefers-reduced-motion: reduce) { .mosaico { transition: none; } }
+  @media (prefers-reduced-motion: reduce) { .mosaico, .consola { transition: none; } }
 </style>
