@@ -17,10 +17,11 @@ Las reglas que se validan están en `src/lib/catalogo.ts`; si este archivo y el 
 
 | Campo | Regla |
 |---|---|
-| `id` | minúsculas y guiones, único (ej. `mario-kart-world`). Si el juego tiene versión para las dos consolas, son **dos entradas** con ids distintos (ej. sufijo `-switch-2`). |
+| `id` | minúsculas y guiones, único (ej. `mario-kart-world`). Si el juego tiene versión para las dos consolas, son **dos entradas** con ids distintos (ej. sufijo `-switch-2`; paquete de mejora: `-mejora`) y el mismo `grupo`. |
+| `grupo` | solo si hay varias versiones del juego: mismo texto (minúsculas y guiones) en todas, ej. `"zelda-totk"`. Se dibujan en un solo mosaico; la portada sale de la versión de Switch 2. |
 | `titulo` | nombre oficial. |
 | `plataforma` | exactamente `"Nintendo Switch"` o `"Nintendo Switch 2"`. |
-| `tipo_producto` | `"juego_digital"`, `"juego_con_accesorios"` (muestra "Necesita Ring-Con"), `"dlc"` o `"update"`. |
+| `tipo_producto` | `"juego_digital"`, `"juego_con_accesorios"` (muestra "Necesita Ring-Con"), `"dlc"`, `"update"` o `"paquete_mejora"` (con `"plataforma": "Nintendo Switch 2"` y `grupo`). |
 | `precio_referencia_eshop_colombia_cop` | entero en pesos **sin puntos** (`239900`, no `239.900`), o `null` → se muestra "Consultar". |
 | `precio_venta_cop` | opcional; si existe, es el precio que se muestra (decisión D5 del spec). |
 | `edicion`, `estado_precio`, `puesto_ranking` | copia el formato de las entradas vecinas (`"base"`, `"referencia"`, siguiente número). |

@@ -29,7 +29,8 @@ Cada juego es un bloque como este:
 | `id` | Nombre único en minúsculas con guiones. Igual al nombre de la portada. |
 | `titulo` | El nombre que ve el cliente. |
 | `plataforma` | `"Nintendo Switch"` (Switch 1) o `"Nintendo Switch 2"`. |
-| `tipo_producto` | `"juego_digital"`, `"juego_con_accesorios"` (muestra "Necesita Ring-Con"), `"dlc"` o `"update"`. |
+| `tipo_producto` | `"juego_digital"`, `"juego_con_accesorios"` (muestra "Necesita Ring-Con"), `"dlc"`, `"update"` o `"paquete_mejora"` (ver abajo). |
+| `grupo` | Opcional. Solo para juegos con versión de Switch 1 y de Switch 2 (ver abajo). |
 | `precio_venta_cop` | **Tu precio**, sin puntos: `299900`. Opcional; si no está, se usa el de referencia. |
 | `precio_referencia_eshop_colombia_cop` | Precio de la eShop. `null` muestra "Consultar" y el juego no entra al pedido. |
 | `imagen` | Opcional. Sin imagen, la portada queda gris. |
@@ -38,6 +39,14 @@ Cada juego es un bloque como este:
 - **Agregar un juego:** copia un bloque, cambia los datos y pon su portada (imagen 16:9, ej. 960×540)
   en `src/assets/Catalogo_Nintendo_Switch_Colombia/imagenes/<id>.webp`.
 - **Quitar un juego:** borra su bloque (y las comas sobrantes).
+- **Juego con versión de Switch 1 y de Switch 2** (y paquete de mejora): pon un bloque por cada
+  versión que vendes, cada uno con su `id` y su precio, y en todos el mismo `"grupo"` (ej.
+  `"grupo": "zelda-totk"`). La página los muestra en **un solo mosaico** con un precio por versión.
+  - Versión de Switch 2: `"plataforma": "Nintendo Switch 2"`, `"tipo_producto": "juego_digital"`.
+  - Paquete de mejora (pasa el juego de Switch 1 a Switch 2): `"plataforma": "Nintendo Switch 2"`,
+    `"tipo_producto": "paquete_mejora"`.
+  - El mosaico usa la portada de la versión de Switch 2: ponle `imagen` a ese bloque.
+  - Ejemplo en el archivo: los dos Zelda.
 
 ### Datos de la tienda: `src/data/tienda.ts`
 

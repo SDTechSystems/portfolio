@@ -1,23 +1,35 @@
 ---
-// Un producto: portada con la pestaña de consola, nombre, nota y precio. Tocarlo lo suma al pedido (Pedido.astro).
+// Un juego: portada con la pestaña de consola, nombre, nota y precio. Tocarlo lo suma al pedido (Pedido.astro).
 // Pestaña: logo de Switch (src/assets/switch.svg); en Switch 2, seguido de "2" y en rojo.
+// Juego con varias versiones (Switch 1, Switch 2, paquete de mejora): un solo mosaico ancho con la pestaña
+// doble y una fila por versión; cada fila es su propio botón con su precio y su "+".
 // Sin portada queda el fondo gris de .img. alt vacío: el nombre ya está escrito debajo.
 import { Image } from 'astro:assets';
 import LogoSwitch from '../assets/switch.svg';
-import { precio, item, type Producto } from '../lib/catalogo';
-interface Props { p: Producto; tamano?: 'grande' | 'medio' }
-const { p, tamano } = Astro.props;
-const dos = p.consola === 'Switch 2';
-const sizes = { grande: '(min-width: 760px) 60vw, 100vw', medio: '(min-width: 760px) 40vw, 50vw' }[tamano ?? ''] ?? '(min-width: 760px) 20vw, 50vw';
+import { precio, item, type Ficha } from '../lib/catalogo';
+// lleno: destacado chico a todo el ancho en celular, para acompañar al otro si este tiene varias versiones.
+interface Props { f: Ficha; tamano?: 'grande' | 'medio'; lleno?: boolean }
+const { f, tamano, lleno } = Astro.props;
+const [unica] = f.versiones;
+const varias = f.versiones.length > 1;
+const dos = !varias && unica.consola === 'Switch 2';
+// En celular .ancho y .lleno ocupan todo el ancho; desde 1100px la portada de .ancho es el 45 % de 4 columnas.
+const sizes = tamano === 'grande' ? '(min-width: 760px) 60vw, 100vw'
+  : varias ? '(min-width: 1100px) 18vw, (min-width: 760px) 40vw, 100vw'
+  : tamano === 'medio' ? `(min-width: 760px) 40vw, ${lleno ? '100vw' : '50vw'}`
+  : '(min-width: 760px) 20vw, 50vw';
+const Caja = varias ? 'div' : 'a';
 ---
-<a class:list={['mosaico', tamano]} {...item(p)}>
+<Caja class:list={['mosaico', tamano, { ancho: varias, lleno }]} {...(varias ? {} : item(unica))}>
   <div class="img">
-    <span class:list={['consola', { dos }]} role="img" aria-label={`Nintendo ${p.consola}`}><LogoSwitch />{dos && <b>2</b>}</span>
-    {p.imagen && (
+    {varias
+      ? <span class="consola doble" role="img" aria-label="Nintendo Switch 1 y Switch 2"><span><LogoSwitch /></span><span class="dos"><LogoSwitch /><b>2</b></span></span>
+      : <span class:list={['consola', { dos }]} role="img" aria-label={`Nintendo ${unica.consola}`}><LogoSwitch />{dos && <b>2</b>}</span>}
+    {f.imagen && (
       <Image
-        src={p.imagen}
+        src={f.imagen}
         alt=""
-        widths={[320, 480, 640, 960].filter((w) => w <= p.imagen!.width)}
+        widths={[320, 480, 640, 960].filter((w) => w <= f.imagen!.width)}
         sizes={sizes}
         format="webp"
         quality={78}
@@ -27,11 +39,25 @@ const sizes = { grande: '(min-width: 760px) 60vw, 100vw', medio: '(min-width: 76
     )}
   </div>
   <div class="pie">
-    <span class="n">{p.nombre}</span>
-    {p.nota && <span class="c">{p.nota}</span>}
-    <strong>{precio(p.precio)}</strong>
+    <span class="n">{f.nombre}</span>
+    {f.nota && <span class="c">{f.nota}</span>}
+    {varias
+      ? (
+        <div class="versiones">
+          {f.versiones.map((v) => (
+            <a class="version" {...item(v)}>
+              <span class="solo-lector">{f.nombre}, </span>
+              {v.tipo === 'Mejora'
+                ? <span class="sello" role="img" aria-label="Paquete de mejora a Nintendo Switch 2">Mejora a <LogoSwitch /><b>2</b></span>
+                : <span class:list={['sello', { dos: v.consola === 'Switch 2' }]} role="img" aria-label={`Nintendo ${v.consola}`}><LogoSwitch />{v.consola === 'Switch 2' && <b>2</b>}</span>}
+              <strong>{precio(v.precio)}</strong>
+            </a>
+          ))}
+        </div>
+      )
+      : <strong>{precio(unica.precio)}</strong>}
   </div>
-</a>
+</Caja>
 
 <style>
   .mosaico { --fondo: var(--mosaico); grid-column: span 3; display: flex; flex-direction: column; border-radius: 8px; overflow: hidden; background: var(--fondo); cursor: pointer; transition: transform .15s, background-color .15s; }
@@ -41,7 +67,10 @@ const sizes = { grande: '(min-width: 760px) 60vw, 100vw', medio: '(min-width: 76
   .consola { position: absolute; top: 0; left: 0; z-index: 1; height: 32px; padding: 0 9px; display: flex; align-items: center; gap: 3px; border-radius: 0 0 8px 0; background: var(--fondo); font-size: 17px; line-height: 1; transition: background-color .15s; }
   .consola svg { width: 1em; height: 1em; }
   .consola b { font-weight: 800; letter-spacing: -.02em; }
-  .consola.dos { background: var(--rojo); color: #fff; }
+  .consola.dos, .doble .dos { background: var(--rojo); color: #fff; }
+  /* Pestaña doble: Switch 1 del color del mosaico y Switch 2 en rojo, pegadas. */
+  .consola.doble { padding: 0; gap: 0; overflow: hidden; }
+  .doble > span { height: 100%; padding: 0 9px; display: flex; align-items: center; gap: 3px; }
   img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
   .pie { flex: 1; display: flex; flex-direction: column; gap: 2px; padding: 10px 12px 12px; }
   .n { font-size: 14px; font-weight: 800; line-height: 1.2; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
@@ -54,7 +83,25 @@ const sizes = { grande: '(min-width: 760px) 60vw, 100vw', medio: '(min-width: 76
   [aria-pressed='true'] .c { color: #b9b9c2; }
   [aria-pressed='true'] strong::after { content: '✓'; content: '✓' / ''; background: var(--rojo); font-size: 15px; }
   /* Sin precio ("Consultar"): el mosaico abre WhatsApp en vez de sumarse al pedido; la flecha lo distingue del "+". */
-  .mosaico[target] strong::after { content: '↗'; content: '↗' / ''; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: var(--suelo); font-size: 16px; font-weight: 500; letter-spacing: 0; }
+  [target] strong::after { content: '↗'; content: '↗' / ''; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: var(--suelo); font-size: 16px; font-weight: 500; letter-spacing: 0; }
+
+  /* Juego con varias versiones: ancho de dos mosaicos (las filas de precio no caben en uno a 320px). */
+  .ancho { grid-column: span 6; cursor: auto; }
+  .ancho:active { transform: none; }
+  .ancho .img, .lleno .img { aspect-ratio: 2.4 / 1; }
+  .lleno { grid-column: span 6; }
+  /* Retícula común (subgrid): los precios empiezan en la misma columna aunque los sellos midan distinto. */
+  .versiones { margin-top: auto; padding-top: 6px; display: grid; grid-template-columns: auto 1fr; gap: 4px 10px; }
+  .version { --fondo: var(--mosaico); min-height: 44px; margin: 0 -6px; padding: 4px 6px; border-radius: 6px; grid-column: 1 / -1; display: grid; grid-template-columns: subgrid; align-items: center; background: var(--fondo); cursor: pointer; transition: transform .15s, background-color .15s; }
+  .version:active { transform: scale(.98); }
+  .version[aria-pressed='true'] { --fondo: var(--tinta); }
+  .version strong { margin: 0; padding: 0; }
+  /* Sello de cada versión: como la pestaña, en pequeño (Switch 2 en rojo). */
+  .sello { justify-self: end; height: 28px; padding: 0 8px; border-radius: 6px; display: flex; align-items: center; gap: 3px; background: var(--suelo); color: var(--tinta); font-size: 13px; font-weight: 800; line-height: 1; }
+  .sello svg { width: 17px; height: 17px; }
+  .sello b { font-size: 17px; font-weight: 800; letter-spacing: -.02em; }
+  .sello.dos { background: var(--rojo); color: #fff; }
+  .solo-lector { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 
   .grande { grid-column: span 6; }
   .grande .img { aspect-ratio: 2 / 1; }
@@ -64,6 +111,8 @@ const sizes = { grande: '(min-width: 760px) 60vw, 100vw', medio: '(min-width: 76
 
   @media (min-width: 760px) {
     .mosaico { grid-column: span 2; }
+    .ancho { grid-column: span 4; }
+    .ancho .img { aspect-ratio: 3 / 1; }
     .grande { grid-column: span 6; grid-row: span 2; }
     .grande .img { aspect-ratio: auto; flex: 1; }
     .grande .pie { flex: none; }
@@ -72,5 +121,11 @@ const sizes = { grande: '(min-width: 760px) 60vw, 100vw', medio: '(min-width: 76
        182px = cabecera (183) + 3 separaciones de 8 + 2 pies de 75 + margen de 12, repartido entre 2 filas. */
     .medio .img { aspect-ratio: 2.1 / 1; max-height: max(140px, calc(50svh - 182px)); }
   }
-  @media (prefers-reduced-motion: reduce) { .mosaico, .consola { transition: none; } }
+  /* Juego con varias versiones en escritorio ancho: portada a la izquierda y versiones a la derecha,
+     así mide lo mismo que los mosaicos de su fila y no los estira. Abajo de 1100px las filas no caben al lado. */
+  @media (min-width: 1100px) {
+    .ancho:not(.grande) { flex-direction: row; }
+    .ancho:not(.grande) .img { flex: 0 0 45%; aspect-ratio: auto; max-height: none; }
+  }
+  @media (prefers-reduced-motion: reduce) { .mosaico, .consola, .version { transition: none; } }
 </style>

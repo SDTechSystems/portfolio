@@ -45,8 +45,9 @@ en menos de 30 segundos.
 
 - **F1. Orden:** 3 destacados en grande (`tienda.ts → destacados`), luego el resto de juegos
   juntos y sin título, en el orden del archivo. "DLC y updates" es la única sección con título
-  (oculta hoy). Un juego con versión para cada consola son dos entradas en `productos.json`
-  y dos mosaicos, cada uno con su pestaña y su precio.
+  (oculta hoy). Un juego con versión para cada consola es **un solo mosaico** con un precio por
+  versión (Switch 1, Switch 2 y paquete de mejora): en `productos.json` cada versión es su propia
+  entrada y comparten `"grupo"`. Cada precio se elige por separado y llega al pedido con su consola.
 - **F2. Arma tu pedido:** cada precio lleva un "+"; tocar el mosaico lo marca (✓) y lo suma
   a una barra fija inferior ("$ 1.648 · Vaciar · Pedir por WhatsApp"). El "+" sustituye al
   texto de ayuda. El botón envía un solo mensaje:
@@ -122,7 +123,8 @@ Cada entrada de `productos` (campos que usa la web; el resto se ignora):
   "id": "mario-kart-world",          // único, kebab-case
   "titulo": "Mario Kart World",
   "plataforma": "Nintendo Switch 2", // "Nintendo Switch" → "Switch 1"; "Nintendo Switch 2" → "Switch 2"
-  "tipo_producto": "juego_digital",  // "juego_digital" | "juego_con_accesorios" (añade "Necesita Ring-Con") | "dlc" | "update"
+  "tipo_producto": "juego_digital",  // "juego_digital" | "juego_con_accesorios" (añade "Necesita Ring-Con") | "dlc" | "update" | "paquete_mejora"
+  "grupo": "zelda-totk",              // OPCIONAL: igual en las versiones de un mismo juego → un mosaico con un precio por versión
   "precio_venta_cop": 299900,        // OPCIONAL: tu precio. Si falta, se usa el de referencia
   "precio_referencia_eshop_colombia_cop": 319900, // null → muestra "Consultar" y no entra al pedido
   "imagen": { "ruta": "imagenes/mario-kart-world.webp" } // opcional; sin imagen: bloque de color
@@ -133,6 +135,15 @@ Cada entrada de `productos` (campos que usa la web; el resto se ignora):
 si un `id` no es kebab-case o está repetido, falta `titulo`, `plataforma` o `tipo_producto` no son
 uno de los valores de arriba, un precio no es entero positivo o `null`, la portada no existe, o en
 `tienda.ts` los destacados no son 3 ids existentes y distintos o el WhatsApp no son 11–15 dígitos.
+También revisa los grupos: cada `grupo` lleva el juego de Switch 1 y al menos otra versión, como
+máximo uno de cada clase (Switch 1, Switch 2, paquete de mejora); el `paquete_mejora` va con
+`"plataforma": "Nintendo Switch 2"` y siempre en un grupo; DLC y updates no se agrupan; y dos destacados
+no pueden ser versiones del mismo juego.
+
+**Versiones de un juego** (ej. Zelda: Tears of the Kingdom): una entrada por cosa que se vende, con
+el mismo `grupo`. El mosaico usa el nombre y la nota del juego de Switch 1, la portada de la versión
+de Switch 2 si la tiene (si no, la primera que haya) y va en el lugar de la primera entrada del
+grupo. Un destacado puede nombrar cualquiera de sus ids.
 
 Orden: el del archivo (por `puesto_ranking`). Los **destacados** se eligen en `tienda.ts → destacados`
 (lista de ids, en orden: el primero es la portada grande). El diseño está pensado para
@@ -153,7 +164,7 @@ volver de WhatsApp; si el almacenamiento está bloqueado, todo funciona igual si
 
 ## 5. Estado (actualizar al cerrar cada sesión)
 
-**Última actualización:** 2026-11-04 (crítica de diseño), rama `diseno/critica` (sale de `main`).
+**Última actualización:** 2026-11-04 (versiones de un juego), rama `catalogo/dos-versiones` (sale de `main`).
 
 Hecho:
 - [x] Entrevista y requisitos (sección 3).
@@ -242,7 +253,28 @@ Hecho:
       mosaicos, y rompe `diseno.md` §8); insignias "WINNER" de 3 portadas y caja de Ring Fit (hace falta otra
       imagen; `assets.nintendo.com` está bloqueado en el entorno).
 
-Pendiente de datos del dueño: confirmar si los precios mostrados (referencia eShop) son los de venta (D5);
+- [x] Juegos con varias versiones en un solo mosaico (rama `catalogo/dos-versiones`): campo `grupo` y
+      `tipo_producto: "paquete_mejora"` en `productos.json`; mosaico ancho con pestaña doble y una fila por
+      versión (sello de consola o "Mejora a ⊞2", precio y su propio "+"). Cargados los dos Zelda (Switch 2
+      Edition y paquete de mejora) **con precio `null`** ("Consultar") y con la portada de Switch 1: faltan los
+      precios y las portadas de Switch 2. Sin grupos, el HTML es igual al de `main` (solo cambia el orden
+      de los atributos). Verificado a 320, 390, 1000, 1366, 1440 y 1920 px: sin scroll horizontal, sin
+      filas que se salgan, precios alineados; los 3 destacados con su primer precio visibles sin
+      desplazar a 1366×768, 1440×900 y 1920×1080 (todas las filas de Zelda TotK también). Pedido: elegir
+      Switch 1 de dos juegos → `$ 519.800` y el mensaje dice "(Juego · Switch 1)"; las filas "Consultar"
+      no se suman. Validación probada con 5 errores a propósito: se reportan los 5. axe: 0 fallos a 390 y
+      1440 px; cada fila se lee como "Nombre del juego, Nintendo Switch 2, $ …". Retícula: el cierre
+      "¿No ves tu juego?" lo calcula `lib/reticula.ts` (simula `grid-auto-flow: dense`); con 21 chicos da
+      lo mismo que la fórmula anterior (3 y 8 columnas).
+      Contrapartidas: en celular un juego con versiones ocupa el ancho de 2 mosaicos (las filas de precio
+      no caben en uno a 320 px) y, si es un destacado chico, el otro destacado chico también va a todo el
+      ancho para que no se cuele un juego entre ellos; entre 760 y 1099 px el mosaico ancho es más alto
+      que sus vecinos y los estira (~130 px en blanco a 1000 px); si el archivo termina con varios juegos
+      con versiones, puede quedar un hueco de un mosaico (lo permite §8); un grupo con solo Switch 1 +
+      paquete de mejora muestra igual la pestaña doble (el juego se puede jugar en Switch 2 con la mejora).
+
+Pendiente de datos del dueño: precios de la versión de Switch 2 y del paquete de mejora de los dos Zelda,
+y sus portadas de Switch 2 (`www.nintendo.com` no está permitido en la red del entorno); confirmar si los precios mostrados (referencia eShop) son los de venta (D5);
 logo de la tienda (opcional, va en lugar del nombre en `.cabecera`, ver `diseno.md` §7).
 
 ## 6. Tareas pendientes (en orden)
@@ -326,6 +358,12 @@ logo de la tienda (opcional, va en lugar del nombre en `.cabecera`, ver `diseno.
 | 2026-11-04 | Nombre del juego en 800 | 15 de 24 títulos cuestan $ 279.900 y 6 $ 239.900: el precio no distingue; el nombre sí. Peso que ya existía (sin tamaños nuevos). |
 | 2026-11-04 | "↗" en mosaicos sin precio | "Consultar" sale a WhatsApp y los demás se suman al pedido; sin señal, el mismo gesto hacía dos cosas distintas. |
 | 2026-11-04 | "¿No ves tu juego?" sigue cerrando la fila | Limitarlo a 4 columnas dejaría un hueco de 2 mosaicos con 21 juegos (§8). Su peso visual se acepta. |
+| 2026-11-04 | ~~Un juego con versión para cada consola son dos mosaicos~~ → **un mosaico con un precio por versión** (`grupo`) | Pedido del dueño: muchos juegos tienen versión de Switch 1 y de Switch 2, más el paquete de mejora; con un mosaico por versión el catálogo crecería un 17 % solo con los juegos actuales que la tienen. De 3 ideas (un mosaico con 2–3 precios, selector de consola, mosaicos pegados) eligió la primera. |
+| 2026-11-04 | Cada versión sigue siendo su propia entrada en `productos.json`, unidas por `grupo` | Cada cosa que se vende tiene su id, precio y mensaje de pedido; no se agrupan por nombre porque los títulos no coinciden ("… Nintendo Switch 2 Edition") y podría juntar juegos equivocados. |
+| 2026-11-04 | Portada de la versión de Switch 2 en el mosaico con versiones | Elección del dueño: la caja de Switch 2 (franja roja) dice de un vistazo que hay versión nueva. Hasta que la agregue se usa la de Switch 1. |
+| 2026-11-04 | Paquete de mejora con sello "Mejora a ⊞2" (único texto nuevo) | El dueño lo vende. Un logo no basta para decir "pasar de Switch 1 a Switch 2"; dos palabras sí. |
+| 2026-11-04 | Juego con versiones = ancho de 2 mosaicos (6 col. en celular, 4 en escritorio) | Sello + precio de 22 px + "+" piden ~180 px y un mosaico chico a 320 px deja 122 px. Desde 1100 px la portada va a la izquierda y el mosaico mide lo mismo que sus vecinos. |
+| 2026-11-04 | Ancho de "¿No ves tu juego?" calculado simulando la retícula (`lib/reticula.ts`) | Con mosaicos de dos anchos, contar mosaicos ya no dice cuánto falta para cerrar la fila. |
 | 2026-11-04 | Sin `flex-wrap` en el precio para WCAG 1.4.12 | Probado: a 320 px el "+" bajaba de línea siempre (+369 px de alto). Con espaciado aumentado el "+" se recorta, pero es decorativo: el precio sigue visible y el estado lo dan el color y `aria-pressed`. |
 
 ## 9. Cómo verificar un cambio

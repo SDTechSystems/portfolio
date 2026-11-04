@@ -75,7 +75,30 @@
         "alto": 540,
         "fuente_pagina": "https://www.nintendo.com/us/store/products/the-legend-of-zelda-breath-of-the-wild-switch/",
         "fuente_imagen": "https://assets.nintendo.com/image/upload/c_fill,w_1200/q_auto/f_auto/dpr_2.0/store/software/switch/70010000000025/7137262b5a64d921e193653f8aa0b722925abc5680380ca0e18a5cfd91697f58"
-      }
+      },
+      "grupo": "zelda-botw"
+    },
+    {
+      "id": "the-legend-of-zelda-breath-of-the-wild-switch-2",
+      "puesto_ranking": 4,
+      "titulo": "The Legend of Zelda: Breath of the Wild – Nintendo Switch 2 Edition",
+      "plataforma": "Nintendo Switch 2",
+      "edicion": "nintendo_switch_2_edition",
+      "tipo_producto": "juego_digital",
+      "precio_referencia_eshop_colombia_cop": null,
+      "estado_precio": "pendiente",
+      "grupo": "zelda-botw"
+    },
+    {
+      "id": "the-legend-of-zelda-breath-of-the-wild-mejora",
+      "puesto_ranking": 4,
+      "titulo": "The Legend of Zelda: Breath of the Wild – Paquete de mejora de Nintendo Switch 2 Edition",
+      "plataforma": "Nintendo Switch 2",
+      "edicion": "paquete_mejora",
+      "tipo_producto": "paquete_mejora",
+      "precio_referencia_eshop_colombia_cop": null,
+      "estado_precio": "pendiente",
+      "grupo": "zelda-botw"
     },
     {
       "id": "super-mario-odyssey",
@@ -183,7 +206,30 @@
         "alto": 540,
         "fuente_pagina": "https://www.nintendo.com/us/store/products/the-legend-of-zelda-tears-of-the-kingdom-switch/",
         "fuente_imagen": "https://assets.nintendo.com/image/upload/c_fill,w_1200/q_auto/f_auto/dpr_2.0/store/software/switch/70010000063714/fb30eab428df3fc993b41c76e20f72e4d76d49734d17d31996b5ab61c414b117"
-      }
+      },
+      "grupo": "zelda-totk"
+    },
+    {
+      "id": "the-legend-of-zelda-tears-of-the-kingdom-switch-2",
+      "puesto_ranking": 8,
+      "titulo": "The Legend of Zelda: Tears of the Kingdom – Nintendo Switch 2 Edition",
+      "plataforma": "Nintendo Switch 2",
+      "edicion": "nintendo_switch_2_edition",
+      "tipo_producto": "juego_digital",
+      "precio_referencia_eshop_colombia_cop": null,
+      "estado_precio": "pendiente",
+      "grupo": "zelda-totk"
+    },
+    {
+      "id": "the-legend-of-zelda-tears-of-the-kingdom-mejora",
+      "puesto_ranking": 8,
+      "titulo": "The Legend of Zelda: Tears of the Kingdom – Paquete de mejora de Nintendo Switch 2 Edition",
+      "plataforma": "Nintendo Switch 2",
+      "edicion": "paquete_mejora",
+      "tipo_producto": "paquete_mejora",
+      "precio_referencia_eshop_colombia_cop": null,
+      "estado_precio": "pendiente",
+      "grupo": "zelda-totk"
     },
     {
       "id": "super-mario-party",

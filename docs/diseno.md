@@ -27,10 +27,10 @@ Definidos en `:root` (`Layout.astro`). Usar **solo** estos.
 | `--mosaico` | `#ffffff` | Fondo de cada mosaico normal. |
 | `--tinta` | `#121214` | Texto; fondo de la barra de pedido y de mosaicos seleccionados. |
 | `--suave` | `#5b5b63` | La línea bajo el nombre (consola y/o nota). Nada más. |
-| `--rojo` | `#e60012` | Acento: cabecera, "¿No ves tu juego?", pestaña de Switch 2, ✓ de seleccionado, botón de la barra. |
+| `--rojo` | `#e60012` | Acento: cabecera, "¿No ves tu juego?", pestaña y sello de Switch 2, ✓ de seleccionado, botón de la barra. |
 
 Proporción: el suelo gris claro domina, los mosaicos blancos llevan el contenido, el rojo
-aparece en **5 lugares fijos** (cabecera, "¿No ves tu juego?", pestaña de Switch 2, ✓, acción del pedido).
+aparece en **5 lugares fijos** (cabecera, "¿No ves tu juego?", pestaña y sello de Switch 2, ✓, acción del pedido).
 No agregar rojo en otros sitios.
 
 **Tipografía:** una sola familia, **Schibsted Grotesk**, pesos **500** y **800**
@@ -44,6 +44,7 @@ No agregar rojo en otros sitios.
 | Nombre del juego | 14px (grande: 18px) | 800 | máximo 2 líneas con `line-clamp`. En 800 porque casi todos los precios son iguales: el nombre es lo que distingue un mosaico de otro. |
 | Nota ("Necesita Ring-Con") | 13px | 500 | color `--suave` |
 | Pestaña de consola | logo 17px; "2" 17px | 800 | 32px de alto, relleno 0 9px |
+| Sello de versión (juego con versiones) | logo 17px; "2" 17px; "Mejora a" 13px | 800 | 28px de alto, relleno 0 8px, radio 6px; fondo `--suelo` (Switch 2: `--rojo`) |
 | "¿No ves tu juego?" | 22px | 800 | tracking -0.02em |
 
 ## 3. Retícula
@@ -53,7 +54,7 @@ No agregar rojo en otros sitios.
 | Columnas | 6 | 10 |
 | Separación entre mosaicos | 8px | 8px |
 | Margen exterior | 10px | 12px |
-| Radio de esquina | 8px en todos los mosaicos; 999px solo en controles (barra, "+") | igual |
+| Radio de esquina | 8px en todos los mosaicos; 6px en las filas y sellos de versión (van dentro de un mosaico); 999px solo en controles (barra, "+") | igual |
 | `grid-auto-flow` | `dense` (rellena huecos) | igual |
 
 Tamaños de mosaico (clases) y cuántas columnas ocupan:
@@ -65,7 +66,9 @@ Tamaños de mosaico (clases) y cuántas columnas ocupan:
 | Destacado grande | `<Mosaico tamano="grande">` | 6, imagen 2:1 | 6 × 2 filas, imagen llena el alto |
 | Destacados chicos | `<Mosaico tamano="medio">` | 3 | 4, imagen 2.1:1 con alto máx. `50svh − 182px` (los 3 precios destacados se ven sin desplazar desde 768 px de alto) |
 | Juego / DLC / update | `<Mosaico>` | 3 (2 por fila) | 2 (5 por fila) |
-| ¿No ves tu juego? | `.mas` | lo que falte para cerrar la fila (3 o 6) | lo que falte (2–10) |
+| Juego con varias versiones | `.ancho` (lo pone `Mosaico` si hay `grupo`) | 6, imagen 2.4:1 | 4; 760–1099px imagen 3:1 arriba; ≥ 1100px portada a la izquierda (45 %) y versiones a la derecha |
+| Destacado chico junto a uno con versiones | `.lleno` | 6, imagen 2.4:1 | 4 (igual que siempre) |
+| ¿No ves tu juego? | `.mas` | lo que falte para cerrar la sección (3 o 6) | lo que falte (2–10); lo calcula `lib/reticula.ts` |
 
 Estructura de un mosaico de juego (no cambiar el orden):
 
@@ -80,7 +83,21 @@ Estructura de un mosaico de juego (no cambiar el orden):
 └──────────────────────┘
 ```
 
-El precio va **debajo** de la portada, nunca encima de la imagen.
+Juego con varias versiones (Switch 1, Switch 2, paquete de mejora), un solo mosaico:
+
+```
+┌──────────────────────────────────┐
+│[⊞|⊞2]                            │  .consola.doble: pestaña doble (Switch 2 en rojo)
+│ portada de Switch 2              │
+├──────────────────────────────────┤
+│ Nombre                           │  .n
+│          [⊞] $ 279.900       (+) │  .version: cada fila es su propio botón
+│         [⊞2] $ 319.900       (+) │  .sello pegado al precio; precios en una columna
+│ [Mejora a ⊞2] $ 45.000       (+) │
+└──────────────────────────────────┘
+```
+
+El precio va **debajo** de la portada (o a su derecha en el mosaico con versiones desde 1100px), nunca encima de la imagen.
 
 ## 4. Estados e interacción
 
@@ -92,6 +109,9 @@ El precio va **debajo** de la portada, nunca encima de la imagen.
   `--rojo`, logo y "2" en blanco. Sin sombra ni borde.
 - **Seleccionado** (`[aria-pressed="true"]`): mosaico en `--tinta` (la pestaña de Switch 1 lo
   sigue porque usa `--fondo`), texto blanco, nota en `#b9b9c2`, círculo rojo con ✓. Es la única señal: no agregar bordes ni sombras.
+- **Juego con varias versiones:** el estado es de cada fila, no del mosaico: la fila elegida se pone en
+  `--tinta` con su ✓ y el mosaico sigue blanco. El lector de pantalla lee cada fila como
+  "Nombre del juego, Nintendo Switch 2, $ …" (el nombre va oculto dentro de la fila).
 - **Al tocar:** `transform: scale(.98)` (150 ms).
 - **Barra de pedido** (`Pedido.astro`): píldora negra fija abajo con el total, "Vaciar" y el
   botón rojo "Pedir por WhatsApp". Hasta 420px "Vaciar" se oculta (se vacía tocando los
@@ -108,7 +128,7 @@ El precio va **debajo** de la portada, nunca encima de la imagen.
 ## 5. Textos
 
 Todo el texto de la página: nombre de la tienda, **"Códigos para Switch 1 y 2"** (dice que se venden códigos digitales, no juegos físicos), nombres,
-nota, precios, "¿No ves tu juego?", y en la barra "Vaciar" / "Pedir por WhatsApp". Con DLC
+nota, precios, "Mejora a" (sello del paquete de mejora), "¿No ves tu juego?", y en la barra "Vaciar" / "Pedir por WhatsApp". Con DLC
 visibles, además "DLC y updates" y "¿Buscas otro DLC?". **No agregar más.**
 
 **La consola siempre se distingue, con la pestaña y no con texto:** cada mosaico, en cualquier
@@ -162,3 +182,4 @@ lugar del tablero, lleva la pestaña de su consola. El lector de pantalla la lee
 - [ ] Contraste: blanco sobre `--rojo` (4.8:1), `--suave` sobre blanco (6.7:1) y `#b9b9c2` sobre `--tinta` (9.6:1) cumplen AA.
 - [ ] Con Tab: el contorno de foco se ve en mosaicos blancos, elegidos y rojos, y ninguno queda bajo la barra.
 - [ ] Ningún elemento de la tabla "No hacer" del §6.
+- [ ] Juegos con versiones: a 320px las filas de precio no se salen; los precios empiezan en la misma columna; elegir una versión pone solo esa fila en negro.
