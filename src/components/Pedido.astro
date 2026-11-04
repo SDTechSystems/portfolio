@@ -24,7 +24,10 @@ import { tienda } from '../data/tienda';
   // sessionStorage puede fallar (modo privado, bloqueado): entonces solo no se guarda.
   const CLAVE = 'pedido';
   let guardados: string[] = [];
-  try { guardados = JSON.parse(sessionStorage.getItem(CLAVE) ?? '[]'); } catch {}
+  try {
+    const valor: unknown = JSON.parse(sessionStorage.getItem(CLAVE) ?? '[]');
+    if (Array.isArray(valor)) guardados = valor.filter((id): id is string => typeof id === 'string');
+  } catch {}
 
   items.forEach((el) => {
     el.setAttribute('role', 'button');

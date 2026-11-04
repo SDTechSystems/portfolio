@@ -80,6 +80,7 @@ Requiere Node 22.23.4 o más reciente.
 |---|---|
 | `npm install` | Instala lo necesario (una sola vez). |
 | `npm run dev` | Abre la página en `http://localhost:4321` mientras editas. |
+| `npm test` | Pruebas de regresión con el runner de Node. |
 | `npm run build` | Revisa el catálogo y genera el sitio listo para publicar en `dist/`. |
 | `npm run preview` | Muestra el sitio de `dist/` tal como quedará publicado. |
 
