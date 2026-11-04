@@ -34,6 +34,8 @@ export interface Ficha {
   imagen?: ImageMetadata;
   archivo?: string;
   recorte?: Recorte;
+  /** Edición del precio "desde": el juego completo más barato con precio (el paquete de mejora no cuenta). */
+  desde?: Producto;
   /** En orden: Switch 1, Switch 2, paquete de mejora. Con una sola versión, el mosaico es como siempre. */
   versiones: Producto[];
 }
@@ -48,6 +50,14 @@ const CARPETA = 'Catalogo_Nintendo_Switch_Colombia';
 const ruta = (r: string) => `../assets/${CARPETA}/${r}`;
 const filas = validarCatalogo(datos, tienda, (r) => !!portadas[ruta(r)]);
 
+const tapa = (img?: { ruta: string; recorte?: string }) => img && {
+  imagen: portadas[ruta(img.ruta)]?.default,
+  archivo: `src/assets/${CARPETA}/${img.ruta}`,
+  recorte: img.recorte as Recorte | undefined,
+};
+// Portadas generales de grupo (opcionales, ya validadas): productos.json → "grupos".
+const portadasGrupo = (datos as { grupos?: Record<string, { imagen: { ruta: string; recorte?: string } }> }).grupos ?? {};
+
 const productos: Producto[] = filas.map((f) => ({
   id: f.id,
   nombre: f.titulo,
@@ -55,22 +65,22 @@ const productos: Producto[] = filas.map((f) => ({
   tipo: f.tipo_producto === 'dlc' ? 'DLC' : f.tipo_producto === 'update' ? 'Update' : f.tipo_producto === 'paquete_mejora' ? 'Mejora' : 'Juego',
   consola: f.plataforma === 'Nintendo Switch 2' ? 'Switch 2' : 'Switch 1',
   nota: f.tipo_producto === 'juego_con_accesorios' ? 'Necesita Ring-Con' : undefined,
-  imagen: f.imagen && portadas[ruta(f.imagen.ruta)]?.default,
-  archivo: f.imagen && `src/assets/${CARPETA}/${f.imagen.ruta}`,
-  recorte: f.imagen?.recorte as Recorte | undefined,
+  ...tapa(f.imagen),
   grupo: f.grupo,
 }));
 
 // Un mosaico por juego, en el lugar de la primera fila de su grupo. Nombre y nota: los del juego de
-// Switch 1. Portada: la de Switch 2 si la tiene (la caja con la franja roja), si no, la primera que haya.
+// Switch 1. Portada: la general del grupo si la hay; si no, la de la edición del precio "desde" (si esa
+// edición no tiene imagen, queda gris: la portada de otra edición haría pensar que cuesta eso).
 const orden = (p: Producto) => (p.tipo === 'Mejora' ? 2 : p.consola === 'Switch 2' ? 1 : 0);
 const fichas: Ficha[] = [];
 productos.forEach((p) => {
   if (p.grupo && fichas.some((f) => f.versiones.some((v) => v.grupo === p.grupo))) return;
   const versiones = p.grupo ? productos.filter((v) => v.grupo === p.grupo).sort((a, b) => orden(a) - orden(b)) : [p];
   const base = versiones[0];
-  const portada = versiones.find((v) => v.tipo === 'Juego' && v.consola === 'Switch 2' && v.imagen) ?? versiones.find((v) => v.imagen);
-  fichas.push({ id: base.id, nombre: base.nombre, tipo: base.tipo, nota: base.nota, imagen: portada?.imagen, archivo: portada?.archivo, recorte: portada?.recorte, versiones });
+  const desde = versiones.filter((v) => v.tipo !== 'Mejora' && v.precio !== null).sort((a, b) => a.precio! - b.precio!)[0];
+  const portada = (p.grupo && tapa(portadasGrupo[p.grupo]?.imagen)) || (desde ?? base);
+  fichas.push({ id: base.id, nombre: base.nombre, tipo: base.tipo, nota: base.nota, imagen: portada.imagen, archivo: portada.archivo, recorte: portada.recorte, desde, versiones });
 });
 const fichaDe = (id: string) => fichas.find((f) => f.versiones.some((v) => v.id === id));
 

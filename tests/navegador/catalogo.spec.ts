@@ -77,7 +77,7 @@ test('tablero sin desbordes, portadas cargadas y filas cerradas', async ({ page 
   await page.goto('/');
   await expect(page.locator('[data-item][aria-pressed]')).toHaveCount(vendibles.length);
   await page.evaluate(() => document.fonts.ready);
-  const imagenes = page.locator('.mosaico img');
+  const imagenes = page.locator('.mosaico .img img');
   const fichasConImagen = new Set(productos.filter((p) => p.imagen).map((p) => p.grupo ?? p.id));
   await expect(imagenes).toHaveCount(fichasConImagen.size);
   // Activar lazy loading mediante desplazamiento real antes de comprobar naturalWidth.
@@ -143,6 +143,43 @@ test('panel: versión, total, Escape y devolución del foco', async ({ page }) =
   await expect(dialogo).toBeHidden();
   await expect(abrir).toBeFocused();
   await comprobarPedido(page, [p]);
+});
+
+test('portada y "desde" de cada grupo corresponden a la misma edición (#27)', async ({ page }) => {
+  await page.goto('/');
+  const portadasGrupo = (datos as { grupos?: Record<string, { imagen: { ruta: string } }> }).grupos ?? {};
+  const archivo = (ruta?: string) => ruta && `/${ruta.split('/').pop()!.replace(/\.\w+$/, '')}.`;
+  const grupos = [...new Set(productos.filter((p) => p.grupo).map((p) => p.grupo!))];
+  expect(grupos.length).toBeGreaterThan(0);
+  for (const grupo of grupos) {
+    const filas = productos.filter((p) => p.grupo === grupo);
+    const desde = filas.filter((p) => p.tipo_producto !== 'paquete_mejora' && precio(p) !== null)
+      .sort((a, b) => precio(a)! - precio(b)!)[0];
+    const esperada = archivo(portadasGrupo[grupo]?.imagen.ruta ?? (desde ?? filas.find((p) => p.plataforma === 'Nintendo Switch'))?.imagen?.ruta);
+    const mosaico = page.locator(`.mosaico:has([data-item="${filas[0].id}"])`);
+    const portada = mosaico.locator('.img img');
+    if (esperada) expect(await portada.getAttribute('src')).toContain(esperada);
+    else await expect(portada).toHaveCount(0);
+    const abrir = mosaico.locator('.abrir');
+    if (!(await abrir.isVisible())) continue;
+    const consola = desde && (desde.plataforma === 'Nintendo Switch 2' ? 'Switch 2' : 'Switch 1');
+    await expect(abrir.locator('.c')).toHaveText(`${filas.length} versiones${desde ? ` · ${consola} desde` : ''}`);
+    await expect(abrir.locator('strong')).toHaveText(desde ? moneda(precio(desde)!) : 'Consultar');
+    // En el panel, cada edición muestra su propia portada junto a su precio; sin imagen, solo el sello.
+    await abrir.click();
+    const dialogo = page.getByRole('dialog');
+    for (const p of filas) {
+      const fila = dialogo.locator(`[data-item="${p.id}"], a[href*="${encodeURIComponent(p.titulo)}"]`).first();
+      const mini = fila.locator('.mini');
+      if (!p.imagen) { await expect(mini).toHaveCount(0); continue; }
+      await expect.poll(() => mini.evaluate((img: HTMLImageElement) => img.complete && img.naturalWidth > 0)).toBe(true);
+      expect(await mini.getAttribute('src')).toContain(archivo(p.imagen.ruta));
+      await contenidoDentro(fila, dialogo);
+    }
+    await page.keyboard.press('Escape');
+    await expect(dialogo).toBeHidden();
+  }
+  await sinDesborde(page);
 });
 
 test('todos los productos: total y botón dentro de la barra', async ({ page }) => {

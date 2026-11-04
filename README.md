@@ -47,9 +47,14 @@ Cada juego es un bloque como este:
   - Versión de Switch 2: `"plataforma": "Nintendo Switch 2"`, `"tipo_producto": "juego_digital"`.
   - Paquete de mejora (pasa el juego de Switch 1 a Switch 2): `"plataforma": "Nintendo Switch 2"`,
     `"tipo_producto": "paquete_mejora"`.
-  - El mosaico usa la portada de la versión de Switch 2: ponle `imagen` a ese bloque. En celular la
-    portada se recorta y se conserva la parte de abajo; si el logo está arriba, agrega
-    `"recorte": "arriba"` dentro de `imagen` (también vale `"centro"`). Si el juego es el destacado grande y en
+  - Ponle `imagen` a cada versión de juego (Switch 1 y Switch 2): en el panel de versiones cada una
+    se ve con su portada junto a su precio. El paquete de mejora no lleva imagen.
+  - Portada del mosaico: la de la versión **más barata** (la del precio "desde"), para que la imagen
+    y el precio coincidan. Si tienes una imagen **general** del juego (que no sea la caja de una
+    versión), ponla una sola vez al final del archivo, junto a `"productos"`:
+    `"grupos": { "mario-wonder": { "imagen": { "ruta": "imagenes/mario-wonder.webp" } } }`.
+  - Si el logo de la portada queda cortado, agrega `"recorte": "arriba"` dentro de `imagen`
+    (también valen `"centro"`, `"abajo"`, `"izquierda"` y `"derecha"`). Si el juego es el destacado grande y en
     computador se corta el logo por un lado, usa `"izquierda"` o `"derecha"` (el lado donde está el logo).
   - Ejemplos en el archivo: los dos Zelda, Mario Wonder y Animal Crossing.
 

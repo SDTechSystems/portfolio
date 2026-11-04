@@ -3,7 +3,7 @@
 // Pestaña: logo de Switch (src/assets/switch.svg); en Switch 2, seguido de "2" y en rojo.
 // Juego con varias versiones (Switch 1, Switch 2, paquete de mejora): un solo mosaico con la pestaña doble y
 // una fila por versión; cada fila es su propio botón con su precio y su "+".
-// Mosaico normal con "N versiones · desde $ …"; tocarlo abre el panel (PanelVersiones.astro), al que se
+// Mosaico normal con "N versiones · Switch 1 desde $ …" (la edición de ese precio); tocarlo abre el panel (PanelVersiones.astro), al que se
 // mueven las filas. Igual en celular y escritorio, para que todos los mosaicos de una fila midan lo mismo.
 // Hasta que el panel esté listo, las filas se ven en el mosaico. El destacado grande las muestra.
 // Sin portada queda el fondo gris de .img. alt vacío: el nombre ya está escrito debajo.
@@ -29,9 +29,6 @@ const sizes = tamano === 'grande' ? '(min-width: 1440px) 1123px, (min-width: 760
 const ANCHOS = [320, 400, 480, 560, 640, 800, 960, 1120, 1280, 1600, 1920];
 // Panel en todos los juegos con versiones salvo el destacado grande, que tiene sitio para las filas.
 const panel = varias && tamano !== 'grande';
-// "desde": el juego más barato (el paquete de mejora no cuenta: solo sirve a quien ya tiene el juego).
-const juegos = f.versiones.filter((v) => v.tipo !== 'Mejora' && v.precio !== null).map((v) => v.precio!);
-const desde = juegos.length ? Math.min(...juegos) : null;
 const Caja = varias ? 'div' : 'a';
 // Qué parte de la portada se conserva al recortarla. Izquierda/derecha: el destacado grande en escritorio deja ver
 // 72–85 % del ancho según la pantalla; 7 %/93 % corre la ventana hacia ese lado (con 93 % un logo que llega al 97 %
@@ -63,8 +60,8 @@ const RECORTE = { arriba: '50% 0%', centro: '50% 50%', abajo: '50% 100%', izquie
     {panel && (
       <button type="button" class="abrir" aria-haspopup="dialog">
         <span class="solo-lector">{f.nombre}: </span>
-        <span class="c">{f.versiones.length} versiones{desde !== null && ' · desde'}</span>
-        <strong>{precio(desde)}</strong>
+        <span class="c">{f.versiones.length} versiones{f.desde && <> · <span class="junto">{f.desde.consola} desde</span></>}</span>
+        <strong>{precio(f.desde?.precio ?? null)}</strong>
       </button>
     )}
     {varias
@@ -73,9 +70,13 @@ const RECORTE = { arriba: '50% 0%', centro: '50% 50%', abajo: '50% 100%', izquie
           {f.versiones.map((v) => (
             <a class="version" {...item(v)}>
               <span class="solo-lector">{f.nombre}, </span>
+              <span class="edicion">
+              {/* Portada de cada edición junto a su precio; solo se ve en el panel (PanelVersiones.astro). */}
+              {v.imagen && <Image class="mini" src={v.imagen} alt="" widths={[160, 320].filter((w) => w <= v.imagen!.width)} sizes="96px" format="webp" quality={78} loading="lazy" />}
               {v.tipo === 'Mejora'
                 ? <span class="sello" role="img" aria-label="Paquete de mejora a Nintendo Switch 2">Mejora a <LogoSwitch /><b>2</b></span>
                 : <span class:list={['sello', { dos: v.consola === 'Switch 2' }]} role="img" aria-label={`Nintendo ${v.consola}`}><LogoSwitch />{v.consola === 'Switch 2' && <b>2</b>}</span>}
+              </span>
               <strong>{precio(v.precio)}</strong>
             </a>
           ))}
@@ -101,6 +102,7 @@ const RECORTE = { arriba: '50% 0%', centro: '50% 50%', abajo: '50% 100%', izquie
   .pie { flex: 1; display: flex; flex-direction: column; gap: 2px; padding: 10px 12px 12px; }
   .n { font-size: 14px; font-weight: 800; line-height: 1.2; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
   .c { font-size: 13px; color: var(--suave); }
+  .junto { white-space: nowrap; }
   strong { margin-top: auto; padding-top: 6px; display: flex; justify-content: space-between; align-items: center; font-size: 22px; font-weight: 800; letter-spacing: -.02em; }
 
   /* "+" / "✓": dice que el mosaico se suma al pedido. Solo aparece si el script de Pedido lo activó. */
@@ -142,10 +144,15 @@ const RECORTE = { arriba: '50% 0%', centro: '50% 50%', abajo: '50% 100%', izquie
   .version[aria-pressed='true'] { --fondo: var(--tinta); }
   .version strong { margin: 0; padding: 0; justify-content: flex-end; gap: 10px; }
   /* Sello de cada versión: como la pestaña, en pequeño (Switch 2 en rojo). */
-  .sello { justify-self: start; height: 28px; padding: 0 8px; border-radius: 6px; display: flex; align-items: center; gap: 3px; background: var(--suelo); color: var(--tinta); font-size: 13px; font-weight: 800; line-height: 1; }
+  .edicion { justify-self: start; position: relative; }
+  .sello { height: 28px; padding: 0 8px; border-radius: 6px; display: flex; align-items: center; gap: 3px; background: var(--suelo); color: var(--tinta); font-size: 13px; font-weight: 800; line-height: 1; }
   .sello svg { width: 17px; height: 17px; }
   .sello b { font-size: 17px; font-weight: 800; letter-spacing: -.02em; }
   .sello.dos { background: var(--rojo); color: #fff; }
+  /* En el panel, cada edición lleva su portada con el sello en la esquina, como la pestaña del mosaico. */
+  .mini { display: none; }
+  :global(.hoja) .mini { display: block; position: static; width: 96px; height: auto; aspect-ratio: 16 / 9; border-radius: 6px; }
+  :global(.hoja) .mini + .sello { position: absolute; top: 0; left: 0; border-radius: 6px 0 6px 0; }
   .solo-lector { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 
   .grande { grid-column: span 6; }

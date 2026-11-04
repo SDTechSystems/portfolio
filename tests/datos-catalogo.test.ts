@@ -83,3 +83,17 @@ test('se mantienen las reglas de grupos y destacados (#20)', () => {
   });
   assert.throws(() => validarCatalogo(catalogo, { ...tienda, destacados: [tienda.destacados[0], tienda.destacados[0]] }, () => true), /exactamente 3 ids[\s\S]*id repetido/);
 });
+
+test('valida la portada general de un grupo (#27)', () => {
+  const grupo = catalogo.productos.find((f: { grupo?: string }) => f.grupo).grupo;
+  const ok = { ...catalogo, grupos: { [grupo]: { imagen: { ruta: 'imagenes/neutral.webp', recorte: 'centro' } } } };
+  assert.deepEqual(validar(ok).length, validar(catalogo).length);
+  assert.throws(() => validar({ ...catalogo, grupos: [] }), /"grupos" debe ser un objeto/);
+  const malos = { ...catalogo, grupos: { 'no-existe': { imagen: { ruta: 'x.webp' } }, [grupo]: { imagen: { ruta: 'y.webp', recorte: 'lado' } }, otro: {} } };
+  assert.throws(() => validarCatalogo(malos, tienda, (r) => r === 'x.webp'), (e: Error) => {
+    for (const texto of ['grupos → "no-existe": ningún producto', `grupos → "${grupo}": no existe la portada "y.webp"`, `grupos → "${grupo}": "recorte"`, 'grupos → "otro": debe tener "imagen"']) {
+      assert.ok(e.message.includes(texto), texto);
+    }
+    return true;
+  });
+});
