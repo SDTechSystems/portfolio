@@ -93,8 +93,11 @@ administración, buscador, varias páginas, multi-idioma.
   `main`, con la versión de Node de `.nvmrc` (exacta: 22.23.4, el mínimo de Astro 7). `.github/dependabot.yml` abre PRs de actualización los
   lunes (npm agrupado salvo versiones mayores; Actions agrupadas; `cooldown` de 3 días, 7 en mayores). El CI cancela
   ejecuciones viejas solo en los PR, nunca en `main`, y se puede relanzar a mano desde Actions. Plantilla de PR con la lista
-  de revisión de `diseno.md` §8. El repo es privado: GitHub Pages y la protección de ramas
-  requieren plan de pago, así que el CI avisa pero no bloquea la fusión.
+  de revisión de `diseno.md` §8. Plantillas de issue (`.github/ISSUE_TEMPLATE/`): «Error» pone `bug`,
+  «Solicitud» pone `enhancement`, sin issues en blanco; `workflows/prioridad.yml` lee el campo «Prioridad»
+  y pone `P1`/`P2`/`P3`. El repo es público; en Settings (lo hizo el dueño) `main` exige PR y el check
+  `build`, las ramas se borran al fusionar y están activos Dependabot alerts/security updates, secret
+  scanning y push protection.
 
 ```
 src/
@@ -360,6 +363,12 @@ Hecho:
       les quitó el grupo (el build lo rechaza). Página: 37/37 productos publicables del listado con su precio exacto;
       escritorio 5 filas de 5 + "¿No ves tu juego?" a todo el ancho; `og.jpg` 183 KB.
 
+- [x] **Plantillas de issue y prioridad automática** (rama `claude/beautiful-cannon-3a7uu7`): plantillas
+      «Error» (`bug`) y «Solicitud» (`enhancement`) con campo de prioridad; un workflow pone `P1`/`P2`/`P3`
+      según ese campo y lo cambia si se edita. Probado el lector del campo con 5 cuerpos de ejemplo
+      (P1/P2, saltos de línea de Windows, sin respuesta, issue sin plantilla, encabezado parecido).
+      Los 11 issues abiertos ya tienen tipo y prioridad (puestos a mano).
+
 Pendiente de datos del dueño: logo de la tienda (opcional, va en lugar del nombre en `.cabecera`, ver `diseno.md` §7).
 
 ## 6. Tareas pendientes (en orden)
@@ -473,6 +482,8 @@ Pendiente de datos del dueño: logo de la tienda (opcional, va en lugar del nomb
 | 2026-11-04 | Campo `publicar` (por defecto true) | El listado lo trae: Ring Fit tiene precio pendiente y `publicar: false`. Ocultar sin borrar deja los datos listos para cuando haya precio. |
 | 2026-11-04 | `recorte`: "izquierda" / "derecha" (7 % / 93 % horizontal) | El destacado grande en escritorio deja ver 72–85 % del ancho (es más alto que 16:9). El logo de Ocarina llega al 96,7 % del ancho y se cortaba con el centro; con 93 % queda entero a 1024, 1280, 1440 y 1920 px (medido), a cambio de recortar un poco la mochila de Link a 1024 y 1920. En celular no recorta los lados. |
 | 2026-11-04 | Barra de pedido ≤ 340 px: separación 6 px y botón con relleno 10 px | A 320 px con todo elegido (total de 7 cifras) el botón "Pedir por WhatsApp" se salía 5 px de la barra; ya pasaba en `main`. Ahora queda 5 px dentro; de 341 px en adelante no cambia nada. |
+| 2026-11-04 | Plantillas de issue «Error» / «Solicitud» y sin issues en blanco | Separar errores de pedidos con el label correcto sin depender de acordarse; los campos son los que ya usaban los issues (problema, reproducción o propuesta, criterios de aceptación). |
+| 2026-11-04 | Label de prioridad puesto por un workflow propio (`gh issue edit`), sin Actions de terceros | Las plantillas de GitHub solo ponen labels fijos. El texto del issue va por variable de entorno, nunca dentro del script (evita inyección de comandos). Sin dependencias nuevas que mantener. |
 
 ## 9. Cómo verificar un cambio
 
