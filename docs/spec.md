@@ -129,6 +129,7 @@ Cada entrada de `productos` (campos que usa la web; el resto se ignora):
   "grupo": "zelda-totk",              // OPCIONAL: igual en las versiones de un mismo juego → un mosaico con un precio por versión
   "precio_venta_cop": 299900,        // OPCIONAL: tu precio. Si falta, se usa el de referencia
   "precio_referencia_eshop_colombia_cop": 319900, // null → muestra "Consultar" y no entra al pedido
+  "publicar": false,                 // OPCIONAL: false = no sale en la página (se valida igual)
   "imagen": { "ruta": "imagenes/mario-kart-world.webp" } // opcional; sin imagen: bloque de color
 }
 ```
@@ -337,8 +338,16 @@ Hecho:
       `src/assets/…/imagenes` 2,9 → 9 MB en el repo. Sin JavaScript, en escritorio el juego con versiones mide
       4 columnas (las filas no caben en 2) y "¿No ves tu juego?" puede no cerrar exacto la fila, como ya pasaba en celular.
 
-Pendiente de datos del dueño: confirmar si los precios mostrados (referencia eShop) son los de venta (D5);
-logo de la tienda (opcional, va en lugar del nombre en `.cabecera`, ver `diseno.md` §7).
+- [x] **Precios de venta** (merge de `main` con `Precios_Finales_Catalogo_Nintendo.json`, 38 productos): a los 32 de
+      `productos.json` se les copiaron todos los campos del listado (precio de venta, 14 precios de referencia corregidos
+      de 279.900 a 239.900, `estado_precio`, `publicar`, `requiere_juego_base`), conservando `imagen` (1920×1080).
+      Verificado: los 31 precios de la página = `precio_venta_cop` del listado; Ring Fit (`publicar: false`, sin precio)
+      no sale; 20 juegos → filas completas (escritorio 4×5, celular 10×2) y "¿No ves tu juego?" a todo el ancho;
+      2 títulos → `$ 332.800`. `publicar` se valida (probado: `"no"` y un destacado oculto detienen el build).
+      **Pendiente:** los 6 productos nuevos del listado (Ocarina of Time, Pokopia, Jamboree ×2, Metroid Prime 4,
+      Splatoon Raiders) no se agregaron: no traen portada y 4 tienen un `grupo` de un solo producto, que el build rechaza.
+
+Pendiente de datos del dueño: logo de la tienda (opcional, va en lugar del nombre en `.cabecera`, ver `diseno.md` §7).
 
 ## 6. Tareas pendientes (en orden)
 
@@ -365,7 +374,7 @@ logo de la tienda (opcional, va en lugar del nombre en `.cabecera`, ver `diseno.
 | D2 | ~~Nombre y WhatsApp~~ · Logo | **Resuelta en parte:** "SD Tech Import", `573058147293`. Falta solo el logo (opcional); hoy la cabecera muestra el nombre en texto. |
 | D3 | ¿Volver a poner las píldoras rojas "NUEVO" de la referencia? | No (ver `diseno.md` §6). Los destacados se distinguen por tamaño. |
 | D4 | ~~¿Dónde se publicará?~~ | **Resuelta:** Cloudflare Workers, https://sdtechimport.madaeauchija.workers.dev (en `tienda.ts → url`). Si se agrega un dominio propio, cambiar `url` y regenerar el QR. El repo es privado: GitHub Pages exige plan de pago; Cloudflare Pages y Netlify publican gratis desde repo privado y leen `.nvmrc`. |
-| D5 | ¿Los precios de venta son los de referencia de la eShop? `productos.json` dice que **no** representan tu precio. | Se muestran los de referencia. Para usar el tuyo, añade `"precio_venta_cop"` a cada producto. |
+| D5 | ~~¿Los precios de venta son los de referencia de la eShop?~~ | **Resuelta:** el dueño entregó `Precios_Finales_Catalogo_Nintendo.json` con `precio_venta_cop` para todo; se muestran esos. |
 | D6 | ¿Marcar los juegos de Switch 1 como "Switch 1 y 2"? (casi todos corren en Switch 2) | No: van en la sección "Switch 1", tal como dice `plataforma`. |
 | D7 | Ring Fit Adventure no tiene precio digital y necesita el accesorio Ring-Con. ¿Se vende? | Se muestra con "Consultar" y abre WhatsApp para preguntar; no entra al pedido. |
 | D9 | Logos oficiales de Switch y Switch 2, y permiso para usarlos | Ícono de Simple Icons; Switch 2 compuesto (ícono + "2"). Pedir los archivos al distribuidor y confirmar que la tienda puede mostrarlos. |
@@ -443,6 +452,8 @@ logo de la tienda (opcional, va en lugar del nombre en `.cabecera`, ver `diseno.
 | 2026-11-04 | **Escritorio igual que celular:** juego con versiones del tamaño de un juego, versiones en el panel (centrado) | El dueño veía el escritorio asimétrico: mosaicos de 2 y 4 columnas, portadas recortadas en vertical, catálogo desordenado por `dense`. Con el panel todas las filas tienen 5 mosaicos iguales. Cuesta un clic más por juego con versiones, como en celular. |
 | 2026-11-04 | Portadas originales de 1920×1080 (antes 960×540) | Con 960 px ninguna variante alcanzaba para el destacado grande ni para pantallas ×2: se veían borrosas. Son las mismas imágenes de `fuente_imagen`, sin recorte de Nintendo. El repo crece de 2,9 a 9 MB; el visitante solo baja la variante que necesita. |
 | 2026-11-04 | Tablero de máx. 1440 px, centrado | Más ancho los mosaicos se agrandan sin sumar información y las portadas pierden nitidez. |
+| 2026-11-04 | Precios del listado copiados a `productos.json` (no se cambió el archivo que lee la web) | `productos.json` sigue siendo la única fuente; el listado nuevo trae portadas de 960 y 6 productos aún sin portada. Si el dueño prefiere editar el listado nuevo, se puede apuntar `catalogo.ts` a él y borrar el otro. |
+| 2026-11-04 | Campo `publicar` (por defecto true) | El listado lo trae: Ring Fit tiene precio pendiente y `publicar: false`. Ocultar sin borrar deja los datos listos para cuando haya precio. |
 
 ## 9. Cómo verificar un cambio
 

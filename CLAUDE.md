@@ -38,6 +38,7 @@ No hay tests, linter ni `astro check` (no está instalado `@astrojs/check`). El 
   `astro.config.mjs`, porque Astro lee `site` antes que todo.
 - **Traducción de campos:** las filas del JSON (`titulo`, `plataforma`, `tipo_producto`,
   `precio_venta_cop ?? precio_referencia_eshop_colombia_cop`) se convierten al tipo `Producto`
+  (las filas con `publicar: false` se validan pero no salen en la página)
   (`nombre`, `consola`, `tipo`, `precio`). Las filas con el mismo `grupo` (versión de Switch 1, de
   Switch 2 y `paquete_mejora`) se juntan en una `Ficha` = un mosaico. Los componentes solo ven `Ficha`/`Producto`. Los demás campos del
   JSON se ignoran y no se tocan. `precio: null` → "Consultar" y no entra al pedido.

@@ -33,6 +33,7 @@ Cada juego es un bloque como este:
 | `grupo` | Opcional. Solo para juegos con versión de Switch 1 y de Switch 2 (ver abajo). |
 | `precio_venta_cop` | **Tu precio**, sin puntos: `299900`. Opcional; si no está, se usa el de referencia. |
 | `precio_referencia_eshop_colombia_cop` | Precio de la eShop. `null` muestra "Consultar" y el juego no entra al pedido. |
+| `publicar` | Opcional. `false` oculta el producto de la página sin borrarlo (ej. precio pendiente). |
 | `imagen` | Opcional. Sin imagen, la portada queda gris. |
 
 - **Cambiar un precio:** edita `precio_venta_cop` (o agrégalo).
