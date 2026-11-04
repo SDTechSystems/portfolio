@@ -7,5 +7,8 @@
   "compatibility_date": "2026-11-01",
   "assets": {
     "directory": "./dist"
-  }
+  },
+  // Las ramas que no son main (los PR) se publican con `wrangler preview`, que exige este bloque
+  // aunque esté vacío. Sin él, el check de Cloudflare sale en rojo en cada PR.
+  "previews": {}
 }

@@ -76,7 +76,8 @@ administración, buscador, varias páginas, multi-idioma.
 - **Publicación:** Cloudflare Workers (Worker `sdtechimport`) conectado a GitHub: cada push a `main`
   ejecuta `npm run build` y `npx wrangler deploy`. `wrangler.jsonc` sube `dist/` como sitio estático;
   sin él, Wrangler intenta autoconfigurar el proyecto con el adaptador de servidor de Astro y falla.
-  Variable `NODE_VERSION=22.23.4` en el panel, además de `.nvmrc`.
+  Variable `NODE_VERSION=22.23.4` en el panel, además de `.nvmrc`. Las ramas que no son `main` (PR)
+  se publican con `npx wrangler preview`, que exige `"previews": {}` en `wrangler.jsonc`.
 - **Fuente:** API de fuentes de Astro con proveedor local (`astro.config.mjs`), archivos del paquete
   `@fontsource/schibsted-grotesk` (OFL): solo `latin`, pesos 500 y 800, precargados, con respaldo de
   métricas ajustadas. Ni el build ni la visita dependen de Google.
@@ -151,7 +152,7 @@ volver de WhatsApp; si el almacenamiento está bloqueado, todo funciona igual si
 
 ## 5. Estado (actualizar al cerrar cada sesión)
 
-**Última actualización:** 2026-11-04 (WhatsApp y nombre reales), rama `mejoras/whatsapp-real` (sale de `main`).
+**Última actualización:** 2026-11-04 (previews de Cloudflare en los PR), rama `fix/previews-cloudflare` (sale de `main`).
 
 Hecho:
 - [x] Entrevista y requisitos (sección 3).
@@ -201,6 +202,10 @@ Hecho:
 - [x] WhatsApp real: `573058147293` (WhatsApp Business del dueño). Verificado en el build: 25 enlaces
       `wa.me` y la barra del pedido usan el número nuevo; 0 restos del falso.
 
+- [~] Check "Workers Builds: sdtechimport" en rojo en todos los PR (#7–#9): el sitio compila, pero en
+      ramas que no son `main` Cloudflare ejecuta `npx wrangler preview`, que falla sin un bloque
+      `previews` en `wrangler.jsonc`. Agregado `"previews": {}`; `wrangler deploy --dry-run` sigue
+      leyendo los 105 archivos. `wrangler preview` no tiene modo simulado: se confirma en el próximo PR.
 - [x] Nombre real: **SD Tech Import** (título, cabecera, `og:title`/`og:site_name`, favicon "S").
       Verificado a 320, 390 y 1440 px: el nombre cabe en 1 línea, sin scroll horizontal.
 
@@ -264,6 +269,7 @@ logo de la tienda (opcional, va en lugar del nombre en `.cabecera`, ver `diseno.
 | 2026-11-04 | Pedido guardado en `sessionStorage` (no `localStorage`) | Basta para sobrevivir a la ida y vuelta a WhatsApp; no deja un pedido viejo marcado días después. |
 | 2026-11-04 | Favicon generado desde `tienda.nombre` | Los de `public/` eran el logo de Astro; así se actualiza solo con el nombre real (D2) sin diseñar un archivo. No usa el logo de Nintendo (`diseno.md` §7). |
 | 2026-11-04 | Cloudflare **Workers** con `wrangler.jsonc` de solo assets, y no Pages | El dueño creó el proyecto como Worker desde el panel (Cloudflare lo propone por defecto). Un archivo de 6 líneas lo deja funcionando sin rehacer el proyecto; es el mismo sitio estático, sin servidor. |
+| 2026-11-04 | `"previews": {}` en `wrangler.jsonc` en vez de apagar las compilaciones de ramas | Una línea arregla el check rojo y deja una dirección de prueba por PR para ver los cambios antes de fusionar. |
 | 2026-11-04 | `wrangler` sin fijar en `package.json` | Lo instala `npx` en cada despliegue; fijarlo agregaría cientos de paquetes a cada `npm ci` del CI. Si una versión nueva rompe el despliegue, fijarlo entonces. |
 | 2026-11-04 | Fuente desde npm (Fontsource) con el proveedor local, no el de Google | El proveedor de Google, si no puede descargar, compila igual con otra fuente y sin avisar (pasó en el entorno de trabajo). Desde npm queda fijada en `package-lock.json` y Dependabot la actualiza. |
 | 2026-11-04 | Imagen de vista previa sin texto, solo las 3 portadas destacadas | WhatsApp ya muestra título y descripción al lado; dibujar texto con `sharp` dependería de las fuentes instaladas en la máquina del build. Se regenera sola al cambiar los destacados. |
