@@ -91,6 +91,7 @@ src/
   layouts/Layout.astro← <head>, fuente, tokens de color en :root, reset global
   pages/
     index.astro       ← la página: diseño A · Tablero
+    favicon.svg.ts    ← ícono de pestaña: inicial de tienda.nombre en blanco sobre rojo
 docs/                 ← este spec y las directrices de diseño
 ```
 
@@ -103,12 +104,17 @@ Cada entrada de `productos` (campos que usa la web; el resto se ignora):
   "id": "mario-kart-world",          // único, kebab-case
   "titulo": "Mario Kart World",
   "plataforma": "Nintendo Switch 2", // "Nintendo Switch" → "Switch 1"; "Nintendo Switch 2" → "Switch 2"
-  "tipo_producto": "juego_digital",  // "dlc" | "update" | otro → Juego. "juego_con_accesorios" añade "Necesita Ring-Con"
+  "tipo_producto": "juego_digital",  // "juego_digital" | "juego_con_accesorios" (añade "Necesita Ring-Con") | "dlc" | "update"
   "precio_venta_cop": 299900,        // OPCIONAL: tu precio. Si falta, se usa el de referencia
   "precio_referencia_eshop_colombia_cop": 319900, // null → muestra "Consultar" y no entra al pedido
   "imagen": { "ruta": "imagenes/mario-kart-world.webp" } // opcional; sin imagen: bloque de color
 }
 ```
+
+**Validación al compilar** (`lib/catalogo.ts`): `npm run build` se detiene con una lista en español
+si un `id` no es kebab-case o está repetido, falta `titulo`, `plataforma` o `tipo_producto` no son
+uno de los valores de arriba, un precio no es entero positivo o `null`, la portada no existe, o en
+`tienda.ts` los destacados no son 3 ids existentes y distintos o el WhatsApp no son 11–15 dígitos.
 
 Orden: el del archivo (por `puesto_ranking`). Los **destacados** se eligen en `tienda.ts → destacados`
 (lista de ids, en orden: el primero es la portada grande). El diseño está pensado para
@@ -120,14 +126,16 @@ Orden: el del archivo (por `puesto_ranking`). Los **destacados** se eligen en `t
 
 Cualquier elemento con los atributos que devuelve `item(p)` (`href`, `data-item`,
 `data-nombre`, `data-precio`, `data-detalle`) se vuelve seleccionable: el script le pone
-`role="button"` y `aria-pressed`. **`aria-pressed` es el único estado** (no hay clases ni
+`role="button"` y `aria-pressed`, y responde a Enter y Espacio. **`aria-pressed` es el único estado** (no hay clases ni
 `Set` aparte): el CSS de `Mosaico.astro` dibuja "+" o "✓" a partir de él, así que sin
 JavaScript no aparece ningún "+" y el enlace `wa.me` funciona solo. Los colores salen de los
-tokens globales de `Layout.astro`.
+tokens globales de `Layout.astro`. La selección (lista de `data-item`) se guarda en
+`sessionStorage` bajo la clave `pedido`, para que sobreviva si el celular recarga la pestaña al
+volver de WhatsApp; si el almacenamiento está bloqueado, todo funciona igual sin guardar.
 
 ## 5. Estado (actualizar al cerrar cada sesión)
 
-**Última actualización:** 2026-11-04 (simplificación), rama `claude/keen-ramanujan-5bab3k` (incluye `main` con los assets).
+**Última actualización:** 2026-11-04 (robustez del pedido y validación), rama `mejoras/pedido-y-validacion` (sale de `main`).
 
 Hecho:
 - [x] Entrevista y requisitos (sección 3).
@@ -145,6 +153,13 @@ Hecho:
       la pestaña de Switch 1 se vuelve negra con el mosaico, sin scroll horizontal ni huecos,
       barra sin desbordes, mensaje con la consola de cada juego.
 
+- [x] Robustez (rama `mejoras/pedido-y-validacion`): validación de `productos.json` y `tienda.ts`
+      al compilar (probada con 6 errores a propósito: los 6 se reportan y el build falla); Espacio
+      selecciona un mosaico; el pedido sobrevive a recargar (probado: 3 títulos, mismo total y
+      mismo enlace tras recargar; "Vaciar" + recargar deja la barra oculta; con `sessionStorage`
+      bloqueado la barra funciona); favicon propio (fuera los de la plantilla de Astro); README
+      reescrito como guía para el dueño.
+
 Pendiente de datos del dueño: número de WhatsApp real (hoy `573001234567`), nombre de la tienda,
 y confirmar si los precios mostrados (referencia eShop) son los de venta (D5).
 
@@ -160,8 +175,8 @@ y confirmar si los precios mostrados (referencia eShop) son los de venta (D5).
       1200×630 del tablero). Necesita la URL final (D4) para la ruta absoluta de la imagen.
 - [ ] **T6. Publicación:** elegir hosting estático (Netlify, Vercel, Cloudflare Pages o
       GitHub Pages) y generar el QR del enlace final.
-- [ ] **T7. Auditoría:** accesibilidad (contraste, foco, `aria-pressed`), peso de imágenes,
-      y prueba en un celular real con WhatsApp instalado.
+- [~] **T7. Auditoría:** hecho: Espacio en los mosaicos. Falta: contraste, peso de imágenes,
+      alojar la fuente en el sitio (hoy Google Fonts), y prueba en un celular real con WhatsApp.
 
 ## 7. Decisiones abiertas (preguntar al dueño)
 
@@ -200,10 +215,14 @@ y confirmar si los precios mostrados (referencia eShop) son los de venta (D5).
 | 2026-11-04 | Logo de Switch desde Simple Icons (CC0); Switch 2 = mismo ícono + "2" | No hay archivo abierto del logo de Switch 2 y los sitios de Nintendo/Wikimedia no eran accesibles. Vive en `src/assets/switch.svg` para cambiarlo por el oficial sin tocar código. |
 | 2026-11-04 | `aria-pressed` como único estado del pedido; tokens en `:root` | Una sola fuente de verdad para CSS, script y lector de pantalla; los componentes ya no dependen de estar dentro de `<main>`. |
 | 2026-11-04 | Barra sin "N títulos"; "Vaciar" oculto ≤ 420 px | Los mosaicos marcados ya muestran qué se eligió; así cabe un total de 7 cifras a 320 px. |
+| 2026-11-04 | Validar `productos.json` y `tienda.ts` al compilar; `tipo_producto` desconocido ya no cae en "Juego" | El dueño no es técnico: un error de tipeo (ej. `"Nintendo switch 2"`, `"DLC"`) publicaba el juego mal sin aviso. Mejor que el build falle con un mensaje claro. |
+| 2026-11-04 | Pedido guardado en `sessionStorage` (no `localStorage`) | Basta para sobrevivir a la ida y vuelta a WhatsApp; no deja un pedido viejo marcado días después. |
+| 2026-11-04 | Favicon generado desde `tienda.nombre` | Los de `public/` eran el logo de Astro; así se actualiza solo con el nombre real (D2) sin diseñar un archivo. No usa el logo de Nintendo (`diseno.md` §7). |
+| 2026-11-04 | README como guía del dueño | El de la plantilla no explicaba cómo cambiar precios o agregar juegos. |
 
 ## 9. Cómo verificar un cambio
 
-1. `npm run build` termina sin errores.
+1. `npm run build` termina sin errores (incluye la validación del catálogo).
 2. `astro dev --background` y abrir `/` a 390 px
    y a 1440 px de ancho: sin scroll horizontal, títulos en ≤ 2 líneas, sin huecos raros en el tablero.
 3. Tocar 2–3 títulos: la barra muestra cantidad y total correctos; el enlace `wa.me`
