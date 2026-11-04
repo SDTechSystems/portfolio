@@ -66,8 +66,8 @@ Tamaños de mosaico (clases) y cuántas columnas ocupan:
 | Destacado grande | `<Mosaico tamano="grande">` | 6, imagen 2:1 | 6 × 2 filas, imagen llena el alto |
 | Destacados chicos | `<Mosaico tamano="medio">` | 3 | 4, imagen 2.1:1 con alto máx. `50svh − 182px` (los 3 precios destacados se ven sin desplazar desde 768 px de alto) |
 | Juego / DLC / update | `<Mosaico>` | 3 (2 por fila) | 2 (5 por fila) |
-| Juego con varias versiones | `.ancho` (lo pone `Mosaico` si hay `grupo`) | 6, imagen 2.4:1 | 4; 760–1099px imagen 3:1 arriba; ≥ 1100px portada a la izquierda (45 %) y versiones a la derecha |
-| Destacado chico junto a uno con versiones | `.lleno` | 6, imagen 2.4:1 | 4 (igual que siempre) |
+| Juego con varias versiones | `.ancho` (lo pone `Mosaico` si hay `grupo`) | 6, imagen 3:1 | 4; 760–1099px imagen 3:1 arriba; ≥ 1100px portada a la izquierda (45 %) y versiones a la derecha |
+| Destacado chico junto a uno con versiones | `.lleno` | 6, imagen 3:1 | 4 (igual que siempre) |
 | ¿No ves tu juego? | `.mas` | lo que falte para cerrar la sección (3 o 6) | lo que falte (2–10); lo calcula `lib/reticula.ts` |
 
 Estructura de un mosaico de juego (no cambiar el orden):
@@ -91,9 +91,9 @@ Juego con varias versiones (Switch 1, Switch 2, paquete de mejora), un solo mosa
 │ portada de Switch 2              │
 ├──────────────────────────────────┤
 │ Nombre                           │  .n
-│          [⊞] $ 279.900       (+) │  .version: cada fila es su propio botón
-│         [⊞2] $ 319.900       (+) │  .sello pegado al precio; precios en una columna
-│ [Mejora a ⊞2] $ 45.000       (+) │
+│ [⊞]                $ 279.900 (+) │  .version: cada fila es su propio botón
+│ [⊞2]               $ 319.900 (+) │  .sello a la izquierda; precio alineado a la derecha,
+│ [Mejora a ⊞2]       $ 45.000 (+) │  junto al "+" (se comparan como en una lista)
 └──────────────────────────────────┘
 ```
 
@@ -182,4 +182,4 @@ lugar del tablero, lleva la pestaña de su consola. El lector de pantalla la lee
 - [ ] Contraste: blanco sobre `--rojo` (4.8:1), `--suave` sobre blanco (6.7:1) y `#b9b9c2` sobre `--tinta` (9.6:1) cumplen AA.
 - [ ] Con Tab: el contorno de foco se ve en mosaicos blancos, elegidos y rojos, y ninguno queda bajo la barra.
 - [ ] Ningún elemento de la tabla "No hacer" del §6.
-- [ ] Juegos con versiones: a 320px las filas de precio no se salen; los precios empiezan en la misma columna; elegir una versión pone solo esa fila en negro.
+- [ ] Juegos con versiones: a 320px las filas de precio no se salen; los precios quedan alineados a la derecha junto al "+"; elegir una versión pone solo esa fila en negro.

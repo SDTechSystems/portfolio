@@ -88,16 +88,17 @@ const Caja = varias ? 'div' : 'a';
   /* Juego con varias versiones: ancho de dos mosaicos (las filas de precio no caben en uno a 320px). */
   .ancho { grid-column: span 6; cursor: auto; }
   .ancho:active { transform: none; }
-  .ancho .img, .lleno .img { aspect-ratio: 2.4 / 1; }
+  .ancho .img, .lleno .img { aspect-ratio: 3 / 1; }
   .lleno { grid-column: span 6; }
-  /* Retícula común (subgrid): los precios empiezan en la misma columna aunque los sellos midan distinto. */
+  /* Retícula común (subgrid): sellos en una columna a la izquierda y precios alineados a la derecha,
+     junto al "+", para compararlos como en una lista de precios. */
   .versiones { margin-top: auto; padding-top: 6px; display: grid; grid-template-columns: auto 1fr; gap: 4px 10px; }
   .version { --fondo: var(--mosaico); min-height: 44px; margin: 0 -6px; padding: 4px 6px; border-radius: 6px; grid-column: 1 / -1; display: grid; grid-template-columns: subgrid; align-items: center; background: var(--fondo); cursor: pointer; transition: transform .15s, background-color .15s; }
   .version:active { transform: scale(.98); }
   .version[aria-pressed='true'] { --fondo: var(--tinta); }
-  .version strong { margin: 0; padding: 0; }
+  .version strong { margin: 0; padding: 0; justify-content: flex-end; gap: 10px; }
   /* Sello de cada versión: como la pestaña, en pequeño (Switch 2 en rojo). */
-  .sello { justify-self: end; height: 28px; padding: 0 8px; border-radius: 6px; display: flex; align-items: center; gap: 3px; background: var(--suelo); color: var(--tinta); font-size: 13px; font-weight: 800; line-height: 1; }
+  .sello { justify-self: start; height: 28px; padding: 0 8px; border-radius: 6px; display: flex; align-items: center; gap: 3px; background: var(--suelo); color: var(--tinta); font-size: 13px; font-weight: 800; line-height: 1; }
   .sello svg { width: 17px; height: 17px; }
   .sello b { font-size: 17px; font-weight: 800; letter-spacing: -.02em; }
   .sello.dos { background: var(--rojo); color: #fff; }

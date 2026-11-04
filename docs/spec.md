@@ -266,6 +266,8 @@ Hecho:
       1440 px; cada fila se lee como "Nombre del juego, Nintendo Switch 2, $ …". Retícula: el cierre
       "¿No ves tu juego?" lo calcula `lib/reticula.ts` (simula `grid-auto-flow: dense`); con 21 chicos da
       lo mismo que la fórmula anterior (3 y 8 columnas).
+      Tras la crítica de diseño: precios alineados a la derecha junto al "+" (mismo borde derecho en las 3
+      filas a 320 y 390 px) y portada 3:1 en celular (mosaico 341 → 310 px a 390 px; página −93 px).
       Contrapartidas: en celular un juego con versiones ocupa el ancho de 2 mosaicos (las filas de precio
       no caben en uno a 320 px) y, si es un destacado chico, el otro destacado chico también va a todo el
       ancho para que no se cuele un juego entre ellos; entre 760 y 1099 px el mosaico ancho es más alto
@@ -363,6 +365,7 @@ logo de la tienda (opcional, va en lugar del nombre en `.cabecera`, ver `diseno.
 | 2026-11-04 | Portada de la versión de Switch 2 en el mosaico con versiones | Elección del dueño: la caja de Switch 2 (franja roja) dice de un vistazo que hay versión nueva. Hasta que la agregue se usa la de Switch 1. |
 | 2026-11-04 | Paquete de mejora con sello "Mejora a ⊞2" (único texto nuevo) | El dueño lo vende. Un logo no basta para decir "pasar de Switch 1 a Switch 2"; dos palabras sí. |
 | 2026-11-04 | Juego con versiones = ancho de 2 mosaicos (6 col. en celular, 4 en escritorio) | Sello + precio de 22 px + "+" piden ~180 px y un mosaico chico a 320 px deja 122 px. Desde 1100 px la portada va a la izquierda y el mosaico mide lo mismo que sus vecinos. |
+| 2026-11-04 | Filas de versión: sello a la izquierda y precio alineado a la derecha junto al "+"; portada 3:1 en celular | Crítica de diseño: con el precio después del sello más ancho ("Mejora a ⊞2", 106 px) los precios empezaban a mitad del mosaico y el sello de Switch 1 flotaba solo; alineados a la derecha se comparan como en una lista. La portada a 3:1 baja el mosaico de 341 a 310 px a 390 px (3 versiones sueltas ocuparían ~290 px). |
 | 2026-11-04 | Ancho de "¿No ves tu juego?" calculado simulando la retícula (`lib/reticula.ts`) | Con mosaicos de dos anchos, contar mosaicos ya no dice cuánto falta para cerrar la fila. |
 | 2026-11-04 | Sin `flex-wrap` en el precio para WCAG 1.4.12 | Probado: a 320 px el "+" bajaba de línea siempre (+369 px de alto). Con espaciado aumentado el "+" se recorta, pero es decorativo: el precio sigue visible y el estado lo dan el color y `aria-pressed`. |
 
