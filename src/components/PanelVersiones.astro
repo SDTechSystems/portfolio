@@ -15,28 +15,43 @@
 </dialog>
 
 <script>
-  const hoja = document.getElementById('versiones') as HTMLDialogElement;
-  const titulo = hoja.querySelector('.titulo')!;
-  const lugar = hoja.querySelector('.lugar')!;
-  let vuelta: { lista: Element; padre: Element } | null = null;
+  function iniciarPanel() {
+    const hoja = document.querySelector<HTMLDialogElement>('#versiones');
+    // Sin estas capacidades se conservan los enlaces visibles del HTML inicial.
+    if (!hoja || typeof hoja.showModal !== 'function' || typeof hoja.close !== 'function') return;
+    const titulo = hoja.querySelector('.titulo')!;
+    const lugar = hoja.querySelector('.lugar')!;
+    let vuelta: { lista: Element; padre: Element } | null = null;
+    const devolver = () => {
+      if (vuelta) vuelta.padre.append(vuelta.lista);
+      vuelta = null;
+    };
 
-  document.querySelectorAll<HTMLButtonElement>('.abrir').forEach((boton) => {
-    boton.addEventListener('click', () => {
-      const mosaico = boton.closest('.mosaico')!;
-      const lista = mosaico.querySelector('.versiones')!;
-      vuelta = { lista, padre: lista.parentElement! };
-      titulo.textContent = mosaico.querySelector('.n')!.textContent;
-      lugar.append(lista);
-      hoja.showModal();
+    const botones = document.querySelectorAll<HTMLButtonElement>('.abrir');
+    botones.forEach((boton) => {
+      boton.addEventListener('click', () => {
+        const mosaico = boton.closest('.mosaico')!;
+        const lista = mosaico.querySelector('.versiones')!;
+        vuelta = { lista, padre: lista.parentElement! };
+        titulo.textContent = mosaico.querySelector('.n')!.textContent;
+        lugar.append(lista);
+        try {
+          hoja.showModal();
+        } catch {
+          devolver();
+          mosaico.removeAttribute('data-panel-listo');
+          lista.querySelector<HTMLAnchorElement>('a')?.focus();
+        }
+      });
     });
-  });
-  hoja.addEventListener('close', () => {
-    if (vuelta) vuelta.padre.append(vuelta.lista);
-    vuelta = null;
-  });
-  hoja.querySelector('.listo')!.addEventListener('click', () => hoja.close());
-  // Tocar el fondo oscuro (fuera de .caja) también cierra.
-  hoja.addEventListener('click', (e) => { if (e.target === hoja) hoja.close(); });
+    hoja.addEventListener('close', devolver);
+    hoja.querySelector('.listo')!.addEventListener('click', () => hoja.close());
+    // Tocar el fondo oscuro (fuera de .caja) también cierra.
+    hoja.addEventListener('click', (e) => { if (e.target === hoja) hoja.close(); });
+    // Solo se ocultan las filas cuando todos los eventos ya están instalados.
+    botones.forEach((boton) => boton.closest('.mosaico')!.setAttribute('data-panel-listo', ''));
+  }
+  iniciarPanel();
 </script>
 
 <style>

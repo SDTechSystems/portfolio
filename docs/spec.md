@@ -130,14 +130,15 @@ Cada entrada de `productos` (campos que usa la web; el resto se ignora):
   "plataforma": "Nintendo Switch 2", // "Nintendo Switch" → "Switch 1"; "Nintendo Switch 2" → "Switch 2"
   "tipo_producto": "juego_digital",  // "juego_digital" | "juego_con_accesorios" (añade "Necesita Ring-Con") | "dlc" | "update" | "paquete_mejora"
   "grupo": "zelda-totk",              // OPCIONAL: igual en las versiones de un mismo juego → un mosaico con un precio por versión
-  "precio_venta_cop": 299900,        // OPCIONAL: tu precio. Si falta, se usa el de referencia
+  "precio_venta_cop": 299900,        // OPCIONAL: tu precio. Ausente → referencia; null → "Consultar"
   "precio_referencia_eshop_colombia_cop": 319900, // null → muestra "Consultar" y no entra al pedido
   "publicar": false,                 // OPCIONAL: false = no sale en la página (se valida igual)
   "imagen": { "ruta": "imagenes/mario-kart-world.webp" } // opcional; sin imagen: bloque de color
 }
 ```
 
-**Validación al compilar** (`lib/catalogo.ts`): `npm run build` se detiene con una lista en español
+**Validación al compilar** (`lib/datos-catalogo.ts`, llamado por `lib/catalogo.ts`):
+primero se revisan la lista, los objetos y los tipos, incluso en productos no publicados; `npm run build` se detiene con una lista en español
 si un `id` no es kebab-case o está repetido, falta `titulo`, `plataforma` o `tipo_producto` no son
 uno de los valores de arriba, un precio no es entero positivo o `null`, la portada no existe, o en
 `tienda.ts` los destacados no son 3 ids existentes y distintos o el WhatsApp no son 11–15 dígitos.
@@ -167,12 +168,15 @@ JavaScript no aparece ningún "+" y el enlace `wa.me` funciona solo. Los colores
 tokens globales de `Layout.astro`. La selección (lista de `data-item`) se guarda en
 `sessionStorage` bajo la clave `pedido`, para que sobreviva si el celular recarga la pestaña al
 volver de WhatsApp; si el almacenamiento está bloqueado, todo funciona igual sin guardar.
+Solo se restauran listas de cadenas; otros formatos inician un pedido vacío.
 
 ## 5. Estado (actualizar al cerrar cada sesión)
 
-**Última actualización:** 2026-11-04 (escritorio simétrico y portadas de 1920 px), rama `claude/beautiful-cannon-3a7uu7` (sale de `main`).
+**Última actualización:** 2026-11-04 (correcciones de auditoría #17–#20 sobre `c20ba4c`).
 
 Hecho:
+- [x] **Auditoría #17:** Respaldo del panel mediante mejora progresiva; filas visibles hasta inicializar los eventos y recuperación si falla `showModal`. Conserva el panel centrado en escritorio de PR #21.
+
 - [x] Entrevista y requisitos (sección 3).
 - [x] Diseño A · Tablero como página principal `/` (celular y escritorio). Diseños B y C y selector borrados.
 - [x] Catálogo real de Colombia: 24 juegos de `productos.json` (23 Switch 1, 1 Switch 2), sin DLC ni updates.
@@ -188,6 +192,8 @@ Hecho:
       la pestaña de Switch 1 se vuelve negra con el mosaico, sin scroll horizontal ni huecos,
       barra sin desbordes, mensaje con la consola de cada juego.
 
+- [x] **Auditoría #19:** Restauración del pedido desde listas de cadenas; formatos inválidos no interrumpen la selección. Nueve pruebas de regresión, incorporadas al CI.
+
 - [x] Robustez (rama `mejoras/pedido-y-validacion`): validación de `productos.json` y `tienda.ts`
       al compilar (probada con 6 errores a propósito: los 6 se reportan y el build falla); Espacio
       selecciona un mosaico; el pedido sobrevive a recargar (probado: 3 títulos, mismo total y
@@ -196,6 +202,8 @@ Hecho:
       reescrito como guía para el dueño.
 
 - [x] Robustez fusionada en `main` (PR #3).
+- [x] **Auditoría #20:** Validación de estructura antes de filtrar productos o revisar reglas de negocio; conserva `publicar`, grupos y los cinco recortes. Pruebas de regresión en CI.
+
 - [x] Repo: CI de build, `.nvmrc` (Node 22.23.4), Dependabot y plantilla de PR (rama `ci/build-y-dependabot`).
       Verificado: YAML válido; `npm ci` + `npm run build` desde una copia limpia pasan (0 vulnerabilidades).
       El CI solo se verá correr en GitHub al abrir el PR. Fusionado (PR #4).
@@ -341,6 +349,8 @@ Hecho:
       `src/assets/…/imagenes` 2,9 → 9 MB en el repo. Sin JavaScript, en escritorio el juego con versiones mide
       4 columnas (las filas no caben en 2) y "¿No ves tu juego?" puede no cerrar exacto la fila, como ya pasaba en celular.
 
+- [x] **Auditoría #18:** Venta nula fuerza «Consultar» aunque haya referencia; pruebas de precedencia en `npm test`, incorporadas al CI.
+
 - [x] **Precios de venta** (merge de `main` con `Precios_Finales_Catalogo_Nintendo.json`, 38 productos): a los 32 de
       `productos.json` se les copiaron todos los campos del listado (precio de venta, 14 precios de referencia corregidos
       de 279.900 a 239.900, `estado_precio`, `publicar`, `requiere_juego_base`), conservando `imagen` (1920×1080).
@@ -404,6 +414,7 @@ Pendiente de datos del dueño: logo de la tienda (opcional, va en lugar del nomb
 | 2026-11-04 | La web lee `productos.json` directamente; se borró `catalogo.json` y `public/portadas/` | Una sola fuente de datos: el archivo que entregó el dueño. Evita copias desincronizadas. |
 | 2026-11-04 | Portadas vía `astro:assets` (`<Image>`, 4 anchos webp) en vez de `public/` | El dueño las dejó en `src/assets`; Astro las reduce de peso automáticamente. |
 | 2026-11-04 | Estrenos definidos por ids en `tienda.ts` | `productos.json` no tiene campo de estreno; así no se altera el archivo del dueño y el orden es explícito. |
+| 2026-11-04 | Corrección #18 | Distinguir campo ausente de null permite retirar el precio publicado conservando la referencia. Solo la ausencia usa la referencia. |
 | 2026-11-04 | Campo opcional `precio_venta_cop` | Permite poner el precio propio sin perder el de referencia (D5). |
 | 2026-11-04 | El mosaico "¿No ves tu juego?" se ensancha hasta cerrar la última fila | Con 21 juegos quedaba un hueco de 3 mosaicos en escritorio (regla §8 de `diseno.md`). |
 | 2026-11-04 | Sección "DLC y updates" oculta con `mostrarDlcUpdates: false` | Pedido del dueño: se conserva para agregar contenido después sin que se publique a medias. |
@@ -415,7 +426,9 @@ Pendiente de datos del dueño: logo de la tienda (opcional, va en lugar del nomb
 | 2026-11-04 | Logo de Switch desde Simple Icons (CC0); Switch 2 = mismo ícono + "2" | No hay archivo abierto del logo de Switch 2 y los sitios de Nintendo/Wikimedia no eran accesibles. Vive en `src/assets/switch.svg` para cambiarlo por el oficial sin tocar código. |
 | 2026-11-04 | `aria-pressed` como único estado del pedido; tokens en `:root` | Una sola fuente de verdad para CSS, script y lector de pantalla; los componentes ya no dependen de estar dentro de `<main>`. |
 | 2026-11-04 | Barra sin "N títulos"; "Vaciar" oculto ≤ 420 px | Los mosaicos marcados ya muestran qué se eligió; así cabe un total de 7 cifras a 320 px. |
+| 2026-11-04 | Corrección #20 | Validar tipos antes de usar campos o filtrar por publicar evita TypeError. Reglas extraídas a datos-catalogo.ts para probarlas sin cargar imágenes. |
 | 2026-11-04 | Validar `productos.json` y `tienda.ts` al compilar; `tipo_producto` desconocido ya no cae en "Juego" | El dueño no es técnico: un error de tipeo (ej. `"Nintendo switch 2"`, `"DLC"`) publicaba el juego mal sin aviso. Mejor que el build falle con un mensaje claro. |
+| 2026-11-04 | Corrección #19 | Validar el tipo del JSON además de capturar errores de lectura; formatos inesperados no deben impedir seleccionar productos. |
 | 2026-11-04 | Pedido guardado en `sessionStorage` (no `localStorage`) | Basta para sobrevivir a la ida y vuelta a WhatsApp; no deja un pedido viejo marcado días después. |
 | 2026-11-04 | Favicon generado desde `tienda.nombre` | Los de `public/` eran el logo de Astro; así se actualiza solo con el nombre real (D2) sin diseñar un archivo. No usa el logo de Nintendo (`diseno.md` §7). |
 | 2026-11-04 | Cloudflare **Workers** con `wrangler.jsonc` de solo assets, y no Pages | El dueño creó el proyecto como Worker desde el panel (Cloudflare lo propone por defecto). Un archivo de 6 líneas lo deja funcionando sin rehacer el proyecto; es el mismo sitio estático, sin servidor. |
@@ -449,6 +462,7 @@ Pendiente de datos del dueño: logo de la tienda (opcional, va en lugar del nomb
 | 2026-11-04 | Paquete de mejora con sello "Mejora a ⊞2" (único texto nuevo) | El dueño lo vende. Un logo no basta para decir "pasar de Switch 1 a Switch 2"; dos palabras sí. |
 | 2026-11-04 | ~~Celular: juego con versiones a todo el ancho~~ → **mosaico normal + panel de versiones** | El sitio es sobre todo para celular: a todo el ancho la página crecía +31 % (3,4 → 4,4 pantallas) y crecería con cada juego con versiones. De 2 propuestas (mosaico compacto horizontal, −35 % de alto; mosaico normal + panel) el dueño eligió el panel: la página vuelve a medir como `main` y no crece. Cuesta un toque más, una vez por juego. |
 | 2026-11-04 | "N versiones · desde $ …" con el precio del juego más barato (sin el paquete de mejora) | Sin las filas a la vista, el mosaico tiene que decir que hay varias opciones y cuánto cuesta entrar. La mejora no cuenta: solo sirve a quien ya tiene el juego, y "desde $ 39.900" engañaría. |
+| 2026-11-04 | Corrección #17 | Las filas permanecen visibles hasta inicializar el panel, tanto en celular como en escritorio. El respaldo ya no depende de `<noscript>`. |
 | 2026-11-04 | Las filas se **mueven** al panel (no se copian) | Siguen siendo los mismos botones: conservan `aria-pressed`, los eventos de `Pedido.astro` y `sessionStorage` sin duplicar estado. |
 | 2026-11-04 | ~~Juego con versiones = ancho de 2 mosaicos (en escritorio, 4 columnas)~~ → **en escritorio también mosaico normal + panel** (ver abajo) | Sello + precio de 22 px + "+" piden ~180 px y un mosaico chico a 320 px deja 122 px. Desde 1100 px la portada va a la izquierda y el mosaico mide lo mismo que sus vecinos. |
 | 2026-11-04 | Filas de versión: sello a la izquierda y precio alineado a la derecha junto al "+"; ~~portada 3:1 en celular~~ (con el panel, en celular la portada vuelve a 16:9) | Crítica de diseño: con el precio después del sello más ancho ("Mejora a ⊞2", 106 px) los precios empezaban a mitad del mosaico y el sello de Switch 1 flotaba solo; alineados a la derecha se comparan como en una lista. La portada a 3:1 baja el mosaico de 341 a 310 px a 390 px (3 versiones sueltas ocuparían ~290 px). |

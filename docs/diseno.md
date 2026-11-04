@@ -120,6 +120,10 @@ El precio va **debajo** de la portada, nunca encima de la imagen.
 
 ## 4. Estados e interacción
 
+Las filas de versiones son visibles por defecto (6 columnas en celular y 4 en escritorio).
+El script activa el mosaico compacto con `data-panel-listo` solo después de instalar los eventos.
+Así el respaldo también funciona si el script falla. Si falla `showModal`, se restauran las filas visibles.
+
 - **Se puede elegir** (`[aria-pressed]`, lo pone el script): círculo de 28px en `--suelo`
   con "+" a la derecha del precio. Sin JavaScript no aparece.
 - **Sin precio** ("Consultar"): en lugar del "+" lleva un círculo igual con "↗", porque al tocarlo abre WhatsApp en vez de sumarse al pedido.

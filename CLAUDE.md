@@ -19,12 +19,12 @@ Fuente de verdad: `docs/spec.md` (requisitos F1–F6, fuera de alcance, decision
 | Comando | Para qué |
 |---|---|
 | `npm ci` | Instalar (Node 22.23.4 exacto, ver `.nvmrc`). En la nube lo hace el hook de inicio. |
-| `npm run build` | Compila a `dist/` **y valida el catálogo**. Es la única comprobación del proyecto. |
+| `npm run build` | Compila a `dist/` **y valida el catálogo**. |
 | `astro dev --background` | Servidor de desarrollo en `http://localhost:4321` (`astro dev stop\|status\|logs`). |
 | `npm run preview` | Sirve `dist/` tal como se publica. |
 
-No hay tests, linter ni `astro check` (no está instalado `@astrojs/check`). El CI
-(`.github/workflows/build.yml`) solo corre `npm ci && npm run build`.
+Hay pruebas con `npm test` (runner de Node), sin dependencias adicionales. No hay linter ni `astro check` (no está instalado `@astrojs/check`). El CI
+(`.github/workflows/build.yml`) corre `npm ci`, `npm test` y `npm run build`.
 `.github/workflows/prioridad.yml` pone el label `P1`/`P2`/`P3` según el campo «Prioridad» de las
 plantillas de issue (`.github/ISSUE_TEMPLATE/`: «Error» → `bug`, «Solicitud» → `enhancement`).
 
@@ -34,9 +34,9 @@ plantillas de issue (`.github/ISSUE_TEMPLATE/`: «Error» → `bug`, «Solicitud
 + `src/data/tienda.ts` (nombre, WhatsApp, `url`, 3 `destacados`, `mostrarDlcUpdates`) →
 `src/lib/catalogo.ts` → `src/pages/index.astro`.
 
-- **Validación al importar:** `catalogo.ts` revisa todas las filas al cargarse y lanza
+- **Validación al importar:** `catalogo.ts` llama a `datos-catalogo.ts` para validar estructura y filas al cargarse y lanza
   `Error("Revisa el catálogo:\n- …")`, lo que detiene el build. Si agregas un campo o una regla,
-  hazlo ahí con un mensaje en español para alguien no técnico. `tienda.url` se valida aparte en
+  hazlo en `datos-catalogo.ts` con un mensaje en español para alguien no técnico. `tienda.url` se valida aparte en
   `astro.config.mjs`, porque Astro lee `site` antes que todo.
 - **Traducción de campos:** las filas del JSON (`titulo`, `plataforma`, `tipo_producto`,
   `precio_venta_cop ?? precio_referencia_eshop_colombia_cop`) se convierten al tipo `Producto`
@@ -50,7 +50,7 @@ plantillas de issue (`.github/ISSUE_TEMPLATE/`: «Error» → `bug`, «Solicitud
   La selección se guarda en `sessionStorage['pedido']`, envuelta en try/catch. Sin JavaScript,
   cada mosaico sigue siendo un enlace de WhatsApp (F3): no rompas esa mejora progresiva.
   En celular, las filas de un juego con versiones se **mueven** (no se copian) al `<dialog>` de
-  `PanelVersiones.astro` y vuelven al cerrar; sin JavaScript, un `<noscript>` en `index.astro` las muestra.
+  `PanelVersiones.astro` y vuelven al cerrar; las filas son visibles por defecto y solo se ocultan tras inicializar los eventos (`data-panel-listo`).
 - **Retícula:** grid de 6/10 columnas con `grid-auto-flow: dense`. El mosaico "¿No ves tu juego?"
   calcula su ancho con `lib/reticula.ts`, que simula `dense` con los anchos de cada mosaico (los juegos
   con versiones miden 2): si cambias tamaños de mosaico, actualiza las piezas en `index.astro`.
@@ -74,7 +74,7 @@ adaptador de servidor de Astro: el sitio es estático a propósito.
 
 ## Automatizaciones de Claude Code (`.claude/`)
 
-- Al editar `productos.json`, `tienda.ts`, `catalogo.ts` o `astro.config.mjs`, un hook corre el build
+- Al editar `productos.json`, `tienda.ts`, `catalogo.ts`, `datos-catalogo.ts` o `astro.config.mjs`, un hook corre el build
   (~5 s) y devuelve los errores de validación: corrígelos antes de seguir.
 - Un hook bloquea editar `package-lock.json`, `dist/`, `.astro/` y `node_modules/`.
 - `/nuevo-producto` y `/cerrar-sesion` (actualiza el spec) solo los invoca el usuario. Usa el

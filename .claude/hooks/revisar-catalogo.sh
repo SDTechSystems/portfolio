@@ -7,7 +7,7 @@ set -uo pipefail
 ruta=$(node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>{try{process.stdout.write(JSON.parse(s).tool_input?.file_path??"")}catch{}})')
 
 case "$ruta" in
-  */Catalogo_Nintendo_Switch_Colombia/productos.json|*/src/data/tienda.ts|*/src/lib/catalogo.ts|*/astro.config.mjs) ;;
+  */Catalogo_Nintendo_Switch_Colombia/productos.json|*/src/data/tienda.ts|*/src/lib/catalogo.ts|*/src/lib/datos-catalogo.ts|*/astro.config.mjs) ;;
   *) exit 0 ;;
 esac
 
