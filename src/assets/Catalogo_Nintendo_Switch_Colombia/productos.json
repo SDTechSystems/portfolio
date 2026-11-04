@@ -39,7 +39,39 @@
         "alto": 540,
         "fuente_pagina": "https://www.nintendo.com/us/store/products/animal-crossing-new-horizons-switch/",
         "fuente_imagen": "https://assets.nintendo.com/image/upload/c_fill,w_1200/q_auto/f_auto/dpr_2.0/store/software/switch/70010000027619/9989957eae3a6b545194c42fec2071675c34aadacd65e6b33fdfe7b3b6a86c3a"
-      }
+      },
+      "grupo": "animal-crossing"
+    },
+    {
+      "id": "animal-crossing-new-horizons-switch-2",
+      "puesto_ranking": 2,
+      "titulo": "Animal Crossing: New Horizons – Nintendo Switch 2 Edition",
+      "plataforma": "Nintendo Switch 2",
+      "edicion": "nintendo_switch_2_edition",
+      "tipo_producto": "juego_digital",
+      "precio_referencia_eshop_colombia_cop": 259900,
+      "estado_precio": "referencia",
+      "imagen": {
+        "ruta": "imagenes/animal-crossing-new-horizons-switch-2.webp",
+        "alt": "Arte oficial de Animal Crossing: New Horizons – Nintendo Switch 2 Edition",
+        "ancho": 960,
+        "alto": 540,
+        "fuente_pagina": "https://www.nintendo.com/es-co/store/products/animal-crossing-new-horizons-nintendo-switch-2-edition-switch-2/",
+        "fuente_imagen": "https://assets.nintendo.com/image/upload/c_fill,w_1200/q_auto/f_auto/dpr_2.0/store/software/switch2/70010000110440/749cb30819c96dc883bf8ac71dfe5a27469b2ea035f81775dd23ab8b8c82bc9d",
+        "recorte": "arriba"
+      },
+      "grupo": "animal-crossing"
+    },
+    {
+      "id": "animal-crossing-new-horizons-mejora",
+      "puesto_ranking": 2,
+      "titulo": "Animal Crossing: New Horizons – Paquete de mejora de Nintendo Switch 2 Edition",
+      "plataforma": "Nintendo Switch 2",
+      "edicion": "paquete_mejora",
+      "tipo_producto": "paquete_mejora",
+      "precio_referencia_eshop_colombia_cop": 19900,
+      "estado_precio": "referencia",
+      "grupo": "animal-crossing"
     },
     {
       "id": "super-smash-bros-ultimate",
@@ -317,7 +349,38 @@
         "alto": 540,
         "fuente_pagina": "https://www.nintendo.com/us/store/products/super-mario-bros-wonder-switch/",
         "fuente_imagen": "https://assets.nintendo.com/image/upload/c_fill,w_1200/q_auto/f_auto/dpr_2.0/store/software/switch/70010000068688/87e8aa5f1fdc950b88eae7d7c62ed185c8a6373c845090bbdb2e2cf039b38da1"
-      }
+      },
+      "grupo": "mario-wonder"
+    },
+    {
+      "id": "super-mario-bros-wonder-switch-2",
+      "puesto_ranking": 12,
+      "titulo": "Super Mario Bros. Wonder – Nintendo Switch 2 Edition + Meetup in Bellabel Park",
+      "plataforma": "Nintendo Switch 2",
+      "edicion": "nintendo_switch_2_edition",
+      "tipo_producto": "juego_digital",
+      "precio_referencia_eshop_colombia_cop": 319900,
+      "estado_precio": "referencia",
+      "imagen": {
+        "ruta": "imagenes/super-mario-bros-wonder-switch-2.webp",
+        "alt": "Arte oficial de Super Mario Bros. Wonder – Nintendo Switch 2 Edition + Meetup in Bellabel Park",
+        "ancho": 960,
+        "alto": 540,
+        "fuente_pagina": "https://www.nintendo.com/es-co/store/products/super-mario-bros-wonder-nintendo-switch-2-edition-plus-meetup-in-bellabel-park-switch-2/",
+        "fuente_imagen": "https://assets.nintendo.com/image/upload/c_fill,w_1200/q_auto/f_auto/dpr_2.0/store/software/switch2/70010000115567/901218f8b149d63c90c125a3969db5f6d06f3a7cc649300b3e788116a21a84cd"
+      },
+      "grupo": "mario-wonder"
+    },
+    {
+      "id": "super-mario-bros-wonder-mejora",
+      "puesto_ranking": 12,
+      "titulo": "Super Mario Bros. Wonder – Paquete de mejora de Nintendo Switch 2 Edition + Meetup in Bellabel Park",
+      "plataforma": "Nintendo Switch 2",
+      "edicion": "paquete_mejora",
+      "tipo_producto": "paquete_mejora",
+      "precio_referencia_eshop_colombia_cop": 79900,
+      "estado_precio": "referencia",
+      "grupo": "mario-wonder"
     },
     {
       "id": "mario-kart-world",

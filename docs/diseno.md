@@ -66,7 +66,7 @@ Tamaños de mosaico (clases) y cuántas columnas ocupan:
 | Destacado grande | `<Mosaico tamano="grande">` | 6, imagen 2:1 | 6 × 2 filas, imagen llena el alto |
 | Destacados chicos | `<Mosaico tamano="medio">` | 3 | 4, imagen 2.1:1 con alto máx. `50svh − 182px` (los 3 precios destacados se ven sin desplazar desde 768 px de alto) |
 | Juego / DLC / update | `<Mosaico>` | 3 (2 por fila) | 2 (5 por fila) |
-| Juego con varias versiones | `.ancho` (lo pone `Mosaico` si hay `grupo`) | 6, imagen 3:1 | 4; 760–1099px imagen 3:1 arriba; ≥ 1100px portada a la izquierda (45 %) y versiones a la derecha |
+| Juego con varias versiones | `.ancho` (lo pone `Mosaico` si hay `grupo`) | 6, imagen 3:1 (recorte según `imagen.recorte`, por defecto abajo) | 4; 760–1099px imagen 3:1 arriba; ≥ 1100px portada a la izquierda (45 %) y versiones a la derecha; si es destacado, alto mín. `max(190px, 50svh − 140px)` |
 | Destacado chico junto a uno con versiones | `.lleno` | 6, imagen 3:1 | 4 (igual que siempre) |
 | ¿No ves tu juego? | `.mas` | lo que falte para cerrar la sección (3 o 6) | lo que falte (2–10); lo calcula `lib/reticula.ts` |
 

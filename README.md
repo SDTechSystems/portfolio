@@ -45,8 +45,10 @@ Cada juego es un bloque como este:
   - Versión de Switch 2: `"plataforma": "Nintendo Switch 2"`, `"tipo_producto": "juego_digital"`.
   - Paquete de mejora (pasa el juego de Switch 1 a Switch 2): `"plataforma": "Nintendo Switch 2"`,
     `"tipo_producto": "paquete_mejora"`.
-  - El mosaico usa la portada de la versión de Switch 2: ponle `imagen` a ese bloque.
-  - Ejemplo en el archivo: los dos Zelda.
+  - El mosaico usa la portada de la versión de Switch 2: ponle `imagen` a ese bloque. En celular la
+    portada se recorta y se conserva la parte de abajo; si el logo está arriba, agrega
+    `"recorte": "arriba"` dentro de `imagen` (también vale `"centro"`).
+  - Ejemplos en el archivo: los dos Zelda, Mario Wonder y Animal Crossing.
 
 ### Datos de la tienda: `src/data/tienda.ts`
 

@@ -261,7 +261,16 @@ Hecho:
       BotW $ 239.900 / $ 279.900 / $ 39.900. Los de Switch 1 coinciden con los que ya tenía el archivo.
       Portadas oficiales de Switch 2 Edition (2400×1350 → 960×540 webp, 99 y 86 KB); en celular se recortan
       desde abajo para conservar la franja "Nintendo Switch 2 Edition". Elegir 3 versiones → `$ 639.700`
-      correcto. `og.jpg` con la portada nueva de TotK: 168 KB. Sin grupos, el HTML es igual al de `main` (solo cambia el orden
+      correcto. `og.jpg` con la portada nueva de TotK: 168 KB.
+      Agregados también **Super Mario Bros. Wonder** (Switch 2 Edition + Meetup in Bellabel Park $ 319.900,
+      mejora $ 79.900) y **Animal Crossing: New Horizons** (Switch 2 Edition $ 259.900, mejora $ 19.900), con
+      sus portadas oficiales. Ahora son 4 juegos con versiones (24 mosaicos, 32 cosas a la venta). La franja
+      de Animal Crossing está arriba: campo opcional `imagen.recorte` ("arriba" | "centro" | "abajo", validado).
+      Con los 2 destacados chicos con versiones, en escritorio llevan alto mínimo `max(190px, 50svh − 140px)`
+      para que la portada grande no se recorte: Mario Kart World 2,01:1 a 1366×768 (era 2,58:1) y los 9 precios
+      destacados visibles sin desplazar desde 1100×700 hasta 1920×1080. axe: 0 fallos.
+      ⚠️ **Precio de Wonder (Switch 1):** `nintendo.com/es-co` lo muestra hoy a $ 239.900 (regular, sin
+      descuento); el archivo dice $ 279.900 (referencia del 2026-11-03). No se cambió: decide el dueño. Sin grupos, el HTML es igual al de `main` (solo cambia el orden
       de los atributos). Verificado a 320, 390, 1000, 1366, 1440 y 1920 px: sin scroll horizontal, sin
       filas que se salgan, precios alineados; los 3 destacados con su primer precio visibles sin
       desplazar a 1366×768, 1440×900 y 1920×1080 (todas las filas de Zelda TotK también). Pedido: elegir
@@ -371,6 +380,8 @@ logo de la tienda (opcional, va en lugar del nombre en `.cabecera`, ver `diseno.
 | 2026-11-04 | Filas de versión: sello a la izquierda y precio alineado a la derecha junto al "+"; portada 3:1 en celular | Crítica de diseño: con el precio después del sello más ancho ("Mejora a ⊞2", 106 px) los precios empezaban a mitad del mosaico y el sello de Switch 1 flotaba solo; alineados a la derecha se comparan como en una lista. La portada a 3:1 baja el mosaico de 341 a 310 px a 390 px (3 versiones sueltas ocuparían ~290 px). |
 | 2026-11-04 | Precios de Switch 2 y paquete de mejora tomados de `nintendo.com/es-co` | Mismo origen que los demás (referencia eShop Colombia, D5): los precios de Switch 1 de esa página coinciden con los del archivo. Se usó el precio regular (`discounted: false`). |
 | 2026-11-04 | Portada del mosaico con versiones anclada abajo (`object-position: 50% 100%`) | Las cajas de Switch 2 Edition llevan la franja "Nintendo Switch 2 Edition" abajo; el recorte 3:1 centrado la cortaba. Desde 1100 px (portada a la izquierda) el recorte es por los lados y la franja o el logo pueden cortarse: la pestaña ⊞2 ya marca la versión. |
+| 2026-11-04 | Campo opcional `imagen.recorte` en vez de un recorte fijo | La franja "Nintendo Switch 2 Edition" va abajo en Zelda y Wonder pero arriba en Animal Crossing; no hay un recorte que sirva para todas. Por defecto "abajo" (el caso común). |
+| 2026-11-04 | Alto mínimo de los destacados chicos con versiones en escritorio | En horizontal miden menos y el destacado grande (que ocupa las 2 filas) se encogía hasta recortar el logo de Mario Kart World. |
 | 2026-11-04 | Ancho de "¿No ves tu juego?" calculado simulando la retícula (`lib/reticula.ts`) | Con mosaicos de dos anchos, contar mosaicos ya no dice cuánto falta para cerrar la fila. |
 | 2026-11-04 | Sin `flex-wrap` en el precio para WCAG 1.4.12 | Probado: a 320 px el "+" bajaba de línea siempre (+369 px de alto). Con espaciado aumentado el "+" se recorta, pero es decorativo: el precio sigue visible y el estado lo dan el color y `aria-pressed`. |
 

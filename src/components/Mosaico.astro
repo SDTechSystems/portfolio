@@ -29,6 +29,7 @@ const Caja = varias ? 'div' : 'a';
       <Image
         src={f.imagen}
         alt=""
+        style={f.recorte ? `object-position: 50% ${{ arriba: '0%', centro: '50%', abajo: '100%' }[f.recorte]}` : undefined}
         widths={[320, 480, 640, 960].filter((w) => w <= f.imagen!.width)}
         sizes={sizes}
         format="webp"
@@ -89,7 +90,8 @@ const Caja = varias ? 'div' : 'a';
   .ancho { grid-column: span 6; cursor: auto; }
   .ancho:active { transform: none; }
   .ancho .img, .lleno .img { aspect-ratio: 3 / 1; }
-  /* Las portadas de Switch 2 Edition llevan la franja "Nintendo Switch 2 Edition" abajo: el recorte 3:1 la conserva. */
+  /* Las portadas de Switch 2 Edition suelen llevar la franja "Nintendo Switch 2 Edition" abajo: el recorte 3:1 la conserva.
+     Si está en otro lugar, productos.json → imagen.recorte ("arriba"/"centro") lo cambia con style. */
   .ancho img { object-position: 50% 100%; }
   .lleno { grid-column: span 6; }
   /* Retícula común (subgrid): sellos en una columna a la izquierda y precios alineados a la derecha,
@@ -129,6 +131,9 @@ const Caja = varias ? 'div' : 'a';
   @media (min-width: 1100px) {
     .ancho:not(.grande) { flex-direction: row; }
     .ancho:not(.grande) .img { flex: 0 0 45%; aspect-ratio: auto; max-height: none; }
+    /* Destacado chico con versiones: alto mínimo según la pantalla, para que el grande (que mide lo que los
+       dos chicos) no recorte su portada; 140px = cabecera (183) + separaciones, repartido entre 2 filas. */
+    .medio.ancho { min-height: max(190px, calc(50svh - 140px)); }
   }
   @media (prefers-reduced-motion: reduce) { .mosaico, .consola, .version { transition: none; } }
 </style>

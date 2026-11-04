@@ -18,7 +18,7 @@ Las reglas que se validan están en `src/lib/catalogo.ts`; si este archivo y el 
 | Campo | Regla |
 |---|---|
 | `id` | minúsculas y guiones, único (ej. `mario-kart-world`). Si el juego tiene versión para las dos consolas, son **dos entradas** con ids distintos (ej. sufijo `-switch-2`; paquete de mejora: `-mejora`) y el mismo `grupo`. |
-| `grupo` | solo si hay varias versiones del juego: mismo texto (minúsculas y guiones) en todas, ej. `"zelda-totk"`. Se dibujan en un solo mosaico; la portada sale de la versión de Switch 2. |
+| `grupo` | solo si hay varias versiones del juego: mismo texto (minúsculas y guiones) en todas, ej. `"zelda-totk"`. Se dibujan en un solo mosaico; la portada sale de la versión de Switch 2 (si su logo está arriba, `imagen.recorte: "arriba"`). |
 | `titulo` | nombre oficial. |
 | `plataforma` | exactamente `"Nintendo Switch"` o `"Nintendo Switch 2"`. |
 | `tipo_producto` | `"juego_digital"`, `"juego_con_accesorios"` (muestra "Necesita Ring-Con"), `"dlc"`, `"update"` o `"paquete_mejora"` (con `"plataforma": "Nintendo Switch 2"` y `grupo`). |

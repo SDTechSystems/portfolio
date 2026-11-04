@@ -4,6 +4,7 @@ import { tienda } from '../data/tienda';
 
 export type Tipo = 'Juego' | 'DLC' | 'Update' | 'Mejora';
 export type Consola = 'Switch 1' | 'Switch 2';
+export type Recorte = 'arriba' | 'centro' | 'abajo';
 export interface Producto {
   id: string;
   nombre: string;
@@ -16,6 +17,8 @@ export interface Producto {
   imagen?: ImageMetadata;
   /** Ruta del archivo de la portada en el disco (la usa pages/og.jpg.ts). */
   archivo?: string;
+  /** Qué parte de la portada se conserva cuando el mosaico la recorta más ancha (juego con versiones). */
+  recorte?: Recorte;
   /** Filas con el mismo grupo (un juego con versión de Switch 1, de Switch 2 y paquete de mejora) van en un mosaico. */
   grupo?: string;
 }
@@ -28,6 +31,7 @@ export interface Ficha {
   nota?: string;
   imagen?: ImageMetadata;
   archivo?: string;
+  recorte?: Recorte;
   /** En orden: Switch 1, Switch 2, paquete de mejora. Con una sola versión, el mosaico es como siempre. */
   versiones: Producto[];
 }
@@ -41,7 +45,8 @@ interface Fila {
   /** Opcional: precio de venta propio. Si no está, se usa el de referencia de la eShop. */
   precio_venta_cop?: number | null;
   precio_referencia_eshop_colombia_cop: number | null;
-  imagen?: { ruta: string };
+  /** recorte: opcional, dónde está el logo de la portada ("arriba", "centro" o "abajo"; por defecto "abajo"). */
+  imagen?: { ruta: string; recorte?: string };
   /** Opcional: mismo texto en las filas de un juego con versión para cada consola, ej. "zelda-totk". */
   grupo?: string;
 }
@@ -60,6 +65,7 @@ const filas = datos.productos as Fila[];
 // mensaje claro, en vez de publicar un juego en la consola equivocada o sin portada.
 const PLATAFORMAS = ['Nintendo Switch', 'Nintendo Switch 2'];
 const TIPOS = ['juego_digital', 'juego_con_accesorios', 'dlc', 'update', 'paquete_mejora'];
+const RECORTES = ['arriba', 'centro', 'abajo'];
 const precioValido = (n: unknown) => n === null || (typeof n === 'number' && Number.isInteger(n) && n > 0);
 const errores: string[] = [];
 const vistos = new Set<string>();
@@ -74,6 +80,7 @@ filas.forEach((f, i) => {
   if (!precioValido(f.precio_referencia_eshop_colombia_cop ?? null)) errores.push(`${quien}: "precio_referencia_eshop_colombia_cop" debe ser un número entero sin puntos (ej. 239900) o null.`);
   if (f.precio_venta_cop !== undefined && !precioValido(f.precio_venta_cop)) errores.push(`${quien}: "precio_venta_cop" debe ser un número entero sin puntos (ej. 239900) o null.`);
   if (f.imagen && !portadas[ruta(f.imagen.ruta)]) errores.push(`${quien}: no existe la portada "${f.imagen.ruta}" (revisa el nombre del archivo en la carpeta imagenes/).`);
+  if (f.imagen?.recorte !== undefined && !RECORTES.includes(f.imagen.recorte)) errores.push(`${quien}: "recorte" de la imagen es "${f.imagen.recorte}"; debe ser ${RECORTES.map((x) => `"${x}"`).join(', ')}.`);
   if (f.grupo !== undefined && !/^[a-z0-9]+(-[a-z0-9]+)*$/.test(f.grupo)) errores.push(`${quien}: "grupo" debe ir en minúsculas y con guiones, ej. "zelda-totk".`);
   if (f.tipo_producto === 'paquete_mejora' && f.plataforma !== 'Nintendo Switch 2') errores.push(`${quien}: un "paquete_mejora" lleva "plataforma": "Nintendo Switch 2".`);
   if (f.tipo_producto === 'paquete_mejora' && !f.grupo) errores.push(`${quien}: un "paquete_mejora" necesita "grupo", el mismo de su juego de Switch 1.`);
@@ -109,6 +116,7 @@ const productos: Producto[] = filas.map((f) => ({
   nota: f.tipo_producto === 'juego_con_accesorios' ? 'Necesita Ring-Con' : undefined,
   imagen: f.imagen && portadas[ruta(f.imagen.ruta)]?.default,
   archivo: f.imagen && `src/assets/${CARPETA}/${f.imagen.ruta}`,
+  recorte: f.imagen?.recorte as Recorte | undefined,
   grupo: f.grupo,
 }));
 
@@ -121,7 +129,7 @@ productos.forEach((p) => {
   const versiones = p.grupo ? productos.filter((v) => v.grupo === p.grupo).sort((a, b) => orden(a) - orden(b)) : [p];
   const base = versiones[0];
   const portada = versiones.find((v) => v.tipo === 'Juego' && v.consola === 'Switch 2' && v.imagen) ?? versiones.find((v) => v.imagen);
-  fichas.push({ id: base.id, nombre: base.nombre, tipo: base.tipo, nota: base.nota, imagen: portada?.imagen, archivo: portada?.archivo, versiones });
+  fichas.push({ id: base.id, nombre: base.nombre, tipo: base.tipo, nota: base.nota, imagen: portada?.imagen, archivo: portada?.archivo, recorte: portada?.recorte, versiones });
 });
 const fichaDe = (id: string) => fichas.find((f) => f.versiones.some((v) => v.id === id));
 
