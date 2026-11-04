@@ -4,7 +4,7 @@ import Layout from '../layouts/Layout.astro';
 import Mosaico from '../components/Mosaico.astro';
 import Pedido from '../components/Pedido.astro';
 import { tienda } from '../data/tienda';
-import { destacados, juegos, extras, linkWhatsApp } from '../lib/catalogo';
+import { destacados, secciones, whatsapp } from '../lib/catalogo';
 const [principal, ...secundarios] = destacados;
 // El mosaico "¿No ves...?" ocupa lo que falte para cerrar la última fila
 // (celular: 2 mosaicos por fila de 6 columnas; escritorio: 5 por fila de 10).
@@ -19,16 +19,14 @@ const cierreFila = (n: number) => `--movil:${6 - 3 * (n % 2)};--escritorio:${10 
 
   {principal && <Mosaico p={principal} tamano="grande" />}
   {secundarios.map((p) => <Mosaico p={p} tamano="medio" />)}
-  {juegos.map((p) => <Mosaico p={p} />)}
-  <a class="mas" href={linkWhatsApp()} target="_blank" rel="noopener" style={cierreFila(juegos.length)}>¿No ves tu juego?</a>
 
-  {extras.length > 0 && (
+  {secciones.map((s) => (
     <>
-      <h2>DLC y updates</h2>
-      {extras.map((p) => <Mosaico p={p} />)}
-      <a class="mas" href={linkWhatsApp()} target="_blank" rel="noopener" style={cierreFila(extras.length)}>¿Buscas otro DLC?</a>
+      <h2>{s.titulo}</h2>
+      {s.productos.map((p) => <Mosaico p={p} conConsola={!s.consola} />)}
+      <a class="mas" href={whatsapp(s.mensaje)} target="_blank" rel="noopener" style={cierreFila(s.productos.length)}>{s.mas}</a>
     </>
-  )}
+  ))}
 </main>
 <Pedido />
 </Layout>

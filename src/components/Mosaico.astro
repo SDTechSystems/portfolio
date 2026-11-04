@@ -1,10 +1,12 @@
 ---
-// Un producto: portada, nombre, aviso opcional y precio. Tocarlo lo suma al pedido (Pedido.astro).
+// Un producto: portada, nombre, consola/nota y precio. Tocarlo lo suma al pedido (Pedido.astro).
+// conConsola=false cuando el título de la sección ya dice la consola.
 // Sin portada queda el fondo gris de .img. alt vacío: el nombre ya está escrito debajo.
 import { Image } from 'astro:assets';
 import { precio, item, type Producto } from '../lib/catalogo';
-interface Props { p: Producto; tamano?: 'grande' | 'medio' }
-const { p, tamano } = Astro.props;
+interface Props { p: Producto; tamano?: 'grande' | 'medio'; conConsola?: boolean }
+const { p, tamano, conConsola = true } = Astro.props;
+const linea = [conConsola && p.consola, p.nota].filter(Boolean).join(' · ');
 const sizes = { grande: '(min-width: 760px) 60vw, 100vw', medio: '(min-width: 760px) 40vw, 50vw' }[tamano ?? ''] ?? '(min-width: 760px) 20vw, 50vw';
 ---
 <a class:list={['mosaico', tamano]} {...item(p)}>
@@ -24,7 +26,7 @@ const sizes = { grande: '(min-width: 760px) 60vw, 100vw', medio: '(min-width: 76
   </div>
   <div class="pie">
     <span class="n">{p.nombre}</span>
-    {p.aviso && <span class="c">{p.aviso}</span>}
+    {linea && <span class="c">{linea}</span>}
     <strong>{precio(p.precio)}</strong>
   </div>
 </a>

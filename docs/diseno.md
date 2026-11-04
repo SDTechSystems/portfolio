@@ -26,7 +26,7 @@ Definidos en `:root` (`Layout.astro`). Usar **solo** estos.
 | `--suelo` | `#e9e9ec` | Fondo de la página (entre mosaicos). |
 | `--mosaico` | `#ffffff` | Fondo de cada mosaico normal. |
 | `--tinta` | `#121214` | Texto; fondo de la barra de pedido y de mosaicos seleccionados. |
-| `--suave` | `#5b5b63` | El aviso bajo el nombre ("Switch 2", "Necesita Ring-Con"). Nada más. |
+| `--suave` | `#5b5b63` | La línea bajo el nombre (consola y/o nota). Nada más. |
 | `--rojo` | `#e60012` | Acento: cabecera, "¿No ves tu juego?", ✓ de seleccionado, botón de la barra. |
 
 Proporción: el suelo gris claro domina, los mosaicos blancos llevan el contenido, el rojo
@@ -42,7 +42,7 @@ No agregar rojo en otros sitios.
 | Títulos de sección `h2` | `clamp(26px, 6.4vw, 44px)` | 800 | tracking -0.03em |
 | Precio | 22px (destacado grande: 30px) | 800 | tracking -0.02em, **sin** `tabular-nums` (deja huecos en la coma) |
 | Nombre del juego | 14px (grande: 18px/800) | 500 | máximo 2 líneas con `line-clamp` |
-| Aviso | 13px | 500 | color `--suave`; solo si cambia la compra |
+| Consola / nota | 13px | 500 | color `--suave` |
 | "¿No ves tu juego?" | 22px | 800 | tracking -0.02em |
 
 ## 3. Retícula
@@ -60,7 +60,7 @@ Tamaños de mosaico (clases) y cuántas columnas ocupan:
 | Mosaico | Clase | Celular | Escritorio |
 |---|---|---|---|
 | Cabecera (tienda + h1) | `.cabecera` | 6 | 10 |
-| Título de sección (solo "DLC y updates") | `h2` | 6 (sin fondo) | 10 |
+| Título de sección ("Switch 2", "Switch 1", "DLC y updates") | `h2` | 6 (sin fondo) | 10 |
 | Destacado grande | `<Mosaico tamano="grande">` | 6, imagen 2:1 | 6 × 2 filas, imagen llena el alto |
 | Destacados chicos | `<Mosaico tamano="medio">` | 3 | 4, imagen 2.1:1 |
 | Juego / DLC / update | `<Mosaico>` | 3 (2 por fila) | 2 (5 por fila) |
@@ -73,7 +73,7 @@ Estructura de un mosaico de juego (no cambiar el orden):
 │ portada 16:9         │  .img  (object-fit: cover)
 ├──────────────────────┤
 │ Nombre (2 líneas)    │  .n
-│ Switch 2             │  .c   (solo si hay aviso)
+│ Switch 1             │  .c   consola (si la sección no la dice) · nota
 │ $ 279.900        (+) │  strong (abajo del todo); "+"/"✓" sale de aria-pressed
 └──────────────────────┘
 ```
@@ -96,9 +96,13 @@ El precio va **debajo** de la portada, nunca encima de la imagen.
 
 ## 5. Textos
 
-Todo el texto de la página: nombre de la tienda, **"Juegos para Switch 1 y 2"**, nombres,
-avisos, precios, "¿No ves tu juego?", y en la barra "Vaciar" / "Pedir por WhatsApp".
-Con DLC visibles, además "DLC y updates" y "¿Buscas otro DLC?". **No agregar más.**
+Todo el texto de la página: nombre de la tienda, **"Juegos para Switch 1 y 2"**, secciones
+"Switch 2" / "Switch 1", nombres, consola/nota, precios, "¿No ves tu juego?", y en la barra
+"Vaciar" / "Pedir por WhatsApp". Con DLC visibles, además "DLC y updates" y "¿Buscas otro
+DLC?". **No agregar más.**
+
+**La consola siempre se distingue, y una sola vez:** si el título de la sección la dice, el
+mosaico no la repite (`conConsola={false}`); si no (destacados, DLC), va bajo el nombre.
 
 - Tono: tuteo, frases cortas, español neutro latinoamericano. Botones que dicen lo que
   hacen ("Pedir por WhatsApp", "Vaciar"). Nada de "Descubre", "Increíble", emojis.
@@ -117,15 +121,15 @@ Con DLC visibles, además "DLC y updates" y "¿Buscas otro DLC?". **No agregar m
 | Emojis, íconos decorativos, formas de relleno | Una portada real o nada. |
 | Títulos de más de 2 líneas | Recortar palabras; luego ensanchar; el tamaño, al final. |
 | Una palabra del título con otro color o cursiva | Un color, un peso. |
-| Eslóganes, textos de ayuda, beneficios, etiquetas que se repiten en todos los mosaicos | Cambiar el diseño hasta que no hagan falta. |
+| Eslóganes, textos de ayuda, beneficios, etiquetas que se repiten en todos los mosaicos | Cambiar el diseño hasta que no hagan falta (ej.: agrupar por consola en vez de etiquetar cada mosaico). |
 | Mosaicos vacíos o de relleno | Cada mosaico tiene contenido real; si sobra hueco, lo cubre `grid-auto-flow: dense` o un mosaico "¿No ves tu juego?". |
 
 ## 7. Cómo extender sin romper el diseño
 
 - **Agregar un juego:** solo una entrada en `productos.json` y su portada en
   `src/assets/Catalogo_Nintendo_Switch_Colombia/imagenes/<id>.webp`. No tocar el diseño.
-- **Nueva sección** (ej. "Tarjetas eShop"): un `<h2>` y `<Mosaico p={p} />` por producto.
-  Terminar con un `.mas` con `style={cierreFila(n)}` para cerrar la última fila.
+- **Nueva sección** (ej. "Tarjetas eShop"): una entrada más en `secciones` de
+  `lib/catalogo.ts`. La página la dibuja sola (`h2`, mosaicos y `.mas` que cierra la fila).
 - **Un nuevo tipo de mosaico:** usar uno de los tamaños existentes (2/3/4/6/10 columnas),
   fondo de un token, radio de 8px, texto alineado arriba a la izquierda con 16–22px de
   relleno. Nunca centrado ni con borde.

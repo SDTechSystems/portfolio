@@ -43,8 +43,10 @@ en menos de 30 segundos.
 
 ### Funcionalidades
 
-- **F1. Orden:** 3 destacados en grande (`tienda.ts → destacados`), luego el resto de
-  juegos, sin títulos de sección. "DLC y updates" es la única sección con título (oculta hoy).
+- **F1. Orden:** 3 destacados en grande (`tienda.ts → destacados`), luego secciones
+  **"Switch 2"**, **"Switch 1"** y "DLC y updates" (oculta hoy). Una sección sin productos no
+  se muestra. Un juego con versión para cada consola son dos entradas en `productos.json`
+  y aparece en las dos secciones, cada una con su precio.
 - **F2. Arma tu pedido:** cada precio lleva un "+"; tocar el mosaico lo marca (✓) y lo suma
   a una barra fija inferior ("$ 1.648 · Vaciar · Pedir por WhatsApp"). El "+" sustituye al
   texto de ayuda. El botón envía un solo mensaje:
@@ -59,9 +61,10 @@ en menos de 30 segundos.
 - **F4. Mosaico "¿No ves tu juego?"** al final de Juegos y de DLC → WhatsApp genérico
   (sustituye al "Y muchos más" de la referencia).
 - **F5. Sin portada:** si un título no tiene `imagen`, queda el fondo gris de la portada.
-- **F6. Sin textos secundarios:** ni eslogan, ni ayuda, ni beneficios, ni etiqueta de consola
-  repetida. Bajo el nombre solo va un **aviso** cuando cambia la compra: "Switch 2" (no corre
-  en Switch 1) o "Necesita Ring-Con".
+- **F6. Sin textos secundarios:** ni eslogan, ni ayuda, ni beneficios. La **consola siempre
+  se distingue**: la dice el título de la sección o, en los destacados (que mezclan
+  consolas) y en "DLC y updates", la línea bajo el nombre. Esa línea suma la nota si hay
+  ("Switch 1 · Necesita Ring-Con").
 
 ### Fuera de alcance (no hacer sin que el dueño lo pida)
 
@@ -81,9 +84,9 @@ src/
   assets/Catalogo_Nintendo_Switch_Colombia/
     productos.json    ← la lista de títulos (lo único que edita el dueño a diario)
     imagenes/<id>.webp← portadas 16:9 (Astro genera 320/480/640/960 px en webp)
-  lib/catalogo.ts     ← lee productos.json → destacados, juegos, extras; precio(), linkWhatsApp(), item()
+  lib/catalogo.ts     ← lee productos.json → destacados, secciones; precio(), whatsapp(), item()
   components/
-    Mosaico.astro     ← un producto: portada optimizada, nombre, aviso, precio con "+"/"✓"
+    Mosaico.astro     ← un producto: portada optimizada, nombre, consola/nota, precio con "+"/"✓"
     Pedido.astro      ← barra del pedido + script de selección
   layouts/Layout.astro← <head>, fuente, tokens de color en :root, reset global
   pages/
@@ -137,6 +140,8 @@ Hecho:
       "Pedir por WhatsApp" de arriba, títulos "Estrenos"/"Juegos disponibles" y "Switch 1" repetido.
       `Portada.astro` se fundió en `Mosaico.astro`. Barra verificada de 320 a 1440 px con los
       23 juegos elegidos ($ 6.117.700): no se desborda.
+- [x] Secciones por consola. Probado con 3 "Switch 2 Edition" de prueba (no guardadas): aparecen
+      en "Switch 2" junto a su versión de Switch 1, sin huecos, total y mensaje correctos.
 
 Pendiente de datos del dueño: número de WhatsApp real (hoy `573001234567`), nombre de la tienda,
 y confirmar si los precios mostrados (referencia eShop) son los de venta (D5).
@@ -165,7 +170,7 @@ y confirmar si los precios mostrados (referencia eShop) son los de venta (D5).
 | D3 | ¿Volver a poner las píldoras rojas "NUEVO" de la referencia? | No (ver `diseno.md` §6). Los destacados se distinguen por tamaño. |
 | D4 | ¿Dónde se publicará? | Sin definir. |
 | D5 | ¿Los precios de venta son los de referencia de la eShop? `productos.json` dice que **no** representan tu precio. | Se muestran los de referencia. Para usar el tuyo, añade `"precio_venta_cop"` a cada producto. |
-| D6 | ¿Marcar los juegos de Switch 1 como "Switch 1 y 2"? (casi todos corren en Switch 2) | Solo "Switch 1", tal como dice `plataforma`. |
+| D6 | ¿Marcar los juegos de Switch 1 como "Switch 1 y 2"? (casi todos corren en Switch 2) | No: van en la sección "Switch 1", tal como dice `plataforma`. |
 | D7 | Ring Fit Adventure no tiene precio digital y necesita el accesorio Ring-Con. ¿Se vende? | Se muestra con "Consultar" y abre WhatsApp para preguntar; no entra al pedido. |
 | D8 | ¿Qué títulos van destacados? | Los 3 más recientes: Mario Kart World (2025), Super Mario Bros. Wonder (2023), Zelda: Tears of the Kingdom (2023). |
 
@@ -188,7 +193,7 @@ y confirmar si los precios mostrados (referencia eShop) son los de venta (D5).
 | 2026-11-04 | Fuera eslogan, texto de ayuda, beneficios y nombre final | Pedido del dueño: propósito y diseño mínimos. La ayuda "Toca varios títulos…" se sustituye por el "+" en cada precio. |
 | 2026-11-04 | Fuera el mosaico "Pedir por WhatsApp" de la cabecera | Duplicaba la barra del pedido; el contacto general queda en "¿No ves tu juego?". Una acción por intención. |
 | 2026-11-04 | Sin títulos "Estrenos" ni "Juegos disponibles" | El tamaño ya marca los destacados y todo lo que se ve está disponible. `estrenos` → `destacados`. |
-| 2026-11-04 | Consola solo como aviso cuando es Switch 2 | 23 de 24 decían "Switch 1"; repetirlo no informa. Lo que cambia la compra (Switch 2, Ring-Con) sí se muestra. |
+| 2026-11-04 | ~~Consola solo como aviso cuando es Switch 2~~ → **secciones "Switch 2" / "Switch 1"** | Corrección del dueño: un mismo juego tiene versión de Switch 1 y de Switch 2, así que la consola debe distinguirse siempre. Agrupar la dice una vez por sección en vez de 24 veces; solo los destacados (mezclados) la escriben en el mosaico. |
 | 2026-11-04 | `aria-pressed` como único estado del pedido; tokens en `:root` | Una sola fuente de verdad para CSS, script y lector de pantalla; los componentes ya no dependen de estar dentro de `<main>`. |
 | 2026-11-04 | Barra sin "N títulos"; "Vaciar" oculto ≤ 420 px | Los mosaicos marcados ya muestran qué se eligió; así cabe un total de 7 cifras a 320 px. |
 
