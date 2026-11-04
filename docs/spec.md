@@ -172,9 +172,11 @@ Solo se restauran listas de cadenas; otros formatos inician un pedido vacío.
 
 ## 5. Estado (actualizar al cerrar cada sesión)
 
-**Última actualización:** 2026-11-04 (correcciones de auditoría #17–#20 sobre `c20ba4c`).
+**Última actualización:** 2026-11-04 (QR de la tienda, T6).
 
 Hecho:
+- [x] **QR (T6):** `/qr.svg` y `/qr.png` apuntan a `tienda.url` (si está vacía, al WhatsApp). Verificado con un lector
+      independiente (jsQR): los dos abren https://sdtechimport.madaeauchija.workers.dev, también el SVG reducido a 300 px.
 - [x] **Auditoría #17:** Respaldo del panel mediante mejora progresiva; filas visibles hasta inicializar los eventos y recuperación si falla `showModal`. Conserva el panel centrado en escritorio de PR #21.
 
 - [x] Entrevista y requisitos (sección 3).
@@ -383,8 +385,8 @@ Pendiente de datos del dueño: logo de la tienda (opcional, va en lugar del nomb
       poner `mostrarDlcUpdates: true`. Revisar que la fila final no deje huecos.
 - [~] **T5. Metadatos para compartir:** hecho (`og:*`, imagen 1200×630, URL puesta). Falta probar
       el enlace en un chat de WhatsApp real.
-- [~] **T6. Publicación:** hecho en Cloudflare Workers. Falta el QR del enlace (en el entorno de
-      trabajo no hay generador de QR instalado ni permiso para descargar uno).
+- [x] **T6. Publicación:** hecho en Cloudflare Workers. QR en `/qr.svg` (imprimir) y `/qr.png`
+      (1024 px, para chat), generados al compilar desde `tienda.url`.
 - [~] **T7. Auditoría:** hecho: Espacio en los mosaicos; fuente alojada en el sitio; accesibilidad WCAG 2.1 AA
       (contraste, foco, lector de pantalla); peso de portadas (−15 % en celular, −46 % en iPhone grande, sin
       perder nitidez). Falta: prueba en un celular real con WhatsApp. Opcional (decide el dueño): bajar la
@@ -397,7 +399,7 @@ Pendiente de datos del dueño: logo de la tienda (opcional, va en lugar del nomb
 | D1 | ~~¿País de venta?~~ | **Resuelta:** Colombia (`es-CO`, `$ 239.900`). |
 | D2 | ~~Nombre y WhatsApp~~ · Logo | **Resuelta en parte:** "SD Tech Import", `573058147293`. Falta solo el logo (opcional); hoy la cabecera muestra el nombre en texto. |
 | D3 | ¿Volver a poner las píldoras rojas "NUEVO" de la referencia? | No (ver `diseno.md` §6). Los destacados se distinguen por tamaño. |
-| D4 | ~~¿Dónde se publicará?~~ | **Resuelta:** Cloudflare Workers, https://sdtechimport.madaeauchija.workers.dev (en `tienda.ts → url`). Si se agrega un dominio propio, cambiar `url` y regenerar el QR. El repo es privado: GitHub Pages exige plan de pago; Cloudflare Pages y Netlify publican gratis desde repo privado y leen `.nvmrc`. |
+| D4 | ~~¿Dónde se publicará?~~ | **Resuelta:** Cloudflare Workers, https://sdtechimport.madaeauchija.workers.dev (en `tienda.ts → url`). Si se agrega un dominio propio, cambiar `url`: el QR se regenera solo en el siguiente build. El repo es privado: GitHub Pages exige plan de pago; Cloudflare Pages y Netlify publican gratis desde repo privado y leen `.nvmrc`. |
 | D5 | ~~¿Los precios de venta son los de referencia de la eShop?~~ | **Resuelta:** el dueño entregó `Precios_Finales_Catalogo_Nintendo.json` con `precio_venta_cop` para todo; se muestran esos. |
 | D6 | ¿Marcar los juegos de Switch 1 como "Switch 1 y 2"? (casi todos corren en Switch 2) | No: van en la sección "Switch 1", tal como dice `plataforma`. |
 | D7 | Ring Fit Adventure no tiene precio digital y necesita el accesorio Ring-Con. ¿Se vende? | Se muestra con "Consultar" y abre WhatsApp para preguntar; no entra al pedido. |
@@ -408,6 +410,7 @@ Pendiente de datos del dueño: logo de la tienda (opcional, va en lugar del nomb
 
 | Fecha | Decisión | Motivo |
 |---|---|---|
+| 2026-11-04 | QR generado al compilar con la librería `qrcode` (`/qr.svg` y `/qr.png`), negro sobre blanco, corrección M | Un archivo de QR suelto queda viejo si cambia el dominio; generado desde `tienda.url` se actualiza solo. Negro sobre blanco con margen de 4 módulos es lo que mejor leen las cámaras; la corrección M aguanta manchas de un cartel impreso. No se enlaza desde la página (F6): es para el dueño. |
 | 2026-11-04 | Astro estático + JSON en el repo | El dueño edita un archivo; sin costo ni servidor. |
 | 2026-11-04 | Primera ronda (Bento, Vitrina oscura, Lista) **rechazada** | Muy genérica, poco fiel a la referencia, portadas falsas. |
 | 2026-11-04 | Segunda ronda guiada por [taste-skill](https://github.com/Leonxlnx/taste-skill): A Tablero, B Póster, C Códigos | Reglas anti-"diseño genérico" + portadas reales. Sus scripts no se ejecutaron (bloqueados por permisos); se usó como lectura. |
