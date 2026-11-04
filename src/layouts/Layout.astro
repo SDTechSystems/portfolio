@@ -1,23 +1,36 @@
+---
+import { tienda } from '../data/tienda';
+interface Props { titulo?: string; tema?: string; fuente?: string; descripcion?: string }
+const {
+  titulo = tienda.nombre,
+  tema = '#e60012',
+  fuente = 'Schibsted+Grotesk:wght@500;800',
+  descripcion = `${tienda.eslogan} para Nintendo Switch 1 y 2.`,
+} = Astro.props;
+---
 <!doctype html>
-<html lang="en">
+<html lang="es">
 	<head>
 		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="theme-color" content={tema} />
+		<meta name="description" content={descripcion} />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link rel="stylesheet" href={`https://fonts.googleapis.com/css2?family=${fuente}&display=swap`} />
+		<title>{titulo}</title>
 	</head>
 	<body>
 		<slot />
 	</body>
 </html>
-
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
+<style is:global>
+	*, *::before, *::after { box-sizing: border-box; }
+	html, body { margin: 0; }
+	body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+	a { color: inherit; text-decoration: none; -webkit-tap-highlight-color: transparent; }
+	img { max-width: 100%; }
+	h1, h2, h3, p { margin: 0; }
+	:focus-visible { outline: 3px solid currentColor; outline-offset: 2px; }
 </style>

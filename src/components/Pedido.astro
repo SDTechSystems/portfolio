@@ -1,0 +1,67 @@
+---
+// Barra "Tu pedido": al tocar juegos marcados con data-item se suman aquí y se envía
+// un solo WhatsApp con la lista y el total. Sin JavaScript, cada juego abre su propio WhatsApp.
+import { tienda } from '../data/tienda';
+---
+<div id="pedido" class="pedido" hidden data-locale={tienda.locale} data-moneda={tienda.moneda} data-wa={tienda.whatsapp}>
+  <p class="pedido-txt"><span class="pedido-n"></span><strong class="pedido-total"></strong></p>
+  <button type="button" class="pedido-vaciar">Vaciar</button>
+  <a class="pedido-cta" href="#" target="_blank" rel="noopener">Pedir por WhatsApp</a>
+</div>
+
+<script>
+  const bar = document.getElementById('pedido')!;
+  const fmt = new Intl.NumberFormat(bar.dataset.locale, { style: 'currency', currency: bar.dataset.moneda, maximumFractionDigits: 0 });
+  const items = [...document.querySelectorAll<HTMLAnchorElement>('[data-item]')];
+  const sel = new Set<string>();
+
+  items.forEach((el) => {
+    el.setAttribute('role', 'button');
+    el.setAttribute('aria-pressed', 'false');
+    el.addEventListener('click', (e) => {
+      e.preventDefault();
+      const id = el.dataset.item!;
+      sel.has(id) ? sel.delete(id) : sel.add(id);
+      pintar();
+    });
+  });
+  bar.querySelector('.pedido-vaciar')!.addEventListener('click', () => { sel.clear(); pintar(); });
+
+  function pintar() {
+    const elegidos = items.filter((el, i, a) => sel.has(el.dataset.item!) && a.findIndex((x) => x.dataset.item === el.dataset.item) === i);
+    items.forEach((el) => {
+      const on = sel.has(el.dataset.item!);
+      el.setAttribute('aria-pressed', String(on));
+      el.classList.toggle('en-pedido', on);
+    });
+    const total = elegidos.reduce((s, el) => s + Number(el.dataset.precio), 0);
+    bar.hidden = elegidos.length === 0;
+    document.body.classList.toggle('con-pedido', elegidos.length > 0);
+    bar.querySelector('.pedido-n')!.textContent = `${elegidos.length} ${elegidos.length === 1 ? 'título' : 'títulos'}`;
+    bar.querySelector('.pedido-total')!.textContent = fmt.format(total);
+    const lineas = elegidos.map((el) => `• ${el.dataset.nombre} (${el.dataset.detalle}) ${fmt.format(Number(el.dataset.precio))}`);
+    const texto = `Hola, quiero pedir:\n${lineas.join('\n')}\nTotal: ${fmt.format(total)}`;
+    bar.querySelector<HTMLAnchorElement>('.pedido-cta')!.href = `https://wa.me/${bar.dataset.wa}?text=${encodeURIComponent(texto)}`;
+  }
+</script>
+
+<style>
+  .pedido {
+    position: fixed; left: 12px; right: 12px; bottom: 12px; z-index: 10; max-width: 640px; margin: 0 auto;
+    display: flex; align-items: center; gap: 12px; padding: 10px 10px 10px 18px;
+    background: var(--pedido-bg, #111); color: var(--pedido-ink, #fff);
+    font-family: inherit; border-radius: 999px; box-shadow: 0 8px 24px rgb(0 0 0 / .28); /* flota: única sombra permitida */
+    animation: subir .25s cubic-bezier(.2, .8, .2, 1);
+  }
+  .pedido[hidden] { display: none; }
+  .pedido-txt { margin: 0; flex: 1; min-width: 0; display: flex; flex-direction: column; line-height: 1.15; white-space: nowrap; }
+  .pedido-n { font-size: 13px; opacity: .75; }
+  .pedido-total { font-size: 19px; }
+  .pedido-vaciar { font: inherit; font-size: 14px; background: none; border: 0; color: inherit; opacity: .7; cursor: pointer; padding: 8px 4px; }
+  .pedido-cta { background: var(--pedido-accent, #e60012); color: #fff; font-weight: 700; font-size: 15px; padding: 12px 18px; border-radius: 999px; white-space: nowrap; }
+  .pedido-cta:active, .pedido-vaciar:active { transform: scale(.96); }
+  @keyframes subir { from { transform: translateY(24px); opacity: 0; } }
+  @media (prefers-reduced-motion: reduce) { .pedido { animation: none; } }
+  @media (max-width: 380px) { .pedido-vaciar { display: none; } }
+  :global(body.con-pedido) { padding-bottom: 84px; }
+</style>

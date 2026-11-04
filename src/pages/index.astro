@@ -1,11 +1,150 @@
 ---
-import Welcome from '../components/Welcome.astro';
+// Página principal. Diseño A · Tablero (dirección "dense-tiles", ver docs/diseno.md): la estructura de la referencia como un tablero
+// de mosaicos planos. Cada mosaico es una cosa: el nombre, un estreno, un juego con su precio.
 import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import Portada from '../components/Portada.astro';
+import Pedido from '../components/Pedido.astro';
+import { tienda } from '../data/tienda';
+import { estrenos, porTipo, precio, item, linkWhatsApp, etiquetaConsola, type Producto } from '../lib/catalogo';
+const [principal, ...secundarios] = estrenos;
+const juegos = porTipo('juego').filter((p) => !p.estreno);
+const extras = tienda.mostrarDlcUpdates ? [...porTipo('dlc'), ...porTipo('update')] : [];
+const apoyo = extras.length
+  ? 'Códigos oficiales de juegos, DLC y updates. Lo activas en tu propia cuenta.'
+  : 'Códigos oficiales de juegos. Lo activas en tu propia cuenta.';
+const consola = (p: Producto) => [etiquetaConsola(p.consolas), p.nota].filter(Boolean).join(' · ');
+// El mosaico "¿No ves tu juego?" ocupa lo que falte para cerrar la última fila
+// (celular: 2 juegos por fila de 6 columnas; escritorio: 5 por fila de 10).
+const cierreFila = (n: number) => `--span-movil:${6 - 3 * (n % 2)};--span-escritorio:${10 - 2 * (n % 5)}`;
 ---
+<Layout titulo={`${tienda.nombre} · Juegos para Switch`}>
+<main class="tablero">
+  <section class="t nombre">
+    <p class="marca">{tienda.nombre}</p>
+    <h1>Juegos para Switch 1 y 2</h1>
+    <p class="apoyo">{apoyo}</p>
+  </section>
+  <a class="t accion" href={linkWhatsApp()}>
+    <span>Pedir por WhatsApp</span>
+    <span class="flecha" aria-hidden="true">→</span>
+  </a>
 
-<Layout>
-	<Welcome />
+  <h2 class="t titulo">Estrenos</h2>
+  {principal && (
+    <a class="t juego grande" {...item(principal)}>
+      <div class="img"><Portada p={principal} prioridad sizes="(min-width: 760px) 60vw, 100vw" /></div>
+      <div class="pie"><span class="n">{principal.nombre}</span><span class="c">{consola(principal)}</span><strong>{precio(principal.precio)}</strong></div>
+    </a>
+  )}
+  {secundarios.map((p) => (
+    <a class="t juego medio" {...item(p)}>
+      <div class="img"><Portada p={p} prioridad sizes="(min-width: 760px) 40vw, 50vw" /></div>
+      <div class="pie"><span class="n">{p.nombre}</span><strong>{precio(p.precio)}</strong></div>
+    </a>
+  ))}
+
+  <h2 class="t titulo">Juegos disponibles</h2>
+  {juegos.map((p) => (
+    <a class="t juego" {...item(p)}>
+      <div class="img"><Portada p={p} /></div>
+      <div class="pie"><span class="n">{p.nombre}</span><span class="c">{consola(p)}</span><strong>{precio(p.precio)}</strong></div>
+    </a>
+  ))}
+  <a class="t mas" href={linkWhatsApp()} style={cierreFila(juegos.length)}>
+    <strong>¿No ves tu juego?</strong>
+    <span>Pregúntanos, conseguimos más títulos.</span>
+  </a>
+
+  {extras.length > 0 && <h2 class="t titulo">DLC y updates</h2>}
+  {extras.map((p) => (
+    <a class="t juego" {...item(p)}>
+      <div class="img"><Portada p={p} /></div>
+      <div class="pie"><span class="n">{p.nombre}</span><span class="c">{p.tipo === 'dlc' ? 'DLC' : 'Update'} · {consola(p)}</span><strong>{precio(p.precio)}</strong></div>
+    </a>
+  ))}
+  {extras.length > 0 && (
+    <a class="t mas" href={linkWhatsApp()} style={cierreFila(extras.length)}>
+      <strong>¿Buscas otro DLC?</strong>
+      <span>Escríbenos y te cotizamos.</span>
+    </a>
+  )}
+
+  <footer class="t cierre">
+    <p class="ayuda">Toca varios títulos para armar tu pedido y te enviamos el total por WhatsApp.</p>
+    {tienda.beneficios.map((b) => <p class="beneficio">{b}</p>)}
+    <p class="nombre-final">{tienda.nombre}</p>
+  </footer>
+<Pedido />
+</main>
 </Layout>
+
+<style>
+  .tablero {
+    --suelo: #e9e9ec; --mosaico: #ffffff; --tinta: #121214; --suave: #5b5b63; --rojo: #e60012;
+    --pedido-accent: var(--rojo);
+    font-family: 'Schibsted Grotesk', system-ui, sans-serif; color: var(--tinta); background: var(--suelo);
+    min-height: 100vh; padding: 10px; display: grid; gap: 8px;
+    grid-template-columns: repeat(6, 1fr); grid-auto-flow: dense;
+  }
+  .t { border-radius: 8px; background: var(--mosaico); grid-column: span 6; overflow: hidden; }
+
+  .nombre { padding: 22px 20px 26px; background: var(--rojo); color: #fff; }
+  .marca { font-size: 17px; font-weight: 800; }
+  h1 { margin-top: 36px; font-size: clamp(38px, 11vw, 88px); font-weight: 800; line-height: .95; letter-spacing: -.035em; max-width: 12ch; }
+  .apoyo { margin-top: 18px; font-size: 18px; line-height: 1.45; max-width: 34ch; }
+  .accion { display: flex; justify-content: space-between; align-items: center; padding: 18px 20px; background: var(--tinta); color: #fff; font-weight: 800; font-size: 19px; }
+  .flecha { font-size: 26px; transition: transform .2s; }
+  .accion:hover .flecha { transform: translateX(4px); }
+
+  .titulo { background: none; padding: 26px 4px 2px; font-size: clamp(26px, 6.4vw, 44px); font-weight: 800; letter-spacing: -.03em; line-height: 1; }
+
+  .juego { grid-column: span 3; display: flex; flex-direction: column; cursor: pointer; transition: transform .15s, background-color .15s; }
+  .juego:active { transform: scale(.98); }
+  .img { aspect-ratio: 16 / 9; background: #d6d6dc; }
+  .pie { padding: 10px 12px 12px; display: flex; flex-direction: column; gap: 2px; flex: 1; }
+  .n { font-size: 14px; font-weight: 500; line-height: 1.2; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .c { font-size: 13px; color: var(--suave); }
+  .pie strong { margin-top: auto; padding-top: 6px; font-size: 22px; font-weight: 800; letter-spacing: -.02em; }
+  .grande { grid-column: span 6; }
+  .grande .img { aspect-ratio: 2 / 1; position: relative; }
+  .grande .pie { flex-direction: row; flex-wrap: wrap; align-items: baseline; column-gap: 10px; padding: 14px 16px 16px; }
+  .grande .n { font-size: 18px; font-weight: 800; flex: 1 1 60%; }
+  .grande .c { order: 3; flex-basis: 100%; }
+  .grande strong { font-size: 30px; padding: 0; }
+  .medio .img { aspect-ratio: 16 / 9; }
+
+  .juego.en-pedido { background: var(--tinta); color: #fff; }
+  .juego.en-pedido .c { color: #b9b9c2; }
+  .juego.en-pedido .pie strong::after { content: ' ✓'; color: var(--rojo); }
+
+  .mas { grid-column: span var(--span-movil, 3); background: var(--rojo); color: #fff; padding: 16px; display: flex; flex-direction: column; justify-content: flex-end; gap: 6px; min-height: 160px; }
+  .mas strong { font-size: 22px; line-height: 1.05; letter-spacing: -.02em; }
+  .mas span { font-size: 14px; }
+
+  .cierre { margin-top: 18px; background: none; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .cierre > p { border-radius: 8px; }
+  .ayuda { grid-column: 1 / -1; padding: 18px 20px; font-size: 17px; line-height: 1.4; background: var(--tinta); color: #fff; }
+  .beneficio { background: var(--mosaico); padding: 16px 14px; font-size: 15px; font-weight: 800; line-height: 1.2; min-height: 96px; display: flex; align-items: flex-end; }
+  .nombre-final { grid-column: 1 / -1; background: var(--rojo); color: #fff; padding: 28px 18px 22px; font-size: clamp(56px, 19vw, 200px); font-weight: 800; letter-spacing: -.05em; line-height: .85; }
+
+  @media (min-width: 760px) {
+    .tablero { grid-template-columns: repeat(10, 1fr); padding: 12px; }
+    .t { grid-column: span 10; }
+    .nombre { grid-column: span 7; padding: 28px 28px 32px; }
+    h1 { margin-top: 56px; }
+    .accion { grid-column: span 3; flex-direction: column; align-items: flex-start; justify-content: space-between; font-size: 24px; padding: 28px; }
+    .accion .flecha { font-size: 48px; align-self: flex-end; }
+    .juego { grid-column: span 2; }
+    .mas { grid-column: span var(--span-escritorio, 2); }
+    .grande { grid-column: span 6; grid-row: span 2; }
+    .grande .img { aspect-ratio: auto; flex: 1; min-height: 0; }
+    .grande .pie { flex: none; }
+    .grande .img :global(.portada) { position: absolute; inset: 0; }
+    .medio { grid-column: span 4; }
+    .medio .img { aspect-ratio: 2.1 / 1; }
+    .cierre { grid-template-columns: 4fr 2fr 2fr 2fr; }
+    .ayuda { grid-column: auto; font-size: 20px; padding: 22px; }
+    .beneficio { font-size: 20px; min-height: 160px; padding: 22px; }
+  }
+  @media (prefers-reduced-motion: reduce) { .juego, .flecha { transition: none; } }
+</style>

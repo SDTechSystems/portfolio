@@ -20,3 +20,9 @@ Consult these guides before working on related tasks:
 - [Adding or managing content](https://docs.astro.build/en/guides/content-collections/)
 - [Adding styles or using Tailwind](https://docs.astro.build/en/guides/styling/)
 - [Supporting multiple languages](https://docs.astro.build/en/guides/internationalization/)
+
+## Proyecto
+
+Antes de trabajar, lee `docs/spec.md` (requisitos, estado y tareas) y `docs/diseno.md`
+(directrices del diseño elegido, A · Tablero). Al terminar, actualiza la sección **Estado**
+y el **Registro de decisiones** de `docs/spec.md`.
