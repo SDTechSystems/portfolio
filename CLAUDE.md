@@ -32,9 +32,9 @@ Hay pruebas con `npm test` (runner de Node), sin dependencias adicionales. No ha
 + `src/data/tienda.ts` (nombre, WhatsApp, `url`, 3 `destacados`, `mostrarDlcUpdates`) →
 `src/lib/catalogo.ts` → `src/pages/index.astro`.
 
-- **Validación al importar:** `catalogo.ts` revisa todas las filas al cargarse y lanza
+- **Validación al importar:** `catalogo.ts` llama a `datos-catalogo.ts` para validar estructura y filas al cargarse y lanza
   `Error("Revisa el catálogo:\n- …")`, lo que detiene el build. Si agregas un campo o una regla,
-  hazlo ahí con un mensaje en español para alguien no técnico. `tienda.url` se valida aparte en
+  hazlo en `datos-catalogo.ts` con un mensaje en español para alguien no técnico. `tienda.url` se valida aparte en
   `astro.config.mjs`, porque Astro lee `site` antes que todo.
 - **Traducción de campos:** las filas del JSON (`titulo`, `plataforma`, `tipo_producto`,
   `precio_venta_cop ?? precio_referencia_eshop_colombia_cop`) se convierten al tipo `Producto`
@@ -72,7 +72,7 @@ adaptador de servidor de Astro: el sitio es estático a propósito.
 
 ## Automatizaciones de Claude Code (`.claude/`)
 
-- Al editar `productos.json`, `tienda.ts`, `catalogo.ts` o `astro.config.mjs`, un hook corre el build
+- Al editar `productos.json`, `tienda.ts`, `catalogo.ts`, `datos-catalogo.ts` o `astro.config.mjs`, un hook corre el build
   (~5 s) y devuelve los errores de validación: corrígelos antes de seguir.
 - Un hook bloquea editar `package-lock.json`, `dist/`, `.astro/` y `node_modules/`.
 - `/nuevo-producto` y `/cerrar-sesion` (actualiza el spec) solo los invoca el usuario. Usa el
