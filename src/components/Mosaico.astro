@@ -15,11 +15,16 @@ const { f, tamano } = Astro.props;
 const [unica] = f.versiones;
 const varias = f.versiones.length > 1;
 const dos = !varias && unica.consola === 'Switch 2';
-// Desde 1100px la portada de .ancho es el 45 % de 4 columnas.
-const sizes = tamano === 'grande' ? '(min-width: 760px) 60vw, 100vw'
-  : varias ? '(min-width: 1100px) 18vw, (min-width: 760px) 40vw, 50vw'
-  : tamano === 'medio' ? '(min-width: 760px) 40vw, 50vw'
-  : '(min-width: 760px) 20vw, 50vw';
+// Ancho real de la portada, para que el navegador baje la variante justa (medido de 320 a 1920px).
+// Celular: 6 columnas, margen 10px y separación 8px → medio tablero = 50vw − 14px.
+// Escritorio: 10 columnas, margen 12px y separación 8px → 2 col = 20vw − 11px; 4 col = 40vw − 14px;
+// 6 col = 60vw − 18px. Desde 1100px la portada de .ancho es el 45 % de 4 columnas.
+const sizes = tamano === 'grande' ? '(min-width: 760px) calc(60vw - 18px), calc(100vw - 20px)'
+  : varias ? '(min-width: 1100px) calc(18vw - 6px), (min-width: 760px) calc(40vw - 14px), calc(50vw - 14px)'
+  : tamano === 'medio' ? '(min-width: 760px) calc(40vw - 14px), calc(50vw - 14px)'
+  : '(min-width: 760px) calc(20vw - 11px), calc(50vw - 14px)';
+// Escalones de 80–160px: un celular de 390px y densidad 3 necesita 543px; con 320/480/640/960 bajaba 640.
+const ANCHOS = [320, 400, 480, 560, 640, 800, 960];
 // Panel solo en mosaicos de medio ancho en celular; el grande tiene sitio para las filas.
 const panel = varias && tamano !== 'grande';
 // "desde": el juego más barato (el paquete de mejora no cuenta: solo sirve a quien ya tiene el juego).
@@ -37,7 +42,7 @@ const Caja = varias ? 'div' : 'a';
         src={f.imagen}
         alt=""
         style={f.recorte ? `object-position: 50% ${{ arriba: '0%', centro: '50%', abajo: '100%' }[f.recorte]}` : undefined}
-        widths={[320, 480, 640, 960].filter((w) => w <= f.imagen!.width)}
+        widths={ANCHOS.filter((w) => w <= f.imagen!.width)}
         sizes={sizes}
         format="webp"
         quality={78}
