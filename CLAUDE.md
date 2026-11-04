@@ -77,6 +77,8 @@ adaptador de servidor de Astro: el sitio es estático a propósito.
 - Al editar `productos.json`, `tienda.ts`, `catalogo.ts`, `datos-catalogo.ts` o `astro.config.mjs`, un hook corre el build
   (~5 s) y devuelve los errores de validación: corrígelos antes de seguir.
 - Un hook bloquea editar `package-lock.json`, `dist/`, `.astro/` y `node_modules/`.
+- `settings.json` quita la atribución de Claude en commits y PRs (`attribution` vacío e
+  `includeCoAuthoredBy: false`): no agregues líneas `Co-Authored-By` ni pies «Generated with».
 - `/nuevo-producto` y `/cerrar-sesion` (actualiza el spec) solo los invoca el usuario. Usa el
   subagente `revisor-diseno` después de cambios visuales.
 

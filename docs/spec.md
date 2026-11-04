@@ -363,6 +363,8 @@ Hecho:
       les quitó el grupo (el build lo rechaza). Página: 37/37 productos publicables del listado con su precio exacto;
       escritorio 5 filas de 5 + "¿No ves tu juego?" a todo el ancho; `og.jpg` 183 KB.
 
+- [x] **Sin atribución de Claude en commits y PRs:** `.claude/settings.json` con `attribution` vacío e
+      `includeCoAuthoredBy: false` (vale para cualquier sesión en este repo).
 - [x] **Plantillas de issue y prioridad automática** (rama `claude/beautiful-cannon-3a7uu7`): plantillas
       «Error» (`bug`) y «Solicitud» (`enhancement`) con campo de prioridad; un workflow pone `P1`/`P2`/`P3`
       según ese campo y lo cambia si se edita. Probado el lector del campo con 5 cuerpos de ejemplo
@@ -484,6 +486,7 @@ Pendiente de datos del dueño: logo de la tienda (opcional, va en lugar del nomb
 | 2026-11-04 | Barra de pedido ≤ 340 px: separación 6 px y botón con relleno 10 px | A 320 px con todo elegido (total de 7 cifras) el botón "Pedir por WhatsApp" se salía 5 px de la barra; ya pasaba en `main`. Ahora queda 5 px dentro; de 341 px en adelante no cambia nada. |
 | 2026-11-04 | Plantillas de issue «Error» / «Solicitud» y sin issues en blanco | Separar errores de pedidos con el label correcto sin depender de acordarse; los campos son los que ya usaban los issues (problema, reproducción o propuesta, criterios de aceptación). |
 | 2026-11-04 | Label de prioridad puesto por un workflow propio (`gh issue edit`), sin Actions de terceros | Las plantillas de GitHub solo ponen labels fijos. El texto del issue va por variable de entorno, nunca dentro del script (evita inyección de comandos). Sin dependencias nuevas que mantener. |
+| 2026-11-04 | Atribución de Claude desactivada en `.claude/settings.json` del repo (no solo en `~/.claude`) | Lo pidió el dueño. En la nube `~/.claude` se borra al terminar cada sesión; en el repo vale siempre. Se dejan las dos claves: `includeCoAuthoredBy` es la antigua y `attribution` la actual. |
 
 ## 9. Cómo verificar un cambio
 
