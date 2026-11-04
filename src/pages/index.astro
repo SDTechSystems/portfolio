@@ -1,11 +1,20 @@
 ---
-import Welcome from '../components/Welcome.astro';
+// Página temporal para comparar los diseños propuestos.
 import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const disenos = [
+  { href: '/disenos/bento', nombre: '1 · Bento', desc: 'Claro y rojo, como tu referencia. Mosaico de portadas con precio encima. Ideal para mostrar y capturar.' },
+  { href: '/disenos/vitrina', nombre: '2 · Vitrina oscura', desc: 'Tema oscuro tipo tienda. Carrusel de estrenos, filtros por tipo/consola y tarjetas con botón “Pedir”.' },
+  { href: '/disenos/lista', nombre: '3 · Lista de precios', desc: 'Estilo menú: rápido de leer, buscador y precios alineados. Lo más práctico para muchos títulos.' },
+];
 ---
-
-<Layout>
-	<Welcome />
+<Layout titulo="Elige un diseño">
+  <main style="max-width:640px;margin:0 auto;padding:24px 16px;">
+    <h1 style="font-weight:900;margin:0 0 4px">Propuestas de diseño</h1>
+    <p style="color:#666;margin:0 0 20px">Datos y precios de ejemplo.</p>
+    {disenos.map((d) => (
+      <a href={d.href} style="display:block;padding:16px;margin-bottom:12px;border:1px solid #ddd;border-radius:12px">
+        <strong>{d.nombre}</strong><br /><span style="color:#555;font-size:.9rem">{d.desc}</span>
+      </a>
+    ))}
+  </main>
 </Layout>

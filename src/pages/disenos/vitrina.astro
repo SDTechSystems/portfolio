@@ -1,0 +1,99 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Portada from '../../components/Portada.astro';
+import { tienda } from '../../data/tienda';
+import { productos, estrenos, precio, linkWhatsApp, etiquetaConsola, etiquetaTipo } from '../../lib/catalogo';
+const filtros = [
+  { id: 'todos', txt: 'Todos' }, { id: 'juego', txt: 'Juegos' }, { id: 'dlc', txt: 'DLC' },
+  { id: 'update', txt: 'Updates' }, { id: 'switch2', txt: 'Solo Switch 2' },
+];
+---
+<Layout titulo={`${tienda.nombre} · Catálogo`} tema="#0e0e13">
+<main class="vit">
+  <header class="cab">
+    <p class="marca">{tienda.nombre}</p>
+    <h1>Juegos <em>Switch 1 y 2</em></h1>
+    <p class="sub">{tienda.beneficios.join(' · ')}</p>
+  </header>
+
+  <section class="carrusel" aria-label="Estrenos">
+    {estrenos.map((p) => (
+      <a class="slide" href={linkWhatsApp(p)}>
+        <Portada p={p} grande />
+        <div class="info"><span class="nuevo">Estreno</span><strong>{precio(p.precio)}</strong></div>
+      </a>
+    ))}
+  </section>
+
+  <nav class="chips" aria-label="Filtros">
+    {filtros.map((f, i) => <button data-f={f.id} aria-pressed={i === 0 ? 'true' : 'false'}>{f.txt}</button>)}
+  </nav>
+
+  <section class="cards">
+    {productos.map((p) => (
+      <article class="card" data-tipo={p.tipo} data-consolas={p.consolas.join(' ')}>
+        <div class="img"><Portada p={p} sinTexto={!p.imagen} /></div>
+        <div class="cuerpo">
+          <div class="badges">
+            <span class={`b ${p.tipo}`}>{etiquetaTipo[p.tipo]}</span>
+            <span class="b con">{etiquetaConsola(p.consolas)}</span>
+          </div>
+          <h3>{p.nombre}</h3>
+          <div class="fila">
+            <strong>{precio(p.precio)}</strong>
+            <a class="pedir" href={linkWhatsApp(p)}>Pedir</a>
+          </div>
+        </div>
+      </article>
+    ))}
+  </section>
+  <p class="vacio" hidden>No hay títulos en este filtro.</p>
+</main>
+</Layout>
+
+<script>
+  const botones = document.querySelectorAll<HTMLButtonElement>('.chips button');
+  const cards = document.querySelectorAll<HTMLElement>('.card');
+  const vacio = document.querySelector<HTMLElement>('.vacio')!;
+  botones.forEach((b) => b.addEventListener('click', () => {
+    botones.forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+    const f = b.dataset.f!;
+    let visibles = 0;
+    cards.forEach((c) => {
+      const ok = f === 'todos' || c.dataset.tipo === f || (f === 'switch2' && c.dataset.consolas === 'switch2');
+      c.hidden = !ok; if (ok) visibles++;
+    });
+    vacio.hidden = visibles > 0;
+  }));
+</script>
+
+<style>
+  .vit { --rojo: #ff2a3d; --azul: #00b8f0; background: #0e0e13; color: #f2f2f5; min-height: 100vh; padding: 16px 0 32px; }
+  .cab, .chips, .cards, .vacio { padding-inline: 16px; max-width: 1100px; margin-inline: auto; }
+  .marca { margin: 0; font-size: .75rem; letter-spacing: .15em; text-transform: uppercase; color: #9a9aa8; }
+  h1 { margin: 4px 0; font-size: clamp(1.6rem, 7vw, 2.6rem); font-weight: 900; line-height: 1; }
+  h1 em { font-style: normal; background: linear-gradient(90deg, var(--azul), var(--rojo)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .sub { margin: 6px 0 0; font-size: .8rem; color: #9a9aa8; }
+  .carrusel { display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 18px 16px 6px; max-width: 1100px; margin: 0 auto; scrollbar-width: none; }
+  .slide { position: relative; flex: 0 0 86%; max-width: 520px; aspect-ratio: 16 / 9; border-radius: 16px; overflow: hidden; scroll-snap-align: center; box-shadow: 0 10px 30px rgb(0 0 0 / .5); }
+  .info { position: absolute; inset: auto 0 0 0; display: flex; justify-content: space-between; align-items: center; padding: 10px 12px; background: linear-gradient(transparent, rgb(0 0 0 / .8)); }
+  .info strong { font-size: 1.25rem; }
+  .nuevo { background: var(--rojo); font-size: .7rem; font-weight: 800; padding: 3px 10px; border-radius: 99px; text-transform: uppercase; }
+  .chips { position: sticky; top: 0; z-index: 2; display: flex; gap: 8px; overflow-x: auto; padding-block: 12px; background: #0e0e13ee; backdrop-filter: blur(8px); scrollbar-width: none; }
+  .chips button { flex: none; font: inherit; font-size: .8rem; font-weight: 600; color: #d0d0d8; background: #1c1c25; border: 1px solid #2c2c38; padding: 8px 14px; border-radius: 99px; cursor: pointer; }
+  .chips button[aria-pressed='true'] { background: #fff; color: #0e0e13; border-color: #fff; }
+  .cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  @media (min-width: 720px) { .cards { grid-template-columns: repeat(4, 1fr); } }
+  .card { background: #17171f; border: 1px solid #24242f; border-radius: 14px; overflow: hidden; display: flex; flex-direction: column; }
+  .card[hidden] { display: none; }
+  .img { aspect-ratio: 16 / 10; }
+  .cuerpo { padding: 10px; display: flex; flex-direction: column; gap: 6px; flex: 1; }
+  .badges { display: flex; flex-wrap: wrap; gap: 4px; }
+  .b { font-size: .6rem; font-weight: 800; text-transform: uppercase; padding: 2px 6px; border-radius: 4px; background: #2a2a36; color: #c0c0cc; }
+  .b.dlc { background: #3b2a5c; color: #cbb3ff; } .b.update { background: #1f4a3a; color: #8ff0c4; } .b.juego { background: #4a1f25; color: #ffb3ba; }
+  h3 { margin: 0; font-size: .85rem; font-weight: 600; line-height: 1.25; flex: 1; }
+  .fila { display: flex; align-items: center; justify-content: space-between; gap: 6px; }
+  .fila strong { font-size: 1.05rem; font-weight: 900; }
+  .pedir { background: var(--rojo); color: #fff; font-size: .75rem; font-weight: 800; padding: 7px 12px; border-radius: 99px; }
+  .vacio { color: #9a9aa8; text-align: center; }
+</style>

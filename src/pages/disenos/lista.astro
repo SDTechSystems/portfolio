@@ -1,0 +1,80 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Portada from '../../components/Portada.astro';
+import { tienda } from '../../data/tienda';
+import { porTipo, precio, linkWhatsApp, etiquetaConsola } from '../../lib/catalogo';
+const grupos = [
+  { titulo: 'Juegos', items: porTipo('juego') },
+  { titulo: 'DLC y expansiones', items: porTipo('dlc') },
+  { titulo: 'Updates Switch 2', items: porTipo('update') },
+];
+---
+<Layout titulo={`${tienda.nombre} · Lista de precios`} tema="#fff7f0">
+<main class="lista">
+  <header class="cab">
+    <h1>{tienda.nombre}</h1>
+    <p>Lista de precios · Nintendo Switch 1 y 2</p>
+    <input type="search" placeholder="Buscar juego…" aria-label="Buscar juego" />
+  </header>
+
+  {grupos.map((g) => (
+    <section class="grupo">
+      <h2>{g.titulo} <small>{g.items.length}</small></h2>
+      <ul>
+        {g.items.map((p) => (
+          <li data-nombre={p.nombre.toLowerCase()}>
+            <a href={linkWhatsApp(p)}>
+              <div class="mini"><Portada p={p} sinTexto /></div>
+              <div class="txt">
+                <span class="nom">{p.nombre}</span>
+                <span class="con">{etiquetaConsola(p.consolas)}{p.estreno && <b> · Estreno</b>}</span>
+              </div>
+              <span class="pre">{precio(p.precio)}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  ))}
+  <p class="vacio" hidden>Sin resultados. <a href={linkWhatsApp()}>¿Lo buscas? Pregúntanos</a></p>
+  <footer>{tienda.beneficios.map((b) => <span>✓ {b}</span>)}</footer>
+  <a class="flota" href={linkWhatsApp()} aria-label="Escríbenos por WhatsApp">💬 WhatsApp</a>
+</main>
+</Layout>
+
+<script>
+  const input = document.querySelector<HTMLInputElement>('input[type=search]')!;
+  const filas = document.querySelectorAll<HTMLElement>('li[data-nombre]');
+  const grupos = document.querySelectorAll<HTMLElement>('.grupo');
+  const vacio = document.querySelector<HTMLElement>('.vacio')!;
+  const norm = (s: string) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+  input.addEventListener('input', () => {
+    const q = norm(input.value.trim());
+    filas.forEach((f) => (f.hidden = !norm(f.dataset.nombre!).includes(q)));
+    let total = 0;
+    grupos.forEach((g) => { const n = g.querySelectorAll('li:not([hidden])').length; g.hidden = n === 0; total += n; });
+    vacio.hidden = total > 0;
+  });
+</script>
+
+<style>
+  .lista { --acento: #e60012; background: #fff7f0; color: #1d1a18; min-height: 100vh; max-width: 640px; margin: 0 auto; padding: 0 16px 90px; }
+  .cab { position: sticky; top: 0; z-index: 2; background: #fff7f0; padding: 18px 0 12px; border-bottom: 2px solid #1d1a18; }
+  h1 { margin: 0; font-size: 1.8rem; font-weight: 900; letter-spacing: -.02em; }
+  .cab p { margin: 2px 0 10px; color: #7a6e66; font-size: .85rem; }
+  input { width: 100%; font: inherit; font-size: 1rem; padding: 10px 14px; border: 1.5px solid #d8cbbf; border-radius: 10px; background: #fff; }
+  input:focus { outline: 2px solid var(--acento); border-color: transparent; }
+  .grupo[hidden], li[hidden] { display: none; }
+  h2 { margin: 22px 0 6px; font-size: .8rem; text-transform: uppercase; letter-spacing: .12em; color: var(--acento); }
+  h2 small { color: #a8998c; font-weight: 600; }
+  ul { list-style: none; margin: 0; padding: 0; }
+  li a { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px dashed #e0d3c7; }
+  .mini { flex: none; width: 64px; aspect-ratio: 16 / 10; border-radius: 6px; overflow: hidden; }
+  .txt { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+  .nom { font-weight: 600; font-size: .92rem; line-height: 1.25; }
+  .con { font-size: .72rem; color: #8a7d73; } .con b { color: var(--acento); }
+  .pre { flex: none; font-weight: 900; font-size: 1rem; font-variant-numeric: tabular-nums; }
+  .vacio { text-align: center; color: #7a6e66; } .vacio a { color: var(--acento); font-weight: 600; }
+  footer { margin-top: 24px; display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: .78rem; color: #5a504a; font-weight: 600; }
+  .flota { position: fixed; right: 16px; bottom: 16px; background: #1fa855; color: #fff; font-weight: 800; padding: 14px 20px; border-radius: 99px; box-shadow: 0 6px 20px rgb(0 0 0 / .25); }
+</style>

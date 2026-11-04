@@ -1,0 +1,2 @@
+Coloca aquí las portadas (JPG/WebP, idealmente 16:9, ~800px de ancho).
+Luego en src/data/catalogo.json agrega a cada juego:  "imagen": "/portadas/nombre-archivo.jpg"

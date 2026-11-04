@@ -1,0 +1,26 @@
+---
+// Portada del juego: usa la imagen si existe; si no, un marcador con el color y nombre.
+import type { Producto } from '../lib/catalogo';
+interface Props { p: Producto; class?: string; grande?: boolean; sinTexto?: boolean }
+const { p, class: clase = '', grande = false, sinTexto = false } = Astro.props;
+---
+{p.imagen ? (
+  <img class={`portada ${clase}`} src={p.imagen} alt={p.nombre} loading="lazy" />
+) : (
+  <div class={`portada marcador ${grande ? 'grande' : ''} ${clase}`} style={`--c:${p.color ?? '#444'}`} role="img" aria-label={p.nombre}>
+    {!sinTexto && <span>{p.nombre}</span>}
+  </div>
+)}
+<style>
+  .portada { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .marcador {
+    display: flex; align-items: center; justify-content: center; text-align: center; padding: 1.6em .8em 2.4em; font-size: .62rem; box-sizing: border-box;
+    background:
+      radial-gradient(circle at 75% 20%, color-mix(in srgb, var(--c) 40%, white) 0, transparent 55%),
+      linear-gradient(150deg, var(--c), color-mix(in srgb, var(--c) 45%, black));
+    color: #fff; font-weight: 800; line-height: 1.1; font-size: .7rem;
+    text-shadow: 0 1px 3px rgb(0 0 0 / .5);
+  }
+  .marcador.grande { font-size: 1.4rem; padding: .8em; }
+  .marcador span { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+</style>
