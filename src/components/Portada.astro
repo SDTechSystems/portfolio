@@ -1,11 +1,23 @@
 ---
-// Portada del juego. Sin imagen: un campo de color plano con el nombre.
+// Portada del juego, optimizada por Astro. Sin imagen: un campo de color plano con el nombre.
+// alt vacío: el nombre ya está escrito en el mosaico, así el lector de pantalla no lo repite.
+import { Image } from 'astro:assets';
 import type { Producto } from '../lib/catalogo';
-interface Props { p: Producto; class?: string }
-const { p, class: clase = '' } = Astro.props;
+interface Props { p: Producto; class?: string; prioridad?: boolean; sizes?: string }
+const { p, class: clase = '', prioridad = false, sizes = '(min-width: 760px) 20vw, 50vw' } = Astro.props;
 ---
 {p.imagen ? (
-  <img class={`portada ${clase}`} src={p.imagen} alt={p.nombre} loading="lazy" decoding="async" />
+  <Image
+    class={`portada ${clase}`}
+    src={p.imagen}
+    alt=""
+    widths={[320, 480, 640, 960].filter((w) => w <= p.imagen!.width)}
+    sizes={sizes}
+    format="webp"
+    quality={78}
+    loading={prioridad ? 'eager' : 'lazy'}
+    fetchpriority={prioridad ? 'high' : undefined}
+  />
 ) : (
   <div class={`portada marcador ${clase}`} style={`--c:${p.color ?? '#333'}`} role="img" aria-label={p.nombre}>
     <span>{p.nombre}</span>

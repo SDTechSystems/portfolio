@@ -1,7 +1,6 @@
 # Diseño A · Tablero: directrices
 
-> Diseño elegido por el dueño. Archivo fuente: `src/pages/disenos/tablero.astro`
-> (pasará a `src/pages/index.astro`, ver tarea T1 en `docs/spec.md`).
+> Diseño elegido por el dueño. Archivo fuente: `src/pages/index.astro`.
 > Leer completo antes de cambiar o agregar cualquier cosa visual.
 
 ## 1. Idea
@@ -63,7 +62,7 @@ Tamaños de mosaico (clases) y cuántas columnas ocupan:
 | Estreno grande | `.t.juego.grande` | 6, imagen 2:1 | 6 × 2 filas, imagen llena el alto |
 | Estrenos chicos | `.t.juego.medio` | 3 | 4, imagen 2.1:1 |
 | Juego / DLC / update | `.t.juego` | 3 (2 por fila) | 2 (5 por fila) |
-| ¿No ves tu juego? | `.t.mas` | 3 | 2 |
+| ¿No ves tu juego? | `.t.mas` | lo que falte para cerrar la fila (3 o 6) | lo que falte (2–10) |
 | Cierre | `footer.t.cierre` | ayuda 100%, 3 beneficios, nombre 100% | ayuda 4fr + 3 beneficios 2fr, nombre 100% |
 
 Estructura de un mosaico de juego (no cambiar el orden):
@@ -120,8 +119,8 @@ El precio va **debajo** de la portada, nunca encima de la imagen.
 
 ## 7. Cómo extender sin romper el diseño
 
-- **Agregar un juego:** solo una entrada en `catalogo.json` y su portada en
-  `public/portadas/<id>.jpg`. No tocar el diseño.
+- **Agregar un juego:** solo una entrada en `productos.json` y su portada en
+  `src/assets/Catalogo_Nintendo_Switch_Colombia/imagenes/<id>.webp`. No tocar el diseño.
 - **Nueva sección** (ej. "Tarjetas eShop"): un `<h2 class="t titulo">` y mosaicos
   `.t.juego` con `{...item(p)}`. Terminar con un mosaico `.t.mas` si la última fila queda incompleta.
 - **Un nuevo tipo de mosaico:** usar uno de los tamaños existentes (2/3/4/6/10 columnas),

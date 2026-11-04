@@ -35,9 +35,9 @@ en menos de 30 segundos.
 | R2 | Datos por título | Precio, consola (Switch 1 / Switch 2 / ambas), tipo (Juego / DLC / Update). |
 | R3 | Contacto | Botón de WhatsApp por juego, con mensaje prellenado. |
 | R4 | Edición | Archivo simple dentro del proyecto (JSON), sin panel ni Google Sheets. |
-| R5 | Moneda | Pesos ($). **País sin confirmar** → hoy se usa formato `es-MX` / `MXN`. |
+| R5 | Moneda | Pesos colombianos: `es-CO` / `COP` (formato `$ 239.900`). |
 | R6 | Tamaño | Menos de 30 títulos → no hace falta buscador ni paginación. |
-| R7 | Portadas | Las sube el dueño a `public/portadas/`. |
+| R7 | Portadas | Las pone el dueño en `src/assets/Catalogo_Nintendo_Switch_Colombia/imagenes/`; Astro las optimiza. |
 | R8 | Marca | Por ahora marcadores: "Tu Tienda" y un número de ejemplo. |
 | R9 | Diseño | Elegido: **A · Tablero** (ver `docs/diseno.md`). |
 
@@ -74,40 +74,39 @@ administración, buscador, varias páginas, multi-idioma.
 ```
 src/
   data/
-    tienda.ts         ← nombre, WhatsApp, moneda/locale, beneficios
-    catalogo.json     ← la lista de títulos (lo único que edita el dueño a diario)
-  lib/catalogo.ts     ← tipos, filtros (estrenos, porTipo), formato de precio, enlaces wa.me, item()
+    tienda.ts         ← nombre, WhatsApp, moneda/locale, beneficios, ids de "Estrenos"
+  assets/Catalogo_Nintendo_Switch_Colombia/
+    productos.json    ← la lista de títulos (lo único que edita el dueño a diario)
+    imagenes/<id>.webp← portadas 16:9 (Astro genera 320/480/640/960 px en webp)
+  lib/catalogo.ts     ← lee productos.json, tipos, filtros, formato de precio, enlaces wa.me, item()
   components/
-    Portada.astro     ← imagen o bloque de color sin imagen
+    Portada.astro     ← <Image> optimizada o bloque de color sin imagen
     Pedido.astro      ← barra "Tu pedido" + script de selección (compartido)
   layouts/Layout.astro← <head>, fuente de Google Fonts, reset global
   pages/
-    index.astro       ← HOY: selector temporal de diseños (ver tarea T1)
-    disenos/tablero.astro  ← DISEÑO ELEGIDO (A)
-    disenos/poster.astro   ← descartado (B), borrar en T1
-    disenos/codigos.astro  ← descartado (C), borrar en T1
-public/portadas/      ← imágenes de portada (jpg/webp)
+    index.astro       ← la página: diseño A · Tablero
 docs/                 ← este spec y las directrices de diseño
 ```
 
-### Modelo de datos (`src/data/catalogo.json`)
+### Modelo de datos (`src/assets/Catalogo_Nintendo_Switch_Colombia/productos.json`)
+
+Cada entrada de `productos` (campos que usa la web; el resto se ignora):
 
 ```jsonc
 {
-  "id": "mario-wonder",          // único, kebab-case; se usa también como nombre de archivo de portada
-  "nombre": "Super Mario Bros. Wonder",
-  "precio": 999,                 // número entero en la moneda de tienda.ts, sin símbolo
-  "tipo": "juego",               // "juego" | "dlc" | "update"
-  "consolas": ["switch1", "switch2"], // uno o ambos
-  "estreno": true,               // opcional; los 3 primeros estrenos llenan el bloque superior
-  "imagen": "/portadas/mario-wonder.jpg", // opcional
-  "color": "#d93a2b"             // opcional; fondo cuando no hay imagen
+  "id": "mario-kart-world",          // único, kebab-case
+  "titulo": "Mario Kart World",
+  "plataforma": "Nintendo Switch 2", // "Nintendo Switch" → "Switch 1"; "Nintendo Switch 2" → "Switch 2"
+  "tipo_producto": "juego_digital",  // "dlc" | "update" | otro → Juego. "juego_con_accesorios" añade "Necesita Ring-Con"
+  "precio_venta_cop": 299900,        // OPCIONAL: tu precio. Si falta, se usa el de referencia
+  "precio_referencia_eshop_colombia_cop": 319900, // null → muestra "Consultar" y no entra al pedido
+  "imagen": { "ruta": "imagenes/mario-kart-world.webp" } // opcional; sin imagen: bloque de color
 }
 ```
 
-Reglas: el **primer** estreno es la portada grande; los dos siguientes, las chicas. El
-diseño está pensado para **exactamente 3 estrenos**: con más, los extra se muestran
-como mosaicos medianos debajo y el bloque pierde su forma (revisar que se vea bien).
+Orden: el del archivo (por `puesto_ranking`). **Estrenos** se eligen en `tienda.ts → estrenos`
+(lista de ids, en orden: el primero es la portada grande). El diseño está pensado para
+**exactamente 3 estrenos**. La sección "DLC y updates" solo aparece si hay alguno.
 
 ### Contrato de `Pedido.astro`
 
@@ -119,31 +118,27 @@ diseño para heredarlas.
 
 ## 5. Estado (actualizar al cerrar cada sesión)
 
-**Última actualización:** 2026-11-04, rama `claude/keen-ramanujan-5bab3k`.
+**Última actualización:** 2026-11-04, rama `claude/keen-ramanujan-5bab3k` (incluye `main` con los assets).
 
 Hecho:
 - [x] Entrevista y requisitos (sección 3).
-- [x] Datos de ejemplo: 23 títulos (17 juegos, 4 DLC, 2 updates), precios **inventados**.
-- [x] Diseño A · Tablero funcionando en `/disenos/tablero` (celular y escritorio).
-- [x] Barra "Arma tu pedido" probada (sumas y mensaje correctos).
-- [x] Vista previa interactiva de A/B/C publicada como artifact privado (solo revisión).
+- [x] Diseño A · Tablero como página principal `/` (celular y escritorio). Diseños B y C y selector borrados.
+- [x] Catálogo real de Colombia: 24 juegos de `productos.json` (23 Switch 1, 1 Switch 2), sin DLC ni updates.
+- [x] Portadas reales optimizadas por Astro (de 70–175 KB a 12–130 KB por variante, webp).
+- [x] Tienda en `es-CO` / `COP`. Barra "Arma tu pedido" probada: 3 títulos → `$ 799.700` correcto; "Vaciar" limpia.
+- [x] Verificado a 390 px y 1440 px: sin scroll horizontal, sin huecos en filas, 24/24 imágenes cargan.
 
-Portadas actuales: **recortes de baja resolución** del póster de referencia, solo para
-maquetar. Los 2 updates no tienen portada.
+Pendiente de datos del dueño: número de WhatsApp real (hoy `573001234567`), nombre de la tienda,
+y confirmar si los precios mostrados (referencia eShop) son los de venta (D5).
 
 ## 6. Tareas pendientes (en orden)
 
-- [ ] **T1. Consolidar el diseño A.** Mover `disenos/tablero.astro` a `src/pages/index.astro`,
-      borrar `disenos/poster.astro`, `disenos/codigos.astro` y el selector temporal.
-      Ajustar imports relativos. Verificar con `npm run build`.
-- [ ] **T2. Datos reales de la tienda** en `tienda.ts`: nombre, WhatsApp (solo dígitos con
-      código de país), país → `locale` y `moneda` (ej. `es-CO`/`COP`, `es-CL`/`CLP`,
-      `es-AR`/`ARS`, `es-MX`/`MXN`).
-- [ ] **T3. Catálogo real:** reemplazar `catalogo.json` con los títulos y precios del dueño.
-- [ ] **T4. Portadas reales** en buena resolución (16:9, ~800 px de ancho, < 150 KB, webp o jpg),
-      nombradas `<id>.jpg`.
+- [x] **T1. Consolidar el diseño A.**
+- [~] **T2. Datos reales de la tienda:** país/moneda listos (Colombia). Faltan nombre y WhatsApp (D2).
+- [x] **T3. Catálogo real** (con la salvedad de precios, D5).
+- [x] **T4. Portadas reales.**
 - [ ] **T5. Metadatos para compartir:** `og:title`, `og:description`, `og:image` (imagen
-      1200×630 del tablero) para que el enlace se vea bien en WhatsApp.
+      1200×630 del tablero). Necesita la URL final (D4) para la ruta absoluta de la imagen.
 - [ ] **T6. Publicación:** elegir hosting estático (Netlify, Vercel, Cloudflare Pages o
       GitHub Pages) y generar el QR del enlace final.
 - [ ] **T7. Auditoría:** accesibilidad (contraste, foco, `aria-pressed`), peso de imágenes,
@@ -153,10 +148,14 @@ maquetar. Los 2 updates no tienen portada.
 
 | # | Pregunta | Supuesto actual |
 |---|---|---|
-| D1 | ¿País de venta? (formato `$1,299` vs `$1.299`) | México (`es-MX`). |
-| D2 | Nombre de la tienda, logo y número de WhatsApp | "Tu Tienda", `5215512345678`. |
+| D1 | ~~¿País de venta?~~ | **Resuelta:** Colombia (`es-CO`, `$ 239.900`). |
+| D2 | Nombre de la tienda, logo y número de WhatsApp | "Tu Tienda", `573001234567` (falso). |
 | D3 | ¿Volver a poner las píldoras rojas "NUEVO" de la referencia? | No (ver `diseno.md` §6). Se muestran como sección "Estrenos". |
 | D4 | ¿Dónde se publicará? | Sin definir. |
+| D5 | ¿Los precios de venta son los de referencia de la eShop? `productos.json` dice que **no** representan tu precio. | Se muestran los de referencia. Para usar el tuyo, añade `"precio_venta_cop"` a cada producto. |
+| D6 | ¿Marcar los juegos de Switch 1 como "Switch 1 y 2"? (casi todos corren en Switch 2) | Solo "Switch 1", tal como dice `plataforma`. |
+| D7 | Ring Fit Adventure no tiene precio digital y necesita el accesorio Ring-Con. ¿Se vende? | Se muestra con "Consultar" y abre WhatsApp para preguntar; no entra al pedido. |
+| D8 | ¿Qué títulos van en "Estrenos"? | Los 3 más recientes: Mario Kart World (2025), Super Mario Bros. Wonder (2023), Zelda: Tears of the Kingdom (2023). |
 
 ## 8. Registro de decisiones
 
@@ -167,11 +166,17 @@ maquetar. Los 2 updates no tienen portada.
 | 2026-11-04 | Segunda ronda guiada por [taste-skill](https://github.com/Leonxlnx/taste-skill): A Tablero, B Póster, C Códigos | Reglas anti-"diseño genérico" + portadas reales. Sus scripts no se ejecutaron (bloqueados por permisos); se usó como lectura. |
 | 2026-11-04 | **Elegido A · Tablero** | Fiel a la estructura del póster original. |
 | 2026-11-04 | Pedido múltiple con un solo WhatsApp | Un cliente suele comprar juego + DLC; un mensaje con total reduce idas y vueltas. |
+| 2026-11-04 | La web lee `productos.json` directamente; se borró `catalogo.json` y `public/portadas/` | Una sola fuente de datos: el archivo que entregó el dueño. Evita copias desincronizadas. |
+| 2026-11-04 | Portadas vía `astro:assets` (`<Image>`, 4 anchos webp) en vez de `public/` | El dueño las dejó en `src/assets`; Astro las reduce de peso automáticamente. |
+| 2026-11-04 | Estrenos definidos por ids en `tienda.ts` | `productos.json` no tiene campo de estreno; así no se altera el archivo del dueño y el orden es explícito. |
+| 2026-11-04 | Campo opcional `precio_venta_cop` | Permite poner el precio propio sin perder el de referencia (D5). |
+| 2026-11-04 | El mosaico "¿No ves tu juego?" se ensancha hasta cerrar la última fila | Con 21 juegos quedaba un hueco de 3 mosaicos en escritorio (regla §8 de `diseno.md`). |
+| 2026-11-04 | `alt=""` en portadas | El nombre ya está escrito en el mosaico; evita que el lector de pantalla lo lea dos veces. |
 
 ## 9. Cómo verificar un cambio
 
 1. `npm run build` termina sin errores.
-2. `astro dev --background` y abrir `/` (o `/disenos/tablero` hasta completar T1) a 390 px
+2. `astro dev --background` y abrir `/` a 390 px
    y a 1440 px de ancho: sin scroll horizontal, títulos en ≤ 2 líneas, sin huecos raros en el tablero.
 3. Tocar 2–3 títulos: la barra muestra cantidad y total correctos; el enlace `wa.me`
    contiene la lista y el total; "Vaciar" limpia todo.
