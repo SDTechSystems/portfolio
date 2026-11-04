@@ -4,7 +4,7 @@ import { tienda } from '../data/tienda';
 
 export type Tipo = 'Juego' | 'DLC' | 'Update' | 'Mejora';
 export type Consola = 'Switch 1' | 'Switch 2';
-export type Recorte = 'arriba' | 'centro' | 'abajo';
+export type Recorte = 'arriba' | 'centro' | 'abajo' | 'izquierda' | 'derecha';
 export interface Producto {
   id: string;
   nombre: string;
@@ -45,10 +45,13 @@ interface Fila {
   /** Opcional: precio de venta propio. Si no está, se usa el de referencia de la eShop. */
   precio_venta_cop?: number | null;
   precio_referencia_eshop_colombia_cop: number | null;
-  /** recorte: opcional, dónde está el logo de la portada ("arriba", "centro" o "abajo"; por defecto "abajo"). */
+  /** recorte: opcional, dónde está el logo de la portada ("arriba", "centro" o "abajo"; por defecto "abajo").
+   *  "izquierda"/"derecha": para el destacado grande, que en escritorio recorta los lados. */
   imagen?: { ruta: string; recorte?: string };
   /** Opcional: mismo texto en las filas de un juego con versión para cada consola, ej. "zelda-totk". */
   grupo?: string;
+  /** Opcional: false = no se muestra en la página (ej. precio pendiente). Por defecto se muestra. */
+  publicar?: boolean;
 }
 
 // Portadas: Astro las optimiza (tamaño y formato) al compilar.
@@ -59,17 +62,19 @@ const portadas = import.meta.glob<{ default: ImageMetadata }>(
 
 const CARPETA = 'Catalogo_Nintendo_Switch_Colombia';
 const ruta = (r: string) => `../assets/${CARPETA}/${r}`;
-const filas = datos.productos as Fila[];
+const todas = datos.productos as Fila[];
+// Solo las filas publicadas forman el catálogo; las demás se revisan igual, para que no fallen al publicarlas.
+const filas = todas.filter((f) => f.publicar !== false);
 
 // Revisión de productos.json y tienda.ts: un error de tipeo detiene `npm run build` con un
 // mensaje claro, en vez de publicar un juego en la consola equivocada o sin portada.
 const PLATAFORMAS = ['Nintendo Switch', 'Nintendo Switch 2'];
 const TIPOS = ['juego_digital', 'juego_con_accesorios', 'dlc', 'update', 'paquete_mejora'];
-const RECORTES = ['arriba', 'centro', 'abajo'];
+const RECORTES = ['arriba', 'centro', 'abajo', 'izquierda', 'derecha'];
 const precioValido = (n: unknown) => n === null || (typeof n === 'number' && Number.isInteger(n) && n > 0);
 const errores: string[] = [];
 const vistos = new Set<string>();
-filas.forEach((f, i) => {
+todas.forEach((f, i) => {
   const quien = `Producto ${i + 1} (${f.id || 'sin id'})`;
   if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(f.id ?? '')) errores.push(`${quien}: "id" debe ir en minúsculas y con guiones, ej. "mario-kart-world".`);
   if (vistos.has(f.id)) errores.push(`${quien}: el id "${f.id}" está repetido.`);
@@ -81,6 +86,7 @@ filas.forEach((f, i) => {
   if (f.precio_venta_cop !== undefined && !precioValido(f.precio_venta_cop)) errores.push(`${quien}: "precio_venta_cop" debe ser un número entero sin puntos (ej. 239900) o null.`);
   if (f.imagen && !portadas[ruta(f.imagen.ruta)]) errores.push(`${quien}: no existe la portada "${f.imagen.ruta}" (revisa el nombre del archivo en la carpeta imagenes/).`);
   if (f.imagen?.recorte !== undefined && !RECORTES.includes(f.imagen.recorte)) errores.push(`${quien}: "recorte" de la imagen es "${f.imagen.recorte}"; debe ser ${RECORTES.map((x) => `"${x}"`).join(', ')}.`);
+  if (f.publicar !== undefined && typeof f.publicar !== 'boolean') errores.push(`${quien}: "publicar" debe ser true o false (sin comillas).`);
   if (f.grupo !== undefined && !/^[a-z0-9]+(-[a-z0-9]+)*$/.test(f.grupo)) errores.push(`${quien}: "grupo" debe ir en minúsculas y con guiones, ej. "zelda-totk".`);
   if (f.tipo_producto === 'paquete_mejora' && f.plataforma !== 'Nintendo Switch 2') errores.push(`${quien}: un "paquete_mejora" lleva "plataforma": "Nintendo Switch 2".`);
   if (f.tipo_producto === 'paquete_mejora' && !f.grupo) errores.push(`${quien}: un "paquete_mejora" necesita "grupo", el mismo de su juego de Switch 1.`);
@@ -102,6 +108,7 @@ grupos.forEach((g, nombre) => {
 if (tienda.destacados.length !== 3) errores.push(`tienda.ts: "destacados" debe tener exactamente 3 ids (tiene ${tienda.destacados.length}).`);
 if (new Set(tienda.destacados).size !== tienda.destacados.length) errores.push('tienda.ts: hay un id repetido en "destacados".');
 tienda.destacados.filter((id) => !vistos.has(id)).forEach((id) => errores.push(`tienda.ts: el destacado "${id}" no existe en productos.json.`));
+tienda.destacados.filter((id) => todas.some((f) => f.id === id && f.publicar === false)).forEach((id) => errores.push(`tienda.ts: el destacado "${id}" tiene "publicar": false; elige otro o publícalo.`));
 const juegoDe = (id: string) => filas.find((f) => f.id === id)?.grupo ?? id;
 if (new Set(tienda.destacados.map(juegoDe)).size < new Set(tienda.destacados).size) errores.push('tienda.ts: dos destacados son versiones del mismo juego; elige 3 juegos distintos.');
 if (!/^\d{11,15}$/.test(tienda.whatsapp)) errores.push('tienda.ts: "whatsapp" debe ser solo dígitos con código de país (Colombia: 57 + 10 dígitos).');

@@ -48,8 +48,8 @@ en menos de 30 segundos.
   (oculta hoy). Un juego con versión para cada consola es **un solo mosaico** con un precio por
   versión (Switch 1, Switch 2 y paquete de mejora): en `productos.json` cada versión es su propia
   entrada y comparten `"grupo"`. Cada precio se elige por separado y llega al pedido con su consola.
-  En celular el mosaico es de tamaño normal ("3 versiones · desde $ …") y al tocarlo las versiones
-  se eligen en un panel que sube desde abajo; en escritorio se ven en el mosaico.
+  En celular y escritorio el mosaico es de tamaño normal ("3 versiones · desde $ …") y al tocarlo las
+  versiones se eligen en un panel (abajo en celular, centrado en escritorio); sin JavaScript se ven en el mosaico.
 - **F2. Arma tu pedido:** cada precio lleva un "+"; tocar el mosaico lo marca (✓) y lo suma
   a una barra fija inferior ("$ 1.648 · Vaciar · Pedir por WhatsApp"). El "+" sustituye al
   texto de ayuda. El botón envía un solo mensaje:
@@ -129,6 +129,7 @@ Cada entrada de `productos` (campos que usa la web; el resto se ignora):
   "grupo": "zelda-totk",              // OPCIONAL: igual en las versiones de un mismo juego → un mosaico con un precio por versión
   "precio_venta_cop": 299900,        // OPCIONAL: tu precio. Si falta, se usa el de referencia
   "precio_referencia_eshop_colombia_cop": 319900, // null → muestra "Consultar" y no entra al pedido
+  "publicar": false,                 // OPCIONAL: false = no sale en la página (se valida igual)
   "imagen": { "ruta": "imagenes/mario-kart-world.webp" } // opcional; sin imagen: bloque de color
 }
 ```
@@ -166,7 +167,7 @@ volver de WhatsApp; si el almacenamiento está bloqueado, todo funciona igual si
 
 ## 5. Estado (actualizar al cerrar cada sesión)
 
-**Última actualización:** 2026-11-04 (peso de portadas, T7), rama `claude/beautiful-cannon-3a7uu7` (sale de `main`).
+**Última actualización:** 2026-11-04 (escritorio simétrico y portadas de 1920 px), rama `claude/beautiful-cannon-3a7uu7` (sale de `main`).
 
 Hecho:
 - [x] Entrevista y requisitos (sección 3).
@@ -317,8 +318,39 @@ Hecho:
       **AVIF probado y descartado** (ver registro): con la misma nitidez ahorra 4 % y el build pasa de
       ~5 s a 1 min 16 s.
 
-Pendiente de datos del dueño: confirmar si los precios mostrados (referencia eShop) son los de venta (D5);
-logo de la tienda (opcional, va en lugar del nombre en `.cabecera`, ver `diseno.md` §7).
+- [x] **Escritorio simétrico y nítido** (rama `claude/beautiful-cannon-3a7uu7`, pedido del dueño: "en celular se ve
+      perfecto, en escritorio horrible"). Tres problemas medidos a 1440 px y corregidos:
+      1. *Asimetría:* los juegos con versiones medían 4 columnas con la portada a un lado; las filas mezclaban
+         mosaicos de 2 y 4, `dense` desordenaba el catálogo y quedaban zonas en blanco. Ahora miden lo mismo que
+         cualquier juego y abren el **mismo panel que en celular** (centrado en escritorio): 5 mosaicos por fila,
+         del mismo alto en cada fila (medido a 1024 y 1920 px), en el orden del archivo.
+      2. *Portadas borrosas:* los originales eran de 960×540. El grande a 1440 px se dibuja a 1.123 px (×2:
+         2.247 px) y recibía 960; los de versiones con portada vertical se dibujaban a 551 px y recibían 320
+         (`sizes` no contaba el recorte). Se reemplazaron las 28 portadas por las originales de Nintendo
+         (`fuente_imagen` sin transformación, 1920×1080, webp q86; misma imagen: diferencia media 3–6 de 255;
+         `ancho`/`alto` actualizados en `productos.json`). Pikachu y Eevee traían la etiqueta "Demo Available":
+         se tapó con la franja limpia de la versión anterior. Variantes hasta 1920 y `sizes` medidos.
+         Ahora cada portada recibe ≥ 90 % de los píxeles que dibuja (1440 ×1 y ×2, 1024 ×2, 1920).
+      3. *Tablero sin límite:* a 1920 px los mosaicos crecían de más; ahora el tablero mide máx. 1440 px, centrado.
+      Celular **sin cambios**: posición y tamaño de todos los elementos idénticos a 320, 390 y 759 px (comparado
+      contra el build anterior); solo el destacado grande en celulares de densidad 3 baja 1.120 px en vez de 960.
+      Los 3 precios destacados se ven sin desplazar a 1280×800, 1366×768 y 1440×900. 2 títulos → `$ 559.800`.
+      `src/assets/…/imagenes` 2,9 → 9 MB en el repo. Sin JavaScript, en escritorio el juego con versiones mide
+      4 columnas (las filas no caben en 2) y "¿No ves tu juego?" puede no cerrar exacto la fila, como ya pasaba en celular.
+
+- [x] **Precios de venta** (merge de `main` con `Precios_Finales_Catalogo_Nintendo.json`, 38 productos): a los 32 de
+      `productos.json` se les copiaron todos los campos del listado (precio de venta, 14 precios de referencia corregidos
+      de 279.900 a 239.900, `estado_precio`, `publicar`, `requiere_juego_base`), conservando `imagen` (1920×1080).
+      Verificado: los 31 precios de la página = `precio_venta_cop` del listado; Ring Fit (`publicar: false`, sin precio)
+      no sale; 20 juegos → filas completas (escritorio 4×5, celular 10×2) y "¿No ves tu juego?" a todo el ancho;
+      2 títulos → `$ 332.800`. `publicar` se valida (probado: `"no"` y un destacado oculto detienen el build).
+      Los 6 productos nuevos del listado (Ocarina of Time, Pokopia, Jamboree Switch 1 + Switch 2, Metroid Prime 4,
+      Splatoon Raiders) se agregaron al final con su portada oficial (`og:image` de su página en nintendo.com/us,
+      original 1920×1080, sin etiquetas; fuentes en `imagen.fuente_*`). A los 4 con un `grupo` de un solo producto se
+      les quitó el grupo (el build lo rechaza). Página: 37/37 productos publicables del listado con su precio exacto;
+      escritorio 5 filas de 5 + "¿No ves tu juego?" a todo el ancho; `og.jpg` 183 KB.
+
+Pendiente de datos del dueño: logo de la tienda (opcional, va en lugar del nombre en `.cabecera`, ver `diseno.md` §7).
 
 ## 6. Tareas pendientes (en orden)
 
@@ -345,11 +377,11 @@ logo de la tienda (opcional, va en lugar del nombre en `.cabecera`, ver `diseno.
 | D2 | ~~Nombre y WhatsApp~~ · Logo | **Resuelta en parte:** "SD Tech Import", `573058147293`. Falta solo el logo (opcional); hoy la cabecera muestra el nombre en texto. |
 | D3 | ¿Volver a poner las píldoras rojas "NUEVO" de la referencia? | No (ver `diseno.md` §6). Los destacados se distinguen por tamaño. |
 | D4 | ~~¿Dónde se publicará?~~ | **Resuelta:** Cloudflare Workers, https://sdtechimport.madaeauchija.workers.dev (en `tienda.ts → url`). Si se agrega un dominio propio, cambiar `url` y regenerar el QR. El repo es privado: GitHub Pages exige plan de pago; Cloudflare Pages y Netlify publican gratis desde repo privado y leen `.nvmrc`. |
-| D5 | ¿Los precios de venta son los de referencia de la eShop? `productos.json` dice que **no** representan tu precio. | Se muestran los de referencia. Para usar el tuyo, añade `"precio_venta_cop"` a cada producto. |
+| D5 | ~~¿Los precios de venta son los de referencia de la eShop?~~ | **Resuelta:** el dueño entregó `Precios_Finales_Catalogo_Nintendo.json` con `precio_venta_cop` para todo; se muestran esos. |
 | D6 | ¿Marcar los juegos de Switch 1 como "Switch 1 y 2"? (casi todos corren en Switch 2) | No: van en la sección "Switch 1", tal como dice `plataforma`. |
 | D7 | Ring Fit Adventure no tiene precio digital y necesita el accesorio Ring-Con. ¿Se vende? | Se muestra con "Consultar" y abre WhatsApp para preguntar; no entra al pedido. |
 | D9 | Logos oficiales de Switch y Switch 2, y permiso para usarlos | Ícono de Simple Icons; Switch 2 compuesto (ícono + "2"). Pedir los archivos al distribuidor y confirmar que la tienda puede mostrarlos. |
-| D8 | ¿Qué títulos van destacados? | Los 3 más recientes: Mario Kart World (2025), Super Mario Bros. Wonder (2023), Zelda: Tears of the Kingdom (2023). |
+| D8 | ¿Qué títulos van destacados? | Pedido del dueño: Zelda: Ocarina of Time (Switch 2) como estelar, en lugar de Mario Kart World (vuelve al catálogo); siguen Super Mario Bros. Wonder y Zelda: Tears of the Kingdom. |
 
 ## 8. Registro de decisiones
 
@@ -409,17 +441,24 @@ logo de la tienda (opcional, va en lugar del nombre en `.cabecera`, ver `diseno.
 | 2026-11-04 | ~~Celular: juego con versiones a todo el ancho~~ → **mosaico normal + panel de versiones** | El sitio es sobre todo para celular: a todo el ancho la página crecía +31 % (3,4 → 4,4 pantallas) y crecería con cada juego con versiones. De 2 propuestas (mosaico compacto horizontal, −35 % de alto; mosaico normal + panel) el dueño eligió el panel: la página vuelve a medir como `main` y no crece. Cuesta un toque más, una vez por juego. |
 | 2026-11-04 | "N versiones · desde $ …" con el precio del juego más barato (sin el paquete de mejora) | Sin las filas a la vista, el mosaico tiene que decir que hay varias opciones y cuánto cuesta entrar. La mejora no cuenta: solo sirve a quien ya tiene el juego, y "desde $ 39.900" engañaría. |
 | 2026-11-04 | Las filas se **mueven** al panel (no se copian) | Siguen siendo los mismos botones: conservan `aria-pressed`, los eventos de `Pedido.astro` y `sessionStorage` sin duplicar estado. |
-| 2026-11-04 | Juego con versiones = ancho de 2 mosaicos (en escritorio, 4 columnas) | Sello + precio de 22 px + "+" piden ~180 px y un mosaico chico a 320 px deja 122 px. Desde 1100 px la portada va a la izquierda y el mosaico mide lo mismo que sus vecinos. |
+| 2026-11-04 | ~~Juego con versiones = ancho de 2 mosaicos (en escritorio, 4 columnas)~~ → **en escritorio también mosaico normal + panel** (ver abajo) | Sello + precio de 22 px + "+" piden ~180 px y un mosaico chico a 320 px deja 122 px. Desde 1100 px la portada va a la izquierda y el mosaico mide lo mismo que sus vecinos. |
 | 2026-11-04 | Filas de versión: sello a la izquierda y precio alineado a la derecha junto al "+"; ~~portada 3:1 en celular~~ (con el panel, en celular la portada vuelve a 16:9) | Crítica de diseño: con el precio después del sello más ancho ("Mejora a ⊞2", 106 px) los precios empezaban a mitad del mosaico y el sello de Switch 1 flotaba solo; alineados a la derecha se comparan como en una lista. La portada a 3:1 baja el mosaico de 341 a 310 px a 390 px (3 versiones sueltas ocuparían ~290 px). |
 | 2026-11-04 | Mario Wonder (Switch 1) a $ 239.900 | Nintendo Colombia lo bajó de $ 279.900 (precio regular, sin descuento); el dueño pidió seguir la referencia. |
 | 2026-11-04 | Precios de Switch 2 y paquete de mejora tomados de `nintendo.com/es-co` | Mismo origen que los demás (referencia eShop Colombia, D5): los precios de Switch 1 de esa página coinciden con los del archivo. Se usó el precio regular (`discounted: false`). |
 | 2026-11-04 | Portada del mosaico con versiones anclada abajo (`object-position: 50% 100%`) | Las cajas de Switch 2 Edition llevan la franja "Nintendo Switch 2 Edition" abajo; el recorte 3:1 centrado la cortaba. Desde 1100 px (portada a la izquierda) el recorte es por los lados y la franja o el logo pueden cortarse: la pestaña ⊞2 ya marca la versión. |
 | 2026-11-04 | Campo opcional `imagen.recorte` en vez de un recorte fijo | La franja "Nintendo Switch 2 Edition" va abajo en Zelda y Wonder pero arriba en Animal Crossing; no hay un recorte que sirva para todas. Por defecto "abajo" (el caso común). |
-| 2026-11-04 | Alto mínimo de los destacados chicos con versiones en escritorio | En horizontal miden menos y el destacado grande (que ocupa las 2 filas) se encogía hasta recortar el logo de Mario Kart World. |
+| 2026-11-04 | ~~Alto mínimo de los destacados chicos con versiones en escritorio~~ (ya no aplica: van en el panel) | En horizontal miden menos y el destacado grande (que ocupa las 2 filas) se encogía hasta recortar el logo de Mario Kart World. |
 | 2026-11-04 | Ancho de "¿No ves tu juego?" calculado simulando la retícula (`lib/reticula.ts`) | Con mosaicos de dos anchos, contar mosaicos ya no dice cuánto falta para cerrar la fila. |
 | 2026-11-04 | Sin `flex-wrap` en el precio para WCAG 1.4.12 | Probado: a 320 px el "+" bajaba de línea siempre (+369 px de alto). Con espaciado aumentado el "+" se recorta, pero es decorativo: el precio sigue visible y el estado lo dan el color y `aria-pressed`. |
 | 2026-11-04 | **Sin AVIF**: las portadas siguen solo en webp q78 | Medido en las 28 portadas a 640 px (SSIM en luminancia, 1 = idéntica): con la misma nitidez AVIF casi no ahorra (q60: 926 KB y 0,9805 contra webp q65: 968 KB y 0,9806, −4 %); igualar a webp q78 (0,9912) cuesta +14 % (q72). Los originales ya son webp con pérdida a 960 px, así que AVIF no tiene detalle que comprimir mejor. Además el build pasaba de ~5 s a 1 min 16 s. El "~18 %" anterior comparaba con el mismo número de calidad, que no significa lo mismo en los dos formatos. Revisar si el dueño entrega portadas sin pérdida y más grandes. |
 | 2026-11-04 | `sizes` con el ancho exacto del mosaico y variantes cada 80–160 px | Casi todo el peso estaba en 23 mosaicos de ~181 px que en celulares de densidad 3 bajaban 640 px (necesitan 543). Con escalones más finos cada equipo baja la variante justa por encima de lo que necesita: −15 % a −46 % sin perder nitidez. Las fórmulas de `sizes` salen de la retícula (comentario en `Mosaico.astro`): si cambian márgenes, separación o columnas, actualizarlas. |
+| 2026-11-04 | **Escritorio igual que celular:** juego con versiones del tamaño de un juego, versiones en el panel (centrado) | El dueño veía el escritorio asimétrico: mosaicos de 2 y 4 columnas, portadas recortadas en vertical, catálogo desordenado por `dense`. Con el panel todas las filas tienen 5 mosaicos iguales. Cuesta un clic más por juego con versiones, como en celular. |
+| 2026-11-04 | Portadas originales de 1920×1080 (antes 960×540) | Con 960 px ninguna variante alcanzaba para el destacado grande ni para pantallas ×2: se veían borrosas. Son las mismas imágenes de `fuente_imagen`, sin recorte de Nintendo. El repo crece de 2,9 a 9 MB; el visitante solo baja la variante que necesita. |
+| 2026-11-04 | Tablero de máx. 1440 px, centrado | Más ancho los mosaicos se agrandan sin sumar información y las portadas pierden nitidez. |
+| 2026-11-04 | Precios del listado copiados a `productos.json` (no se cambió el archivo que lee la web) | `productos.json` sigue siendo la única fuente; el listado nuevo trae portadas de 960 y sin los datos de las 6 portadas agregadas. Si el dueño prefiere editar el listado nuevo, se puede apuntar `catalogo.ts` a él y borrar el otro. |
+| 2026-11-04 | Campo `publicar` (por defecto true) | El listado lo trae: Ring Fit tiene precio pendiente y `publicar: false`. Ocultar sin borrar deja los datos listos para cuando haya precio. |
+| 2026-11-04 | `recorte`: "izquierda" / "derecha" (7 % / 93 % horizontal) | El destacado grande en escritorio deja ver 72–85 % del ancho (es más alto que 16:9). El logo de Ocarina llega al 96,7 % del ancho y se cortaba con el centro; con 93 % queda entero a 1024, 1280, 1440 y 1920 px (medido), a cambio de recortar un poco la mochila de Link a 1024 y 1920. En celular no recorta los lados. |
+| 2026-11-04 | Barra de pedido ≤ 340 px: separación 6 px y botón con relleno 10 px | A 320 px con todo elegido (total de 7 cifras) el botón "Pedir por WhatsApp" se salía 5 px de la barra; ya pasaba en `main`. Ahora queda 5 px dentro; de 341 px en adelante no cambia nada. |
 
 ## 9. Cómo verificar un cambio
 

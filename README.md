@@ -33,10 +33,11 @@ Cada juego es un bloque como este:
 | `grupo` | Opcional. Solo para juegos con versión de Switch 1 y de Switch 2 (ver abajo). |
 | `precio_venta_cop` | **Tu precio**, sin puntos: `299900`. Opcional; si no está, se usa el de referencia. |
 | `precio_referencia_eshop_colombia_cop` | Precio de la eShop. `null` muestra "Consultar" y el juego no entra al pedido. |
+| `publicar` | Opcional. `false` oculta el producto de la página sin borrarlo (ej. precio pendiente). |
 | `imagen` | Opcional. Sin imagen, la portada queda gris. |
 
 - **Cambiar un precio:** edita `precio_venta_cop` (o agrégalo).
-- **Agregar un juego:** copia un bloque, cambia los datos y pon su portada (imagen 16:9, ej. 960×540)
+- **Agregar un juego:** copia un bloque, cambia los datos y pon su portada (imagen 16:9, ideal 1920×1080 para que se vea nítida en computador)
   en `src/assets/Catalogo_Nintendo_Switch_Colombia/imagenes/<id>.webp`.
 - **Quitar un juego:** borra su bloque (y las comas sobrantes).
 - **Juego con versión de Switch 1 y de Switch 2** (y paquete de mejora): pon un bloque por cada
@@ -47,7 +48,8 @@ Cada juego es un bloque como este:
     `"tipo_producto": "paquete_mejora"`.
   - El mosaico usa la portada de la versión de Switch 2: ponle `imagen` a ese bloque. En celular la
     portada se recorta y se conserva la parte de abajo; si el logo está arriba, agrega
-    `"recorte": "arriba"` dentro de `imagen` (también vale `"centro"`).
+    `"recorte": "arriba"` dentro de `imagen` (también vale `"centro"`). Si el juego es el destacado grande y en
+    computador se corta el logo por un lado, usa `"izquierda"` o `"derecha"` (el lado donde está el logo).
   - Ejemplos en el archivo: los dos Zelda, Mario Wonder y Animal Crossing.
 
 ### Datos de la tienda: `src/data/tienda.ts`

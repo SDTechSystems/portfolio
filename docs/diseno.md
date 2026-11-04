@@ -55,7 +55,7 @@ No agregar rojo en otros sitios.
 |---|---|---|
 | Columnas | 6 | 10 |
 | Separación entre mosaicos | 8px | 8px |
-| Margen exterior | 10px | 12px |
+| Margen exterior | 10px | 12px; el tablero mide como máximo 1440px y se centra (más ancho, los mosaicos crecen de más) |
 | Radio de esquina | 8px en todos los mosaicos; 6px en las filas y sellos de versión (van dentro de un mosaico); 999px solo en controles (barra, "+") | igual |
 | `grid-auto-flow` | `dense` (rellena huecos) | igual |
 
@@ -68,7 +68,7 @@ Tamaños de mosaico (clases) y cuántas columnas ocupan:
 | Destacado grande | `<Mosaico tamano="grande">` | 6, imagen 2:1 | 6 × 2 filas, imagen llena el alto |
 | Destacados chicos | `<Mosaico tamano="medio">` | 3 | 4, imagen 2.1:1 con alto máx. `50svh − 182px` (los 3 precios destacados se ven sin desplazar desde 768 px de alto) |
 | Juego / DLC / update | `<Mosaico>` | 3 (2 por fila) | 2 (5 por fila) |
-| Juego con varias versiones | `.ancho` (lo pone `Mosaico` si hay `grupo`) | 3, igual a un juego; las versiones van en el panel (`.panel`; sin JavaScript: 6 con las filas a la vista) | 4; 760–1099px imagen 3:1 arriba; ≥ 1100px portada a la izquierda (45 %) y versiones a la derecha; si es destacado, alto mín. `max(190px, 50svh − 140px)` |
+| Juego con varias versiones | `.ancho` (lo pone `Mosaico` si hay `grupo`) | 3, igual a un juego; las versiones van en el panel (`.panel`; sin JavaScript: 6 con las filas a la vista) | 2, igual a un juego (destacado chico: 4); las versiones van en el panel (sin JavaScript: 4 con las filas a la vista). Destacado chico con versiones: portada con alto máx. `50svh − 199px` (una línea más en el pie) |
 | ¿No ves tu juego? | `.mas` | lo que falte para cerrar la sección (3 o 6) | lo que falte (2–10); lo calcula `lib/reticula.ts` |
 
 Estructura de un mosaico de juego (no cambiar el orden):
@@ -86,7 +86,7 @@ Estructura de un mosaico de juego (no cambiar el orden):
 
 Juego con varias versiones (Switch 1, Switch 2, paquete de mejora), un solo mosaico.
 
-Celular: mosaico normal; tocarlo (en cualquier parte) abre el panel con las versiones:
+Celular y escritorio: mosaico normal; tocarlo (en cualquier parte) abre el panel con las versiones:
 
 ```
 ┌──────────────┐      ┌─ panel (PanelVersiones.astro) ─┐
@@ -98,11 +98,11 @@ Celular: mosaico normal; tocarlo (en cualquier parte) abre el panel con las vers
 └──────────────┘      └────────────────────────────────┘
 ```
 
-Panel: `<dialog>` modal pegado abajo, fondo `--mosaico`, radio 8px solo arriba, máx. 560px de ancho y 85svh
-de alto, fondo de atrás `--tinta` al 50 %. "Listo": píldora `--tinta` de 44px (no roja: no es la acción del
+Panel: `<dialog>` modal, fondo `--mosaico`, fondo de atrás `--tinta` al 50 %, máx. 85svh de alto. Celular: pegado
+abajo, radio 8px solo arriba, máx. 560px de ancho. Escritorio: centrado, radio 8px, máx. 420px de ancho. "Listo": píldora `--tinta` de 44px (no roja: no es la acción del
 pedido). Sin sombra. Sube en 250 ms, como la barra.
 
-Escritorio (≥ 760px), las filas en el mosaico:
+Sin JavaScript (y en el destacado grande), las filas van dentro del mosaico:
 
 ```
 ┌──────────────────────────────────┐
@@ -116,7 +116,7 @@ Escritorio (≥ 760px), las filas en el mosaico:
 └──────────────────────────────────┘
 ```
 
-El precio va **debajo** de la portada (o a su derecha en el mosaico con versiones desde 1100px), nunca encima de la imagen.
+El precio va **debajo** de la portada, nunca encima de la imagen.
 
 ## 4. Estados e interacción
 
@@ -129,7 +129,7 @@ El precio va **debajo** de la portada (o a su derecha en el mosaico con versione
 - **Seleccionado** (`[aria-pressed="true"]`): mosaico en `--tinta` (la pestaña de Switch 1 lo
   sigue porque usa `--fondo`), texto blanco, nota en `#b9b9c2`, círculo rojo con ✓. Es la única señal: no agregar bordes ni sombras.
 - **Juego con varias versiones:** el estado es de cada fila: la fila elegida se pone en `--tinta` con su ✓.
-  En escritorio el mosaico sigue blanco; en celular, donde las filas no se ven, el mosaico se pone en
+  Como las filas no están a la vista, el mosaico se pone en
   `--tinta` con ✓ si hay al menos una versión elegida (`:has()`, sin estado aparte). Al cerrar el panel
   (Listo, Escape o tocar afuera) el foco vuelve al mosaico; con el panel abierto el total se anuncia desde él. El lector de pantalla lee cada fila como
   "Nombre del juego, Nintendo Switch 2, $ …" (el nombre va oculto dentro de la fila).
@@ -194,7 +194,8 @@ lugar del tablero, lleva la pestaña de su consola. El lector de pantalla la lee
 
 ## 8. Lista de revisión visual (antes de cada push)
 
-- [ ] 390px y 1440px: sin scroll horizontal; márgenes iguales a ambos lados.
+- [ ] 390px y 1440px: sin scroll horizontal; márgenes iguales a ambos lados. En escritorio, todas las filas de juegos con 5 mosaicos del mismo alto.
+- [ ] Portadas nítidas en escritorio ×2: el navegador baja una variante ≥ 90 % del ancho dibujado (originales de 1920px).
 - [ ] `h1` y cada `h2` en ≤ 2 líneas a todo ancho.
 - [ ] Ninguna fila del tablero con un hueco mayor a un mosaico.
 - [ ] Todos los precios visibles y sin cortar; nombres largos cortados a 2 líneas con "…".
@@ -203,4 +204,4 @@ lugar del tablero, lleva la pestaña de su consola. El lector de pantalla la lee
 - [ ] Contraste: blanco sobre `--rojo` (4.8:1), `--suave` sobre blanco (6.7:1) y `#b9b9c2` sobre `--tinta` (9.6:1) cumplen AA.
 - [ ] Con Tab: el contorno de foco se ve en mosaicos blancos, elegidos y rojos, y ninguno queda bajo la barra.
 - [ ] Ningún elemento de la tabla "No hacer" del §6.
-- [ ] Juegos con versiones: a 320px las filas de precio no se salen; los precios quedan alineados a la derecha junto al "+"; elegir una versión pone solo esa fila en negro. En celular: el mosaico mide lo mismo que un juego, el panel abre al tocar, y al cerrar el mosaico queda en negro con ✓.
+- [ ] Juegos con versiones: a 320px las filas de precio no se salen; los precios quedan alineados a la derecha junto al "+"; elegir una versión pone solo esa fila en negro. En celular y escritorio: el mosaico mide lo mismo que un juego, el panel abre al tocar, y al cerrar el mosaico queda en negro con ✓.

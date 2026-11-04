@@ -73,6 +73,8 @@ import { tienda } from '../data/tienda';
   @media (prefers-reduced-motion: reduce) { .pedido { animation: none; } }
   /* Teléfonos estrechos: se vacía tocando de nuevo los mosaicos. */
   @media (max-width: 420px) { .vaciar { display: none; } .pedido { gap: 8px; padding-left: 16px; } .total { font-size: 17px; } .cta { padding: 12px 14px; } }
+  /* 320–340px con un total de 7 cifras: el botón se salía 5px de la barra. */
+  @media (max-width: 340px) { .pedido { gap: 6px; } .cta { padding: 12px 10px; } }
   :global(body:has(.pedido:not([hidden]))) { padding-bottom: 84px; }
   /* Al moverse con Tab, el mosaico con foco se desplaza por encima de la barra y no queda tapado. */
   :global(html:has(.pedido:not([hidden]))) { scroll-padding-bottom: 96px; }

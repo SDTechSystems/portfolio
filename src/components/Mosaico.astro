@@ -3,9 +3,9 @@
 // Pestaña: logo de Switch (src/assets/switch.svg); en Switch 2, seguido de "2" y en rojo.
 // Juego con varias versiones (Switch 1, Switch 2, paquete de mejora): un solo mosaico con la pestaña doble y
 // una fila por versión; cada fila es su propio botón con su precio y su "+".
-// · Celular: mosaico normal con "N versiones · desde $ …"; tocarlo abre el panel (PanelVersiones.astro),
-//   al que se mueven las filas. Sin JavaScript (<noscript> en index.astro) las filas se ven en el mosaico.
-// · Escritorio (≥ 760px): mosaico ancho con las filas a la vista.
+// Mosaico normal con "N versiones · desde $ …"; tocarlo abre el panel (PanelVersiones.astro), al que se
+// mueven las filas. Igual en celular y escritorio, para que todos los mosaicos de una fila midan lo mismo.
+// Sin JavaScript (<noscript> en index.astro) las filas se ven en el mosaico. El destacado grande las muestra.
 // Sin portada queda el fondo gris de .img. alt vacío: el nombre ya está escrito debajo.
 import { Image } from 'astro:assets';
 import LogoSwitch from '../assets/switch.svg';
@@ -15,22 +15,28 @@ const { f, tamano } = Astro.props;
 const [unica] = f.versiones;
 const varias = f.versiones.length > 1;
 const dos = !varias && unica.consola === 'Switch 2';
-// Ancho real de la portada, para que el navegador baje la variante justa (medido de 320 a 1920px).
+// Ancho real de la portada, para que el navegador baje la variante justa (medido de 320 a 2560px).
 // Celular: 6 columnas, margen 10px y separación 8px → medio tablero = 50vw − 14px.
 // Escritorio: 10 columnas, margen 12px y separación 8px → 2 col = 20vw − 11px; 4 col = 40vw − 14px;
-// 6 col = 60vw − 18px. Desde 1100px la portada de .ancho es el 45 % de 4 columnas.
-const sizes = tamano === 'grande' ? '(min-width: 760px) calc(60vw - 18px), calc(100vw - 20px)'
-  : varias ? '(min-width: 1100px) calc(18vw - 6px), (min-width: 760px) calc(40vw - 14px), calc(50vw - 14px)'
-  : tamano === 'medio' ? '(min-width: 760px) calc(40vw - 14px), calc(50vw - 14px)'
-  : '(min-width: 760px) calc(20vw - 11px), calc(50vw - 14px)';
-// Escalones de 80–160px: un celular de 390px y densidad 3 necesita 543px; con 320/480/640/960 bajaba 640.
-const ANCHOS = [320, 400, 480, 560, 640, 800, 960];
-// Panel solo en mosaicos de medio ancho en celular; el grande tiene sitio para las filas.
+// 6 col = 60vw − 18px. Desde 1440px el tablero no crece más (max-width en index.astro): anchos fijos.
+// El grande en escritorio llena 2 filas y es más alto que 16:9: con object-fit: cover la portada se dibuja
+// más ancha que el mosaico (medido: 61–91 % del ancho de pantalla entre 760 y 1440px; 1123px desde 1440).
+const sizes = tamano === 'grande' ? '(min-width: 1440px) 1123px, (min-width: 760px) calc(80vw - 20px), calc(100vw - 20px)'
+  : tamano === 'medio' ? '(min-width: 1440px) 562px, (min-width: 760px) calc(40vw - 14px), calc(50vw - 14px)'
+  : '(min-width: 1440px) 277px, (min-width: 760px) calc(20vw - 11px), calc(50vw - 14px)';
+// Escalones de 80–160px hasta 960 (celular: 390px a densidad 3 necesita 543px). Arriba, para escritorio
+// y pantallas de densidad 2: el grande a 1440px necesita ~1900px. Las portadas originales miden 1920.
+const ANCHOS = [320, 400, 480, 560, 640, 800, 960, 1120, 1280, 1600, 1920];
+// Panel en todos los juegos con versiones salvo el destacado grande, que tiene sitio para las filas.
 const panel = varias && tamano !== 'grande';
 // "desde": el juego más barato (el paquete de mejora no cuenta: solo sirve a quien ya tiene el juego).
 const juegos = f.versiones.filter((v) => v.tipo !== 'Mejora' && v.precio !== null).map((v) => v.precio!);
 const desde = juegos.length ? Math.min(...juegos) : null;
 const Caja = varias ? 'div' : 'a';
+// Qué parte de la portada se conserva al recortarla. Izquierda/derecha: el destacado grande en escritorio deja ver
+// 72–85 % del ancho según la pantalla; 7 %/93 % corre la ventana hacia ese lado (con 93 % un logo que llega al 97 %
+// del ancho sigue entero aunque solo se vea el 72 %).
+const RECORTE = { arriba: '50% 0%', centro: '50% 50%', abajo: '50% 100%', izquierda: '7% 50%', derecha: '93% 50%' };
 ---
 <Caja class:list={['mosaico', tamano, { ancho: varias, panel }]} {...(varias ? {} : item(unica))}>
   <div class="img">
@@ -41,7 +47,7 @@ const Caja = varias ? 'div' : 'a';
       <Image
         src={f.imagen}
         alt=""
-        style={f.recorte ? `object-position: 50% ${{ arriba: '0%', centro: '50%', abajo: '100%' }[f.recorte]}` : undefined}
+        style={f.recorte ? `object-position: ${RECORTE[f.recorte]}` : undefined}
         widths={ANCHOS.filter((w) => w <= f.imagen!.width)}
         sizes={sizes}
         format="webp"
@@ -105,7 +111,7 @@ const Caja = varias ? 'div' : 'a';
   /* Sin precio ("Consultar"): el mosaico abre WhatsApp en vez de sumarse al pedido; la flecha lo distingue del "+". */
   [target] strong::after { content: '↗'; content: '↗' / ''; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: var(--suelo); font-size: 16px; font-weight: 500; letter-spacing: 0; }
 
-  /* Juego con varias versiones. Celular: mosaico normal; el botón .abrir cubre todo el mosaico y abre el panel. */
+  /* Juego con varias versiones: mosaico normal; el botón .abrir cubre todo el mosaico y abre el panel. */
   .ancho { position: relative; }
   /* Sin panel (destacado grande) el mosaico no es tocable: solo sus filas. */
   .ancho:not(.panel) { cursor: auto; }
@@ -115,16 +121,14 @@ const Caja = varias ? 'div' : 'a';
   .abrir:focus-visible { outline: none; }
   .ancho:has(.abrir:focus-visible) { outline: 3px solid var(--tinta); outline-offset: 2px; }
   .abrir strong::after { content: '+'; content: '+' / ''; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: var(--suelo); font-size: 20px; font-weight: 500; letter-spacing: 0; }
-  /* Celular: con alguna versión elegida, el mosaico se ve elegido (sus filas no están a la vista). */
-  @media (max-width: 759px) {
-    .panel:has(.version[aria-pressed='true']) { --fondo: var(--tinta); color: #fff; }
-    .panel:has(.version[aria-pressed='true']) .c { color: #b9b9c2; }
-    /* El ✓ lleva texto para el lector de pantalla: las filas con aria-pressed están ocultas en el panel. */
-    .panel:has(.version[aria-pressed='true']) .abrir strong::after { content: '✓'; content: '✓' / 'versión elegida'; background: var(--rojo); font-size: 15px; }
-  }
+  /* Con alguna versión elegida, el mosaico se ve elegido (sus filas no están a la vista). */
+  .panel:has(.version[aria-pressed='true']) { --fondo: var(--tinta); color: #fff; }
+  .panel:has(.version[aria-pressed='true']) .c { color: #b9b9c2; }
+  /* El ✓ lleva texto para el lector de pantalla: las filas con aria-pressed están ocultas en el panel. */
+  .panel:has(.version[aria-pressed='true']) .abrir strong::after { content: '✓'; content: '✓' / 'versión elegida'; background: var(--rojo); font-size: 15px; }
   .panel .versiones { display: none; }
-  /* Las portadas de Switch 2 Edition suelen llevar la franja "Nintendo Switch 2 Edition" abajo: el recorte 3:1
-     de escritorio la conserva. Si está en otro lugar, productos.json → imagen.recorte lo cambia con style. */
+  /* Las portadas de Switch 2 Edition suelen llevar la franja "Nintendo Switch 2 Edition" abajo: si la portada
+     se recorta (destacados, sin JavaScript), se conserva. Si está en otro lugar, productos.json → imagen.recorte. */
   .ancho img { object-position: 50% 100%; }
   /* Retícula común (subgrid): sellos en una columna a la izquierda y precios alineados a la derecha,
      junto al "+", para compararlos como en una lista de precios. */
@@ -148,11 +152,6 @@ const Caja = varias ? 'div' : 'a';
 
   @media (min-width: 760px) {
     .mosaico { grid-column: span 2; }
-    .ancho { grid-column: span 4; cursor: auto; }
-    .ancho:active { transform: none; }
-    .abrir { display: none; }
-    .panel .versiones { display: grid; }
-    .ancho .img { aspect-ratio: 3 / 1; }
     .grande { grid-column: span 6; grid-row: span 2; }
     .grande .img { aspect-ratio: auto; flex: 1; }
     .grande .pie { flex: none; }
@@ -160,15 +159,8 @@ const Caja = varias ? 'div' : 'a';
     /* Los 3 destacados caben con su precio en la primera pantalla (el grande mide lo que los dos chicos).
        182px = cabecera (183) + 3 separaciones de 8 + 2 pies de 75 + margen de 12, repartido entre 2 filas. */
     .medio .img { aspect-ratio: 2.1 / 1; max-height: max(140px, calc(50svh - 182px)); }
-  }
-  /* Juego con varias versiones en escritorio ancho: portada a la izquierda y versiones a la derecha,
-     así mide lo mismo que los mosaicos de su fila y no los estira. Abajo de 1100px las filas no caben al lado. */
-  @media (min-width: 1100px) {
-    .ancho:not(.grande) { flex-direction: row; }
-    .ancho:not(.grande) .img { flex: 0 0 45%; aspect-ratio: auto; max-height: none; }
-    /* Destacado chico con versiones: alto mínimo según la pantalla, para que el grande (que mide lo que los
-       dos chicos) no recorte su portada; 140px = cabecera (183) + separaciones, repartido entre 2 filas. */
-    .medio.ancho { min-height: max(190px, calc(50svh - 140px)); }
+    /* Con versiones, el pie lleva una línea más ("N versiones · desde", 17px): la portada cede ese alto. */
+    .medio.panel .img { max-height: max(140px, calc(50svh - 199px)); }
   }
   @media (prefers-reduced-motion: reduce) { .mosaico, .consola, .version { transition: none; } }
 </style>
