@@ -43,10 +43,11 @@ en menos de 30 segundos.
 
 ### Funcionalidades
 
-- **F1. Secciones:** Estrenos (`estreno: true`), Juegos disponibles (`tipo: juego`),
-  DLC y updates (`tipo: dlc` y `update`).
-- **F2. Arma tu pedido:** tocar un título lo marca y lo suma a una barra fija inferior
-  ("2 títulos · $1,648 · Vaciar · Pedir por WhatsApp"). El botón envía un solo mensaje:
+- **F1. Orden:** 3 destacados en grande (`tienda.ts → destacados`), luego el resto de
+  juegos, sin títulos de sección. "DLC y updates" es la única sección con título (oculta hoy).
+- **F2. Arma tu pedido:** cada precio lleva un "+"; tocar el mosaico lo marca (✓) y lo suma
+  a una barra fija inferior ("$ 1.648 · Vaciar · Pedir por WhatsApp"). El "+" sustituye al
+  texto de ayuda. El botón envía un solo mensaje:
   ```
   Hola, quiero pedir:
   • Super Mario Bros. Wonder (Juego · Switch 1 y 2) $999
@@ -57,8 +58,10 @@ en menos de 30 segundos.
   sigue funcionando si el script falla.
 - **F4. Mosaico "¿No ves tu juego?"** al final de Juegos y de DLC → WhatsApp genérico
   (sustituye al "Y muchos más" de la referencia).
-- **F5. Sin portada:** si un título no tiene `imagen`, se muestra un bloque de color plano
-  (`color`) con el nombre.
+- **F5. Sin portada:** si un título no tiene `imagen`, queda el fondo gris de la portada.
+- **F6. Sin textos secundarios:** ni eslogan, ni ayuda, ni beneficios, ni etiqueta de consola
+  repetida. Bajo el nombre solo va un **aviso** cuando cambia la compra: "Switch 2" (no corre
+  en Switch 1) o "Necesita Ring-Con".
 
 ### Fuera de alcance (no hacer sin que el dueño lo pida)
 
@@ -74,15 +77,15 @@ administración, buscador, varias páginas, multi-idioma.
 ```
 src/
   data/
-    tienda.ts         ← nombre, WhatsApp, moneda/locale, beneficios, ids de "Estrenos", mostrarDlcUpdates
+    tienda.ts         ← nombre, WhatsApp, moneda/locale, ids destacados, mostrarDlcUpdates
   assets/Catalogo_Nintendo_Switch_Colombia/
     productos.json    ← la lista de títulos (lo único que edita el dueño a diario)
     imagenes/<id>.webp← portadas 16:9 (Astro genera 320/480/640/960 px en webp)
-  lib/catalogo.ts     ← lee productos.json, tipos, filtros, formato de precio, enlaces wa.me, item()
+  lib/catalogo.ts     ← lee productos.json → destacados, juegos, extras; precio(), linkWhatsApp(), item()
   components/
-    Portada.astro     ← <Image> optimizada o bloque de color sin imagen
-    Pedido.astro      ← barra "Tu pedido" + script de selección (compartido)
-  layouts/Layout.astro← <head>, fuente de Google Fonts, reset global
+    Mosaico.astro     ← un producto: portada optimizada, nombre, aviso, precio con "+"/"✓"
+    Pedido.astro      ← barra del pedido + script de selección
+  layouts/Layout.astro← <head>, fuente, tokens de color en :root, reset global
   pages/
     index.astro       ← la página: diseño A · Tablero
 docs/                 ← este spec y las directrices de diseño
@@ -104,23 +107,24 @@ Cada entrada de `productos` (campos que usa la web; el resto se ignora):
 }
 ```
 
-Orden: el del archivo (por `puesto_ranking`). **Estrenos** se eligen en `tienda.ts → estrenos`
+Orden: el del archivo (por `puesto_ranking`). Los **destacados** se eligen en `tienda.ts → destacados`
 (lista de ids, en orden: el primero es la portada grande). El diseño está pensado para
-**exactamente 3 estrenos**. La sección "DLC y updates" está **oculta** con
+**exactamente 3 destacados**. La sección "DLC y updates" está **oculta** con
 `tienda.ts → mostrarDlcUpdates: false`; con `true` aparece si hay al menos un DLC o update
 (`tipo_producto: "dlc"` o `"update"`). Mientras está oculta, esos productos no se muestran.
 
 ### Contrato de `Pedido.astro`
 
 Cualquier elemento con los atributos que devuelve `item(p)` (`href`, `data-item`,
-`data-nombre`, `data-precio`, `data-detalle`) se vuelve seleccionable. Al seleccionarlo
-recibe la clase `.en-pedido` y `aria-pressed="true"`. La barra toma colores de las variables
-CSS `--pedido-bg`, `--pedido-ink`, `--pedido-accent` y debe ir **dentro** del `<main>` del
-diseño para heredarlas.
+`data-nombre`, `data-precio`, `data-detalle`) se vuelve seleccionable: el script le pone
+`role="button"` y `aria-pressed`. **`aria-pressed` es el único estado** (no hay clases ni
+`Set` aparte): el CSS de `Mosaico.astro` dibuja "+" o "✓" a partir de él, así que sin
+JavaScript no aparece ningún "+" y el enlace `wa.me` funciona solo. Los colores salen de los
+tokens globales de `Layout.astro`.
 
 ## 5. Estado (actualizar al cerrar cada sesión)
 
-**Última actualización:** 2026-11-04, rama `claude/keen-ramanujan-5bab3k` (incluye `main` con los assets).
+**Última actualización:** 2026-11-04 (simplificación), rama `claude/keen-ramanujan-5bab3k` (incluye `main` con los assets).
 
 Hecho:
 - [x] Entrevista y requisitos (sección 3).
@@ -129,6 +133,10 @@ Hecho:
 - [x] Portadas reales optimizadas por Astro (de 70–175 KB a 12–130 KB por variante, webp).
 - [x] Tienda en `es-CO` / `COP`. Barra "Arma tu pedido" probada: 3 títulos → `$ 799.700` correcto; "Vaciar" limpia.
 - [x] Verificado a 390 px y 1440 px: sin scroll horizontal, sin huecos en filas, 24/24 imágenes cargan.
+- [x] Simplificación (F6): fuera eslogan, ayuda, beneficios, nombre gigante final, mosaico
+      "Pedir por WhatsApp" de arriba, títulos "Estrenos"/"Juegos disponibles" y "Switch 1" repetido.
+      `Portada.astro` se fundió en `Mosaico.astro`. Barra verificada de 320 a 1440 px con los
+      23 juegos elegidos ($ 6.117.700): no se desborda.
 
 Pendiente de datos del dueño: número de WhatsApp real (hoy `573001234567`), nombre de la tienda,
 y confirmar si los precios mostrados (referencia eShop) son los de venta (D5).
@@ -154,12 +162,12 @@ y confirmar si los precios mostrados (referencia eShop) son los de venta (D5).
 |---|---|---|
 | D1 | ~~¿País de venta?~~ | **Resuelta:** Colombia (`es-CO`, `$ 239.900`). |
 | D2 | Nombre de la tienda, logo y número de WhatsApp | "Tu Tienda", `573001234567` (falso). |
-| D3 | ¿Volver a poner las píldoras rojas "NUEVO" de la referencia? | No (ver `diseno.md` §6). Se muestran como sección "Estrenos". |
+| D3 | ¿Volver a poner las píldoras rojas "NUEVO" de la referencia? | No (ver `diseno.md` §6). Los destacados se distinguen por tamaño. |
 | D4 | ¿Dónde se publicará? | Sin definir. |
 | D5 | ¿Los precios de venta son los de referencia de la eShop? `productos.json` dice que **no** representan tu precio. | Se muestran los de referencia. Para usar el tuyo, añade `"precio_venta_cop"` a cada producto. |
 | D6 | ¿Marcar los juegos de Switch 1 como "Switch 1 y 2"? (casi todos corren en Switch 2) | Solo "Switch 1", tal como dice `plataforma`. |
 | D7 | Ring Fit Adventure no tiene precio digital y necesita el accesorio Ring-Con. ¿Se vende? | Se muestra con "Consultar" y abre WhatsApp para preguntar; no entra al pedido. |
-| D8 | ¿Qué títulos van en "Estrenos"? | Los 3 más recientes: Mario Kart World (2025), Super Mario Bros. Wonder (2023), Zelda: Tears of the Kingdom (2023). |
+| D8 | ¿Qué títulos van destacados? | Los 3 más recientes: Mario Kart World (2025), Super Mario Bros. Wonder (2023), Zelda: Tears of the Kingdom (2023). |
 
 ## 8. Registro de decisiones
 
@@ -177,6 +185,12 @@ y confirmar si los precios mostrados (referencia eShop) son los de venta (D5).
 | 2026-11-04 | El mosaico "¿No ves tu juego?" se ensancha hasta cerrar la última fila | Con 21 juegos quedaba un hueco de 3 mosaicos en escritorio (regla §8 de `diseno.md`). |
 | 2026-11-04 | Sección "DLC y updates" oculta con `mostrarDlcUpdates: false` | Pedido del dueño: se conserva para agregar contenido después sin que se publique a medias. |
 | 2026-11-04 | `alt=""` en portadas | El nombre ya está escrito en el mosaico; evita que el lector de pantalla lo lea dos veces. |
+| 2026-11-04 | Fuera eslogan, texto de ayuda, beneficios y nombre final | Pedido del dueño: propósito y diseño mínimos. La ayuda "Toca varios títulos…" se sustituye por el "+" en cada precio. |
+| 2026-11-04 | Fuera el mosaico "Pedir por WhatsApp" de la cabecera | Duplicaba la barra del pedido; el contacto general queda en "¿No ves tu juego?". Una acción por intención. |
+| 2026-11-04 | Sin títulos "Estrenos" ni "Juegos disponibles" | El tamaño ya marca los destacados y todo lo que se ve está disponible. `estrenos` → `destacados`. |
+| 2026-11-04 | Consola solo como aviso cuando es Switch 2 | 23 de 24 decían "Switch 1"; repetirlo no informa. Lo que cambia la compra (Switch 2, Ring-Con) sí se muestra. |
+| 2026-11-04 | `aria-pressed` como único estado del pedido; tokens en `:root` | Una sola fuente de verdad para CSS, script y lector de pantalla; los componentes ya no dependen de estar dentro de `<main>`. |
+| 2026-11-04 | Barra sin "N títulos"; "Vaciar" oculto ≤ 420 px | Los mosaicos marcados ya muestran qué se eligió; así cabe un total de 7 cifras a 320 px. |
 
 ## 9. Cómo verificar un cambio
 
