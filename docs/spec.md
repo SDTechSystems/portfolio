@@ -127,7 +127,7 @@ Cada entrada de `productos` (campos que usa la web; el resto se ignora):
   "plataforma": "Nintendo Switch 2", // "Nintendo Switch" → "Switch 1"; "Nintendo Switch 2" → "Switch 2"
   "tipo_producto": "juego_digital",  // "juego_digital" | "juego_con_accesorios" (añade "Necesita Ring-Con") | "dlc" | "update" | "paquete_mejora"
   "grupo": "zelda-totk",              // OPCIONAL: igual en las versiones de un mismo juego → un mosaico con un precio por versión
-  "precio_venta_cop": 299900,        // OPCIONAL: tu precio. Si falta, se usa el de referencia
+  "precio_venta_cop": 299900,        // OPCIONAL: tu precio. Ausente → referencia; null → "Consultar"
   "precio_referencia_eshop_colombia_cop": 319900, // null → muestra "Consultar" y no entra al pedido
   "publicar": false,                 // OPCIONAL: false = no sale en la página (se valida igual)
   "imagen": { "ruta": "imagenes/mario-kart-world.webp" } // opcional; sin imagen: bloque de color
@@ -340,6 +340,8 @@ Hecho:
       `src/assets/…/imagenes` 2,9 → 9 MB en el repo. Sin JavaScript, en escritorio el juego con versiones mide
       4 columnas (las filas no caben en 2) y "¿No ves tu juego?" puede no cerrar exacto la fila, como ya pasaba en celular.
 
+- [x] **Auditoría #18:** Venta nula fuerza «Consultar» aunque haya referencia; pruebas de precedencia en `npm test`, incorporadas al CI.
+
 - [x] **Precios de venta** (merge de `main` con `Precios_Finales_Catalogo_Nintendo.json`, 38 productos): a los 32 de
       `productos.json` se les copiaron todos los campos del listado (precio de venta, 14 precios de referencia corregidos
       de 279.900 a 239.900, `estado_precio`, `publicar`, `requiere_juego_base`), conservando `imagen` (1920×1080).
@@ -397,6 +399,7 @@ Pendiente de datos del dueño: logo de la tienda (opcional, va en lugar del nomb
 | 2026-11-04 | La web lee `productos.json` directamente; se borró `catalogo.json` y `public/portadas/` | Una sola fuente de datos: el archivo que entregó el dueño. Evita copias desincronizadas. |
 | 2026-11-04 | Portadas vía `astro:assets` (`<Image>`, 4 anchos webp) en vez de `public/` | El dueño las dejó en `src/assets`; Astro las reduce de peso automáticamente. |
 | 2026-11-04 | Estrenos definidos por ids en `tienda.ts` | `productos.json` no tiene campo de estreno; así no se altera el archivo del dueño y el orden es explícito. |
+| 2026-11-04 | Corrección #18 | Distinguir campo ausente de null permite retirar el precio publicado conservando la referencia. Solo la ausencia usa la referencia. |
 | 2026-11-04 | Campo opcional `precio_venta_cop` | Permite poner el precio propio sin perder el de referencia (D5). |
 | 2026-11-04 | El mosaico "¿No ves tu juego?" se ensancha hasta cerrar la última fila | Con 21 juegos quedaba un hueco de 3 mosaicos en escritorio (regla §8 de `diseno.md`). |
 | 2026-11-04 | Sección "DLC y updates" oculta con `mostrarDlcUpdates: false` | Pedido del dueño: se conserva para agregar contenido después sin que se publique a medias. |

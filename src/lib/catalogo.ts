@@ -1,3 +1,4 @@
+import { precioVenta } from './precio-venta';
 import type { ImageMetadata } from 'astro';
 import datos from '../assets/Catalogo_Nintendo_Switch_Colombia/productos.json';
 import { tienda } from '../data/tienda';
@@ -117,7 +118,7 @@ if (errores.length) throw new Error(`Revisa el catálogo:\n- ${errores.join('\n-
 const productos: Producto[] = filas.map((f) => ({
   id: f.id,
   nombre: f.titulo,
-  precio: f.precio_venta_cop ?? f.precio_referencia_eshop_colombia_cop ?? null,
+  precio: precioVenta(f),
   tipo: f.tipo_producto === 'dlc' ? 'DLC' : f.tipo_producto === 'update' ? 'Update' : f.tipo_producto === 'paquete_mejora' ? 'Mejora' : 'Juego',
   consola: f.plataforma === 'Nintendo Switch 2' ? 'Switch 2' : 'Switch 1',
   nota: f.tipo_producto === 'juego_con_accesorios' ? 'Necesita Ring-Con' : undefined,
