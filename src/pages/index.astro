@@ -3,25 +3,24 @@
 import Layout from '../layouts/Layout.astro';
 import Mosaico from '../components/Mosaico.astro';
 import Pedido from '../components/Pedido.astro';
+import PanelVersiones from '../components/PanelVersiones.astro';
 import { tienda } from '../data/tienda';
 import { destacados, secciones, whatsapp, type Ficha } from '../lib/catalogo';
 import { cierres, type Pieza } from '../lib/reticula';
 const [principal, ...secundarios] = destacados;
 // El mosaico "¿No ves...?" ocupa lo que falte para cerrar su sección sin huecos (ver lib/reticula.ts).
-// Celular: 6 columnas, mosaico de 3 y juego con varias versiones de 6.
+// Celular: 6 columnas, mosaicos de 3 (un juego con versiones también: las abre en un panel).
 // Escritorio: 10 columnas, mosaico de 2, juego con varias versiones de 4, destacados 6×2 y 4.
 const varias = (f: Ficha) => f.versiones.length > 1;
-// Si un destacado chico tiene varias versiones (todo el ancho en celular), el otro también va a todo el ancho.
-const lleno = secundarios.some(varias);
 const piezas = (movil: boolean): Pieza[] => {
   const fila = { ancho: movil ? 6 : 10 };
   return [
     fila,
     ...(principal ? [{ ancho: 6, alto: movil ? 1 : 2 }] : []),
-    ...secundarios.map(() => ({ ancho: movil ? (lleno ? 6 : 3) : 4 })),
+    ...secundarios.map(() => ({ ancho: movil ? 3 : 4 })),
     ...secciones.flatMap((s) => [
       ...(s.titulo ? [fila] : []),
-      ...s.fichas.map((f) => ({ ancho: movil ? (varias(f) ? 6 : 3) : varias(f) ? 4 : 2 })),
+      ...s.fichas.map((f) => ({ ancho: movil ? 3 : varias(f) ? 4 : 2 })),
       'cierre' as const,
     ]),
   ];
@@ -37,7 +36,7 @@ const escritorio = cierres(piezas(false), 10, 2);
   </header>
 
   {principal && <Mosaico f={principal} tamano="grande" />}
-  {secundarios.map((f) => <Mosaico f={f} tamano="medio" lleno={lleno} />)}
+  {secundarios.map((f) => <Mosaico f={f} tamano="medio" />)}
 
   {secciones.map((s, i) => (
     <>
@@ -48,6 +47,15 @@ const escritorio = cierres(piezas(false), 10, 2);
   ))}
 </main>
 <Pedido />
+<PanelVersiones />
+<!-- Sin JavaScript no hay panel: en celular las versiones se ven dentro del mosaico, a todo el ancho. -->
+<noscript><style>
+  @media (max-width: 759px) {
+    .tablero .panel { grid-column: span 6 !important; }
+    .tablero .panel .abrir { display: none !important; }
+    .tablero .panel .versiones { display: grid !important; }
+  }
+</style></noscript>
 </Layout>
 
 <style>

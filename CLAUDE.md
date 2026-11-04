@@ -46,6 +46,8 @@ No hay tests, linter ni `astro check` (no está instalado `@astrojs/check`). El 
   `aria-pressed` es el **único** estado (el CSS de `Mosaico.astro` dibuja "+"/"✓" a partir de él).
   La selección se guarda en `sessionStorage['pedido']`, envuelta en try/catch. Sin JavaScript,
   cada mosaico sigue siendo un enlace de WhatsApp (F3): no rompas esa mejora progresiva.
+  En celular, las filas de un juego con versiones se **mueven** (no se copian) al `<dialog>` de
+  `PanelVersiones.astro` y vuelven al cerrar; sin JavaScript, un `<noscript>` en `index.astro` las muestra.
 - **Retícula:** grid de 6/10 columnas con `grid-auto-flow: dense`. El mosaico "¿No ves tu juego?"
   calcula su ancho con `lib/reticula.ts`, que simula `dense` con los anchos de cada mosaico (los juegos
   con versiones miden 2): si cambias tamaños de mosaico, actualiza las piezas en `index.astro`.

@@ -66,8 +66,7 @@ Tamaños de mosaico (clases) y cuántas columnas ocupan:
 | Destacado grande | `<Mosaico tamano="grande">` | 6, imagen 2:1 | 6 × 2 filas, imagen llena el alto |
 | Destacados chicos | `<Mosaico tamano="medio">` | 3 | 4, imagen 2.1:1 con alto máx. `50svh − 182px` (los 3 precios destacados se ven sin desplazar desde 768 px de alto) |
 | Juego / DLC / update | `<Mosaico>` | 3 (2 por fila) | 2 (5 por fila) |
-| Juego con varias versiones | `.ancho` (lo pone `Mosaico` si hay `grupo`) | 6, imagen 3:1 (recorte según `imagen.recorte`, por defecto abajo) | 4; 760–1099px imagen 3:1 arriba; ≥ 1100px portada a la izquierda (45 %) y versiones a la derecha; si es destacado, alto mín. `max(190px, 50svh − 140px)` |
-| Destacado chico junto a uno con versiones | `.lleno` | 6, imagen 3:1 | 4 (igual que siempre) |
+| Juego con varias versiones | `.ancho` (lo pone `Mosaico` si hay `grupo`) | 3, igual a un juego; las versiones van en el panel (`.panel`; sin JavaScript: 6 con las filas a la vista) | 4; 760–1099px imagen 3:1 arriba; ≥ 1100px portada a la izquierda (45 %) y versiones a la derecha; si es destacado, alto mín. `max(190px, 50svh − 140px)` |
 | ¿No ves tu juego? | `.mas` | lo que falte para cerrar la sección (3 o 6) | lo que falte (2–10); lo calcula `lib/reticula.ts` |
 
 Estructura de un mosaico de juego (no cambiar el orden):
@@ -83,7 +82,25 @@ Estructura de un mosaico de juego (no cambiar el orden):
 └──────────────────────┘
 ```
 
-Juego con varias versiones (Switch 1, Switch 2, paquete de mejora), un solo mosaico:
+Juego con varias versiones (Switch 1, Switch 2, paquete de mejora), un solo mosaico.
+
+Celular: mosaico normal; tocarlo (en cualquier parte) abre el panel con las versiones:
+
+```
+┌──────────────┐      ┌─ panel (PanelVersiones.astro) ─┐
+│[⊞|⊞2]        │ tap  │ Nombre (18px, 800)             │
+│ portada 16:9 │ ───▶ │ [⊞]            $ 279.900  (+)  │
+│ Nombre       │      │ [⊞2]           $ 319.900  (+)  │
+│ 3 vers.·desde│      │ [Mejora a ⊞2]   $ 39.900  (+)  │
+│ $ 279.900 (+)│      │ [        Listo         ]       │
+└──────────────┘      └────────────────────────────────┘
+```
+
+Panel: `<dialog>` modal pegado abajo, fondo `--mosaico`, radio 8px solo arriba, máx. 560px de ancho y 85svh
+de alto, fondo de atrás `--tinta` al 50 %. "Listo": píldora `--tinta` de 44px (no roja: no es la acción del
+pedido). Sin sombra. Sube en 250 ms, como la barra.
+
+Escritorio (≥ 760px), las filas en el mosaico:
 
 ```
 ┌──────────────────────────────────┐
@@ -109,8 +126,10 @@ El precio va **debajo** de la portada (o a su derecha en el mosaico con versione
   `--rojo`, logo y "2" en blanco. Sin sombra ni borde.
 - **Seleccionado** (`[aria-pressed="true"]`): mosaico en `--tinta` (la pestaña de Switch 1 lo
   sigue porque usa `--fondo`), texto blanco, nota en `#b9b9c2`, círculo rojo con ✓. Es la única señal: no agregar bordes ni sombras.
-- **Juego con varias versiones:** el estado es de cada fila, no del mosaico: la fila elegida se pone en
-  `--tinta` con su ✓ y el mosaico sigue blanco. El lector de pantalla lee cada fila como
+- **Juego con varias versiones:** el estado es de cada fila: la fila elegida se pone en `--tinta` con su ✓.
+  En escritorio el mosaico sigue blanco; en celular, donde las filas no se ven, el mosaico se pone en
+  `--tinta` con ✓ si hay al menos una versión elegida (`:has()`, sin estado aparte). Al cerrar el panel
+  (Listo, Escape o tocar afuera) el foco vuelve al mosaico; con el panel abierto el total se anuncia desde él. El lector de pantalla lee cada fila como
   "Nombre del juego, Nintendo Switch 2, $ …" (el nombre va oculto dentro de la fila).
 - **Al tocar:** `transform: scale(.98)` (150 ms).
 - **Barra de pedido** (`Pedido.astro`): píldora negra fija abajo con el total, "Vaciar" y el
@@ -128,7 +147,7 @@ El precio va **debajo** de la portada (o a su derecha en el mosaico con versione
 ## 5. Textos
 
 Todo el texto de la página: nombre de la tienda, **"Códigos para Switch 1 y 2"** (dice que se venden códigos digitales, no juegos físicos), nombres,
-nota, precios, "Mejora a" (sello del paquete de mejora), "¿No ves tu juego?", y en la barra "Vaciar" / "Pedir por WhatsApp". Con DLC
+nota, precios, "Mejora a" (sello del paquete de mejora), "N versiones · desde" y "Listo" (juego con versiones, celular), "¿No ves tu juego?", y en la barra "Vaciar" / "Pedir por WhatsApp". Con DLC
 visibles, además "DLC y updates" y "¿Buscas otro DLC?". **No agregar más.**
 
 **La consola siempre se distingue, con la pestaña y no con texto:** cada mosaico, en cualquier
@@ -182,4 +201,4 @@ lugar del tablero, lleva la pestaña de su consola. El lector de pantalla la lee
 - [ ] Contraste: blanco sobre `--rojo` (4.8:1), `--suave` sobre blanco (6.7:1) y `#b9b9c2` sobre `--tinta` (9.6:1) cumplen AA.
 - [ ] Con Tab: el contorno de foco se ve en mosaicos blancos, elegidos y rojos, y ninguno queda bajo la barra.
 - [ ] Ningún elemento de la tabla "No hacer" del §6.
-- [ ] Juegos con versiones: a 320px las filas de precio no se salen; los precios quedan alineados a la derecha junto al "+"; elegir una versión pone solo esa fila en negro.
+- [ ] Juegos con versiones: a 320px las filas de precio no se salen; los precios quedan alineados a la derecha junto al "+"; elegir una versión pone solo esa fila en negro. En celular: el mosaico mide lo mismo que un juego, el panel abre al tocar, y al cerrar el mosaico queda en negro con ✓.

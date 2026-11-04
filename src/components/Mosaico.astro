@@ -1,26 +1,33 @@
 ---
 // Un juego: portada con la pestaña de consola, nombre, nota y precio. Tocarlo lo suma al pedido (Pedido.astro).
 // Pestaña: logo de Switch (src/assets/switch.svg); en Switch 2, seguido de "2" y en rojo.
-// Juego con varias versiones (Switch 1, Switch 2, paquete de mejora): un solo mosaico ancho con la pestaña
-// doble y una fila por versión; cada fila es su propio botón con su precio y su "+".
+// Juego con varias versiones (Switch 1, Switch 2, paquete de mejora): un solo mosaico con la pestaña doble y
+// una fila por versión; cada fila es su propio botón con su precio y su "+".
+// · Celular: mosaico normal con "N versiones · desde $ …"; tocarlo abre el panel (PanelVersiones.astro),
+//   al que se mueven las filas. Sin JavaScript (<noscript> en index.astro) las filas se ven en el mosaico.
+// · Escritorio (≥ 760px): mosaico ancho con las filas a la vista.
 // Sin portada queda el fondo gris de .img. alt vacío: el nombre ya está escrito debajo.
 import { Image } from 'astro:assets';
 import LogoSwitch from '../assets/switch.svg';
 import { precio, item, type Ficha } from '../lib/catalogo';
-// lleno: destacado chico a todo el ancho en celular, para acompañar al otro si este tiene varias versiones.
-interface Props { f: Ficha; tamano?: 'grande' | 'medio'; lleno?: boolean }
-const { f, tamano, lleno } = Astro.props;
+interface Props { f: Ficha; tamano?: 'grande' | 'medio' }
+const { f, tamano } = Astro.props;
 const [unica] = f.versiones;
 const varias = f.versiones.length > 1;
 const dos = !varias && unica.consola === 'Switch 2';
-// En celular .ancho y .lleno ocupan todo el ancho; desde 1100px la portada de .ancho es el 45 % de 4 columnas.
+// Desde 1100px la portada de .ancho es el 45 % de 4 columnas.
 const sizes = tamano === 'grande' ? '(min-width: 760px) 60vw, 100vw'
-  : varias ? '(min-width: 1100px) 18vw, (min-width: 760px) 40vw, 100vw'
-  : tamano === 'medio' ? `(min-width: 760px) 40vw, ${lleno ? '100vw' : '50vw'}`
+  : varias ? '(min-width: 1100px) 18vw, (min-width: 760px) 40vw, 50vw'
+  : tamano === 'medio' ? '(min-width: 760px) 40vw, 50vw'
   : '(min-width: 760px) 20vw, 50vw';
+// Panel solo en mosaicos de medio ancho en celular; el grande tiene sitio para las filas.
+const panel = varias && tamano !== 'grande';
+// "desde": el juego más barato (el paquete de mejora no cuenta: solo sirve a quien ya tiene el juego).
+const juegos = f.versiones.filter((v) => v.tipo !== 'Mejora' && v.precio !== null).map((v) => v.precio!);
+const desde = juegos.length ? Math.min(...juegos) : null;
 const Caja = varias ? 'div' : 'a';
 ---
-<Caja class:list={['mosaico', tamano, { ancho: varias, lleno }]} {...(varias ? {} : item(unica))}>
+<Caja class:list={['mosaico', tamano, { ancho: varias, panel }]} {...(varias ? {} : item(unica))}>
   <div class="img">
     {varias
       ? <span class="consola doble" role="img" aria-label="Nintendo Switch 1 y Switch 2"><span><LogoSwitch /></span><span class="dos"><LogoSwitch /><b>2</b></span></span>
@@ -42,6 +49,13 @@ const Caja = varias ? 'div' : 'a';
   <div class="pie">
     <span class="n">{f.nombre}</span>
     {f.nota && <span class="c">{f.nota}</span>}
+    {panel && (
+      <button type="button" class="abrir" aria-haspopup="dialog">
+        <span class="solo-lector">{f.nombre}: </span>
+        <span class="c">{f.versiones.length} versiones{desde !== null && ' · desde'}</span>
+        <strong>{precio(desde)}</strong>
+      </button>
+    )}
     {varias
       ? (
         <div class="versiones">
@@ -86,14 +100,23 @@ const Caja = varias ? 'div' : 'a';
   /* Sin precio ("Consultar"): el mosaico abre WhatsApp en vez de sumarse al pedido; la flecha lo distingue del "+". */
   [target] strong::after { content: '↗'; content: '↗' / ''; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: var(--suelo); font-size: 16px; font-weight: 500; letter-spacing: 0; }
 
-  /* Juego con varias versiones: ancho de dos mosaicos (las filas de precio no caben en uno a 320px). */
-  .ancho { grid-column: span 6; cursor: auto; }
-  .ancho:active { transform: none; }
-  .ancho .img, .lleno .img { aspect-ratio: 3 / 1; }
-  /* Las portadas de Switch 2 Edition suelen llevar la franja "Nintendo Switch 2 Edition" abajo: el recorte 3:1 la conserva.
-     Si está en otro lugar, productos.json → imagen.recorte ("arriba"/"centro") lo cambia con style. */
+  /* Juego con varias versiones. Celular: mosaico normal; el botón .abrir cubre todo el mosaico y abre el panel. */
+  .ancho { position: relative; }
+  .abrir { margin-top: auto; padding: 0; border: 0; background: none; color: inherit; font: inherit; text-align: left; display: flex; flex-direction: column; gap: 2px; cursor: pointer; }
+  .abrir::before { content: ''; position: absolute; inset: 0; z-index: 2; }
+  .abrir:focus-visible { outline: none; }
+  .ancho:has(.abrir:focus-visible) { outline: 3px solid var(--tinta); outline-offset: 2px; }
+  .abrir strong::after { content: '+'; content: '+' / ''; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: var(--suelo); font-size: 20px; font-weight: 500; letter-spacing: 0; }
+  /* Celular: con alguna versión elegida, el mosaico se ve elegido (sus filas no están a la vista). */
+  @media (max-width: 759px) {
+    .panel:has(.version[aria-pressed='true']) { --fondo: var(--tinta); color: #fff; }
+    .panel:has(.version[aria-pressed='true']) .c { color: #b9b9c2; }
+    .panel:has(.version[aria-pressed='true']) .abrir strong::after { content: '✓'; content: '✓' / ''; background: var(--rojo); font-size: 15px; }
+  }
+  .panel .versiones { display: none; }
+  /* Las portadas de Switch 2 Edition suelen llevar la franja "Nintendo Switch 2 Edition" abajo: el recorte 3:1
+     de escritorio la conserva. Si está en otro lugar, productos.json → imagen.recorte lo cambia con style. */
   .ancho img { object-position: 50% 100%; }
-  .lleno { grid-column: span 6; }
   /* Retícula común (subgrid): sellos en una columna a la izquierda y precios alineados a la derecha,
      junto al "+", para compararlos como en una lista de precios. */
   .versiones { margin-top: auto; padding-top: 6px; display: grid; grid-template-columns: auto 1fr; gap: 4px 10px; }
@@ -116,7 +139,10 @@ const Caja = varias ? 'div' : 'a';
 
   @media (min-width: 760px) {
     .mosaico { grid-column: span 2; }
-    .ancho { grid-column: span 4; }
+    .ancho { grid-column: span 4; cursor: auto; }
+    .ancho:active { transform: none; }
+    .abrir { display: none; }
+    .panel .versiones { display: grid; }
     .ancho .img { aspect-ratio: 3 / 1; }
     .grande { grid-column: span 6; grid-row: span 2; }
     .grande .img { aspect-ratio: auto; flex: 1; }

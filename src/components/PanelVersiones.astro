@@ -1,0 +1,54 @@
+---
+// Panel de versiones (solo celular): al tocar un juego con varias versiones (botón .abrir de Mosaico.astro),
+// sus filas se mueven aquí y el panel sube desde abajo; al cerrar vuelven al mosaico. Mover las filas (y no
+// copiarlas) conserva su estado aria-pressed y los eventos de Pedido.astro: siguen siendo los mismos botones.
+// <dialog> modal: atrapa el foco, cierra con Escape y devuelve el foco al mosaico.
+---
+<dialog id="versiones" class="hoja" aria-labelledby="versiones-titulo">
+  <div class="caja">
+    <p id="versiones-titulo" class="titulo"></p>
+    <div class="lugar"></div>
+    <!-- Mientras el panel está abierto, lo de afuera es inerte: el total se anuncia desde aquí (Pedido.astro). -->
+    <p class="solo-lector" aria-live="polite" data-anuncio></p>
+    <button type="button" class="listo">Listo</button>
+  </div>
+</dialog>
+
+<script>
+  const hoja = document.getElementById('versiones') as HTMLDialogElement;
+  const titulo = hoja.querySelector('.titulo')!;
+  const lugar = hoja.querySelector('.lugar')!;
+  let vuelta: { lista: Element; padre: Element } | null = null;
+
+  document.querySelectorAll<HTMLButtonElement>('.abrir').forEach((boton) => {
+    boton.addEventListener('click', () => {
+      const mosaico = boton.closest('.mosaico')!;
+      const lista = mosaico.querySelector('.versiones')!;
+      vuelta = { lista, padre: lista.parentElement! };
+      titulo.textContent = mosaico.querySelector('.n')!.textContent;
+      lugar.append(lista);
+      hoja.showModal();
+    });
+  });
+  hoja.addEventListener('close', () => {
+    if (vuelta) vuelta.padre.append(vuelta.lista);
+    vuelta = null;
+  });
+  hoja.querySelector('.listo')!.addEventListener('click', () => hoja.close());
+  // Tocar el fondo oscuro (fuera de .caja) también cierra.
+  hoja.addEventListener('click', (e) => { if (e.target === hoja) hoja.close(); });
+</script>
+
+<style>
+  .hoja { margin: auto auto 0; width: 100%; max-width: 560px; max-height: 85svh; padding: 0; border: 0; border-radius: 8px 8px 0 0; background: var(--mosaico); color: var(--tinta); }
+  .hoja::backdrop { background: rgb(18 18 20 / .5); }
+  .hoja[open] { animation: subir .25s cubic-bezier(.2, .8, .2, 1); }
+  @keyframes subir { from { transform: translateY(24px); opacity: 0; } }
+  .caja { padding: 18px 16px calc(16px + env(safe-area-inset-bottom)); display: flex; flex-direction: column; gap: 12px; }
+  .titulo { font-size: 18px; font-weight: 800; line-height: 1.2; }
+  .listo { min-height: 44px; border: 0; border-radius: 999px; background: var(--tinta); color: #fff; font: inherit; font-size: 15px; font-weight: 800; cursor: pointer; }
+  .listo:active { transform: scale(.96); }
+  .listo:focus-visible { outline-offset: 3px; }
+  .solo-lector { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  @media (prefers-reduced-motion: reduce) { .hoja[open] { animation: none; } }
+</style>

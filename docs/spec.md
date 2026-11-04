@@ -48,6 +48,8 @@ en menos de 30 segundos.
   (oculta hoy). Un juego con versión para cada consola es **un solo mosaico** con un precio por
   versión (Switch 1, Switch 2 y paquete de mejora): en `productos.json` cada versión es su propia
   entrada y comparten `"grupo"`. Cada precio se elige por separado y llega al pedido con su consola.
+  En celular el mosaico es de tamaño normal ("3 versiones · desde $ …") y al tocarlo las versiones
+  se eligen en un panel que sube desde abajo; en escritorio se ven en el mosaico.
 - **F2. Arma tu pedido:** cada precio lleva un "+"; tocar el mosaico lo marca (✓) y lo suma
   a una barra fija inferior ("$ 1.648 · Vaciar · Pedir por WhatsApp"). El "+" sustituye al
   texto de ayuda. El botón envía un solo mensaje:
@@ -281,9 +283,19 @@ Hecho:
       lo mismo que la fórmula anterior (3 y 8 columnas).
       Tras la crítica de diseño: precios alineados a la derecha junto al "+" (mismo borde derecho en las 3
       filas a 320 y 390 px) y portada 3:1 en celular (mosaico 341 → 310 px a 390 px; página −93 px).
-      Contrapartidas: en celular un juego con versiones ocupa el ancho de 2 mosaicos (las filas de precio
-      no caben en uno a 320 px) y, si es un destacado chico, el otro destacado chico también va a todo el
-      ancho para que no se cuele un juego entre ellos; entre 760 y 1099 px el mosaico ancho es más alto
+      **Celular rehecho con panel** (el dueño: "el sitio va más enfocado a mobile"): con los mosaicos a todo
+      el ancho la página pasó de 3,4 a 4,4 pantallas a 390 px y la primera mostraba 2 mosaicos enteros en
+      vez de 3. Ahora el juego con versiones es un mosaico normal ("3 versiones · desde $ 279.900" y "+");
+      tocarlo abre un `<dialog>` desde abajo (`PanelVersiones.astro`) al que se mueven sus filas. Resultado
+      a 390 px: 2.901 px de alto = 3,4 pantallas (`main`: 2.847) y 3 mosaicos enteros en la primera, como
+      en `main`; ya no crece con más juegos con versiones. Probado a 320 y 390 px: abre al tocar la portada,
+      con Enter y con Tab; elegir Switch 2 + mejora de TotK → `$ 359.800` y mensaje correcto; "Listo",
+      Escape y tocar el fondo cierran; el foco vuelve al mosaico; las filas vuelven a su lugar; el mosaico
+      queda en negro con ✓; el pedido sobrevive a recargar. Sin JavaScript (`<noscript>`) las 12 filas se
+      ven en el mosaico a todo el ancho y son enlaces `wa.me`. Escritorio sin cambios (mismas medidas).
+      axe: 0 fallos a 390 y 1440 px y con el panel abierto; el total se anuncia desde el panel.
+      Contrapartidas: elegir versión en celular cuesta un toque más; "3 versiones · desde" es texto nuevo;
+      sin JavaScript, en celular el juego con versiones ocupa todo el ancho; entre 760 y 1099 px el mosaico ancho es más alto
       que sus vecinos y los estira (~130 px en blanco a 1000 px); si el archivo termina con varios juegos
       con versiones, puede quedar un hueco de un mosaico (lo permite §8); un grupo con solo Switch 1 +
       paquete de mejora muestra igual la pestaña doble (el juego se puede jugar en Switch 2 con la mejora).
@@ -376,7 +388,10 @@ logo de la tienda (opcional, va en lugar del nombre en `.cabecera`, ver `diseno.
 | 2026-11-04 | Cada versión sigue siendo su propia entrada en `productos.json`, unidas por `grupo` | Cada cosa que se vende tiene su id, precio y mensaje de pedido; no se agrupan por nombre porque los títulos no coinciden ("… Nintendo Switch 2 Edition") y podría juntar juegos equivocados. |
 | 2026-11-04 | Portada de la versión de Switch 2 en el mosaico con versiones | Elección del dueño: la caja de Switch 2 (franja roja) dice de un vistazo que hay versión nueva. Hasta que la agregue se usa la de Switch 1. |
 | 2026-11-04 | Paquete de mejora con sello "Mejora a ⊞2" (único texto nuevo) | El dueño lo vende. Un logo no basta para decir "pasar de Switch 1 a Switch 2"; dos palabras sí. |
-| 2026-11-04 | Juego con versiones = ancho de 2 mosaicos (6 col. en celular, 4 en escritorio) | Sello + precio de 22 px + "+" piden ~180 px y un mosaico chico a 320 px deja 122 px. Desde 1100 px la portada va a la izquierda y el mosaico mide lo mismo que sus vecinos. |
+| 2026-11-04 | ~~Celular: juego con versiones a todo el ancho~~ → **mosaico normal + panel de versiones** | El sitio es sobre todo para celular: a todo el ancho la página crecía +31 % (3,4 → 4,4 pantallas) y crecería con cada juego con versiones. De 2 propuestas (mosaico compacto horizontal, −35 % de alto; mosaico normal + panel) el dueño eligió el panel: la página vuelve a medir como `main` y no crece. Cuesta un toque más, una vez por juego. |
+| 2026-11-04 | "N versiones · desde $ …" con el precio del juego más barato (sin el paquete de mejora) | Sin las filas a la vista, el mosaico tiene que decir que hay varias opciones y cuánto cuesta entrar. La mejora no cuenta: solo sirve a quien ya tiene el juego, y "desde $ 39.900" engañaría. |
+| 2026-11-04 | Las filas se **mueven** al panel (no se copian) | Siguen siendo los mismos botones: conservan `aria-pressed`, los eventos de `Pedido.astro` y `sessionStorage` sin duplicar estado. |
+| 2026-11-04 | Juego con versiones = ancho de 2 mosaicos (en escritorio, 4 columnas) | Sello + precio de 22 px + "+" piden ~180 px y un mosaico chico a 320 px deja 122 px. Desde 1100 px la portada va a la izquierda y el mosaico mide lo mismo que sus vecinos. |
 | 2026-11-04 | Filas de versión: sello a la izquierda y precio alineado a la derecha junto al "+"; portada 3:1 en celular | Crítica de diseño: con el precio después del sello más ancho ("Mejora a ⊞2", 106 px) los precios empezaban a mitad del mosaico y el sello de Switch 1 flotaba solo; alineados a la derecha se comparan como en una lista. La portada a 3:1 baja el mosaico de 341 a 310 px a 390 px (3 versiones sueltas ocuparían ~290 px). |
 | 2026-11-04 | Precios de Switch 2 y paquete de mejora tomados de `nintendo.com/es-co` | Mismo origen que los demás (referencia eShop Colombia, D5): los precios de Switch 1 de esa página coinciden con los del archivo. Se usó el precio regular (`discounted: false`). |
 | 2026-11-04 | Portada del mosaico con versiones anclada abajo (`object-position: 50% 100%`) | Las cajas de Switch 2 Edition llevan la franja "Nintendo Switch 2 Edition" abajo; el recorte 3:1 centrado la cortaba. Desde 1100 px (portada a la izquierda) el recorte es por los lados y la franja o el logo pueden cortarse: la pestaña ⊞2 ya marca la versión. |
