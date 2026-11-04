@@ -1,0 +1,11 @@
+// Despliegue en Cloudflare Workers como sitio estático: sube la carpeta dist/ tal cual.
+// Sin este archivo, `wrangler deploy` intenta autoconfigurar el proyecto (agrega el adaptador
+// de servidor de Astro, que este sitio no usa) y falla.
+// "name" debe coincidir con el nombre del Worker en el panel de Cloudflare.
+{
+  "name": "sdtechimport",
+  "compatibility_date": "2026-11-01",
+  "assets": {
+    "directory": "./dist"
+  }
+}
