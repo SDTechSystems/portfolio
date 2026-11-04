@@ -1,36 +1,35 @@
 ---
 import { tienda } from '../data/tienda';
-interface Props { titulo?: string; tema?: string; fuente?: string; descripcion?: string }
-const {
-  titulo = tienda.nombre,
-  tema = '#e60012',
-  fuente = 'Schibsted+Grotesk:wght@500;800',
-  descripcion = `${tienda.eslogan} para Nintendo Switch 1 y 2.`,
-} = Astro.props;
 ---
 <!doctype html>
 <html lang="es">
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<meta name="theme-color" content={tema} />
-		<meta name="description" content={descripcion} />
+		<meta name="theme-color" content="#e60012" />
+		<meta name="description" content="Códigos digitales de juegos para Nintendo Switch 1 y 2." />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-		<link rel="stylesheet" href={`https://fonts.googleapis.com/css2?family=${fuente}&display=swap`} />
-		<title>{titulo}</title>
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@500;800&display=swap" />
+		<title>{tienda.nombre}</title>
 	</head>
 	<body>
 		<slot />
 	</body>
 </html>
 <style is:global>
+	/* Tokens del diseño (docs/diseno.md §2). Únicos colores permitidos. */
+	:root { --suelo: #e9e9ec; --mosaico: #ffffff; --tinta: #121214; --suave: #5b5b63; --rojo: #e60012; }
 	*, *::before, *::after { box-sizing: border-box; }
 	html, body { margin: 0; }
-	body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+	body {
+		background: var(--suelo); color: var(--tinta);
+		font-family: 'Schibsted Grotesk', system-ui, sans-serif;
+		-webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+	}
 	a { color: inherit; text-decoration: none; -webkit-tap-highlight-color: transparent; }
 	img { max-width: 100%; }
-	h1, h2, h3, p { margin: 0; }
+	h1, h2, p { margin: 0; }
 	:focus-visible { outline: 3px solid currentColor; outline-offset: 2px; }
 </style>
