@@ -1,0 +1,9 @@
+# Finales de línea LF en el repo, aunque se edite desde Windows: así un cambio de precio
+# en productos.json no aparece como "todo el archivo cambió".
+* text=auto eol=lf
+
+# Binarios: no tocar.
+*.webp binary
+*.jpg binary
+*.png binary
+*.woff2 binary

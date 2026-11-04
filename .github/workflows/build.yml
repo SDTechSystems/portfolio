@@ -7,14 +7,17 @@ on:
   pull_request:
   push:
     branches: [main]
+  # Botón "Run workflow" en la pestaña Actions, para relanzarlo a mano.
+  workflow_dispatch:
 
 permissions:
   contents: read
 
 # Si llega otro push al mismo PR, cancela la ejecución anterior.
+# En main no se cancela el build que ya está corriendo: cada fusión termina el suyo.
 concurrency:
   group: build-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   build:
@@ -22,6 +25,9 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v7
+        with:
+          # El job no hace push: no hace falta dejar el token guardado en el runner.
+          persist-credentials: false
       - uses: actions/setup-node@v7
         with:
           node-version-file: .nvmrc

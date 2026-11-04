@@ -88,7 +88,8 @@ administración, buscador, varias páginas, multi-idioma.
 - **Dev server:** `astro dev --background` (ver `AGENTS.md`); `astro dev stop|status|logs`.
 - **GitHub:** `.github/workflows/build.yml` compila (y valida el catálogo) en cada PR y push a
   `main`, con la versión de Node de `.nvmrc` (exacta: 22.23.4, el mínimo de Astro 7). `.github/dependabot.yml` abre PRs de actualización los
-  lunes (npm agrupado salvo versiones mayores; Actions agrupadas). Plantilla de PR con la lista
+  lunes (npm agrupado salvo versiones mayores; Actions agrupadas; `cooldown` de 3 días, 7 en mayores). El CI cancela
+  ejecuciones viejas solo en los PR, nunca en `main`, y se puede relanzar a mano desde Actions. Plantilla de PR con la lista
   de revisión de `diseno.md` §8. El repo es privado: GitHub Pages y la protección de ramas
   requieren plan de pago, así que el CI avisa pero no bloquea la fusión.
 
@@ -152,7 +153,7 @@ volver de WhatsApp; si el almacenamiento está bloqueado, todo funciona igual si
 
 ## 5. Estado (actualizar al cerrar cada sesión)
 
-**Última actualización:** 2026-11-04 (previews de Cloudflare en los PR), rama `fix/previews-cloudflare` (sale de `main`).
+**Última actualización:** 2026-11-04 (ajustes de CI y Dependabot), rama `ccr-1435d390-b65ozp` (sale de `main`).
 
 Hecho:
 - [x] Entrevista y requisitos (sección 3).
@@ -208,6 +209,11 @@ Hecho:
       leyendo los 105 archivos. `wrangler preview` no tiene modo simulado: se confirma en el próximo PR.
 - [x] Nombre real: **SD Tech Import** (título, cabecera, `og:title`/`og:site_name`, favicon "S").
       Verificado a 320, 390 y 1440 px: el nombre cabe en 1 línea, sin scroll horizontal.
+- [x] Ajustes de repo (rama `ccr-1435d390-b65ozp`): Dependabot espera 3 días (7 en versiones mayores)
+      antes de proponer una versión nueva; el CI ya no cancela builds en `main`, no deja el token en el
+      runner y se puede relanzar a mano; `.gitignore` ignora `.wrangler/` y `.dev.vars*`; `.gitattributes`
+      fija finales LF. Pendiente en Settings (lo hace el dueño): borrar ramas al fusionar y activar alertas
+      de Dependabot.
 
 Pendiente de datos del dueño: confirmar si los precios mostrados (referencia eShop) son los de venta (D5);
 logo de la tienda (opcional, va en lugar del nombre en `.cabecera`, ver `diseno.md` §7).
@@ -279,6 +285,9 @@ logo de la tienda (opcional, va en lugar del nombre en `.cabecera`, ver `diseno.
 | 2026-11-04 | Dependabot semanal agrupado; versiones mayores aparte | Pocos PRs, y un salto mayor de Astro se revisa a propósito. Con el CI, cada actualización llega ya probada. |
 | 2026-11-04 | ~~`.nvmrc` = `22`~~ → **`.nvmrc` = `22.23.4`** | Astro 7 exige Node ≥ 22.23.4 y la imagen de compilación de Cloudflare Pages trae por defecto un 22.x más viejo (22.16); con solo `22` no hay garantía de que elija uno suficiente. Subir a mano cuando Astro lo pida. |
 | 2026-11-04 | README como guía del dueño | El de la plantilla no explicaba cómo cambiar precios o agregar juegos. |
+| 2026-11-04 | `cooldown` de Dependabot (3 días; 7 en mayores) | Las versiones comprometidas en npm suelen retirarse en horas o días; las actualizaciones de seguridad no esperan. |
+| 2026-11-04 | CI: cancelar solo en PR, `persist-credentials: false`, `workflow_dispatch` | En `main` cada fusión debe quedar con su build; el job no hace push, así que no necesita el token guardado. |
+| 2026-11-04 | `.gitattributes` con `eol=lf` | Editar `productos.json` desde Windows no debe cambiar los finales de línea de todo el archivo. |
 
 ## 9. Cómo verificar un cambio
 
