@@ -1,5 +1,5 @@
 ---
-// Portada, nombre y precio seleccionan el juego; los detalles son un control independiente.
+// Un juego: portada con la pestaña de consola, nombre, nota y precio. Tocarlo lo suma al pedido (Pedido.astro).
 // Pestaña: logo de Switch (src/assets/switch.svg); en Switch 2, seguido de "2" y en rojo.
 // Juego con varias versiones (Switch 1, Switch 2, paquete de mejora): un solo mosaico con la pestaña doble y
 // una fila por versión; cada fila es su propio botón con su precio y su "+".
@@ -9,7 +9,6 @@
 // Sin portada queda el fondo gris de .img. alt vacío: el nombre ya está escrito debajo.
 import { Image } from 'astro:assets';
 import LogoSwitch from '../assets/switch.svg';
-import DetallesCompra from './DetallesCompra.astro';
 import { precio, item, type Ficha } from '../lib/catalogo';
 interface Props { f: Ficha; tamano?: 'grande' | 'medio' }
 const { f, tamano } = Astro.props;
@@ -39,8 +38,7 @@ const Caja = varias ? 'div' : 'a';
 // del ancho sigue entero aunque solo se vea el 72 %).
 const RECORTE = { arriba: '50% 0%', centro: '50% 50%', abajo: '50% 100%', izquierda: '7% 50%', derecha: '93% 50%' };
 ---
-<div class:list={['mosaico', tamano, { ancho: varias, panel }]}>
-<Caja class="seleccion" {...(varias ? {} : item(unica))}>
+<Caja class:list={['mosaico', tamano, { ancho: varias, panel }]} {...(varias ? {} : item(unica))}>
   <div class="img">
     {varias
       ? <span class="consola doble" role="img" aria-label="Nintendo Switch 1 y Switch 2"><span><LogoSwitch /></span><span class="dos"><LogoSwitch /><b>2</b></span></span>
@@ -73,98 +71,22 @@ const RECORTE = { arriba: '50% 0%', centro: '50% 50%', abajo: '50% 100%', izquie
       ? (
         <div class="versiones">
           {f.versiones.map((v) => (
-            <div class="opcion">
             <a class="version" {...item(v)}>
               <span class="solo-lector">{f.nombre}, </span>
               {v.tipo === 'Mejora'
                 ? <span class="sello" role="img" aria-label="Paquete de mejora a Nintendo Switch 2">Mejora a <LogoSwitch /><b>2</b></span>
                 : <span class:list={['sello', { dos: v.consola === 'Switch 2' }]} role="img" aria-label={`Nintendo ${v.consola}`}><LogoSwitch />{v.consola === 'Switch 2' && <b>2</b>}</span>}
               <strong>{precio(v.precio)}</strong>
-              <span class="resumen-compra c">{v.compra.tipo}</span>
-              {v.compra.requisitoBase && <span class="resumen-compra c">{v.compra.requisitoBase}</span>}
             </a>
-            <DetallesCompra producto={v} />
-            </div>
           ))}
         </div>
       )
       : <strong>{precio(unica.precio)}</strong>}
   </div>
 </Caja>
-{!varias && <div class="detalle-unico"><DetallesCompra producto={unica} /></div>}
-</div>
-
-<script>
-  // Mejora progresiva: sin este módulo, Detalles sigue siendo un desplegable nativo.
-  document.querySelectorAll<HTMLElement>('.mosaico:not(.ancho)').forEach((tarjeta) => {
-    const seleccion = tarjeta.querySelector<HTMLElement>('.seleccion');
-    const pie = tarjeta.querySelector<HTMLElement>('.detalle-unico');
-    const detalles = pie?.querySelector<HTMLDetailsElement>('details');
-    const contenido = detalles?.querySelector<HTMLElement>('.contenido');
-    const resumen = detalles?.querySelector<HTMLElement>('summary');
-    if (!seleccion || !pie || !detalles || !contenido || !resumen) return;
-
-    const frente = document.createElement('div');
-    frente.className = 'frente';
-    const reverso = document.createElement('div');
-    reverso.className = 'reverso';
-    const cabecera = document.createElement('div');
-    cabecera.className = 'cabecera-reverso';
-    const nombre = document.createElement('p');
-    nombre.className = 'nombre-reverso';
-    nombre.textContent = seleccion.querySelector('.n')?.textContent ?? '';
-    const volver = document.createElement('button');
-    volver.type = 'button';
-    volver.className = 'volver';
-    volver.textContent = 'Volver';
-    volver.setAttribute('aria-label', `Volver a ${nombre.textContent}`);
-    cabecera.append(nombre, volver);
-    reverso.append(cabecera, contenido);
-    frente.append(seleccion, pie);
-    tarjeta.append(frente, reverso);
-    reverso.inert = true;
-    tarjeta.setAttribute('data-giro-listo', '');
-
-    const actualizar = () => {
-      const abierto = detalles.open;
-      tarjeta.toggleAttribute('data-girada', abierto);
-      frente.inert = abierto;
-      reverso.inert = !abierto;
-      (abierto ? volver : resumen).focus({ preventScroll: true });
-    };
-    detalles.addEventListener('toggle', actualizar);
-    volver.addEventListener('click', () => { detalles.open = false; });
-    reverso.addEventListener('keydown', (evento) => {
-      if (evento.key === 'Escape') {
-        evento.preventDefault();
-        evento.stopPropagation();
-        detalles.open = false;
-      }
-    });
-  });
-</script>
 
 <style>
   .mosaico { --fondo: var(--mosaico); grid-column: span 3; display: flex; flex-direction: column; border-radius: 8px; overflow: hidden; background: var(--fondo); cursor: pointer; transition: transform .15s, background-color .15s; }
-  .mosaico[data-giro-listo] { position: relative; perspective: 1000px; overflow: visible; background: none; }
-  .mosaico[data-giro-listo]:active { transform: none; }
-  :global(.frente), :global(.reverso) { border-radius: 8px; background: var(--fondo); backface-visibility: hidden; transition: transform .32s ease; }
-  :global(.frente) { display: flex; flex-direction: column; flex: 1; min-height: 0; overflow: hidden; }
-  :global(.reverso) { background: var(--tinta); color: #fff; --texto-detalle: #fff; --texto-secundario: #b9b9c2; color-scheme: dark; position: absolute; inset: 0; display: flex; flex-direction: column; padding: 12px; transform: rotateY(180deg); cursor: auto; }
-  .mosaico[data-girada] > :global(.frente) { transform: rotateY(-180deg); }
-  .mosaico[data-girada] > :global(.reverso) { transform: rotateY(0); }
-  :global(.reverso :focus-visible) { outline-color: #fff; }
-  :global(.cabecera-reverso) { display: flex; align-items: start; gap: 8px; flex: none; padding-bottom: 8px; }
-  :global(.nombre-reverso) { flex: 1; font-size: 14px; font-weight: 800; line-height: 1.2; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-  :global(.volver) { min-height: 44px; margin-top: -12px; padding: 0 4px; border: 0; background: none; color: inherit; font: inherit; font-size: 13px; font-weight: 800; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
-  :global(.reverso > .contenido) { min-height: 0; overflow-y: auto; overscroll-behavior: contain; container-type: inline-size; font-size: 13px; color: var(--texto-secundario, var(--suave)); padding: 0 4px 4px 0; }
-  @media (prefers-reduced-motion: reduce) {
-    :global(.frente), :global(.reverso) { transition: none; }
-  }
-  .seleccion { display: flex; flex-direction: column; flex: 1; min-width: 0; color: inherit; }
-  .detalle-unico { padding: 0 12px; }
-  .mosaico:has(.seleccion[aria-pressed='true']) { --fondo: var(--tinta); --texto-secundario: #b9b9c2; --texto-detalle: #fff; color: #fff; }
-  .mosaico:has(:global(.detalles-compra:active)) { transform: none; }
   .mosaico:active { transform: scale(.98); }
   .img { aspect-ratio: 16 / 9; background: #d6d6dc; position: relative; }
   /* Pestaña de consola: esquina sólida pegada al borde; Switch 1 del color del mosaico, Switch 2 en rojo. */
@@ -214,9 +136,6 @@ const RECORTE = { arriba: '50% 0%', centro: '50% 50%', abajo: '50% 100%', izquie
   .ancho img { object-position: 50% 100%; }
   /* Retícula común (subgrid): sellos en una columna a la izquierda y precios alineados a la derecha,
      junto al "+", para compararlos como en una lista de precios. */
-  .opcion { grid-column: 1 / -1; display: grid; grid-template-columns: subgrid; min-width: 0; }
-  .opcion > :global(.detalles-compra) { grid-column: 1 / -1; }
-  .resumen-compra { grid-column: 1 / -1; line-height: 1.4; }
   .versiones { margin-top: auto; padding-top: 6px; display: grid; grid-template-columns: auto 1fr; gap: 4px 10px; }
   .version { --fondo: var(--mosaico); min-height: 44px; margin: 0 -6px; padding: 4px 6px; border-radius: 6px; grid-column: 1 / -1; display: grid; grid-template-columns: subgrid; align-items: center; background: var(--fondo); cursor: pointer; transition: transform .15s, background-color .15s; }
   .version:active { transform: scale(.98); }
@@ -231,7 +150,6 @@ const RECORTE = { arriba: '50% 0%', centro: '50% 50%', abajo: '50% 100%', izquie
 
   .grande { grid-column: span 6; }
   .grande .img { aspect-ratio: 2 / 1; }
-  .grande .detalle-unico { padding-inline: 16px; }
   .grande .pie { padding: 14px 16px 16px; }
   .grande .n { font-size: 18px; font-weight: 800; }
   .grande strong { font-size: 30px; }

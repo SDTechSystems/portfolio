@@ -1,5 +1,3 @@
-import type { CondicionesCompra } from './condiciones-compra';
-
 /** Forma de cada entrada en productos.json (lo que edita el dueño). */
 export interface Fila {
   id: string;
@@ -16,7 +14,6 @@ export interface Fila {
   grupo?: string;
   /** Opcional: false = no se muestra en la página (ej. precio pendiente). Por defecto se muestra. */
   publicar?: boolean;
-  condiciones?: CondicionesCompra;
 }
 
 const esObjeto = (valor: unknown): valor is Record<string, unknown> =>
@@ -26,37 +23,12 @@ function fallar(errores: string[]): never {
   throw new Error(`Revisa el catálogo:\n- ${errores.join('\n- ')}`);
 }
 
-/** También se aplica a las condiciones generales y a productos ocultos. */
-function validarCondiciones(c: unknown, quien: string, errores: string[]) {
-  if (!esObjeto(c)) {
-    errores.push(`${quien}: "condiciones" debe ser un objeto; omítelo si no hay datos confirmados.`);
-  } else {
-    const campos = ['region_canje', 'idiomas', 'requiere_cambio_region', 'modalidad_entrega', 'codigo_cuenta_propia', 'requisitos'];
-    for (const campo of Object.keys(c)) {
-      if (!campos.includes(campo)) errores.push(`${quien}: "condiciones.${campo}" no es un campo reconocido.`);
-    }
-    for (const campo of ['region_canje', 'modalidad_entrega', 'requisitos']) {
-      const valor = c[campo];
-      if (valor != null && (typeof valor !== 'string' || !valor.trim() || valor.length > 160 || /[\r\n]/.test(valor))) {
-        errores.push(`${quien}: "condiciones.${campo}" debe ser un texto de 1–160 caracteres sin saltos de línea; omítelo si no está confirmado.`);
-      }
-    }
-    for (const campo of ['requiere_cambio_region', 'codigo_cuenta_propia']) {
-      if (c[campo] != null && typeof c[campo] !== 'boolean') errores.push(`${quien}: "condiciones.${campo}" debe ser true o false; omítelo si no está confirmado.`);
-    }
-    if (c.idiomas != null && (!Array.isArray(c.idiomas) || !c.idiomas.length || c.idiomas.length > 20 || c.idiomas.some((v) => typeof v !== 'string' || !v.trim() || v.length > 40 || /[\r\n]/.test(v)))) {
-      errores.push(`${quien}: "condiciones.idiomas" debe ser una lista de 1–20 idiomas (textos de hasta 40 caracteres sin saltos de línea).`);
-    }
-  }
-}
-
 /** Comprueba los tipos antes de acceder a cadenas, imágenes o grupos. */
 function leerFilas(datos: unknown): Fila[] {
   if (!esObjeto(datos) || !Array.isArray(datos.productos)) {
     fallar(['productos.json: "productos" debe ser una lista de productos.']);
   }
   const errores: string[] = [];
-  if (datos.condiciones_generales !== undefined) validarCondiciones(datos.condiciones_generales, 'Catálogo', errores);
   datos.productos.forEach((f: unknown, i: number) => {
     const quien = `Producto ${i + 1}`;
     if (!esObjeto(f)) {
@@ -74,7 +46,6 @@ function leerFilas(datos: unknown): Fila[] {
     }
     if (f.publicar !== undefined && typeof f.publicar !== 'boolean') errores.push(`${quien}: "publicar" debe ser true o false (sin comillas).`);
     if (f.grupo !== undefined && typeof f.grupo !== 'string') errores.push(`${quien}: "grupo" debe ser un texto.`);
-    if (f.condiciones !== undefined) validarCondiciones(f.condiciones, quien, errores);
     if (f.imagen !== undefined) {
       if (!esObjeto(f.imagen)) {
         errores.push(`${quien}: "imagen" debe ser un objeto con "ruta", o elimina el campo si no hay portada.`);

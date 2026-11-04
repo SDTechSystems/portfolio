@@ -64,14 +64,9 @@ en menos de 30 segundos.
 - **F4. Mosaico "¿No ves tu juego?"** al final de Juegos y de DLC → WhatsApp genérico
   (sustituye al "Y muchos más" de la referencia).
 - **F5. Sin portada:** si un título no tiene `imagen`, queda el fondo gris de la portada.
-- **F6. Sin textos promocionales secundarios:** ni eslogan, ni ayuda, ni beneficios. La **consola** la marca
+- **F6. Sin textos secundarios:** ni eslogan, ni ayuda, ni beneficios. La **consola** la marca
   una **pestaña con el logo de Switch** en la esquina de cada portada (Switch 2: en rojo y con
   "2"). Bajo el nombre solo va la nota si hay ("Necesita Ring-Con").
-
-- **F7. Condiciones antes de comprar (#24):** «Detalles» despliega tipo, consola,
-  requisitos y condiciones confirmadas. «Consultar condiciones» no selecciona el producto.
-  Los campos desconocidos se indican como «Por confirmar». La mejora muestra su requisito
-  de juego base incluso con los detalles cerrados. El pedido incluye estas condiciones.
 
 ### Fuera de alcance (no hacer sin que el dueño lo pida)
 
@@ -163,16 +158,6 @@ Orden: el del archivo (por `puesto_ranking`). Los **destacados** se eligen en `t
 `tienda.ts → mostrarDlcUpdates: false`; con `true` aparece si hay al menos un DLC o update
 (`tipo_producto: "dlc"` o `"update"`). Mientras está oculta, esos productos no se muestran.
 
-### Condiciones comerciales (#24)
-
-`condiciones_generales` en la raíz del JSON y `condiciones` opcionales por producto
-usan el mismo esquema: `region_canje`, `idiomas`, `requiere_cambio_region`,
-`modalidad_entrega`, `codigo_cuenta_propia` y `requisitos`. Ver límites y ejemplo
-editable en README. Una excepción reemplaza cada campo; `null` anula el valor
-heredado. No se infieren idiomas ni condiciones por el título o la portada.
-`condiciones-compra.ts` prepara la información y el resumen de WhatsApp;
-`DetallesCompra.astro` usa `<details>` fuera del enlace seleccionable.
-
 ### Contrato de `Pedido.astro`
 
 Cualquier elemento con los atributos que devuelve `item(p)` (`href`, `data-item`,
@@ -187,24 +172,9 @@ Solo se restauran listas de cadenas; otros formatos inician un pedido vacío.
 
 ## 5. Estado (actualizar al cerrar cada sesión)
 
-**Última actualización:** 2026-11-04 (issue #24: condiciones de compra).
+**Última actualización:** 2026-11-04 (QR de la tienda, T6; antes issue #34: pruebas de navegador y CI).
 
 Hecho:
-- [x] **Reverso diferenciado:** fondo tinta, texto blanco y secundario gris claro,
-      con foco blanco, solicitado por el dueño para identificar la cara de detalles.
-- [x] **Ajuste visual #24 tras revisión del dueño:** condiciones en filas compactas,
-      etiquetas cortas, tipo y acción en tinta; pie compartido de consulta y pendientes.
-      Eliminados los márgenes nativos de la lista. A petición del dueño, «Detalles» gira
-      las tarjetas individuales sin cambiar su tamaño: reverso con Volver fijo y contenido
-      desplazable, Escape/foco y movimiento reducido. Sin JavaScript conserva el desplegable.
-      Las versiones conservan sus detalles dentro del panel.
-- [x] **#24 — condiciones de compra:** detalles nativos independientes de la selección,
-      también sin JavaScript; tipo de producto y requisito del juego base en mejoras.
-      Datos generales y excepciones por producto, validados al compilar; códigos japoneses,
-      cambio de región y guía confirmados por el dueño. Idiomas pendientes de consulta.
-      WhatsApp incluye variante y condiciones; sin dependencias nuevas.
-      Validación: 39 pruebas de Node, build y 27 pruebas de Chromium correctos
-      (320, 390 y 1440 px). Revisión visual local con browser-local.
 - [x] **QR (T6):** `/qr.svg` y `/qr.png` apuntan a `tienda.url` (si está vacía, al WhatsApp). Verificado con un lector
       independiente (jsQR): los dos abren https://sdtechimport.madaeauchija.workers.dev, también el SVG reducido a 300 px.
 - [x] **#34 — prueba de humo en navegador:** `@playwright/test` como dependencia de desarrollo;
@@ -550,11 +520,6 @@ La revisión humana de diseño y la prueba en celular real siguen siendo necesar
 | 2026-11-04 | Plantillas de issue «Error» / «Solicitud» y sin issues en blanco | Separar errores de pedidos con el label correcto sin depender de acordarse; los campos son los que ya usaban los issues (problema, reproducción o propuesta, criterios de aceptación). |
 | 2026-11-04 | Label de prioridad puesto por un workflow propio (`gh issue edit`), sin Actions de terceros | Las plantillas de GitHub solo ponen labels fijos. El texto del issue va por variable de entorno, nunca dentro del script (evita inyección de comandos). Sin dependencias nuevas que mantener. |
 | 2026-11-04 | Atribución de Claude desactivada en `.claude/settings.json` del repo (no solo en `~/.claude`) | Lo pidió el dueño. En la nube `~/.claude` se borra al terminar cada sesión; en el repo vale siempre. Se dejan las dos claves: `includeCoAuthoredBy` es la antigua y `attribution` la actual. |
-| 2026-11-04 | #24: condiciones generales con excepciones por producto y `null` para desconocidos | Mantiene un JSON editable, sin duplicar la regla comercial ni inventar idiomas a partir de Japón. El dueño confirmó código japonés, cambio de región, canje en su cuenta y guía. |
-| 2026-11-04 | #24: `<details>` independiente de selección; requisitos de mejora visibles | Información previa a compra sin nueva página, dependencias ni controles anidados; funciona sin JavaScript. Variante y condiciones viajan al WhatsApp. |
-| 2026-11-04 | Condiciones compactas tras anotación visual del dueño | La lista vertical tenía demasiado espacio y repetía etiquetas largas. Filas alineadas según ancho disponible y jerarquía de tinta/suave integran los detalles al tablero sin adornos. |
-| 2026-11-04 | Giro de tarjeta solicitado por el dueño | Los detalles individuales ocupan el reverso y no estiran la retícula. Transición de 320ms, caras inactivas inertes, retorno de foco, Escape y movimiento reducido; respaldo nativo si falla JavaScript. |
-| 2026-11-04 | Reverso con fondo tinta permanente | Pedido del dueño: distinguir visualmente la cara de condiciones. Reutiliza la paleta existente y conserva contraste y foco visibles. |
 
 ## 9. Cómo verificar un cambio
 

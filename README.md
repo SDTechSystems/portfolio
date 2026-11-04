@@ -95,36 +95,3 @@ Worker en el panel de Cloudflare, hay que cambiar también `"name"` en ese archi
 
 Antes de cambiar código lee `docs/spec.md` (requisitos, estado y decisiones) y `docs/diseno.md`
 (reglas del diseño A · Tablero). Está hecho con [Astro](https://docs.astro.build), sin frameworks de UI.
-
-## Condiciones de canje y entrega
-
-En `productos.json`, `condiciones_generales` define la regla del catálogo. El dueño
-confirmó códigos japoneses: el comprador cambia la región de su cuenta y recibe
-una guía para cambiarla y canjear el artículo. El código se canjea en su cuenta.
-Los idiomas siguen sin confirmar; la región no determina el idioma del juego.
-
-Cada producto puede añadir `condiciones` con excepciones a la regla general:
-
-```json
-"condiciones": {
-  "region_canje": "Japón",
-  "idiomas": null,
-  "requiere_cambio_region": true,
-  "modalidad_entrega": "Código japonés con guía de canje",
-  "codigo_cuenta_propia": true
-}
-```
-
-Campos opcionales: `region_canje`, `modalidad_entrega` y `requisitos` son textos
-(de 1 a 160 caracteres); `idiomas` es una lista de nombres de idiomas (1–20,
-hasta 40 caracteres cada uno); `requiere_cambio_region` y `codigo_cuenta_propia`
-son `true` o `false`. No se admiten textos vacíos ni saltos de línea.
-Omitir un campo hereda la regla general; poner `null` la anula y deja ese dato
-por confirmar. Añade idiomas solo cuando estén verificados para esa versión.
-
-«Detalles» gira la tarjeta individual para consultar las condiciones antes de elegir,
-sin mover el tablero. «Volver» o Escape recuperan la portada. Si el contenido no cabe,
-se puede desplazar dentro del reverso. Sin JavaScript funciona como desplegable;
-las versiones conservan sus detalles en el panel. Las mejoras indican siempre que requieren el juego base de Switch 1
-y que se usan en Switch 2. «Consultar condiciones» abre una consulta independiente
-por WhatsApp; el pedido también incluye la variante y sus condiciones.
