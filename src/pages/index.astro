@@ -8,7 +8,7 @@ import { tienda } from '../data/tienda';
 import { estrenos, porTipo, precio, item, linkWhatsApp, etiquetaConsola, type Producto } from '../lib/catalogo';
 const [principal, ...secundarios] = estrenos;
 const juegos = porTipo('juego').filter((p) => !p.estreno);
-const extras = [...porTipo('dlc'), ...porTipo('update')];
+const extras = tienda.mostrarDlcUpdates ? [...porTipo('dlc'), ...porTipo('update')] : [];
 const apoyo = extras.length
   ? 'Códigos oficiales de juegos, DLC y updates. Lo activas en tu propia cuenta.'
   : 'Códigos oficiales de juegos. Lo activas en tu propia cuenta.';

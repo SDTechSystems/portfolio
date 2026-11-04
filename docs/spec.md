@@ -74,7 +74,7 @@ administración, buscador, varias páginas, multi-idioma.
 ```
 src/
   data/
-    tienda.ts         ← nombre, WhatsApp, moneda/locale, beneficios, ids de "Estrenos"
+    tienda.ts         ← nombre, WhatsApp, moneda/locale, beneficios, ids de "Estrenos", mostrarDlcUpdates
   assets/Catalogo_Nintendo_Switch_Colombia/
     productos.json    ← la lista de títulos (lo único que edita el dueño a diario)
     imagenes/<id>.webp← portadas 16:9 (Astro genera 320/480/640/960 px en webp)
@@ -106,7 +106,9 @@ Cada entrada de `productos` (campos que usa la web; el resto se ignora):
 
 Orden: el del archivo (por `puesto_ranking`). **Estrenos** se eligen en `tienda.ts → estrenos`
 (lista de ids, en orden: el primero es la portada grande). El diseño está pensado para
-**exactamente 3 estrenos**. La sección "DLC y updates" solo aparece si hay alguno.
+**exactamente 3 estrenos**. La sección "DLC y updates" está **oculta** con
+`tienda.ts → mostrarDlcUpdates: false`; con `true` aparece si hay al menos un DLC o update
+(`tipo_producto: "dlc"` o `"update"`). Mientras está oculta, esos productos no se muestran.
 
 ### Contrato de `Pedido.astro`
 
@@ -137,6 +139,8 @@ y confirmar si los precios mostrados (referencia eShop) son los de venta (D5).
 - [~] **T2. Datos reales de la tienda:** país/moneda listos (Colombia). Faltan nombre y WhatsApp (D2).
 - [x] **T3. Catálogo real** (con la salvedad de precios, D5).
 - [x] **T4. Portadas reales.**
+- [ ] **T4b. Contenido de DLC y updates:** agregarlos a `productos.json` (con portada) y
+      poner `mostrarDlcUpdates: true`. Revisar que la fila final no deje huecos.
 - [ ] **T5. Metadatos para compartir:** `og:title`, `og:description`, `og:image` (imagen
       1200×630 del tablero). Necesita la URL final (D4) para la ruta absoluta de la imagen.
 - [ ] **T6. Publicación:** elegir hosting estático (Netlify, Vercel, Cloudflare Pages o
@@ -171,6 +175,7 @@ y confirmar si los precios mostrados (referencia eShop) son los de venta (D5).
 | 2026-11-04 | Estrenos definidos por ids en `tienda.ts` | `productos.json` no tiene campo de estreno; así no se altera el archivo del dueño y el orden es explícito. |
 | 2026-11-04 | Campo opcional `precio_venta_cop` | Permite poner el precio propio sin perder el de referencia (D5). |
 | 2026-11-04 | El mosaico "¿No ves tu juego?" se ensancha hasta cerrar la última fila | Con 21 juegos quedaba un hueco de 3 mosaicos en escritorio (regla §8 de `diseno.md`). |
+| 2026-11-04 | Sección "DLC y updates" oculta con `mostrarDlcUpdates: false` | Pedido del dueño: se conserva para agregar contenido después sin que se publique a medias. |
 | 2026-11-04 | `alt=""` en portadas | El nombre ya está escrito en el mosaico; evita que el lector de pantalla lo lea dos veces. |
 
 ## 9. Cómo verificar un cambio
