@@ -75,6 +75,11 @@ administración, buscador, varias páginas, multi-idioma.
 - **Stack:** Astro 7 (`astro@^7.4.5`), Node ≥ 22.23.4, salida estática (`npm run build` → `dist/`).
   Sin frameworks de UI ni Tailwind: CSS con alcance por componente.
 - **Dev server:** `astro dev --background` (ver `AGENTS.md`); `astro dev stop|status|logs`.
+- **GitHub:** `.github/workflows/build.yml` compila (y valida el catálogo) en cada PR y push a
+  `main`, con la versión de Node de `.nvmrc`. `.github/dependabot.yml` abre PRs de actualización los
+  lunes (npm agrupado salvo versiones mayores; Actions agrupadas). Plantilla de PR con la lista
+  de revisión de `diseno.md` §8. El repo es privado: GitHub Pages y la protección de ramas
+  requieren plan de pago, así que el CI avisa pero no bloquea la fusión.
 
 ```
 src/
@@ -135,7 +140,7 @@ volver de WhatsApp; si el almacenamiento está bloqueado, todo funciona igual si
 
 ## 5. Estado (actualizar al cerrar cada sesión)
 
-**Última actualización:** 2026-11-04 (robustez del pedido y validación), rama `mejoras/pedido-y-validacion` (sale de `main`).
+**Última actualización:** 2026-11-04 (CI y mantenimiento del repo), rama `ci/build-y-dependabot` (sale de `main`).
 
 Hecho:
 - [x] Entrevista y requisitos (sección 3).
@@ -159,6 +164,11 @@ Hecho:
       mismo enlace tras recargar; "Vaciar" + recargar deja la barra oculta; con `sessionStorage`
       bloqueado la barra funciona); favicon propio (fuera los de la plantilla de Astro); README
       reescrito como guía para el dueño.
+
+- [x] Robustez fusionada en `main` (PR #3).
+- [x] Repo: CI de build, `.nvmrc` (Node 22), Dependabot y plantilla de PR (rama `ci/build-y-dependabot`).
+      Verificado: YAML válido; `npm ci` + `npm run build` desde una copia limpia pasan (0 vulnerabilidades).
+      El CI solo se verá correr en GitHub al abrir el PR.
 
 Pendiente de datos del dueño: número de WhatsApp real (hoy `573001234567`), nombre de la tienda,
 y confirmar si los precios mostrados (referencia eShop) son los de venta (D5).
@@ -185,7 +195,7 @@ y confirmar si los precios mostrados (referencia eShop) son los de venta (D5).
 | D1 | ~~¿País de venta?~~ | **Resuelta:** Colombia (`es-CO`, `$ 239.900`). |
 | D2 | Nombre de la tienda, logo y número de WhatsApp | "Tu Tienda", `573001234567` (falso). |
 | D3 | ¿Volver a poner las píldoras rojas "NUEVO" de la referencia? | No (ver `diseno.md` §6). Los destacados se distinguen por tamaño. |
-| D4 | ¿Dónde se publicará? | Sin definir. |
+| D4 | ¿Dónde se publicará? | Sin definir. El repo es privado: GitHub Pages exige plan de pago; Cloudflare Pages y Netlify publican gratis desde repo privado y leen `.nvmrc`. |
 | D5 | ¿Los precios de venta son los de referencia de la eShop? `productos.json` dice que **no** representan tu precio. | Se muestran los de referencia. Para usar el tuyo, añade `"precio_venta_cop"` a cada producto. |
 | D6 | ¿Marcar los juegos de Switch 1 como "Switch 1 y 2"? (casi todos corren en Switch 2) | No: van en la sección "Switch 1", tal como dice `plataforma`. |
 | D7 | Ring Fit Adventure no tiene precio digital y necesita el accesorio Ring-Con. ¿Se vende? | Se muestra con "Consultar" y abre WhatsApp para preguntar; no entra al pedido. |
@@ -218,6 +228,9 @@ y confirmar si los precios mostrados (referencia eShop) son los de venta (D5).
 | 2026-11-04 | Validar `productos.json` y `tienda.ts` al compilar; `tipo_producto` desconocido ya no cae en "Juego" | El dueño no es técnico: un error de tipeo (ej. `"Nintendo switch 2"`, `"DLC"`) publicaba el juego mal sin aviso. Mejor que el build falle con un mensaje claro. |
 | 2026-11-04 | Pedido guardado en `sessionStorage` (no `localStorage`) | Basta para sobrevivir a la ida y vuelta a WhatsApp; no deja un pedido viejo marcado días después. |
 | 2026-11-04 | Favicon generado desde `tienda.nombre` | Los de `public/` eran el logo de Astro; así se actualiza solo con el nombre real (D2) sin diseñar un archivo. No usa el logo de Nintendo (`diseno.md` §7). |
+| 2026-11-04 | CI con `npm run build` en cada PR y push a `main` | La validación del catálogo solo protege si alguien compila; el CI lo hace siempre. |
+| 2026-11-04 | Dependabot semanal agrupado; versiones mayores aparte | Pocos PRs, y un salto mayor de Astro se revisa a propósito. Con el CI, cada actualización llega ya probada. |
+| 2026-11-04 | `.nvmrc` = `22` (no la versión exacta) | Cualquier 22.x reciente cumple `engines >=22.23.4`; CI y hosting toman el último parche de seguridad. |
 | 2026-11-04 | README como guía del dueño | El de la plantilla no explicaba cómo cambiar precios o agregar juegos. |
 
 ## 9. Cómo verificar un cambio

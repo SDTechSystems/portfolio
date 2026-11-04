@@ -1,0 +1,26 @@
+# Abre PRs con actualizaciones cada lunes. El CI (workflows/build.yml) compila cada una,
+# así que solo hay que fusionar las que salgan en verde.
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      timezone: America/Bogota
+    # Parches y versiones menores juntos en un solo PR; una versión mayor de Astro llega aparte
+    # porque puede romper cosas y conviene revisarla.
+    groups:
+      dependencias:
+        update-types: [minor, patch]
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      timezone: America/Bogota
+    groups:
+      acciones:
+        patterns: ["*"]

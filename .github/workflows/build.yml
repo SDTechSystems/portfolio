@@ -1,0 +1,30 @@
+# Compila el sitio en cada PR y en cada cambio a main.
+# `npm run build` también revisa productos.json y tienda.ts (src/lib/catalogo.ts):
+# si hay un error de tipeo, el PR queda en rojo con la lista de qué corregir.
+name: Build
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+# Si llega otro push al mismo PR, cancela la ejecución anterior.
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm run build
