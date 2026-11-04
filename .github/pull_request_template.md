@@ -8,7 +8,7 @@
 
 ## Lista de revisión
 
-- [ ] `npm test` y `npm run build` pasan (el CI los comprueba).
+- [ ] `npm test`, `npm run build` y `npm run test:navegador` pasan (checks `build` y `navegador`).
 - [ ] Actualicé **Estado** y **Registro de decisiones** en `docs/spec.md`.
 
 Si el cambio es visual (`docs/diseno.md` §8):
