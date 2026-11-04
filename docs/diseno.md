@@ -26,7 +26,7 @@ Definidos en `:root` (`Layout.astro`). Usar **solo** estos.
 | `--suelo` | `#e9e9ec` | Fondo de la página (entre mosaicos). |
 | `--mosaico` | `#ffffff` | Fondo de cada mosaico normal. |
 | `--tinta` | `#121214` | Texto; fondo de la barra de pedido y de mosaicos seleccionados. |
-| `--suave` | `#5b5b63` | La línea bajo el nombre (consola y/o nota). Nada más. |
+| `--suave` | `#5b5b63` | La línea bajo el nombre (consola y/o nota, o "N versiones · desde"). Nada más. |
 | `--rojo` | `#e60012` | Acento: cabecera, "¿No ves tu juego?", pestaña y sello de Switch 2, ✓ de seleccionado, botón de la barra. |
 
 Proporción: el suelo gris claro domina, los mosaicos blancos llevan el contenido, el rojo
@@ -42,10 +42,12 @@ No agregar rojo en otros sitios.
 | Títulos de sección `h2` | `clamp(26px, 6.4vw, 44px)` | 800 | tracking -0.03em |
 | Precio | 22px (destacado grande: 30px) | 800 | tracking -0.02em, **sin** `tabular-nums` (deja huecos en la coma) |
 | Nombre del juego | 14px (grande: 18px) | 800 | máximo 2 líneas con `line-clamp`. En 800 porque casi todos los precios son iguales: el nombre es lo que distingue un mosaico de otro. |
-| Nota ("Necesita Ring-Con") | 13px | 500 | color `--suave` |
+| Nota ("Necesita Ring-Con", "3 versiones · desde") | 13px | 500 | color `--suave` |
 | Pestaña de consola | logo 17px; "2" 17px | 800 | 32px de alto, relleno 0 9px |
 | Sello de versión (juego con versiones) | logo 17px; "2" 17px; "Mejora a" 13px | 800 | 28px de alto, relleno 0 8px, radio 6px; fondo `--suelo` (Switch 2: `--rojo`) |
 | "¿No ves tu juego?" | 22px | 800 | tracking -0.02em |
+| Botones de la barra ("Pedir por WhatsApp") y "Listo" del panel | 15px | 800 | |
+| Título del panel de versiones | 18px | 800 | máximo 2 líneas |
 
 ## 3. Retícula
 

@@ -102,6 +102,9 @@ const Caja = varias ? 'div' : 'a';
 
   /* Juego con varias versiones. Celular: mosaico normal; el botón .abrir cubre todo el mosaico y abre el panel. */
   .ancho { position: relative; }
+  /* Sin panel (destacado grande) el mosaico no es tocable: solo sus filas. */
+  .ancho:not(.panel) { cursor: auto; }
+  .ancho:not(.panel):active { transform: none; }
   .abrir { margin-top: auto; padding: 0; border: 0; background: none; color: inherit; font: inherit; text-align: left; display: flex; flex-direction: column; gap: 2px; cursor: pointer; }
   .abrir::before { content: ''; position: absolute; inset: 0; z-index: 2; }
   .abrir:focus-visible { outline: none; }
@@ -111,7 +114,8 @@ const Caja = varias ? 'div' : 'a';
   @media (max-width: 759px) {
     .panel:has(.version[aria-pressed='true']) { --fondo: var(--tinta); color: #fff; }
     .panel:has(.version[aria-pressed='true']) .c { color: #b9b9c2; }
-    .panel:has(.version[aria-pressed='true']) .abrir strong::after { content: '✓'; content: '✓' / ''; background: var(--rojo); font-size: 15px; }
+    /* El ✓ lleva texto para el lector de pantalla: las filas con aria-pressed están ocultas en el panel. */
+    .panel:has(.version[aria-pressed='true']) .abrir strong::after { content: '✓'; content: '✓' / 'versión elegida'; background: var(--rojo); font-size: 15px; }
   }
   .panel .versiones { display: none; }
   /* Las portadas de Switch 2 Edition suelen llevar la franja "Nintendo Switch 2 Edition" abajo: el recorte 3:1

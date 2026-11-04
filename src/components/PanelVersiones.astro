@@ -35,6 +35,8 @@
     vuelta = null;
   });
   hoja.querySelector('.listo')!.addEventListener('click', () => hoja.close());
+  // Si el ancho pasa a escritorio con el panel abierto (girar el teléfono), se cierra: ahí las filas van en el mosaico.
+  matchMedia('(min-width: 760px)').addEventListener('change', (e) => { if (e.matches) hoja.close(); });
   // Tocar el fondo oscuro (fuera de .caja) también cierra.
   hoja.addEventListener('click', (e) => { if (e.target === hoja) hoja.close(); });
 </script>
@@ -45,7 +47,7 @@
   .hoja[open] { animation: subir .25s cubic-bezier(.2, .8, .2, 1); }
   @keyframes subir { from { transform: translateY(24px); opacity: 0; } }
   .caja { padding: 18px 16px calc(16px + env(safe-area-inset-bottom)); display: flex; flex-direction: column; gap: 12px; }
-  .titulo { font-size: 18px; font-weight: 800; line-height: 1.2; }
+  .titulo { font-size: 18px; font-weight: 800; line-height: 1.2; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
   .listo { min-height: 44px; border: 0; border-radius: 999px; background: var(--tinta); color: #fff; font: inherit; font-size: 15px; font-weight: 800; cursor: pointer; }
   .listo:active { transform: scale(.96); }
   .listo:focus-visible { outline-offset: 3px; }

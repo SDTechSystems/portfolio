@@ -282,7 +282,8 @@ Hecho:
       "¿No ves tu juego?" lo calcula `lib/reticula.ts` (simula `grid-auto-flow: dense`); con 21 chicos da
       lo mismo que la fórmula anterior (3 y 8 columnas).
       Tras la crítica de diseño: precios alineados a la derecha junto al "+" (mismo borde derecho en las 3
-      filas a 320 y 390 px) y portada 3:1 en celular (mosaico 341 → 310 px a 390 px; página −93 px).
+      filas a 320 y 390 px) y portada 3:1 en celular (mosaico 341 → 310 px a 390 px; página −93 px; luego
+      reemplazado por el panel de versiones, ver abajo).
       **Celular rehecho con panel** (el dueño: "el sitio va más enfocado a mobile"): con los mosaicos a todo
       el ancho la página pasó de 3,4 a 4,4 pantallas a 390 px y la primera mostraba 2 mosaicos enteros en
       vez de 3. Ahora el juego con versiones es un mosaico normal ("3 versiones · desde $ 279.900" y "+");
@@ -294,6 +295,9 @@ Hecho:
       queda en negro con ✓; el pedido sobrevive a recargar. Sin JavaScript (`<noscript>`) las 12 filas se
       ven en el mosaico a todo el ancho y son enlaces `wa.me`. Escritorio sin cambios (mismas medidas).
       axe: 0 fallos a 390 y 1440 px y con el panel abierto; el total se anuncia desde el panel.
+      Revisión de diseño aplicada: el panel se cierra si el ancho pasa a escritorio (girar el teléfono); el ✓
+      del mosaico se lee "versión elegida"; título del panel en 2 líneas máx.; sin JavaScript la portada a
+      todo el ancho va 3:1; tamaños de "Listo" y "N versiones · desde" documentados en `diseno.md` §2.
       Contrapartidas: elegir versión en celular cuesta un toque más; "3 versiones · desde" es texto nuevo;
       sin JavaScript, en celular el juego con versiones ocupa todo el ancho; entre 760 y 1099 px el mosaico ancho es más alto
       que sus vecinos y los estira (~130 px en blanco a 1000 px); si el archivo termina con varios juegos
@@ -392,7 +396,7 @@ logo de la tienda (opcional, va en lugar del nombre en `.cabecera`, ver `diseno.
 | 2026-11-04 | "N versiones · desde $ …" con el precio del juego más barato (sin el paquete de mejora) | Sin las filas a la vista, el mosaico tiene que decir que hay varias opciones y cuánto cuesta entrar. La mejora no cuenta: solo sirve a quien ya tiene el juego, y "desde $ 39.900" engañaría. |
 | 2026-11-04 | Las filas se **mueven** al panel (no se copian) | Siguen siendo los mismos botones: conservan `aria-pressed`, los eventos de `Pedido.astro` y `sessionStorage` sin duplicar estado. |
 | 2026-11-04 | Juego con versiones = ancho de 2 mosaicos (en escritorio, 4 columnas) | Sello + precio de 22 px + "+" piden ~180 px y un mosaico chico a 320 px deja 122 px. Desde 1100 px la portada va a la izquierda y el mosaico mide lo mismo que sus vecinos. |
-| 2026-11-04 | Filas de versión: sello a la izquierda y precio alineado a la derecha junto al "+"; portada 3:1 en celular | Crítica de diseño: con el precio después del sello más ancho ("Mejora a ⊞2", 106 px) los precios empezaban a mitad del mosaico y el sello de Switch 1 flotaba solo; alineados a la derecha se comparan como en una lista. La portada a 3:1 baja el mosaico de 341 a 310 px a 390 px (3 versiones sueltas ocuparían ~290 px). |
+| 2026-11-04 | Filas de versión: sello a la izquierda y precio alineado a la derecha junto al "+"; ~~portada 3:1 en celular~~ (con el panel, en celular la portada vuelve a 16:9) | Crítica de diseño: con el precio después del sello más ancho ("Mejora a ⊞2", 106 px) los precios empezaban a mitad del mosaico y el sello de Switch 1 flotaba solo; alineados a la derecha se comparan como en una lista. La portada a 3:1 baja el mosaico de 341 a 310 px a 390 px (3 versiones sueltas ocuparían ~290 px). |
 | 2026-11-04 | Precios de Switch 2 y paquete de mejora tomados de `nintendo.com/es-co` | Mismo origen que los demás (referencia eShop Colombia, D5): los precios de Switch 1 de esa página coinciden con los del archivo. Se usó el precio regular (`discounted: false`). |
 | 2026-11-04 | Portada del mosaico con versiones anclada abajo (`object-position: 50% 100%`) | Las cajas de Switch 2 Edition llevan la franja "Nintendo Switch 2 Edition" abajo; el recorte 3:1 centrado la cortaba. Desde 1100 px (portada a la izquierda) el recorte es por los lados y la franja o el logo pueden cortarse: la pestaña ⊞2 ya marca la versión. |
 | 2026-11-04 | Campo opcional `imagen.recorte` en vez de un recorte fijo | La franja "Nintendo Switch 2 Edition" va abajo en Zelda y Wonder pero arriba en Animal Crossing; no hay un recorte que sirva para todas. Por defecto "abajo" (el caso común). |
