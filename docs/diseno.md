@@ -150,32 +150,11 @@ Así el respaldo también funciona si el script falla. Si falla `showModal`, se 
 - Lector de pantalla: el "+" / "✓" es decorativo (`content: '+' / ''`); el estado lo da `aria-pressed`. Al
   cambiar el pedido se anuncia "Total del pedido: $ …" desde un párrafo oculto (`#anuncio`), no desde la barra.
 
-### Detalles de compra (#24)
-
-En juegos individuales, «Detalles» gira el mosaico 180° en 320ms y muestra el
-reverso en el mismo espacio. Ambas caras mantienen el radio de 8px. El reverso usa siempre `--tinta`, texto
-blanco y secundario `#b9b9c2`, con foco blanco, para distinguirlo de la portada. «Volver» permanece visible; el contenido se desplaza
-internamente si no cabe. Solo la cara visible recibe foco (`inert`); Escape vuelve
-al frente y devuelve el foco a «Detalles». Sin movimiento si se pide movimiento reducido.
-
-Sin JavaScript, y en las filas del panel de versiones, se conserva el desplegable
-nativo con texto secundario de 13px, separado del enlace de selección.
-Objetivo táctil de al menos 44px; abrirlo o consultar no altera el pedido.
-Usa los tokens existentes; en el mosaico seleccionado el texto secundario es
-`#b9b9c2`. El respaldo sin JavaScript crece en el flujo; el panel conserva su desplazamiento.
-La consola se puede repetir dentro de los detalles para identificar la variante.
-Las condiciones usan filas de etiqueta y valor cuando el ancho interior alcanza 260px;
-en mosaicos estrechos se apilan. Etiquetas breves en tinta, valores en suave, sin
-márgenes nativos de `dl`. Tipo a 14px/800 y pie flexible con pendientes y consulta.
-Sin bordes, fondos adicionales ni nuevos colores.
-
 ## 5. Textos
 
 Todo el texto de la página: nombre de la tienda, **"Códigos para Switch 1 y 2"** (dice que se venden códigos digitales, no juegos físicos), nombres,
 nota, precios, "Mejora a" (sello del paquete de mejora), "N versiones · desde" y "Listo" (juego con versiones, celular), "¿No ves tu juego?", y en la barra "Vaciar" / "Pedir por WhatsApp". Con DLC
-visibles, además "DLC y updates" y "¿Buscas otro DLC?". Se permite además «Detalles» en cada producto y versión (#24), con condiciones
-comerciales y «Consultar condiciones» al desplegarlo. En versiones se muestra el tipo
-y, para mejoras, el requisito de juego base antes de seleccionar. Sin textos promocionales.
+visibles, además "DLC y updates" y "¿Buscas otro DLC?". **No agregar más.**
 
 **La consola siempre se distingue, con la pestaña y no con texto:** cada mosaico, en cualquier
 lugar del tablero, lleva la pestaña de su consola. El lector de pantalla la lee como

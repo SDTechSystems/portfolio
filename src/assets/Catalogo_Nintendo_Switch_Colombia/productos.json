@@ -4,12 +4,6 @@
   "moneda": "COP",
   "fecha_referencia": "2026-11-04",
   "nota_precios": "Usar precio_venta_cop como precio público. Importes enteros en COP con los últimos precios de lanzamiento acordados. precio_referencia_eshop_colombia_cop permite mostrar la comparación con Nintendo. Ring Fit Adventure tiene precio pendiente y publicar=false.",
-  "condiciones_generales": {
-    "region_canje": "Japón",
-    "requiere_cambio_region": true,
-    "modalidad_entrega": "Código japonés con guía para cambiar la región de tu cuenta y canjear el artículo",
-    "codigo_cuenta_propia": true
-  },
   "productos": [
     {
       "id": "mario-kart-8-deluxe",
