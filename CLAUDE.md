@@ -38,16 +38,19 @@ No hay tests, linter ni `astro check` (no está instalado `@astrojs/check`). El 
   `astro.config.mjs`, porque Astro lee `site` antes que todo.
 - **Traducción de campos:** las filas del JSON (`titulo`, `plataforma`, `tipo_producto`,
   `precio_venta_cop ?? precio_referencia_eshop_colombia_cop`) se convierten al tipo `Producto`
-  (`nombre`, `consola`, `tipo`, `precio`). Los componentes solo ven `Producto`. Los demás campos del
+  (`nombre`, `consola`, `tipo`, `precio`). Las filas con el mismo `grupo` (versión de Switch 1, de
+  Switch 2 y `paquete_mejora`) se juntan en una `Ficha` = un mosaico. Los componentes solo ven `Ficha`/`Producto`. Los demás campos del
   JSON se ignoran y no se tocan. `precio: null` → "Consultar" y no entra al pedido.
 - **Pedido (`components/Pedido.astro`):** `item(p)` devuelve un `href` `wa.me` y atributos
   `data-item/nombre/precio/detalle`. El script vuelve seleccionable todo lo que tenga `data-item`.
   `aria-pressed` es el **único** estado (el CSS de `Mosaico.astro` dibuja "+"/"✓" a partir de él).
   La selección se guarda en `sessionStorage['pedido']`, envuelta en try/catch. Sin JavaScript,
   cada mosaico sigue siendo un enlace de WhatsApp (F3): no rompas esa mejora progresiva.
+  En celular, las filas de un juego con versiones se **mueven** (no se copian) al `<dialog>` de
+  `PanelVersiones.astro` y vuelven al cerrar; sin JavaScript, un `<noscript>` en `index.astro` las muestra.
 - **Retícula:** grid de 6/10 columnas con `grid-auto-flow: dense`. El mosaico "¿No ves tu juego?"
-  calcula su ancho (`cierreFila` en `index.astro`) para cerrar la última fila: cambiar los tamaños
-  de los mosaicos obliga a revisar esa fórmula.
+  calcula su ancho con `lib/reticula.ts`, que simula `dense` con los anchos de cada mosaico (los juegos
+  con versiones miden 2): si cambias tamaños de mosaico, actualiza las piezas en `index.astro`.
 - **Endpoints estáticos:** `pages/og.jpg.ts` compone con `sharp` la imagen para compartir a partir
   de los 3 destacados, que debe quedar en menos de ~300 KB para WhatsApp. `pages/favicon.svg.ts`
   usa la inicial de `tienda.nombre`. Las etiquetas `og:*`/`canonical` de `Layout.astro` solo salen

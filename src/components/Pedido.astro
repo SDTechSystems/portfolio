@@ -49,7 +49,9 @@ import { tienda } from '../data/tienda';
     const lineas = elegidos.map((el) => `• ${el.dataset.nombre} (${el.dataset.detalle}) ${fmt.format(Number(el.dataset.precio))}`);
     bar.hidden = elegidos.length === 0;
     total.textContent = fmt.format(suma);
-    if (anunciar) anuncio.textContent = elegidos.length ? `Total del pedido: ${fmt.format(suma)}` : 'Pedido vacío';
+    // Con el panel de versiones abierto, lo de afuera es inerte: se anuncia desde el panel.
+    const destino = document.querySelector('dialog[open] [data-anuncio]') ?? anuncio;
+    if (anunciar) destino.textContent = elegidos.length ? `Total del pedido: ${fmt.format(suma)}` : 'Pedido vacío';
     cta.href = `https://wa.me/${bar.dataset.wa}?text=${encodeURIComponent(`Hola, quiero pedir:\n${lineas.join('\n')}\nTotal: ${fmt.format(suma)}`)}`;
   }
 </script>

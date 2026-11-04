@@ -3,12 +3,30 @@
 import Layout from '../layouts/Layout.astro';
 import Mosaico from '../components/Mosaico.astro';
 import Pedido from '../components/Pedido.astro';
+import PanelVersiones from '../components/PanelVersiones.astro';
 import { tienda } from '../data/tienda';
-import { destacados, secciones, whatsapp } from '../lib/catalogo';
+import { destacados, secciones, whatsapp, type Ficha } from '../lib/catalogo';
+import { cierres, type Pieza } from '../lib/reticula';
 const [principal, ...secundarios] = destacados;
-// El mosaico "¿No ves...?" ocupa lo que falte para cerrar la última fila
-// (celular: 2 mosaicos por fila de 6 columnas; escritorio: 5 por fila de 10).
-const cierreFila = (n: number) => `--movil:${6 - 3 * (n % 2)};--escritorio:${10 - 2 * (n % 5)}`;
+// El mosaico "¿No ves...?" ocupa lo que falte para cerrar su sección sin huecos (ver lib/reticula.ts).
+// Celular: 6 columnas, mosaicos de 3 (un juego con versiones también: las abre en un panel).
+// Escritorio: 10 columnas, mosaico de 2, juego con varias versiones de 4, destacados 6×2 y 4.
+const varias = (f: Ficha) => f.versiones.length > 1;
+const piezas = (movil: boolean): Pieza[] => {
+  const fila = { ancho: movil ? 6 : 10 };
+  return [
+    fila,
+    ...(principal ? [{ ancho: 6, alto: movil ? 1 : 2 }] : []),
+    ...secundarios.map(() => ({ ancho: movil ? 3 : 4 })),
+    ...secciones.flatMap((s) => [
+      ...(s.titulo ? [fila] : []),
+      ...s.fichas.map((f) => ({ ancho: movil ? 3 : varias(f) ? 4 : 2 })),
+      'cierre' as const,
+    ]),
+  ];
+};
+const movil = cierres(piezas(true), 6, 3);
+const escritorio = cierres(piezas(false), 10, 2);
 ---
 <Layout>
 <main class="tablero">
@@ -17,18 +35,28 @@ const cierreFila = (n: number) => `--movil:${6 - 3 * (n % 2)};--escritorio:${10 
     <h1>Códigos para Switch 1 y 2</h1>
   </header>
 
-  {principal && <Mosaico p={principal} tamano="grande" />}
-  {secundarios.map((p) => <Mosaico p={p} tamano="medio" />)}
+  {principal && <Mosaico f={principal} tamano="grande" />}
+  {secundarios.map((f) => <Mosaico f={f} tamano="medio" />)}
 
-  {secciones.map((s) => (
+  {secciones.map((s, i) => (
     <>
       {s.titulo && <h2>{s.titulo}</h2>}
-      {s.productos.map((p) => <Mosaico p={p} />)}
-      <a class="mas" href={whatsapp(s.mensaje)} target="_blank" rel="noopener" style={cierreFila(s.productos.length)}>{s.mas}</a>
+      {s.fichas.map((f) => <Mosaico f={f} />)}
+      <a class="mas" href={whatsapp(s.mensaje)} target="_blank" rel="noopener" style={`--movil:${movil[i]};--escritorio:${escritorio[i]}`}>{s.mas}</a>
     </>
   ))}
 </main>
 <Pedido />
+<PanelVersiones />
+<!-- Sin JavaScript no hay panel: en celular las versiones se ven dentro del mosaico, a todo el ancho. -->
+<noscript><style>
+  @media (max-width: 759px) {
+    .tablero .panel { grid-column: span 6 !important; }
+    .tablero .panel .img { aspect-ratio: 3 / 1 !important; }
+    .tablero .panel .abrir { display: none !important; }
+    .tablero .panel .versiones { display: grid !important; }
+  }
+</style></noscript>
 </Layout>
 
 <style>
