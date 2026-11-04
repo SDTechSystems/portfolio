@@ -44,6 +44,10 @@ Cada juego es un bloque como este:
 Nombre de la tienda, número de WhatsApp (solo dígitos con código de país: `57` + 10 dígitos),
 los 3 juegos destacados de arriba y si se muestra la sección "DLC y updates".
 
+`url` es la dirección pública del sitio (ej. `'https://tutienda.pages.dev'`). Mientras esté vacía,
+al compartir el enlace por WhatsApp no aparece la imagen de vista previa. Esa imagen se arma sola
+con las portadas de los 3 destacados.
+
 ### Si algo está mal escrito
 
 `npm run build` revisa los dos archivos y se detiene con una lista en español de lo que hay que

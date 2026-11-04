@@ -1,5 +1,11 @@
 ---
+import { Font } from 'astro:assets';
 import { tienda } from '../data/tienda';
+const descripcion = 'Códigos digitales de juegos para Nintendo Switch 1 y 2.';
+// Vista previa al compartir (WhatsApp, Facebook…): exige direcciones absolutas, así que
+// solo se publica cuando tienda.url está lleno (astro.config.mjs → site).
+const imagen = Astro.site && new URL('/og.jpg', Astro.site).href;
+const canonica = Astro.site && new URL(Astro.url.pathname, Astro.site).href;
 ---
 <!doctype html>
 <html lang="es">
@@ -7,12 +13,27 @@ import { tienda } from '../data/tienda';
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta name="theme-color" content="#e60012" />
-		<meta name="description" content="Códigos digitales de juegos para Nintendo Switch 1 y 2." />
+		<meta name="description" content={descripcion} />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="preconnect" href="https://fonts.googleapis.com" />
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@500;800&display=swap" />
+		<Font cssVariable="--fuente" preload />
 		<title>{tienda.nombre}</title>
+		{canonica && <link rel="canonical" href={canonica} />}
+		<meta property="og:type" content="website" />
+		<meta property="og:locale" content="es_CO" />
+		<meta property="og:site_name" content={tienda.nombre} />
+		<meta property="og:title" content={`${tienda.nombre} · Juegos para Switch 1 y 2`} />
+		<meta property="og:description" content={descripcion} />
+		{canonica && <meta property="og:url" content={canonica} />}
+		{imagen && (
+			<>
+				<meta property="og:image" content={imagen} />
+				<meta property="og:image:type" content="image/jpeg" />
+				<meta property="og:image:width" content="1200" />
+				<meta property="og:image:height" content="630" />
+				<meta property="og:image:alt" content="Portadas de los juegos destacados de la tienda" />
+				<meta name="twitter:card" content="summary_large_image" />
+			</>
+		)}
 	</head>
 	<body>
 		<slot />
@@ -25,7 +46,7 @@ import { tienda } from '../data/tienda';
 	html, body { margin: 0; }
 	body {
 		background: var(--suelo); color: var(--tinta);
-		font-family: 'Schibsted Grotesk', system-ui, sans-serif;
+		font-family: var(--fuente);
 		-webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
 	}
 	a { color: inherit; text-decoration: none; -webkit-tap-highlight-color: transparent; }

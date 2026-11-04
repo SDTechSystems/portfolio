@@ -14,6 +14,8 @@ export interface Producto {
   /** Requisito extra para jugar (ej. "Necesita Ring-Con"); se muestra bajo el nombre. */
   nota?: string;
   imagen?: ImageMetadata;
+  /** Ruta del archivo de la portada en el disco (la usa pages/og.jpg.ts). */
+  archivo?: string;
 }
 
 /** Forma de cada entrada en productos.json (lo que edita el dueño). */
@@ -34,7 +36,8 @@ const portadas = import.meta.glob<{ default: ImageMetadata }>(
   { eager: true },
 );
 
-const ruta = (r: string) => `../assets/Catalogo_Nintendo_Switch_Colombia/${r}`;
+const CARPETA = 'Catalogo_Nintendo_Switch_Colombia';
+const ruta = (r: string) => `../assets/${CARPETA}/${r}`;
 const filas = datos.productos as Fila[];
 
 // Revisión de productos.json y tienda.ts: un error de tipeo detiene `npm run build` con un
@@ -70,6 +73,7 @@ const productos: Producto[] = filas.map((f) => ({
   consola: f.plataforma === 'Nintendo Switch 2' ? 'Switch 2' : 'Switch 1',
   nota: f.tipo_producto === 'juego_con_accesorios' ? 'Necesita Ring-Con' : undefined,
   imagen: f.imagen && portadas[ruta(f.imagen.ruta)]?.default,
+  archivo: f.imagen && `src/assets/${CARPETA}/${f.imagen.ruta}`,
 }));
 
 export const destacados = tienda.destacados
