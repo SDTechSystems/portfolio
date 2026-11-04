@@ -73,6 +73,12 @@ administración, buscador, varias páginas, multi-idioma.
 ## 4. Arquitectura
 
 - **Stack:** Astro 7 (`astro@^7.4.5`), Node ≥ 22.23.4, salida estática (`npm run build` → `dist/`).
+- **Fuente:** API de fuentes de Astro con proveedor local (`astro.config.mjs`), archivos del paquete
+  `@fontsource/schibsted-grotesk` (OFL): solo `latin`, pesos 500 y 800, precargados, con respaldo de
+  métricas ajustadas. Ni el build ni la visita dependen de Google.
+- **Vista previa al compartir:** `pages/og.jpg.ts` genera con `sharp` una imagen 1200×630 con los 3
+  destacados (60/40 como el tablero de escritorio). Las etiquetas `og:*` y `twitter:card` de
+  `Layout.astro` solo incluyen imagen, `og:url` y `canonical` si `tienda.ts → url` está lleno.
   Sin frameworks de UI ni Tailwind: CSS con alcance por componente.
 - **Dev server:** `astro dev --background` (ver `AGENTS.md`); `astro dev stop|status|logs`.
 - **GitHub:** `.github/workflows/build.yml` compila (y valida el catálogo) en cada PR y push a
@@ -84,7 +90,7 @@ administración, buscador, varias páginas, multi-idioma.
 ```
 src/
   data/
-    tienda.ts         ← nombre, WhatsApp, moneda/locale, ids destacados, mostrarDlcUpdates
+    tienda.ts         ← nombre, url pública, WhatsApp, moneda/locale, ids destacados, mostrarDlcUpdates
   assets/switch.svg   ← logo de Switch de la pestaña (reemplazable por el archivo oficial, D9)
   assets/Catalogo_Nintendo_Switch_Colombia/
     productos.json    ← la lista de títulos (lo único que edita el dueño a diario)
@@ -93,10 +99,11 @@ src/
   components/
     Mosaico.astro     ← un producto: portada optimizada + pestaña de consola, nombre, nota, precio con "+"/"✓"
     Pedido.astro      ← barra del pedido + script de selección
-  layouts/Layout.astro← <head>, fuente, tokens de color en :root, reset global
+  layouts/Layout.astro← <head> (fuente, og:*), tokens de color en :root, reset global
   pages/
     index.astro       ← la página: diseño A · Tablero
     favicon.svg.ts    ← ícono de pestaña: inicial de tienda.nombre en blanco sobre rojo
+    og.jpg.ts         ← imagen de vista previa al compartir (1200×630, ~165 KB)
 docs/                 ← este spec y las directrices de diseño
 ```
 
@@ -140,7 +147,7 @@ volver de WhatsApp; si el almacenamiento está bloqueado, todo funciona igual si
 
 ## 5. Estado (actualizar al cerrar cada sesión)
 
-**Última actualización:** 2026-11-04 (CI y mantenimiento del repo), rama `ci/build-y-dependabot` (sale de `main`).
+**Última actualización:** 2026-11-04 (vista previa al compartir y fuente propia), rama `mejoras/vista-previa-y-fuente` (sale de `main`).
 
 Hecho:
 - [x] Entrevista y requisitos (sección 3).
@@ -168,7 +175,14 @@ Hecho:
 - [x] Robustez fusionada en `main` (PR #3).
 - [x] Repo: CI de build, `.nvmrc` (Node 22), Dependabot y plantilla de PR (rama `ci/build-y-dependabot`).
       Verificado: YAML válido; `npm ci` + `npm run build` desde una copia limpia pasan (0 vulnerabilidades).
-      El CI solo se verá correr en GitHub al abrir el PR.
+      El CI solo se verá correr en GitHub al abrir el PR. Fusionado (PR #4).
+- [x] Vista previa al compartir (rama `mejoras/vista-previa-y-fuente`): `og.jpg` de 164 KB (< ~300 KB
+      que acepta WhatsApp); con `url` lleno salen 13 etiquetas con direcciones absolutas; sin `url`, no
+      sale ninguna imagen rota; 3 URLs mal escritas (sin https, http, con ruta) detienen el build con
+      mensaje claro.
+- [x] Fuente propia: 0 peticiones a Google (antes 2); 49 KB de fuente (antes 46); la página se ve
+      igual que `main` (0,12 % de píxeles distintos a 390 px, 0,05 % a 1440 px: suavizado de letra).
+      Probado con `astro build` y `astro dev`.
 
 Pendiente de datos del dueño: número de WhatsApp real (hoy `573001234567`), nombre de la tienda,
 y confirmar si los precios mostrados (referencia eShop) son los de venta (D5).
@@ -181,12 +195,13 @@ y confirmar si los precios mostrados (referencia eShop) son los de venta (D5).
 - [x] **T4. Portadas reales.**
 - [ ] **T4b. Contenido de DLC y updates:** agregarlos a `productos.json` (con portada) y
       poner `mostrarDlcUpdates: true`. Revisar que la fila final no deje huecos.
-- [ ] **T5. Metadatos para compartir:** `og:title`, `og:description`, `og:image` (imagen
-      1200×630 del tablero). Necesita la URL final (D4) para la ruta absoluta de la imagen.
+- [~] **T5. Metadatos para compartir:** hecho (`og:*`, imagen 1200×630). Falta solo poner la URL
+      final en `tienda.ts → url` (D4) y probar el enlace en un chat de WhatsApp real.
 - [ ] **T6. Publicación:** elegir hosting estático (Netlify, Vercel, Cloudflare Pages o
       GitHub Pages) y generar el QR del enlace final.
-- [~] **T7. Auditoría:** hecho: Espacio en los mosaicos. Falta: contraste, peso de imágenes,
-      alojar la fuente en el sitio (hoy Google Fonts), y prueba en un celular real con WhatsApp.
+- [~] **T7. Auditoría:** hecho: Espacio en los mosaicos; fuente alojada en el sitio. Falta: contraste,
+      peso de imágenes (1,1 MB al abrir en celular; AVIF ahorraría ~18 %), y prueba en un celular real
+      con WhatsApp.
 
 ## 7. Decisiones abiertas (preguntar al dueño)
 
@@ -195,7 +210,7 @@ y confirmar si los precios mostrados (referencia eShop) son los de venta (D5).
 | D1 | ~~¿País de venta?~~ | **Resuelta:** Colombia (`es-CO`, `$ 239.900`). |
 | D2 | Nombre de la tienda, logo y número de WhatsApp | "Tu Tienda", `573001234567` (falso). |
 | D3 | ¿Volver a poner las píldoras rojas "NUEVO" de la referencia? | No (ver `diseno.md` §6). Los destacados se distinguen por tamaño. |
-| D4 | ¿Dónde se publicará? | Sin definir. El repo es privado: GitHub Pages exige plan de pago; Cloudflare Pages y Netlify publican gratis desde repo privado y leen `.nvmrc`. |
+| D4 | ¿Dónde se publicará? | Sin definir. Cuando se sepa, va en `tienda.ts → url`. El repo es privado: GitHub Pages exige plan de pago; Cloudflare Pages y Netlify publican gratis desde repo privado y leen `.nvmrc`. |
 | D5 | ¿Los precios de venta son los de referencia de la eShop? `productos.json` dice que **no** representan tu precio. | Se muestran los de referencia. Para usar el tuyo, añade `"precio_venta_cop"` a cada producto. |
 | D6 | ¿Marcar los juegos de Switch 1 como "Switch 1 y 2"? (casi todos corren en Switch 2) | No: van en la sección "Switch 1", tal como dice `plataforma`. |
 | D7 | Ring Fit Adventure no tiene precio digital y necesita el accesorio Ring-Con. ¿Se vende? | Se muestra con "Consultar" y abre WhatsApp para preguntar; no entra al pedido. |
@@ -228,6 +243,10 @@ y confirmar si los precios mostrados (referencia eShop) son los de venta (D5).
 | 2026-11-04 | Validar `productos.json` y `tienda.ts` al compilar; `tipo_producto` desconocido ya no cae en "Juego" | El dueño no es técnico: un error de tipeo (ej. `"Nintendo switch 2"`, `"DLC"`) publicaba el juego mal sin aviso. Mejor que el build falle con un mensaje claro. |
 | 2026-11-04 | Pedido guardado en `sessionStorage` (no `localStorage`) | Basta para sobrevivir a la ida y vuelta a WhatsApp; no deja un pedido viejo marcado días después. |
 | 2026-11-04 | Favicon generado desde `tienda.nombre` | Los de `public/` eran el logo de Astro; así se actualiza solo con el nombre real (D2) sin diseñar un archivo. No usa el logo de Nintendo (`diseno.md` §7). |
+| 2026-11-04 | Fuente desde npm (Fontsource) con el proveedor local, no el de Google | El proveedor de Google, si no puede descargar, compila igual con otra fuente y sin avisar (pasó en el entorno de trabajo). Desde npm queda fijada en `package-lock.json` y Dependabot la actualiza. |
+| 2026-11-04 | Imagen de vista previa sin texto, solo las 3 portadas destacadas | WhatsApp ya muestra título y descripción al lado; dibujar texto con `sharp` dependería de las fuentes instaladas en la máquina del build. Se regenera sola al cambiar los destacados. |
+| 2026-11-04 | `og.jpg` en JPEG y no PNG | WhatsApp no muestra imágenes de vista previa de más de ~300 KB; en PNG pesaría varias veces más. |
+| 2026-11-04 | `url` en `tienda.ts` (no en `astro.config.mjs`) y validada en la configuración | El dueño edita un solo archivo; Astro lee `site` antes que nada, así que el error claro tiene que salir ahí. |
 | 2026-11-04 | CI con `npm run build` en cada PR y push a `main` | La validación del catálogo solo protege si alguien compila; el CI lo hace siempre. |
 | 2026-11-04 | Dependabot semanal agrupado; versiones mayores aparte | Pocos PRs, y un salto mayor de Astro se revisa a propósito. Con el CI, cada actualización llega ya probada. |
 | 2026-11-04 | `.nvmrc` = `22` (no la versión exacta) | Cualquier 22.x reciente cumple `engines >=22.23.4`; CI y hosting toman el último parche de seguridad. |

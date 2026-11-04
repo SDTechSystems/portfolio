@@ -34,7 +34,7 @@ aparece en **5 lugares fijos** (cabecera, "¿No ves tu juego?", pestaña de Swit
 No agregar rojo en otros sitios.
 
 **Tipografía:** una sola familia, **Schibsted Grotesk**, pesos **500** y **800**
-(cargada en `Layout.astro` por defecto). Respaldo: `system-ui, sans-serif`.
+(servida desde el propio sitio: `astro.config.mjs` → `fonts`, variable `--fuente`). Respaldo: `system-ui, sans-serif`.
 
 | Rol | Tamaño | Peso | Otros |
 |---|---|---|---|
