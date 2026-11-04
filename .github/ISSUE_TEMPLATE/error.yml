@@ -1,0 +1,67 @@
+name: Error
+description: Algo de la página o del build no funciona como debería.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Un error es algo que **ya existe y falla**. Si es algo nuevo o un cambio de lo que hay, usa la plantilla «Solicitud».
+  - type: textarea
+    id: problema
+    attributes:
+      label: Problema
+      description: Qué pasa y a quién le afecta (cliente, dueño o publicación).
+    validations:
+      required: true
+  - type: textarea
+    id: reproduccion
+    attributes:
+      label: Cómo reproducirlo
+      description: Pasos, ancho de pantalla y navegador. Si no se pudo reproducir, dilo.
+      placeholder: |
+        1. Abrir la página a 390 px.
+        2. …
+    validations:
+      required: true
+  - type: textarea
+    id: esperado
+    attributes:
+      label: Qué debería pasar
+    validations:
+      required: true
+  - type: dropdown
+    id: donde
+    attributes:
+      label: Dónde
+      options:
+        - Celular
+        - Escritorio
+        - Celular y escritorio
+        - Pedido por WhatsApp
+        - Catálogo o build (productos.json, tienda.ts)
+        - Publicación (Cloudflare)
+    validations:
+      required: true
+  - type: dropdown
+    id: prioridad
+    attributes:
+      label: Prioridad
+      description: Pone el label P1, P2 o P3.
+      options:
+        - P1 · Impide pedir, muestra un precio equivocado o rompe la publicación
+        - P2 · Afecta a parte de los clientes, pero hay otra forma de pedir
+        - P3 · Caso raro o mejora de robustez
+    validations:
+      required: true
+  - type: textarea
+    id: evidencia
+    attributes:
+      label: Evidencia y referencias
+      description: Capturas, mensajes de error, enlaces al código o al commit.
+  - type: textarea
+    id: correccion
+    attributes:
+      label: Corrección propuesta y criterios de aceptación
+      description: Opcional. Cómo se sabrá que quedó resuelto.
+      value: |
+        - [ ] `npm run build` pasa.

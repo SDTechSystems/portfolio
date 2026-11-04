@@ -1,0 +1,29 @@
+# Pone el label P1, P2 o P3 según el campo "Prioridad" de las plantillas de issue
+# (las plantillas solo pueden poner labels fijos). Si se edita el issue y cambia la
+# prioridad, cambia el label. Los issues sin ese campo no se tocan.
+name: Prioridad
+
+on:
+  issues:
+    types: [opened, edited]
+
+permissions:
+  issues: write
+
+jobs:
+  label:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          NUMERO: ${{ github.event.issue.number }}
+          # El texto del issue va por variable de entorno, nunca dentro del script.
+          CUERPO: ${{ github.event.issue.body }}
+        run: |
+          p=$(printf '%s\n' "$CUERPO" | tr -d '\r' | awk '/^### Prioridad[[:space:]]*$/{f=1; next} f && NF {print; exit}' | grep -oE '^P[123]' || true)
+          if [ -z "$p" ]; then echo "Sin campo Prioridad: no se cambia nada."; exit 0; fi
+          otros=$(printf 'P1\nP2\nP3\n' | grep -vx "$p" | paste -sd, -)
+          gh issue edit "$NUMERO" --add-label "$p" --remove-label "$otros"
+          echo "Issue #$NUMERO → $p"

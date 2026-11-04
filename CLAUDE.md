@@ -25,6 +25,8 @@ Fuente de verdad: `docs/spec.md` (requisitos F1–F6, fuera de alcance, decision
 
 No hay tests, linter ni `astro check` (no está instalado `@astrojs/check`). El CI
 (`.github/workflows/build.yml`) solo corre `npm ci && npm run build`.
+`.github/workflows/prioridad.yml` pone el label `P1`/`P2`/`P3` según el campo «Prioridad» de las
+plantillas de issue (`.github/ISSUE_TEMPLATE/`: «Error» → `bug`, «Solicitud» → `enhancement`).
 
 ## Arquitectura
 

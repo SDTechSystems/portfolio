@@ -1,0 +1,55 @@
+name: Solicitud
+description: Una función nueva o un cambio de lo que ya hay.
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Antes de proponer, revisa en `docs/spec.md` los requisitos (F1–F6) y **Fuera de alcance**, y en `docs/diseno.md` la tabla **No hacer** (§6).
+  - type: textarea
+    id: problema
+    attributes:
+      label: Problema
+      description: Qué le cuesta hoy al cliente o al dueño.
+    validations:
+      required: true
+  - type: textarea
+    id: propuesta
+    attributes:
+      label: Propuesta
+      description: Qué cambiaría, sin detallar todavía el código.
+    validations:
+      required: true
+  - type: textarea
+    id: criterios
+    attributes:
+      label: Criterios de aceptación
+      value: |
+        - [ ] 
+        - [ ] Verificado a 320, 390 y 1440 px: sin scroll horizontal ni huecos en el tablero.
+        - [ ] Los enlaces de WhatsApp siguen funcionando sin JavaScript.
+        - [ ] `npm run build` pasa.
+    validations:
+      required: true
+  - type: dropdown
+    id: prioridad
+    attributes:
+      label: Prioridad
+      description: Pone el label P1, P2 o P3.
+      options:
+        - P1 · Alta, primera etapa
+        - P2 · Media, segunda etapa
+        - P3 · Baja, cuando haya tiempo
+    validations:
+      required: true
+  - type: checkboxes
+    id: alcance
+    attributes:
+      label: Alcance
+      options:
+        - label: Cambia una regla de `docs/diseno.md` o algo de «Fuera de alcance» en `docs/spec.md` (el dueño debe aprobarlo).
+  - type: textarea
+    id: notas
+    attributes:
+      label: Restricciones y notas
+      description: Opcional. Datos que faltan del dueño, dependencias con otros issues, referencias.
