@@ -19,12 +19,12 @@ Fuente de verdad: `docs/spec.md` (requisitos F1–F6, fuera de alcance, decision
 | Comando | Para qué |
 |---|---|
 | `npm ci` | Instalar (Node 22.23.4 exacto, ver `.nvmrc`). En la nube lo hace el hook de inicio. |
-| `npm run build` | Compila a `dist/` **y valida el catálogo**. Es la única comprobación del proyecto. |
+| `npm run build` | Compila a `dist/` **y valida el catálogo**. |
 | `astro dev --background` | Servidor de desarrollo en `http://localhost:4321` (`astro dev stop\|status\|logs`). |
 | `npm run preview` | Sirve `dist/` tal como se publica. |
 
-No hay tests, linter ni `astro check` (no está instalado `@astrojs/check`). El CI
-(`.github/workflows/build.yml`) solo corre `npm ci && npm run build`.
+Hay pruebas con `npm test` (runner de Node), sin dependencias adicionales. No hay linter ni `astro check` (no está instalado `@astrojs/check`). El CI
+(`.github/workflows/build.yml`) corre `npm ci`, `npm test` y `npm run build`.
 
 ## Arquitectura
 

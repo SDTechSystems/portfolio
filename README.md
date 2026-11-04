@@ -31,12 +31,13 @@ Cada juego es un bloque como este:
 | `plataforma` | `"Nintendo Switch"` (Switch 1) o `"Nintendo Switch 2"`. |
 | `tipo_producto` | `"juego_digital"`, `"juego_con_accesorios"` (muestra "Necesita Ring-Con"), `"dlc"`, `"update"` o `"paquete_mejora"` (ver abajo). |
 | `grupo` | Opcional. Solo para juegos con versión de Switch 1 y de Switch 2 (ver abajo). |
-| `precio_venta_cop` | **Tu precio**, sin puntos: `299900`. Opcional; si no está, se usa el de referencia. |
-| `precio_referencia_eshop_colombia_cop` | Precio de la eShop. `null` muestra "Consultar" y el juego no entra al pedido. |
+| `precio_venta_cop` | **Tu precio**, sin puntos: `299900`. Opcional; si no está, se usa el de referencia; `null` fuerza «Consultar». |
+| `precio_referencia_eshop_colombia_cop` | Precio de la eShop; solo se usa si falta `precio_venta_cop`. Si tampoco hay referencia, muestra «Consultar». |
 | `publicar` | Opcional. `false` oculta el producto de la página sin borrarlo (ej. precio pendiente). |
 | `imagen` | Opcional. Sin imagen, la portada queda gris. |
 
 - **Cambiar un precio:** edita `precio_venta_cop` (o agrégalo).
+- **Retirar un precio sin perder la referencia:** pon `"precio_venta_cop": null`; muestra «Consultar» y no entra al pedido. Solo un campo ausente usa el precio de referencia.
 - **Agregar un juego:** copia un bloque, cambia los datos y pon su portada (imagen 16:9, ideal 1920×1080 para que se vea nítida en computador)
   en `src/assets/Catalogo_Nintendo_Switch_Colombia/imagenes/<id>.webp`.
 - **Quitar un juego:** borra su bloque (y las comas sobrantes).
@@ -80,6 +81,7 @@ Requiere Node 22.23.4 o más reciente.
 |---|---|
 | `npm install` | Instala lo necesario (una sola vez). |
 | `npm run dev` | Abre la página en `http://localhost:4321` mientras editas. |
+| `npm test` | Pruebas de regresión con el runner de Node. |
 | `npm run build` | Revisa el catálogo y genera el sitio listo para publicar en `dist/`. |
 | `npm run preview` | Muestra el sitio de `dist/` tal como quedará publicado. |
 
