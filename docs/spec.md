@@ -73,6 +73,10 @@ administración, buscador, varias páginas, multi-idioma.
 ## 4. Arquitectura
 
 - **Stack:** Astro 7 (`astro@^7.4.5`), Node ≥ 22.23.4, salida estática (`npm run build` → `dist/`).
+- **Publicación:** Cloudflare Workers (Worker `sdtechimport`) conectado a GitHub: cada push a `main`
+  ejecuta `npm run build` y `npx wrangler deploy`. `wrangler.jsonc` sube `dist/` como sitio estático;
+  sin él, Wrangler intenta autoconfigurar el proyecto con el adaptador de servidor de Astro y falla.
+  Variable `NODE_VERSION=22.23.4` en el panel, además de `.nvmrc`.
 - **Fuente:** API de fuentes de Astro con proveedor local (`astro.config.mjs`), archivos del paquete
   `@fontsource/schibsted-grotesk` (OFL): solo `latin`, pesos 500 y 800, precargados, con respaldo de
   métricas ajustadas. Ni el build ni la visita dependen de Google.
@@ -147,7 +151,7 @@ volver de WhatsApp; si el almacenamiento está bloqueado, todo funciona igual si
 
 ## 5. Estado (actualizar al cerrar cada sesión)
 
-**Última actualización:** 2026-11-04 (Node exacto para el hosting), rama `fix/node-exacto-para-hosting` (sale de `main`).
+**Última actualización:** 2026-11-04 (despliegue en Cloudflare), rama `fix/despliegue-cloudflare` (sale de `main`, incluye `fix/node-exacto-para-hosting`).
 
 Hecho:
 - [x] Entrevista y requisitos (sección 3).
@@ -180,6 +184,10 @@ Hecho:
       que acepta WhatsApp); con `url` lleno salen 13 etiquetas con direcciones absolutas; sin `url`, no
       sale ninguna imagen rota; 3 URLs mal escritas (sin https, http, con ruta) detienen el build con
       mensaje claro.
+- [~] Publicación en Cloudflare Workers: el primer despliegue compiló bien (Node 22.23.4) pero falló al
+      publicar (`public/.assetsignore` no existe: `public/` desapareció al borrar los favicons de la
+      plantilla, y Wrangler intentó autoconfigurar). Arreglado con `wrangler.jsonc`; `wrangler deploy
+      --dry-run` lee los 105 archivos de `dist/`. Falta fusionar y confirmar el despliegue real.
 - [x] Fuente propia: 0 peticiones a Google (antes 2); 49 KB de fuente (antes 46); la página se ve
       igual que `main` (0,12 % de píxeles distintos a 390 px, 0,05 % a 1440 px: suavizado de letra).
       Probado con `astro build` y `astro dev`.
@@ -210,7 +218,7 @@ y confirmar si los precios mostrados (referencia eShop) son los de venta (D5).
 | D1 | ~~¿País de venta?~~ | **Resuelta:** Colombia (`es-CO`, `$ 239.900`). |
 | D2 | Nombre de la tienda, logo y número de WhatsApp | "Tu Tienda", `573001234567` (falso). |
 | D3 | ¿Volver a poner las píldoras rojas "NUEVO" de la referencia? | No (ver `diseno.md` §6). Los destacados se distinguen por tamaño. |
-| D4 | ¿Dónde se publicará? | Sin definir. Cuando se sepa, va en `tienda.ts → url`. El repo es privado: GitHub Pages exige plan de pago; Cloudflare Pages y Netlify publican gratis desde repo privado y leen `.nvmrc`. |
+| D4 | ~~¿Dónde se publicará?~~ | **Resuelta:** Cloudflare Workers, Worker `sdtechimport` (dirección `*.workers.dev`). Cuando funcione, va en `tienda.ts → url`. El repo es privado: GitHub Pages exige plan de pago; Cloudflare Pages y Netlify publican gratis desde repo privado y leen `.nvmrc`. |
 | D5 | ¿Los precios de venta son los de referencia de la eShop? `productos.json` dice que **no** representan tu precio. | Se muestran los de referencia. Para usar el tuyo, añade `"precio_venta_cop"` a cada producto. |
 | D6 | ¿Marcar los juegos de Switch 1 como "Switch 1 y 2"? (casi todos corren en Switch 2) | No: van en la sección "Switch 1", tal como dice `plataforma`. |
 | D7 | Ring Fit Adventure no tiene precio digital y necesita el accesorio Ring-Con. ¿Se vende? | Se muestra con "Consultar" y abre WhatsApp para preguntar; no entra al pedido. |
@@ -243,6 +251,8 @@ y confirmar si los precios mostrados (referencia eShop) son los de venta (D5).
 | 2026-11-04 | Validar `productos.json` y `tienda.ts` al compilar; `tipo_producto` desconocido ya no cae en "Juego" | El dueño no es técnico: un error de tipeo (ej. `"Nintendo switch 2"`, `"DLC"`) publicaba el juego mal sin aviso. Mejor que el build falle con un mensaje claro. |
 | 2026-11-04 | Pedido guardado en `sessionStorage` (no `localStorage`) | Basta para sobrevivir a la ida y vuelta a WhatsApp; no deja un pedido viejo marcado días después. |
 | 2026-11-04 | Favicon generado desde `tienda.nombre` | Los de `public/` eran el logo de Astro; así se actualiza solo con el nombre real (D2) sin diseñar un archivo. No usa el logo de Nintendo (`diseno.md` §7). |
+| 2026-11-04 | Cloudflare **Workers** con `wrangler.jsonc` de solo assets, y no Pages | El dueño creó el proyecto como Worker desde el panel (Cloudflare lo propone por defecto). Un archivo de 6 líneas lo deja funcionando sin rehacer el proyecto; es el mismo sitio estático, sin servidor. |
+| 2026-11-04 | `wrangler` sin fijar en `package.json` | Lo instala `npx` en cada despliegue; fijarlo agregaría cientos de paquetes a cada `npm ci` del CI. Si una versión nueva rompe el despliegue, fijarlo entonces. |
 | 2026-11-04 | Fuente desde npm (Fontsource) con el proveedor local, no el de Google | El proveedor de Google, si no puede descargar, compila igual con otra fuente y sin avisar (pasó en el entorno de trabajo). Desde npm queda fijada en `package-lock.json` y Dependabot la actualiza. |
 | 2026-11-04 | Imagen de vista previa sin texto, solo las 3 portadas destacadas | WhatsApp ya muestra título y descripción al lado; dibujar texto con `sharp` dependería de las fuentes instaladas en la máquina del build. Se regenera sola al cambiar los destacados. |
 | 2026-11-04 | `og.jpg` en JPEG y no PNG | WhatsApp no muestra imágenes de vista previa de más de ~300 KB; en PNG pesaría varias veces más. |

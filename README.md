@@ -70,6 +70,12 @@ Requiere Node 22.23.4 o más reciente.
 | `npm run build` | Revisa el catálogo y genera el sitio listo para publicar en `dist/`. |
 | `npm run preview` | Muestra el sitio de `dist/` tal como quedará publicado. |
 
+## Publicación
+
+El sitio se publica solo en Cloudflare Workers cada vez que algo llega a `main` (1–2 minutos).
+`wrangler.jsonc` le dice a Cloudflare que suba la carpeta `dist/` tal cual. Si se cambia el nombre del
+Worker en el panel de Cloudflare, hay que cambiar también `"name"` en ese archivo.
+
 ## Para quien desarrolla
 
 Antes de cambiar código lee `docs/spec.md` (requisitos, estado y decisiones) y `docs/diseno.md`
