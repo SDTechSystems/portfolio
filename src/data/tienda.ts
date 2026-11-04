@@ -1,6 +1,6 @@
 // Datos de la tienda: cambia aquí nombre, WhatsApp y formato de precio.
 export const tienda = {
-  nombre: 'Tu Tienda',
+  nombre: 'SD Tech Import',
   // Número de WhatsApp Business con código de país, solo dígitos (Colombia: 57 + 10 dígitos).
   whatsapp: '573058147293',
   // Dirección pública donde se publica el sitio, con https:// (ej. 'https://tutienda.pages.dev').
