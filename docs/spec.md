@@ -82,7 +82,7 @@ administración, buscador, varias páginas, multi-idioma.
   Sin frameworks de UI ni Tailwind: CSS con alcance por componente.
 - **Dev server:** `astro dev --background` (ver `AGENTS.md`); `astro dev stop|status|logs`.
 - **GitHub:** `.github/workflows/build.yml` compila (y valida el catálogo) en cada PR y push a
-  `main`, con la versión de Node de `.nvmrc`. `.github/dependabot.yml` abre PRs de actualización los
+  `main`, con la versión de Node de `.nvmrc` (exacta: 22.23.4, el mínimo de Astro 7). `.github/dependabot.yml` abre PRs de actualización los
   lunes (npm agrupado salvo versiones mayores; Actions agrupadas). Plantilla de PR con la lista
   de revisión de `diseno.md` §8. El repo es privado: GitHub Pages y la protección de ramas
   requieren plan de pago, así que el CI avisa pero no bloquea la fusión.
@@ -147,7 +147,7 @@ volver de WhatsApp; si el almacenamiento está bloqueado, todo funciona igual si
 
 ## 5. Estado (actualizar al cerrar cada sesión)
 
-**Última actualización:** 2026-11-04 (vista previa al compartir y fuente propia), rama `mejoras/vista-previa-y-fuente` (sale de `main`).
+**Última actualización:** 2026-11-04 (Node exacto para el hosting), rama `fix/node-exacto-para-hosting` (sale de `main`).
 
 Hecho:
 - [x] Entrevista y requisitos (sección 3).
@@ -173,7 +173,7 @@ Hecho:
       reescrito como guía para el dueño.
 
 - [x] Robustez fusionada en `main` (PR #3).
-- [x] Repo: CI de build, `.nvmrc` (Node 22), Dependabot y plantilla de PR (rama `ci/build-y-dependabot`).
+- [x] Repo: CI de build, `.nvmrc` (Node 22.23.4), Dependabot y plantilla de PR (rama `ci/build-y-dependabot`).
       Verificado: YAML válido; `npm ci` + `npm run build` desde una copia limpia pasan (0 vulnerabilidades).
       El CI solo se verá correr en GitHub al abrir el PR. Fusionado (PR #4).
 - [x] Vista previa al compartir (rama `mejoras/vista-previa-y-fuente`): `og.jpg` de 164 KB (< ~300 KB
@@ -249,7 +249,7 @@ y confirmar si los precios mostrados (referencia eShop) son los de venta (D5).
 | 2026-11-04 | `url` en `tienda.ts` (no en `astro.config.mjs`) y validada en la configuración | El dueño edita un solo archivo; Astro lee `site` antes que nada, así que el error claro tiene que salir ahí. |
 | 2026-11-04 | CI con `npm run build` en cada PR y push a `main` | La validación del catálogo solo protege si alguien compila; el CI lo hace siempre. |
 | 2026-11-04 | Dependabot semanal agrupado; versiones mayores aparte | Pocos PRs, y un salto mayor de Astro se revisa a propósito. Con el CI, cada actualización llega ya probada. |
-| 2026-11-04 | `.nvmrc` = `22` (no la versión exacta) | Cualquier 22.x reciente cumple `engines >=22.23.4`; CI y hosting toman el último parche de seguridad. |
+| 2026-11-04 | ~~`.nvmrc` = `22`~~ → **`.nvmrc` = `22.23.4`** | Astro 7 exige Node ≥ 22.23.4 y la imagen de compilación de Cloudflare Pages trae por defecto un 22.x más viejo (22.16); con solo `22` no hay garantía de que elija uno suficiente. Subir a mano cuando Astro lo pida. |
 | 2026-11-04 | README como guía del dueño | El de la plantilla no explicaba cómo cambiar precios o agregar juegos. |
 
 ## 9. Cómo verificar un cambio
