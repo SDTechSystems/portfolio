@@ -95,6 +95,10 @@ Requiere Node 22.23.4 o más reciente.
 El sitio vive en la rama `catalogo-juegos` del repo `SDTechSystems/portfolio` y se publica solo en
 Cloudflare Workers cada vez que algo llega a esa rama (1–2 minutos), en
 https://catalogo-juegos-sdtechimports.sdtechsystems.dev. Para cambios, abre un PR contra `catalogo-juegos`.
+
+En el panel de Cloudflare (Worker `catalogo-juegos-sdtechimports` → Settings → Build): la rama de
+producción es `catalogo-juegos`, los builds de preview están apagados (pestaña «Previews Base») y el
+API token debe ser uno vigente de la cuenta; si no, el despliegue falla.
 `wrangler.jsonc` le dice a Cloudflare que suba la carpeta `dist/` tal cual. Si se cambia el nombre del
 Worker en el panel de Cloudflare, hay que cambiar también `"name"` en ese archivo.
 
