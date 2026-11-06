@@ -85,7 +85,7 @@ administración, buscador, varias páginas, multi-idioma.
   `@fontsource/schibsted-grotesk` (OFL): solo `latin`, pesos 500 y 800, precargados, con respaldo de
   métricas ajustadas. Ni el build ni la visita dependen de Google.
 - **Vista previa al compartir:** `pages/og.jpg.ts` genera con `sharp` una imagen 1200×630 con los 3
-  destacados (60/40 como el tablero de escritorio). Las etiquetas `og:*` y `twitter:card` de
+  destacados (portada de cine arriba y dos abajo, como el tablero). Las etiquetas `og:*` y `twitter:card` de
   `Layout.astro` solo incluyen imagen, `og:url` y `canonical` si `tienda.ts → url` está lleno.
   Sin frameworks de UI ni Tailwind: CSS con alcance por componente.
 - **Dev server:** `astro dev --background` (ver `AGENTS.md`); `astro dev stop|status|logs`.
@@ -176,9 +176,24 @@ Solo se restauran listas de cadenas; otros formatos inician un pedido vacío.
 
 ## 5. Estado (actualizar al cerrar cada sesión)
 
-**Última actualización:** 2026-11-04 (issue #27: portada y precio "desde" de la misma edición).
+**Última actualización:** 2026-11-05 (modo claro y oscuro).
 
 Hecho:
+- [x] **Vitrina oscura:** suelo `#0e0e10`, mosaicos grafito `#1c1c21`, texto `#f5f5f7`, rojo `#e60012`
+      conservado. Cabecera sin fondo: marca en pastilla roja y título claro. Mosaicos con radio 12px,
+      separación 10/12px y acercamiento de la portada al pasar el ratón. Elegido = mosaico claro con ✓ rojo;
+      barra de pedido y "Listo" claros; panel radio 16px; imagen para compartir con fondo oscuro.
+      Misma retícula, destacados, panel de versiones y pedido por WhatsApp. 23/23 pruebas de lógica
+      y 21/21 de navegador (se actualizó el color esperado del mosaico elegido).
+- [x] **Portada de cine:** el destacado principal ocupa todo el ancho (escritorio 21:9, celular 16:9) con
+      nombre, precio y "+" en un panel sólido sobre la portada; los otros 2 destacados van debajo, lado a lado
+      (5 columnas cada uno en escritorio). Retícula (`index.astro`) y `sizes` actualizados. 21/21 de navegador.
+- [x] **Modo claro y oscuro:** al abrir, la página usa el modo del sistema; el botón luna/sol de la cabecera
+      (`components/Tema.astro`) lo cambia y lo recuerda en este navegador. El claro recupera la paleta anterior
+      (`#e9e9ec`/blanco/`#121214`). Sin parpadeo (script en `<head>`) y sin JavaScript sigue al sistema.
+      Nuevos tokens `--suave-sel`, `--sin-portada`, `--sombra`. 27/27 de navegador (2 pruebas nuevas de tema).
+      La imagen para compartir (`og.jpg`) sigue la misma composición (cine arriba, 2 abajo) con el mismo
+      encuadre que la página (`recorte` o abajo en juegos con versiones); pesa 147 KB.
 - [x] Issue #27: el mosaico con versiones ya no muestra la caja de Switch 2 junto al precio de
       Switch 1. Portada = imagen general del grupo (nuevo `grupos` opcional en `productos.json`) o,
       si no hay, la de la edición del "desde"; la línea dice "3 versiones · Switch 1 desde". En el
@@ -434,6 +449,20 @@ Pendiente de datos del dueño: logo de la tienda (opcional, va en lugar del nomb
 | D8 | ¿Qué títulos van destacados? | Pedido del dueño: Zelda: Ocarina of Time (Switch 2) como estelar, en lugar de Mario Kart World (vuelve al catálogo); siguen Super Mario Bros. Wonder y Zelda: Tears of the Kingdom. |
 
 ## 8. Registro de decisiones
+
+**Vitrina oscura (2026-11-05), elegida por el dueño:** se descartó sin publicar un rediseño
+anterior (marfil y rojo, generado con imagegen) porque no gustó. Se eligió un tema oscuro entre
+tres direcciones (vitrina oscura, neobrutalista, bloques por consola) y se pidió conservar solo
+el rojo de Nintendo. Después, de 4 mejoras de estructura propuestas (portada de cine, barra con
+portadas, cabecera con WhatsApp, escritorio de 6 por fila) el dueño eligió solo la **portada de cine**:
+la info va en un panel sólido sobre la imagen, no con degradado (regla "No hacer"). Se reutilizaron los mismos tokens con valores nuevos, sin agregar colores
+ni cambiar la estructura. Se mantienen Schibsted Grotesk y los 3 destacados porque funcionan sobre
+fondo oscuro y cambiarlos no aportaba. El rojo deja la cabecera completa y queda en la pastilla de la marca.
+
+**Modo claro y oscuro (2026-11-05), pedido por el dueño:** el oscuro perdió el tono blanco que gustaba, así
+que conviven los dos. Por defecto manda el sistema del visitante; el botón guarda su elección en
+`localStorage` (solo comodidad de ese navegador). El claro reutiliza los valores que tenía la página antes
+del rediseño. La imagen para compartir (`og.jpg`) se queda oscura: es una sola imagen fija.
 
 Implementación #34 (2026-11-04), autorizada tras la revisión de prioridades: Chromium
 con `@playwright/test` solo en desarrollo/CI; las pruebas de lógica conservan el runner de Node.

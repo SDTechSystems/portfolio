@@ -16,23 +16,21 @@ const [unica] = f.versiones;
 const varias = f.versiones.length > 1;
 const dos = !varias && unica.consola === 'Switch 2';
 // Ancho real de la portada, para que el navegador baje la variante justa (medido de 320 a 2560px).
-// Celular: 6 columnas, margen 10px y separación 8px → medio tablero = 50vw − 14px.
-// Escritorio: 10 columnas, margen 12px y separación 8px → 2 col = 20vw − 11px; 4 col = 40vw − 14px;
-// 6 col = 60vw − 18px. Desde 1440px el tablero no crece más (max-width en index.astro): anchos fijos.
-// El grande en escritorio llena 2 filas y es más alto que 16:9: con object-fit: cover la portada se dibuja
-// más ancha que el mosaico (medido: 61–91 % del ancho de pantalla entre 760 y 1440px; 1123px desde 1440).
-const sizes = tamano === 'grande' ? '(min-width: 1440px) 1123px, (min-width: 760px) calc(80vw - 20px), calc(100vw - 20px)'
-  : tamano === 'medio' ? '(min-width: 1440px) 562px, (min-width: 760px) calc(40vw - 14px), calc(50vw - 14px)'
-  : '(min-width: 1440px) 277px, (min-width: 760px) calc(20vw - 11px), calc(50vw - 14px)';
+// Celular: 6 columnas, margen 10px y separación 10px → medio tablero = 50vw − 15px; todo = 100vw − 20px.
+// Escritorio: 10 columnas, margen 12px y separación 12px → 2 col = 20vw − 14px; 5 col = 50vw − 18px;
+// todo = 100vw − 24px. Desde 1440px el tablero no crece más (max-width en index.astro): anchos fijos.
+// El grande es la portada de cine: ocupa todo el ancho y se recorta en alto, no en ancho.
+const sizes = tamano === 'grande' ? '(min-width: 1440px) 1416px, (min-width: 760px) calc(100vw - 24px), calc(100vw - 20px)'
+  : tamano === 'medio' ? '(min-width: 1440px) 702px, (min-width: 760px) calc(50vw - 18px), calc(50vw - 15px)'
+  : '(min-width: 1440px) 274px, (min-width: 760px) calc(20vw - 14px), calc(50vw - 15px)';
 // Escalones de 80–160px hasta 960 (celular: 390px a densidad 3 necesita 543px). Arriba, para escritorio
 // y pantallas de densidad 2: el grande a 1440px necesita ~1900px. Las portadas originales miden 1920.
 const ANCHOS = [320, 400, 480, 560, 640, 800, 960, 1120, 1280, 1600, 1920];
 // Panel en todos los juegos con versiones salvo el destacado grande, que tiene sitio para las filas.
 const panel = varias && tamano !== 'grande';
 const Caja = varias ? 'div' : 'a';
-// Qué parte de la portada se conserva al recortarla. Izquierda/derecha: el destacado grande en escritorio deja ver
-// 72–85 % del ancho según la pantalla; 7 %/93 % corre la ventana hacia ese lado (con 93 % un logo que llega al 97 %
-// del ancho sigue entero aunque solo se vea el 72 %).
+// Qué parte de la portada se conserva al recortarla. Izquierda/derecha corren la ventana hacia ese lado
+// (7 %/93 %); en la portada de cine el recorte es en alto, así que solo mueven el encuadre si la pantalla es angosta.
 const RECORTE = { arriba: '50% 0%', centro: '50% 50%', abajo: '50% 100%', izquierda: '7% 50%', derecha: '93% 50%' };
 ---
 <Caja class:list={['mosaico', tamano, { ancho: varias, panel }]} {...(varias ? {} : item(unica))}>
@@ -87,9 +85,12 @@ const RECORTE = { arriba: '50% 0%', centro: '50% 50%', abajo: '50% 100%', izquie
 </Caja>
 
 <style>
-  .mosaico { --fondo: var(--mosaico); grid-column: span 3; display: flex; flex-direction: column; border-radius: 8px; overflow: hidden; background: var(--fondo); cursor: pointer; transition: transform .15s, background-color .15s; }
+  .mosaico { --fondo: var(--mosaico); grid-column: span 3; display: flex; flex-direction: column; border-radius: 12px; overflow: hidden; background: var(--fondo); cursor: pointer; transition: transform .15s, background-color .15s; }
   .mosaico:active { transform: scale(.98); }
-  .img { aspect-ratio: 16 / 9; background: #d6d6dc; position: relative; }
+  .img { aspect-ratio: 16 / 9; background: var(--sin-portada); position: relative; overflow: hidden; }
+  /* Vitrina: con ratón, la portada se acerca un poco al pasar por encima. */
+  .img img { transition: transform .3s cubic-bezier(.2, .8, .2, 1); }
+  @media (hover: hover) { .mosaico:hover .img img { transform: scale(1.04); } }
   /* Pestaña de consola: esquina sólida pegada al borde; Switch 1 del color del mosaico, Switch 2 en rojo. */
   .consola { position: absolute; top: 0; left: 0; z-index: 1; height: 32px; padding: 0 9px; display: flex; align-items: center; gap: 3px; border-radius: 0 0 8px 0; background: var(--fondo); font-size: 17px; line-height: 1; transition: background-color .15s; }
   .consola svg { width: 1em; height: 1em; }
@@ -107,9 +108,10 @@ const RECORTE = { arriba: '50% 0%', centro: '50% 50%', abajo: '50% 100%', izquie
 
   /* "+" / "✓": dice que el mosaico se suma al pedido. Solo aparece si el script de Pedido lo activó. */
   [aria-pressed] strong::after { content: '+'; content: '+' / ''; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: var(--suelo); font-size: 20px; font-weight: 500; letter-spacing: 0; }
-  [aria-pressed='true'] { --fondo: var(--tinta); color: #fff; }
-  [aria-pressed='true'] .c { color: #b9b9c2; }
-  [aria-pressed='true'] strong::after { content: '✓'; content: '✓' / ''; background: var(--rojo); font-size: 15px; }
+  /* Elegido: el mosaico se enciende en tinta (casi blanco) con texto oscuro y ✓ rojo. */
+  [aria-pressed='true'] { --fondo: var(--tinta); color: var(--suelo); }
+  [aria-pressed='true'] .c { color: var(--suave-sel); }
+  [aria-pressed='true'] strong::after { content: '✓'; content: '✓' / ''; background: var(--rojo); color: #fff; font-size: 15px; }
   /* Sin precio ("Consultar"): el mosaico abre WhatsApp en vez de sumarse al pedido; la flecha lo distingue del "+". */
   [target] strong::after { content: '↗'; content: '↗' / ''; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: var(--suelo); font-size: 16px; font-weight: 500; letter-spacing: 0; }
 
@@ -124,10 +126,10 @@ const RECORTE = { arriba: '50% 0%', centro: '50% 50%', abajo: '50% 100%', izquie
   .ancho:has(.abrir:focus-visible) { outline: 3px solid var(--tinta); outline-offset: 2px; }
   .abrir strong::after { content: '+'; content: '+' / ''; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: var(--suelo); font-size: 20px; font-weight: 500; letter-spacing: 0; }
   /* Con alguna versión elegida, el mosaico se ve elegido (sus filas no están a la vista). */
-  .panel[data-panel-listo]:has(.version[aria-pressed='true']) { --fondo: var(--tinta); color: #fff; }
-  .panel[data-panel-listo]:has(.version[aria-pressed='true']) .c { color: #b9b9c2; }
+  .panel[data-panel-listo]:has(.version[aria-pressed='true']) { --fondo: var(--tinta); color: var(--suelo); }
+  .panel[data-panel-listo]:has(.version[aria-pressed='true']) .c { color: var(--suave-sel); }
   /* El ✓ lleva texto para el lector de pantalla: las filas con aria-pressed están ocultas en el panel. */
-  .panel[data-panel-listo]:has(.version[aria-pressed='true']) .abrir strong::after { content: '✓'; content: '✓' / 'versión elegida'; background: var(--rojo); font-size: 15px; }
+  .panel[data-panel-listo]:has(.version[aria-pressed='true']) .abrir strong::after { content: '✓'; content: '✓' / 'versión elegida'; background: var(--rojo); color: #fff; font-size: 15px; }
   .panel[data-panel-listo] .abrir { display: flex; }
   .panel[data-panel-listo] .versiones { display: none; }
   /* Respaldo por defecto, también si falla el script con JavaScript habilitado. */
@@ -141,7 +143,8 @@ const RECORTE = { arriba: '50% 0%', centro: '50% 50%', abajo: '50% 100%', izquie
   .versiones { margin-top: auto; padding-top: 6px; display: grid; grid-template-columns: auto 1fr; gap: 4px 10px; }
   .version { --fondo: var(--mosaico); min-height: 44px; margin: 0 -6px; padding: 4px 6px; border-radius: 6px; grid-column: 1 / -1; display: grid; grid-template-columns: subgrid; align-items: center; background: var(--fondo); cursor: pointer; transition: transform .15s, background-color .15s; }
   .version:active { transform: scale(.98); }
-  .version[aria-pressed='true'] { --fondo: var(--tinta); }
+  .version[aria-pressed='true'] { --fondo: var(--tinta); color: var(--suelo); }
+  .version[aria-pressed='true'] strong::after { color: #fff; }
   .version strong { margin: 0; padding: 0; justify-content: flex-end; gap: 10px; }
   /* Sello de cada versión: como la pestaña, en pequeño (Switch 2 en rojo). */
   .edicion { justify-self: start; position: relative; }
@@ -155,24 +158,24 @@ const RECORTE = { arriba: '50% 0%', centro: '50% 50%', abajo: '50% 100%', izquie
   :global(.hoja) .mini + .sello { position: absolute; top: 0; left: 0; border-radius: 6px 0 6px 0; }
   .solo-lector { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 
-  .grande { grid-column: span 6; }
-  .grande .img { aspect-ratio: 2 / 1; }
-  .grande .pie { padding: 14px 16px 16px; }
+  /* Portada de cine: el destacado ocupa todo el ancho y su pie es un panel sólido que se monta sobre la
+     parte baja de la portada (celular) o flota abajo a la izquierda (escritorio). Sin degradado: color plano. */
+  .grande { grid-column: 1 / -1; position: relative; }
+  .grande .img { aspect-ratio: 16 / 9; }
+  .grande .pie { position: relative; z-index: 1; margin: -44px 10px 10px; border-radius: 8px; padding: 14px 16px 16px; background: var(--fondo); transition: background-color .15s; }
   .grande .n { font-size: 18px; font-weight: 800; }
   .grande strong { font-size: 30px; }
 
   @media (min-width: 760px) {
     .mosaico { grid-column: span 2; }
     .panel:not([data-panel-listo]) { grid-column: span 4; }
-    .grande { grid-column: span 6; grid-row: span 2; }
-    .grande .img { aspect-ratio: auto; flex: 1; }
-    .grande .pie { flex: none; }
-    .medio { grid-column: span 4; }
-    /* Los 3 destacados caben con su precio en la primera pantalla (el grande mide lo que los dos chicos).
-       182px = cabecera (183) + 3 separaciones de 8 + 2 pies de 75 + margen de 12, repartido entre 2 filas. */
-    .medio .img { aspect-ratio: 2.1 / 1; max-height: max(140px, calc(50svh - 182px)); }
-    /* Con versiones, el pie lleva una línea más ("N versiones · desde", 17px): la portada cede ese alto. */
-    .medio.panel .img { max-height: max(140px, calc(50svh - 199px)); }
+    .grande { grid-column: 1 / -1; }
+    /* 21:9 como pantalla de cine; se acorta para que, bajo la cabecera, asome la fila de los otros destacados. */
+    .grande .img { aspect-ratio: 21 / 9; max-height: max(360px, calc(100svh - 280px)); }
+    .grande .pie { position: absolute; left: 16px; bottom: 16px; width: min(440px, 45%); margin: 0; }
+    .medio { grid-column: span 5; }
+    .medio.panel:not([data-panel-listo]) { grid-column: span 5; }
+    .medio .img { aspect-ratio: 2.1 / 1; }
   }
-  @media (prefers-reduced-motion: reduce) { .mosaico, .consola, .version { transition: none; } }
+  @media (prefers-reduced-motion: reduce) { .mosaico, .consola, .version, .img img, .grande .pie { transition: none; } .mosaico:hover .img img { transform: none; } }
 </style>
