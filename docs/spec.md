@@ -76,7 +76,9 @@ administración, buscador, varias páginas, multi-idioma.
 ## 4. Arquitectura
 
 - **Stack:** Astro 7 (`astro@^7.4.5`), Node ≥ 22.23.4, salida estática (`npm run build` → `dist/`).
-- **Publicación:** Cloudflare Workers (Worker `sdtechimport`) conectado a GitHub: cada push a `main`
+- **Publicación:** Cloudflare Workers (Worker `catalogo-juegos-sdtechimports`, dominio
+  https://catalogo-juegos-sdtechimports.sdtechsystems.dev) conectado a la rama `catalogo-juegos` de
+  `SDTechSystems/portfolio`: cada push a esa rama
   ejecuta `npm run build` y `npx wrangler deploy`. `wrangler.jsonc` sube `dist/` como sitio estático;
   sin él, Wrangler intenta autoconfigurar el proyecto con el adaptador de servidor de Astro y falla.
   Variable `NODE_VERSION=22.23.4` en el panel, además de `.nvmrc`. Las ramas que no son `main` (PR)
@@ -441,7 +443,7 @@ Pendiente de datos del dueño: logo de la tienda (opcional, va en lugar del nomb
 | D1 | ~~¿País de venta?~~ | **Resuelta:** Colombia (`es-CO`, `$ 239.900`). |
 | D2 | ~~Nombre y WhatsApp~~ · Logo | **Resuelta en parte:** "SD Tech Import", `573058147293`. Falta solo el logo (opcional); hoy la cabecera muestra el nombre en texto. |
 | D3 | ¿Volver a poner las píldoras rojas "NUEVO" de la referencia? | No (ver `diseno.md` §6). Los destacados se distinguen por tamaño. |
-| D4 | ~~¿Dónde se publicará?~~ | **Resuelta:** Cloudflare Workers, https://sdtechimport.madaeauchija.workers.dev (en `tienda.ts → url`). Si se agrega un dominio propio, cambiar `url`: el QR se regenera solo en el siguiente build. El repo es privado: GitHub Pages exige plan de pago; Cloudflare Pages y Netlify publican gratis desde repo privado y leen `.nvmrc`. |
+| D4 | ~~¿Dónde se publicará?~~ | **Resuelta:** Cloudflare Workers. Desde noviembre de 2026, https://catalogo-juegos-sdtechimports.sdtechsystems.dev desde la rama `catalogo-juegos` de `SDTechSystems/portfolio` (antes https://sdtechimport.madaeauchija.workers.dev) (en `tienda.ts → url`). Si se agrega un dominio propio, cambiar `url`: el QR se regenera solo en el siguiente build. El repo es privado: GitHub Pages exige plan de pago; Cloudflare Pages y Netlify publican gratis desde repo privado y leen `.nvmrc`. |
 | D5 | ~~¿Los precios de venta son los de referencia de la eShop?~~ | **Resuelta:** el dueño entregó `Precios_Finales_Catalogo_Nintendo.json` con `precio_venta_cop` para todo; se muestran esos. |
 | D6 | ¿Marcar los juegos de Switch 1 como "Switch 1 y 2"? (casi todos corren en Switch 2) | No: van en la sección "Switch 1", tal como dice `plataforma`. |
 | D7 | Ring Fit Adventure no tiene precio digital y necesita el accesorio Ring-Con. ¿Se vende? | Se muestra con "Consultar" y abre WhatsApp para preguntar; no entra al pedido. |

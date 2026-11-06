@@ -71,8 +71,9 @@ plantillas de issue (`.github/ISSUE_TEMPLATE/`: «Error» → `bug`, «Solicitud
 
 ## Publicación
 
-Cloudflare Workers (Worker `sdtechimport`): cada push a `main` corre `npm run build` +
-`npx wrangler deploy` y publica `dist/` (https://sdtechimport.madaeauchija.workers.dev). Los PR
+Cloudflare Workers (Worker `catalogo-juegos-sdtechimports`): cada push a la rama `catalogo-juegos`
+del repo `SDTechSystems/portfolio` corre `npm run build` + `npx wrangler deploy` y publica `dist/`
+(https://catalogo-juegos-sdtechimports.sdtechsystems.dev). Los PR
 corren `wrangler preview`, que necesita `"previews": {}` en `wrangler.jsonc`. No agregues el
 adaptador de servidor de Astro: el sitio es estático a propósito.
 

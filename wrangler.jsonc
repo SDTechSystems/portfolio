@@ -3,8 +3,15 @@
 // de servidor de Astro, que este sitio no usa) y falla.
 // "name" debe coincidir con el nombre del Worker en el panel de Cloudflare.
 {
-  "name": "sdtechimport",
+  "name": "catalogo-juegos-sdtechimports",
   "compatibility_date": "2026-11-01",
+  // Dominio propio: `wrangler deploy` crea el registro DNS y el certificado en la zona
+  // sdtechsystems.dev (debe estar en la misma cuenta de Cloudflare que el Worker).
+  "routes": [
+    { "pattern": "catalogo-juegos-sdtechimports.sdtechsystems.dev", "custom_domain": true }
+  ],
+  // Sin workers.dev: el sitio solo responde en el dominio propio.
+  "workers_dev": false,
   "assets": {
     "directory": "./dist"
   },

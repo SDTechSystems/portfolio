@@ -6,7 +6,7 @@ name: Build
 on:
   pull_request:
   push:
-    branches: [main]
+    branches: [main, catalogo-juegos]
   # Botón "Run workflow" en la pestaña Actions, para relanzarlo a mano.
   workflow_dispatch:
 
