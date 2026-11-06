@@ -199,6 +199,31 @@ test('todos los productos: total y botón dentro de la barra', async ({ page }) 
   await sinDesborde(page);
 });
 
+test('tema: sigue al sistema, el botón lo cambia y se recuerda', async ({ page }) => {
+  const suelo = () => page.evaluate(() => getComputedStyle(document.body).backgroundColor);
+  const boton = page.getByRole('button', { name: 'Modo oscuro' });
+  await page.emulateMedia({ colorScheme: 'dark' });
+  await page.goto('/');
+  expect(await suelo()).toBe('rgb(14, 14, 16)');
+  await expect(boton).toHaveAttribute('aria-pressed', 'true');
+  await boton.click();
+  expect(await suelo()).toBe('rgb(233, 233, 236)');
+  await expect(boton).toHaveAttribute('aria-pressed', 'false');
+  // Lo elegido gana al sistema al recargar.
+  await page.reload();
+  expect(await suelo()).toBe('rgb(233, 233, 236)');
+  await expect(boton).toHaveAttribute('aria-pressed', 'false');
+});
+
+test('tema sin JavaScript: manda el sistema', async ({ browser }) => {
+  const contexto = await browser.newContext({ javaScriptEnabled: false, colorScheme: 'dark' });
+  const page = await contexto.newPage();
+  await page.goto('/');
+  expect(await page.locator('body').evaluate((b) => getComputedStyle(b).backgroundColor)).toBe('rgb(14, 14, 16)');
+  await expect(page.locator('.tema')).toBeHidden();
+  await contexto.close();
+});
+
 test('si no carga el script del panel, las versiones siguen accesibles', async ({ page }) => {
   let bloqueados = 0;
   await page.route('**/*', async (route) => {

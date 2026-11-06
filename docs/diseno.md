@@ -1,4 +1,4 @@
-# Diseño A · Tablero: directrices
+# Diseño A · Tablero (Vitrina oscura): directrices
 
 > Diseño elegido por el dueño. Archivos: `src/pages/index.astro` (tablero) y `src/components/Mosaico.astro` (producto).
 > Leer completo antes de cambiar o agregar cualquier cosa visual.
@@ -7,7 +7,8 @@
 
 **La página es un tablero de mosaicos planos encajados borde a borde**, como el póster
 original de la tienda, pero ordenado. Cada mosaico es **una sola cosa**: el nombre de la
-tienda o un juego con su precio (y la pestaña de su consola). El tablero empieza en la cabecera roja y termina en
+tienda o un juego con su precio (y la pestaña de su consola). Desde 2026-11-05 el tablero es una **vitrina oscura**: suelo casi negro y mosaicos grafito para que las portadas
+resalten como en una tienda de consola. El tablero empieza en la cabecera (marca en pastilla roja) y termina en
 "¿No ves tu juego?".
 
 **Sin texto que explique la pantalla.** Nada de eslóganes, ayudas, beneficios ni etiquetas
@@ -23,14 +24,24 @@ Definidos en `:root` (`Layout.astro`). Usar **solo** estos.
 
 | Token | Valor | Uso |
 |---|---|---|
-| `--suelo` | `#e9e9ec` | Fondo de la página (entre mosaicos). |
-| `--mosaico` | `#ffffff` | Fondo de cada mosaico normal. |
-| `--tinta` | `#121214` | Texto; fondo de la barra de pedido y de mosaicos seleccionados. |
-| `--suave` | `#5b5b63` | La línea bajo el nombre (consola y/o nota, o "N versiones · Switch 1 desde"). Nada más. |
-| `--rojo` | `#e60012` | Acento: cabecera, "¿No ves tu juego?", pestaña y sello de Switch 2, ✓ de seleccionado, botón de la barra. |
+Dos modos, **claro** y **oscuro**. Al abrir por primera vez se usa el del sistema (`prefers-color-scheme`);
+el botón de la cabecera (luna/sol, 44px, fondo `--mosaico`) lo cambia y se recuerda en `localStorage['tema']`.
+Un script en `<head>` pone `data-tema` en `<html>` antes de pintar (sin parpadeo). Sin JavaScript el botón no
+sale y manda el sistema. Los componentes solo usan tokens: nunca un color fijo que cambie con el modo.
 
-Proporción: el suelo gris claro domina, los mosaicos blancos llevan el contenido, el rojo
-aparece en **5 lugares fijos** (cabecera, "¿No ves tu juego?", pestaña y sello de Switch 2, ✓, acción del pedido).
+| Token | Claro | Oscuro | Uso |
+|---|---|---|---|
+| `--suelo` | `#e9e9ec` | `#0e0e10` | Fondo de la página (entre mosaicos); texto de mosaicos elegidos, barra y "Listo". |
+| `--mosaico` | `#ffffff` | `#1c1c21` | Fondo de cada mosaico normal y del botón de tema. |
+| `--tinta` | `#121214` | `#f5f5f7` | Texto; fondo de la barra de pedido, de "Listo" y de mosaicos seleccionados (contraste invertido). |
+| `--suave` | `#5b5b63` | `#a1a1aa` | La línea bajo el nombre (consola y/o nota, o "N versiones · Switch 1 desde"). Nada más. |
+| `--suave-sel` | `#b9b9c2` | `#55555e` | Esa misma línea dentro de un mosaico elegido. |
+| `--sin-portada` | `#d6d6dc` | `#26262c` | Fondo del hueco de la portada mientras carga. |
+| `--sombra` | negro 28% | negro 60% | La única sombra: barra de pedido. |
+| `--rojo` | `#e60012` | `#e60012` | Acento: cabecera, "¿No ves tu juego?", pestaña y sello de Switch 2, ✓ de seleccionado, botón de la barra. |
+
+Proporción: el suelo domina, los mosaicos llevan el contenido, el rojo
+aparece en **5 lugares fijos** (pastilla de la marca en la cabecera, "¿No ves tu juego?", pestaña y sello de Switch 2, ✓, acción del pedido).
 No agregar rojo en otros sitios.
 
 **Tipografía:** una sola familia, **Schibsted Grotesk**, pesos **500** y **800**
@@ -54,9 +65,9 @@ No agregar rojo en otros sitios.
 | | Celular (< 760px) | Escritorio (≥ 760px) |
 |---|---|---|
 | Columnas | 6 | 10 |
-| Separación entre mosaicos | 8px | 8px |
+| Separación entre mosaicos | 10px | 12px |
 | Margen exterior | 10px | 12px; el tablero mide como máximo 1440px y se centra (más ancho, los mosaicos crecen de más) |
-| Radio de esquina | 8px en todos los mosaicos; 6px en las filas y sellos de versión (van dentro de un mosaico); 999px solo en controles (barra, "+") | igual |
+| Radio de esquina | 12px en todos los mosaicos; 6px en las filas y sellos de versión (van dentro de un mosaico); 999px solo en controles (barra, "+") | igual |
 | `grid-auto-flow` | `dense` (rellena huecos) | igual |
 
 Tamaños de mosaico (clases) y cuántas columnas ocupan:
@@ -65,8 +76,8 @@ Tamaños de mosaico (clases) y cuántas columnas ocupan:
 |---|---|---|---|
 | Cabecera (tienda + h1) | `.cabecera` | 6 | 10 |
 | Título de sección (solo "DLC y updates") | `h2` | 6 (sin fondo) | 10 |
-| Destacado grande | `<Mosaico tamano="grande">` | 6, imagen 2:1 | 6 × 2 filas, imagen llena el alto |
-| Destacados chicos | `<Mosaico tamano="medio">` | 3 | 4, imagen 2.1:1 con alto máx. `50svh − 182px` (los 3 precios destacados se ven sin desplazar desde 768 px de alto) |
+| Destacado grande (portada de cine) | `<Mosaico tamano="grande">` | 6, imagen 16:9; el pie es un panel sólido (`--fondo`, radio 8px) que sube 44px sobre la portada | 10 (todo el ancho), imagen 21:9 con alto máx. `max(360px, 100svh − 280px)`; el pie flota abajo a la izquierda (16px del borde, ancho `min(440px, 45%)`). Sin degradado. |
+| Destacados chicos | `<Mosaico tamano="medio">` | 3 | 5 (dos lado a lado bajo la portada de cine), imagen 2.1:1; asoman bajo el pliegue para invitar a bajar |
 | Juego / DLC / update | `<Mosaico>` | 3 (2 por fila) | 2 (5 por fila) |
 | Juego con varias versiones | `.ancho` (lo pone `Mosaico` si hay `grupo`) | 3, igual a un juego; las versiones van en el panel (`.panel`; sin JavaScript: 6 con las filas a la vista) | 2, igual a un juego (destacado chico: 4); las versiones van en el panel (sin JavaScript: 4 con las filas a la vista). Destacado chico con versiones: portada con alto máx. `50svh − 199px` (una línea más en el pie) |
 | ¿No ves tu juego? | `.mas` | lo que falte para cerrar la sección (3 o 6) | lo que falte (2–10); lo calcula `lib/reticula.ts` |
@@ -98,8 +109,8 @@ Celular y escritorio: mosaico normal; tocarlo (en cualquier parte) abre el panel
 └──────────────┘      └────────────────────────────────┘
 ```
 
-Panel: `<dialog>` modal, fondo `--mosaico`, fondo de atrás `--tinta` al 50 %, máx. 85svh de alto. Celular: pegado
-abajo, radio 8px solo arriba, máx. 560px de ancho. Escritorio: centrado, radio 8px, máx. 420px de ancho. "Listo": píldora `--tinta` de 44px (no roja: no es la acción del
+Panel: `<dialog>` modal, fondo `--mosaico`, fondo de atrás negro al 70 %, máx. 85svh de alto. Celular: pegado
+abajo, radio 16px solo arriba, máx. 560px de ancho. Escritorio: centrado, radio 16px, máx. 420px de ancho. "Listo": píldora `--tinta` de 44px (no roja: no es la acción del
 pedido). Sin sombra. Sube en 250 ms, como la barra. En el panel, cada versión de juego con imagen lleva
 su portada (96 px, 16:9, radio 6px) con el sello encima en la esquina, como la pestaña del mosaico; la
 mejora y las versiones sin imagen, solo el sello.
@@ -133,21 +144,21 @@ Así el respaldo también funciona si el script falla. Si falla `showModal`, se 
   abajo a la derecha (8px). Switch 1: fondo del mosaico (`--fondo`) y logo en tinta; Switch 2:
   `--rojo`, logo y "2" en blanco. Sin sombra ni borde.
 - **Seleccionado** (`[aria-pressed="true"]`): mosaico en `--tinta` (la pestaña de Switch 1 lo
-  sigue porque usa `--fondo`), texto blanco, nota en `#b9b9c2`, círculo rojo con ✓. Es la única señal: no agregar bordes ni sombras.
+  sigue porque usa `--fondo`), texto `--suelo`, nota en `#55555e`, círculo rojo con ✓ blanco. Es la única señal: no agregar bordes ni sombras.
 - **Juego con varias versiones:** el estado es de cada fila: la fila elegida se pone en `--tinta` con su ✓.
   Como las filas no están a la vista, el mosaico se pone en
   `--tinta` con ✓ si hay al menos una versión elegida (`:has()`, sin estado aparte). Al cerrar el panel
   (Listo, Escape o tocar afuera) el foco vuelve al mosaico; con el panel abierto el total se anuncia desde él. El lector de pantalla lee cada fila como
   "Nombre del juego, Nintendo Switch 2, $ …" (el nombre va oculto dentro de la fila).
 - **Al tocar:** `transform: scale(.98)` (150 ms).
-- **Barra de pedido** (`Pedido.astro`): píldora negra fija abajo con el total, "Vaciar" y el
+- **Barra de pedido** (`Pedido.astro`): píldora clara (`--tinta`) fija abajo con el total, "Vaciar" y el
   botón rojo "Pedir por WhatsApp". Hasta 420px "Vaciar" se oculta (se vacía tocando los
   mosaicos) para que quepa un total de 7 cifras. Es el **único** elemento con sombra, porque
   flota. Aparece con una subida de 250 ms.
 - `prefers-reduced-motion`: se quitan transiciones y la animación de la barra.
 - Foco visible: `outline: 3px solid var(--tinta)` con 2px de separación (global en `Layout.astro`), que queda
-  sobre el suelo gris (15,4:1) aunque el mosaico sea negro o rojo. Dentro de la barra de pedido va en blanco.
-  No usar `currentColor`: en mosaicos con texto blanco el contorno quedaba blanco sobre gris (1,2:1).
+  sobre el suelo oscuro (18:1) aunque el mosaico esté elegido o sea rojo. Dentro de la barra de pedido va en `--suelo`.
+  No usar `currentColor`: en mosaicos elegidos el contorno quedaría oscuro sobre el suelo oscuro.
 - Mientras la barra de pedido está visible, `scroll-padding-bottom` evita que tape el mosaico con foco.
 - Lector de pantalla: el "+" / "✓" es decorativo (`content: '+' / ''`); el estado lo da `aria-pressed`. Al
   cambiar el pedido se anuncia "Total del pedido: $ …" desde un párrafo oculto (`#anuncio`), no desde la barra.
@@ -170,8 +181,8 @@ lugar del tablero, lleva la pestaña de su consola. El lector de pantalla la lee
 | No hacer | En su lugar |
 |---|---|
 | Degradados (fondos, botones, texto) | Colores planos de los tokens o la portada. |
-| Sombras en elementos quietos | Cambio de tono entre suelo y mosaico. La única sombra es la barra de pedido. |
-| Bordes finos o líneas divisorias de 1px | Separación de 8px del tablero. |
+| Sombras en elementos quietos | Cambio de tono entre suelo y mosaico. La única sombra es la barra de pedido. Con ratón, la portada se acerca (escala 1,04, 300 ms; nada con movimiento reducido). |
+| Bordes finos o líneas divisorias de 1px | Separación de 10/12px del tablero. |
 | Píldoras/etiquetas sobre títulos ("NUEVO", "HOT", "-20%") | Destacar por tamaño. *Decisión abierta D3 en el spec.* La **única** marca sobre la portada es la pestaña de consola. |
 | Letras chiquitas en MAYÚSCULAS con espaciado | Texto normal, legible, en minúsculas con mayúscula inicial. |
 | Monospace, numeración 01/02/03 | Orden por posición y tamaño. |
@@ -189,7 +200,7 @@ lugar del tablero, lleva la pestaña de su consola. El lector de pantalla la lee
 - **Nueva sección** (ej. "Tarjetas eShop"): una entrada más en `secciones` de
   `lib/catalogo.ts`. La página la dibuja sola (`h2`, mosaicos y `.mas` que cierra la fila).
 - **Un nuevo tipo de mosaico:** usar uno de los tamaños existentes (2/3/4/6/10 columnas),
-  fondo de un token, radio de 8px, texto alineado arriba a la izquierda con 16–22px de
+  fondo de un token, radio de 12px, texto alineado arriba a la izquierda con 16–22px de
   relleno. Nunca centrado ni con borde.
 - **Logo de la tienda:** va dentro de `.cabecera`, en el lugar de `.marca`, blanco
   sobre rojo, alto máx. 40px. No usar el logo de Nintendo.
@@ -205,9 +216,9 @@ lugar del tablero, lleva la pestaña de su consola. El lector de pantalla la lee
 - [ ] `h1` y cada `h2` en ≤ 2 líneas a todo ancho.
 - [ ] Ninguna fila del tablero con un hueco mayor a un mosaico.
 - [ ] Todos los precios visibles y sin cortar; nombres largos cortados a 2 líneas con "…".
-- [ ] Seleccionar 2 títulos: se ven en negro con ✓ y la barra muestra el total correcto.
+- [ ] Seleccionar 2 títulos: se encienden en `--tinta` con ✓ y la barra muestra el total correcto.
 - [ ] A 320px con todos elegidos, la barra no se desborda.
-- [ ] Contraste: blanco sobre `--rojo` (4.8:1), `--suave` sobre blanco (6.7:1) y `#b9b9c2` sobre `--tinta` (9.6:1) cumplen AA.
-- [ ] Con Tab: el contorno de foco se ve en mosaicos blancos, elegidos y rojos, y ninguno queda bajo la barra.
+- [ ] Contraste: blanco sobre `--rojo` (4.8:1), `--suave` sobre `--mosaico` (6.6:1), `--tinta` sobre `--mosaico` (16:1) y `#55555e` sobre `--tinta` (6.9:1) cumplen AA.
+- [ ] Con Tab: el contorno de foco se ve en mosaicos grafito, elegidos y rojos, y ninguno queda bajo la barra.
 - [ ] Ningún elemento de la tabla "No hacer" del §6.
-- [ ] Juegos con versiones: a 320px las filas de precio no se salen; los precios quedan alineados a la derecha junto al "+"; elegir una versión pone solo esa fila en negro. En celular y escritorio: el mosaico mide lo mismo que un juego, el panel abre al tocar, y al cerrar el mosaico queda en negro con ✓.
+- [ ] Juegos con versiones: a 320px las filas de precio no se salen; los precios quedan alineados a la derecha junto al "+"; elegir una versión enciende solo esa fila en `--tinta`. En celular y escritorio: el mosaico mide lo mismo que un juego, el panel abre al tocar, y al cerrar el mosaico queda encendido con ✓.
