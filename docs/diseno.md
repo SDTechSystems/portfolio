@@ -37,7 +37,11 @@ sale y manda el sistema. Los componentes solo usan tokens: nunca un color fijo q
 | `--suave` | `#5b5b63` | `#a1a1aa` | La línea bajo el nombre (consola y/o nota, o "N versiones · Switch 1 desde"). Nada más. |
 | `--suave-sel` | `#b9b9c2` | `#55555e` | Esa misma línea dentro de un mosaico elegido. |
 | `--sin-portada` | `#d6d6dc` | `#26262c` | Fondo del hueco de la portada mientras carga. |
-| `--sombra` | negro 28% | negro 60% | La única sombra: barra de pedido. |
+| `--sombra` | negro 28% | negro 60% | Solo lo que flota: barra de pedido, lupa y campo de búsqueda. |
+| `--vidrio` | `--mosaico` al 40% | `--mosaico` al 40% | Vidrio líquido de la lupa (el campo usa `--mosaico` al 65%: lleva texto). Nada más. |
+| `--brillo` | blanco 95% | blanco 45% | Reflejo del vidrio, arriba a la izquierda. |
+| `--brillo-suave` | blanco 40% | blanco 12% | Canto y resplandor interior del vidrio. |
+| `--canto` | negro 14% | negro 40% | Lado en sombra del grosor del vidrio (abajo a la derecha). |
 | `--rojo` | `#e60012` | `#e60012` | Acento: cabecera, "¿No ves tu juego?", pestaña y sello de Switch 2, ✓ de seleccionado, botón de la barra. |
 
 Proporción: el suelo domina, los mosaicos llevan el contenido, el rojo
@@ -153,9 +157,24 @@ Así el respaldo también funciona si el script falla. Si falla `showModal`, se 
 - **Al tocar:** `transform: scale(.98)` (150 ms).
 - **Barra de pedido** (`Pedido.astro`): píldora clara (`--tinta`) fija abajo con el total, "Vaciar" y el
   botón rojo "Pedir por WhatsApp". Hasta 420px "Vaciar" se oculta (se vacía tocando los
-  mosaicos) para que quepa un total de 7 cifras. Es el **único** elemento con sombra, porque
-  flota. Aparece con una subida de 250 ms.
-- `prefers-reduced-motion`: se quitan transiciones y la animación de la barra.
+  mosaicos) para que quepa un total de 7 cifras. Lleva sombra porque flota (como
+  la lupa y el campo de búsqueda). Aparece con una subida de 250 ms.
+- **Buscador** (`Buscador.astro`), estilo vidrio líquido: casi transparente, desenfoque corto (10px,
+  saturación 1,8), canto de luz con reflejo arriba a la izquierda (`--brillo`), lado en sombra abajo a la
+  derecha (`--canto`) y la sombra de lo que flota. Ícono en `--tinta`, nunca rojo. Sin desenfoque en el
+  navegador: fondo `--mosaico`.
+  - Lupa redonda de 52px abajo a la derecha. Entra con rebote al cargar, crece a 1,07 con el ratón y se
+    hunde a 0,88 al tocarla. Con la barra de pedido visible sube con rebote a `bottom: 84px`.
+  - Al tocarla, la lupa se encoge y desaparece. El campo nace arriba a la derecha como un círculo de 52px y
+    se estira con rebote (0,6 s, `cubic-bezier(.34, 1.4, .64, 1)`) hasta la píldora (máx. 560px). El texto
+    y el ✕ aparecen al final. Al cerrar se recoge sin rebote (0,35 s) y la lupa vuelve.
+  - Al abrir, la página se coloca al inicio del catálogo, para que bajo el vidrio queden portadas y no la
+    marca roja. Texto a 18px/500 (con menos, iOS acerca la página) y ✕ propio. El campo no lleva contorno de
+    foco (el cursor lo marca y taparía el canto); el ✕ sí, con Tab.
+  - Con texto se ocultan la cabecera y los `h2`, y queda un solo "¿No ves tu juego?" al final, con el ancho
+    que cierra la fila. Lo que reaparece sube con un fundido corto (`@starting-style`), solo después de usar
+    el buscador: al cargar, la página sale quieta.
+- `prefers-reduced-motion`: se quitan transiciones y animaciones (barra, lupa, campo y fundido de resultados).
 - Foco visible: `outline: 3px solid var(--tinta)` con 2px de separación (global en `Layout.astro`), que queda
   sobre el suelo oscuro (18:1) aunque el mosaico esté elegido o sea rojo. Dentro de la barra de pedido va en `--suelo`.
   No usar `currentColor`: en mosaicos elegidos el contorno quedaría oscuro sobre el suelo oscuro.
@@ -167,7 +186,7 @@ Así el respaldo también funciona si el script falla. Si falla `showModal`, se 
 
 Todo el texto de la página: nombre de la tienda, **"Códigos para Switch 1 y 2"** (dice que se venden códigos digitales, no juegos físicos), nombres,
 nota, precios, "Mejora a" (sello del paquete de mejora), "N versiones · Switch 1 desde" y "Listo" (juego con versiones, celular), "¿No ves tu juego?", y en la barra "Vaciar" / "Pedir por WhatsApp". Con DLC
-visibles, además "DLC y updates" y "¿Buscas otro DLC?". **No agregar más.**
+visibles, además "DLC y updates" y "¿Buscas otro DLC?". El campo de búsqueda lleva "Buscar juego" como marcador (solo se ve al abrirlo). **No agregar más.**
 
 **La consola siempre se distingue, con la pestaña y no con texto:** cada mosaico, en cualquier
 lugar del tablero, lleva la pestaña de su consola. El lector de pantalla la lee como
@@ -181,8 +200,9 @@ lugar del tablero, lleva la pestaña de su consola. El lector de pantalla la lee
 | No hacer | En su lugar |
 |---|---|
 | Degradados (fondos, botones, texto) | Colores planos de los tokens o la portada. |
-| Sombras en elementos quietos | Cambio de tono entre suelo y mosaico. La única sombra es la barra de pedido. Con ratón, la portada se acerca (escala 1,04, 300 ms; nada con movimiento reducido). |
-| Bordes finos o líneas divisorias de 1px | Separación de 10/12px del tablero. |
+| Vidrio/desenfoque en mosaicos, cabecera o tablero | Solo en lo que flota sobre el contenido (lupa y campo de búsqueda). |
+| Sombras en elementos quietos | Cambio de tono entre suelo y mosaico. La sombra es solo de lo que flota: barra de pedido, lupa y campo de búsqueda. Con ratón, la portada se acerca (escala 1,04, 300 ms; nada con movimiento reducido). |
+| Bordes finos o líneas divisorias de 1px | Separación de 10/12px del tablero. Única excepción: el canto de luz del vidrio líquido (sombra interior), que es su grosor y no un borde. |
 | Píldoras/etiquetas sobre títulos ("NUEVO", "HOT", "-20%") | Destacar por tamaño. *Decisión abierta D3 en el spec.* La **única** marca sobre la portada es la pestaña de consola. |
 | Letras chiquitas en MAYÚSCULAS con espaciado | Texto normal, legible, en minúsculas con mayúscula inicial. |
 | Monospace, numeración 01/02/03 | Orden por posición y tamaño. |
@@ -221,4 +241,5 @@ lugar del tablero, lleva la pestaña de su consola. El lector de pantalla la lee
 - [ ] Contraste: blanco sobre `--rojo` (4.8:1), `--suave` sobre `--mosaico` (6.6:1), `--tinta` sobre `--mosaico` (16:1) y `#55555e` sobre `--tinta` (6.9:1) cumplen AA.
 - [ ] Con Tab: el contorno de foco se ve en mosaicos grafito, elegidos y rojos, y ninguno queda bajo la barra.
 - [ ] Ningún elemento de la tabla "No hacer" del §6.
+- [ ] Buscador a 390px, con y sin pedido: la lupa no tapa la barra; buscar "zelda" y "xyz" no deja huecos y el cierre rojo queda al final; Escape devuelve el tablero; la lupa se lee sobre portadas claras y rojas.
 - [ ] Juegos con versiones: a 320px las filas de precio no se salen; los precios quedan alineados a la derecha junto al "+"; elegir una versión enciende solo esa fila en `--tinta`. En celular y escritorio: el mosaico mide lo mismo que un juego, el panel abre al tocar, y al cerrar el mosaico queda encendido con ✓.
