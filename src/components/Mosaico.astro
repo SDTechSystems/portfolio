@@ -10,6 +10,7 @@
 import { Image } from 'astro:assets';
 import LogoSwitch from '../assets/switch.svg';
 import { precio, item, type Ficha } from '../lib/catalogo';
+import { normalizar } from '../lib/buscar';
 interface Props { f: Ficha; tamano?: 'grande' | 'medio' }
 const { f, tamano } = Astro.props;
 const [unica] = f.versiones;
@@ -33,7 +34,7 @@ const Caja = varias ? 'div' : 'a';
 // (7 %/93 %); en la portada de cine el recorte es en alto, así que solo mueven el encuadre si la pantalla es angosta.
 const RECORTE = { arriba: '50% 0%', centro: '50% 50%', abajo: '50% 100%', izquierda: '7% 50%', derecha: '93% 50%' };
 ---
-<Caja class:list={['mosaico', tamano, { ancho: varias, panel }]} {...(varias ? {} : item(unica))}>
+<Caja class:list={['mosaico', tamano, { ancho: varias, panel }]} data-buscar={normalizar([...new Set([f.nombre, ...f.versiones.map((v) => v.nombre)])].join(' '))} {...(varias ? {} : item(unica))}>
   <div class="img">
     {varias
       ? <span class="consola doble" role="img" aria-label="Nintendo Switch 1 y Switch 2"><span><LogoSwitch /></span><span class="dos"><LogoSwitch /><b>2</b></span></span>
@@ -85,6 +86,7 @@ const RECORTE = { arriba: '50% 0%', centro: '50% 50%', abajo: '50% 100%', izquie
 </Caja>
 
 <style>
+  .mosaico[hidden] { display: none; }
   .mosaico { --fondo: var(--mosaico); grid-column: span 3; display: flex; flex-direction: column; border-radius: 12px; overflow: hidden; background: var(--fondo); cursor: pointer; transition: transform .15s, background-color .15s; }
   .mosaico:active { transform: scale(.98); }
   .img { aspect-ratio: 16 / 9; background: var(--sin-portada); position: relative; overflow: hidden; }

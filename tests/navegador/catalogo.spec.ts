@@ -87,8 +87,14 @@ test('tablero sin desbordes, portadas cargadas y filas cerradas', async ({ page 
   }
   await sinDesborde(page);
   await expect(page.getByRole('link', { name: '¿No ves tu juego?', exact: true })).toBeVisible();
-  // Medir cada banda horizontal del grid, incluidos destacados de dos filas y cierres.
-  // No reutilizar reticula.ts: así se detectan errores del algoritmo o del CSS.
+  await sinHuecos(page);
+});
+
+// Medir cada banda horizontal del grid, incluidos destacados de dos filas y cierres.
+// No reutilizar reticula.ts: así se detectan errores del algoritmo o del CSS.
+async function sinHuecos(page: Page) {
+  // Los mosaicos que reaparecen tras buscar suben con un fundido: medir cuando ya se asentaron.
+  await page.evaluate(() => Promise.all(document.getAnimations().map((a) => a.finished.catch(() => {}))));
   const huecos = await page.locator('.tablero').evaluate((tablero) => {
     const estilo = getComputedStyle(tablero);
     const caja = tablero.getBoundingClientRect();
@@ -109,6 +115,55 @@ test('tablero sin desbordes, portadas cargadas y filas cerradas', async ({ page 
     });
   });
   expect(huecos).toEqual([]);
+}
+
+test('buscador: abre, filtra, cierra la fila y restaura', async ({ page }) => {
+  await page.goto('/');
+  const lupa = page.getByRole('button', { name: 'Buscar juego' });
+  const campo = page.getByRole('searchbox', { name: 'Buscar juego' });
+  const visibles = page.locator('.mosaico:visible');
+  const cierre = page.getByRole('link', { name: '¿No ves tu juego?', exact: true });
+  const hrefOriginal = await cierre.getAttribute('href');
+  const total = await page.locator('.mosaico').count();
+
+  await lupa.click();
+  await expect(lupa).toBeHidden();
+  await expect(campo).toBeFocused();
+  // Oráculo desde el JSON: un mosaico por grupo cuyo título contiene la palabra.
+  const zelda = new Set(productos.filter((p) => p.titulo.toLowerCase().includes('zelda')).map((p) => p.grupo ?? p.id));
+  expect(zelda.size).toBeGreaterThan(0);
+  await campo.fill('zelda');
+  await expect(visibles).toHaveCount(zelda.size);
+  for (const nombre of await visibles.locator('.n').allTextContents()) expect(nombre.toLowerCase()).toContain('zelda');
+  await expect(cierre).toBeVisible();
+  expect(await page.locator('.tablero > :last-child').evaluate((el) => el.classList.contains('mas'))).toBe(true);
+  expect(comprobarDestino((await cierre.getAttribute('href'))!)).toBe('Hola, busco zelda');
+  await sinHuecos(page);
+  await sinDesborde(page);
+
+  await campo.fill('xyz');
+  await expect(visibles).toHaveCount(0);
+  await expect(cierre).toBeVisible();
+  await sinHuecos(page);
+
+  await campo.press('Escape');
+  await expect(campo).toBeHidden();
+  await expect(lupa).toBeFocused();
+  await expect(visibles).toHaveCount(total);
+  await expect(cierre).toHaveAttribute('href', hrefOriginal!);
+  await sinHuecos(page);
+});
+
+test('la lupa queda encima de la barra del pedido', async ({ page }) => {
+  await page.goto('/');
+  await elegir(page, vendibles.find((p) => !p.grupo)!);
+  await expect(page.locator('#pedido')).toBeVisible();
+  // Esperar a que terminen la subida de la barra y el movimiento de la lupa.
+  await expect.poll(async () => {
+    const lupa = await page.getByRole('button', { name: 'Buscar juego' }).boundingBox();
+    const barra = await page.locator('#pedido').boundingBox();
+    return !!lupa && !!barra && lupa.y + lupa.height <= barra.y;
+  }).toBe(true);
 });
 
 test('dos títulos: selección, total, WhatsApp y restauración', async ({ page }) => {
@@ -277,6 +332,7 @@ test.describe('sin JavaScript', () => {
       ? `Hola, quiero saber el precio de ${p.titulo} (${detalle(p)})`
       : `Hola, quiero ${p.titulo} (${detalle(p)}) a ${moneda(precio(p)!)}`).sort());
     await expect(page.locator('#pedido')).toBeHidden();
+    await expect(page.getByRole('button', { name: 'Buscar juego' })).toBeHidden();
     await sinDesborde(page);
   });
 });
