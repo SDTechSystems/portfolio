@@ -36,7 +36,7 @@ en menos de 30 segundos.
 | R3 | Contacto | Botón de WhatsApp por juego, con mensaje prellenado. |
 | R4 | Edición | Archivo simple dentro del proyecto (JSON), sin panel ni Google Sheets. |
 | R5 | Moneda | Pesos colombianos: `es-CO` / `COP` (formato `$ 239.900`). |
-| R6 | Tamaño | Menos de 30 títulos → no hace falta buscador ni paginación. |
+| R6 | Tamaño | Menos de 30 títulos → no hacía falta buscador ni paginación. Con 28 y en crecimiento se agregó el buscador (F7); paginación y filtros siguen sin hacer falta. |
 | R7 | Portadas | Las pone el dueño en `src/assets/Catalogo_Nintendo_Switch_Colombia/imagenes/`; Astro las optimiza. |
 | R8 | Marca | Por ahora marcadores: "Tu Tienda" y un número de ejemplo. |
 | R9 | Diseño | Elegido: **A · Tablero** (ver `docs/diseno.md`). |
@@ -67,11 +67,17 @@ en menos de 30 segundos.
 - **F6. Sin textos secundarios:** ni eslogan, ni ayuda, ni beneficios. La **consola** la marca
   una **pestaña con el logo de Switch** en la esquina de cada portada (Switch 2: en rojo y con
   "2"). Bajo el nombre solo va la nota si hay ("Necesita Ring-Con").
+- **F7. Buscador** (`Buscador.astro`): lupa flotante de vidrio abajo a la derecha (sube encima de la
+  barra del pedido). Al tocarla aparece un campo fijo arriba; mientras se escribe se ocultan los mosaicos
+  cuyo nombre no coincide (sin tildes ni mayúsculas, todas las palabras). "¿No ves tu juego?" queda al
+  final de los resultados, cierra la fila y su WhatsApp lleva lo buscado ("Hola, busco …"); sin
+  resultados queda solo ese mosaico. ✕ o Escape vacían y devuelven el tablero exacto. El pedido no cambia.
+  Sin JavaScript no aparece.
 
 ### Fuera de alcance (no hacer sin que el dueño lo pida)
 
 Pagos en línea, cuentas de usuario, inventario/stock en tiempo real, panel de
-administración, buscador, varias páginas, multi-idioma.
+administración, filtros, varias páginas, multi-idioma.
 
 ## 4. Arquitectura
 
@@ -178,9 +184,18 @@ Solo se restauran listas de cadenas; otros formatos inician un pedido vacío.
 
 ## 5. Estado (actualizar al cerrar cada sesión)
 
-**Última actualización:** 2026-11-05 (modo claro y oscuro).
+**Última actualización:** 2026-11-05 (buscador).
 
 Hecho:
+- [x] **Buscador (F7):** lupa flotante de vidrio que abre un campo arriba y filtra el tablero; el cierre
+      "¿No ves tu juego?" se recalcula en el navegador con `cierres()` de `lib/reticula.ts` (nuevo
+      `anchoPieza()`, compartido con `index.astro`). Lógica en `lib/buscar.ts`. Estilo vidrio líquido
+      (tokens `--vidrio`, `--brillo`, `--brillo-suave`, `--canto`) con animaciones: la lupa entra con rebote
+      y se hunde al tocarla; el campo nace como círculo y se estira en píldora; los resultados aparecen con
+      un fundido. Verificado: 26 pruebas unitarias (3 nuevas), 33 de navegador (3 nuevas:
+      buscar/sin resultados/Escape sin huecos, lupa sobre la barra, lupa oculta sin JS), fotogramas de la
+      animación grabados con Playwright, y revisión a 375 y 1440 px en claro y oscuro. Falta probarlo en un
+      iPhone real (zoom al enfocar, teclado, fluidez del desenfoque).
 - [x] **Vitrina oscura:** suelo `#0e0e10`, mosaicos grafito `#1c1c21`, texto `#f5f5f7`, rojo `#e60012`
       conservado. Cabecera sin fondo: marca en pastilla roja y título claro. Mosaicos con radio 12px,
       separación 10/12px y acercamiento de la portada al pasar el ratón. Elegido = mosaico claro con ✓ rojo;
@@ -566,6 +581,11 @@ La revisión humana de diseño y la prueba en celular real siguen siendo necesar
 | 2026-11-04 | #27: portada del mosaico con versiones = imagen general del grupo o, si no hay, la de la edición del "desde"; la línea nombra esa edición ("Switch 1 desde") | La caja de Switch 2 junto a un precio de Switch 1 hacía esperar el juego de Switch 2 a ese precio. Sin imagen de esa edición queda gris en vez de usar la de otra. La portada general va en `grupos` (raíz del JSON) y no en una fila, porque es del juego, no de una versión. |
 | 2026-11-04 | #27: miniatura de 96 px por edición, solo en el panel, con el sello encima como la pestaña | Asocia cada caja con su precio donde se elige. Junto al sello no cabía a 320 px (332 px de fila en 288); encima, la fila mide lo mismo que hoy. En el mosaico y sin JavaScript no se muestran: no hay sitio y las portadas siguen siendo protagonistas. |
 | 2026-11-04 | Atribución de Claude desactivada en `.claude/settings.json` del repo (no solo en `~/.claude`) | Lo pidió el dueño. En la nube `~/.claude` se borra al terminar cada sesión; en el repo vale siempre. Se dejan las dos claves: `includeCoAuthoredBy` es la antigua y `attribution` la actual. |
+| 2026-11-05 | Buscador sí, ya con 28 mosaicos (R6 decía 30) | El catálogo va a crecer; quien llega por un juego concreto quiere escribirlo y no recorrer ~25 pantallas. |
+| 2026-11-05 | Lupa flotante de vidrio en lugar de una barra en la cabecera | La pidió el dueño. Está a mano en cualquier punto de la página y no agrega bloque ni texto visible a la cabecera (F6). El campo abierto va arriba: en iOS lo fijado abajo puede quedar tapado por el teclado. |
+| 2026-11-05 | Vidrio líquido con animaciones en lugar del vidrio esmerilado | El dueño lo vio soso y abrupto. Pidió el estilo Liquid Glass y transiciones. Se logra con sombras interiores (canto y reflejo), desenfoque corto y transiciones con rebote, sin degradados. El campo se enfoca dentro del mismo toque (sigue en la página, `inert`), porque si no iOS no abre el teclado. No se usa la refracción por filtro SVG: solo funciona en Chromium. |
+| 2026-11-05 | Vidrio y sombra solo en lo que flota (barra, lupa, campo) | Misma razón que la sombra de la barra: lo que flota se separa del tablero. Sin borde fino (§6); con fondo opaco si el navegador no desenfoca. |
+| 2026-11-05 | Sin filtros | Consola: la marca la pestaña y engaña (casi todo Switch 1 corre en Switch 2, D6). Tipo: hoy todo es Juego (`mostrarDlcUpdates: false`). Precio: casi todos iguales. Revisar si se activan los DLC, entra otra categoría o se pasa de ~80 títulos; el filtro útil sería por tipo. |
 
 ## 9. Cómo verificar un cambio
 

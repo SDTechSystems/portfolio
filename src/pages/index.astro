@@ -7,21 +7,22 @@ import PanelVersiones from '../components/PanelVersiones.astro';
 import Tema from '../components/Tema.astro';
 import { tienda } from '../data/tienda';
 import { destacados, secciones, whatsapp } from '../lib/catalogo';
-import { cierres, type Pieza } from '../lib/reticula';
+import Buscador from '../components/Buscador.astro';
+import { anchoPieza, cierres, type Pieza } from '../lib/reticula';
 const [principal, ...secundarios] = destacados;
 // El mosaico "¿No ves...?" ocupa lo que falte para cerrar su sección sin huecos (ver lib/reticula.ts).
 // Celular: 6 columnas, mosaicos de 3. Escritorio: 10 columnas, mosaicos de 2; destacados: el principal
 // a todo el ancho (portada de cine) y los otros dos de 5, lado a lado.
 // Un juego con versiones mide lo mismo que cualquier juego: las abre en un panel.
 const piezas = (movil: boolean): Pieza[] => {
-  const fila = { ancho: movil ? 6 : 10 };
+  const fila = { ancho: anchoPieza('fila', movil) };
   return [
     fila,
-    ...(principal ? [{ ancho: movil ? 6 : 10 }] : []),
-    ...secundarios.map(() => ({ ancho: movil ? 3 : 5 })),
+    ...(principal ? [{ ancho: anchoPieza('grande', movil) }] : []),
+    ...secundarios.map(() => ({ ancho: anchoPieza('medio', movil) })),
     ...secciones.flatMap((s) => [
       ...(s.titulo ? [fila] : []),
-      ...s.fichas.map(() => ({ ancho: movil ? 3 : 2 })),
+      ...s.fichas.map(() => ({ ancho: anchoPieza('normal', movil) })),
       'cierre' as const,
     ]),
   ];
@@ -30,6 +31,8 @@ const movil = cierres(piezas(true), 6, 3);
 const escritorio = cierres(piezas(false), 10, 2);
 ---
 <Layout>
+<!-- Antes del tablero: con el campo abierto, Tab pasa del campo a los resultados. -->
+<Buscador />
 <main class="tablero">
   <header class="cabecera">
     <div class="arriba">
@@ -66,6 +69,21 @@ const escritorio = cierres(piezas(false), 10, 2);
     grid-column: span var(--movil); min-height: 160px; border-radius: 12px; padding: 16px;
     display: flex; align-items: flex-end; background: var(--rojo); color: #fff;
     font-size: 22px; font-weight: 800; line-height: 1.05; letter-spacing: -.02em;
+  }
+  /* Buscando (Buscador.astro): sin cabecera ni títulos; el campo fijo de arriba ocupa su lugar. */
+  h2[hidden], .mas[hidden] { display: none; }
+  .tablero[data-buscando] .cabecera { display: none; }
+  .tablero[data-buscando] { padding-top: 76px; }
+  /* Tras usar el buscador, lo que reaparece (al filtrar o al cerrar) sube con un fundido corto.
+     Solo desde entonces: al cargar la página los mosaicos salen quietos. */
+  .tablero[data-filtrado] :global(.mosaico), .tablero[data-filtrado] .mas {
+    transition: opacity .3s ease, translate .35s cubic-bezier(.34, 1.4, .64, 1), transform .15s, background-color .15s;
+  }
+  @starting-style {
+    .tablero[data-filtrado] :global(.mosaico), .tablero[data-filtrado] .mas { opacity: 0; translate: 0 12px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .tablero[data-filtrado] :global(.mosaico), .tablero[data-filtrado] .mas { transition: none; }
   }
 
   @media (min-width: 760px) {
