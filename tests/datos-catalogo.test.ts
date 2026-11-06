@@ -97,3 +97,9 @@ test('valida la portada general de un grupo (#27)', () => {
     return true;
   });
 });
+
+test('el enlace de Facebook de tienda.ts debe ser una página de facebook.com con https://', () => {
+  assert.doesNotThrow(() => validarCatalogo(catalogo, { ...tienda, facebook: '' }, () => true));
+  assert.doesNotThrow(() => validarCatalogo(catalogo, { ...tienda, facebook: 'https://www.facebook.com/SDTechImports' }, () => true));
+  assert.throws(() => validarCatalogo(catalogo, { ...tienda, facebook: 'facebook.com/SDTechImports' }, () => true), /"facebook" es "facebook.com\/SDTechImports"/);
+});

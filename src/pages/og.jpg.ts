@@ -7,7 +7,7 @@ import sharp from 'sharp';
 import { destacados } from '../lib/catalogo';
 
 const ANCHO = 1200, ALTO = 630, MARGEN = 16, SEPARACION = 12, RADIO = 12;
-const SUELO = '#0e0e10', SIN_PORTADA = '#26262c'; // tokens --suelo y fondo de .img
+const SUELO = '#07111f', SIN_PORTADA = '#1a2b47'; // tokens --suelo y fondo de .img
 
 // Celdas: [x, y, ancho, alto]
 // Portada de cine arriba (3,2:1): con el recorte centrado conserva el 56 % central del alto, donde va el

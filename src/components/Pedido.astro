@@ -7,7 +7,7 @@ import { tienda } from '../data/tienda';
 <aside id="pedido" class="pedido" aria-label="Tu pedido" hidden data-locale={tienda.locale} data-moneda={tienda.moneda} data-wa={tienda.whatsapp}>
   <strong class="total"></strong>
   <button type="button" class="vaciar">Vaciar</button>
-  <a class="cta" href="#" target="_blank" rel="noopener">Pedir por WhatsApp</a>
+  <a class="cta" href="#" target="_blank" rel="noopener">Pedir<span class="largo"> por WhatsApp</span></a>
 </aside>
 
 <script>
@@ -70,14 +70,17 @@ import { tienda } from '../data/tienda';
   .pedido[hidden] { display: none; }
   .total { flex: 1; font-size: 19px; white-space: nowrap; }
   .vaciar { font: inherit; font-size: 14px; background: none; border: 0; color: inherit; opacity: .7; cursor: pointer; padding: 8px 4px; }
-  .cta { background: var(--rojo); color: #fff; font-weight: 800; font-size: 15px; padding: 12px 18px; border-radius: 999px; white-space: nowrap; }
+  .cta { background: var(--acento); color: var(--sobre-acento); font-weight: 800; font-size: 15px; padding: 12px 18px; border-radius: 999px; white-space: nowrap; }
   .cta:active, .vaciar:active { transform: scale(.96); }
   @keyframes subir { from { transform: translateY(24px); opacity: 0; } }
   @media (prefers-reduced-motion: reduce) { .pedido { animation: none; } }
   /* Teléfonos estrechos: se vacía tocando de nuevo los mosaicos. */
   @media (max-width: 420px) { .vaciar { display: none; } .pedido { gap: 8px; padding-left: 16px; } .total { font-size: 17px; } .cta { padding: 12px 14px; } }
   /* 320–340px con un total de 7 cifras: el botón se salía 5px de la barra. */
-  @media (max-width: 340px) { .pedido { gap: 6px; } .cta { padding: 12px 10px; } }
+  /* Con la tipografía de SD Tech (más ancha) el total y el botón se achican un poco más. */
+  /* 320–360px: con la tipografía de SD Tech (más ancha) el botón dice solo «Pedir»; el lector de pantalla sigue
+     oyendo «Pedir por WhatsApp». */
+  @media (max-width: 360px) { .pedido { gap: 6px; padding-left: 14px; } .total { font-size: 16px; } .cta { padding: 12px 16px; } .largo { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; } }
   :global(body:has(.pedido:not([hidden]))) { padding-bottom: 84px; }
   /* Al moverse con Tab, el mosaico con foco se desplaza por encima de la barra y no queda tapado. */
   :global(html:has(.pedido:not([hidden]))) { scroll-padding-bottom: 96px; }

@@ -1,6 +1,6 @@
 ---
 // Un juego: portada con la pestaña de consola, nombre, nota y precio. Tocarlo lo suma al pedido (Pedido.astro).
-// Pestaña: logo de Switch (src/assets/switch.svg); en Switch 2, seguido de "2" y en rojo.
+// Pestaña: logo de Switch (src/assets/switch.svg); en Switch 2, seguido de "2" y en cian.
 // Juego con varias versiones (Switch 1, Switch 2, paquete de mejora): un solo mosaico con la pestaña doble y
 // una fila por versión; cada fila es su propio botón con su precio y su "+".
 // Mosaico normal con "N versiones · Switch 1 desde $ …" (la edición de ese precio); tocarlo abre el panel (PanelVersiones.astro), al que se
@@ -93,12 +93,12 @@ const RECORTE = { arriba: '50% 0%', centro: '50% 50%', abajo: '50% 100%', izquie
   /* Vitrina: con ratón, la portada se acerca un poco al pasar por encima. */
   .img img { transition: transform .3s cubic-bezier(.2, .8, .2, 1); }
   @media (hover: hover) { .mosaico:hover .img img { transform: scale(1.04); } }
-  /* Pestaña de consola: esquina sólida pegada al borde; Switch 1 del color del mosaico, Switch 2 en rojo. */
+  /* Pestaña de consola: esquina sólida pegada al borde; Switch 1 del color del mosaico, Switch 2 en cian. */
   .consola { position: absolute; top: 0; left: 0; z-index: 1; height: 32px; padding: 0 9px; display: flex; align-items: center; gap: 3px; border-radius: 0 0 8px 0; background: var(--fondo); font-size: 17px; line-height: 1; transition: background-color .15s; }
   .consola svg { width: 1em; height: 1em; }
   .consola b { font-weight: 800; letter-spacing: -.02em; }
-  .consola.dos, .doble .dos { background: var(--rojo); color: #fff; }
-  /* Pestaña doble: Switch 1 del color del mosaico y Switch 2 en rojo, pegadas. */
+  .consola.dos, .doble .dos { background: var(--acento); color: var(--sobre-acento); }
+  /* Pestaña doble: Switch 1 del color del mosaico y Switch 2 en cian, pegadas. */
   .consola.doble { padding: 0; gap: 0; overflow: hidden; }
   .doble > span { height: 100%; padding: 0 9px; display: flex; align-items: center; gap: 3px; }
   img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
@@ -106,14 +106,16 @@ const RECORTE = { arriba: '50% 0%', centro: '50% 50%', abajo: '50% 100%', izquie
   .n { font-size: 14px; font-weight: 800; line-height: 1.2; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
   .c { font-size: 13px; color: var(--suave); }
   .junto { white-space: nowrap; }
-  strong { margin-top: auto; padding-top: 6px; display: flex; justify-content: space-between; align-items: center; font-size: 22px; font-weight: 800; letter-spacing: -.02em; }
+  /* DejaVu (tipografía de SD Tech) es más ancha: a 320px el precio baja a 17px para no chocar con el +/✓. */
+  strong { margin-top: auto; padding-top: 6px; display: flex; justify-content: space-between; align-items: center; gap: 4px; font-size: clamp(17px, 5.4vw, 22px); font-weight: 800; letter-spacing: -.02em; }
+  strong::after { flex: none; }
 
   /* "+" / "✓": dice que el mosaico se suma al pedido. Solo aparece si el script de Pedido lo activó. */
   [aria-pressed] strong::after { content: '+'; content: '+' / ''; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: var(--suelo); font-size: 20px; font-weight: 500; letter-spacing: 0; }
-  /* Elegido: el mosaico se enciende en tinta (casi blanco) con texto oscuro y ✓ rojo. */
+  /* Elegido: el mosaico se enciende en tinta (casi blanco) con texto oscuro y ✓ cian. */
   [aria-pressed='true'] { --fondo: var(--tinta); color: var(--suelo); }
   [aria-pressed='true'] .c { color: var(--suave-sel); }
-  [aria-pressed='true'] strong::after { content: '✓'; content: '✓' / ''; background: var(--rojo); color: #fff; font-size: 15px; }
+  [aria-pressed='true'] strong::after { content: '✓'; content: '✓' / ''; background: var(--acento); color: var(--sobre-acento); font-size: 15px; }
   /* Sin precio ("Consultar"): el mosaico abre WhatsApp en vez de sumarse al pedido; la flecha lo distingue del "+". */
   [target] strong::after { content: '↗'; content: '↗' / ''; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: var(--suelo); font-size: 16px; font-weight: 500; letter-spacing: 0; }
 
@@ -131,7 +133,7 @@ const RECORTE = { arriba: '50% 0%', centro: '50% 50%', abajo: '50% 100%', izquie
   .panel[data-panel-listo]:has(.version[aria-pressed='true']) { --fondo: var(--tinta); color: var(--suelo); }
   .panel[data-panel-listo]:has(.version[aria-pressed='true']) .c { color: var(--suave-sel); }
   /* El ✓ lleva texto para el lector de pantalla: las filas con aria-pressed están ocultas en el panel. */
-  .panel[data-panel-listo]:has(.version[aria-pressed='true']) .abrir strong::after { content: '✓'; content: '✓' / 'versión elegida'; background: var(--rojo); color: #fff; font-size: 15px; }
+  .panel[data-panel-listo]:has(.version[aria-pressed='true']) .abrir strong::after { content: '✓'; content: '✓' / 'versión elegida'; background: var(--acento); color: var(--sobre-acento); font-size: 15px; }
   .panel[data-panel-listo] .abrir { display: flex; }
   .panel[data-panel-listo] .versiones { display: none; }
   /* Respaldo por defecto, también si falla el script con JavaScript habilitado. */
@@ -146,14 +148,14 @@ const RECORTE = { arriba: '50% 0%', centro: '50% 50%', abajo: '50% 100%', izquie
   .version { --fondo: var(--mosaico); min-height: 44px; margin: 0 -6px; padding: 4px 6px; border-radius: 6px; grid-column: 1 / -1; display: grid; grid-template-columns: subgrid; align-items: center; background: var(--fondo); cursor: pointer; transition: transform .15s, background-color .15s; }
   .version:active { transform: scale(.98); }
   .version[aria-pressed='true'] { --fondo: var(--tinta); color: var(--suelo); }
-  .version[aria-pressed='true'] strong::after { color: #fff; }
+  .version[aria-pressed='true'] strong::after { color: var(--sobre-acento); }
   .version strong { margin: 0; padding: 0; justify-content: flex-end; gap: 10px; }
-  /* Sello de cada versión: como la pestaña, en pequeño (Switch 2 en rojo). */
+  /* Sello de cada versión: como la pestaña, en pequeño (Switch 2 en cian). */
   .edicion { justify-self: start; position: relative; }
   .sello { height: 28px; padding: 0 8px; border-radius: 6px; display: flex; align-items: center; gap: 3px; background: var(--suelo); color: var(--tinta); font-size: 13px; font-weight: 800; line-height: 1; }
   .sello svg { width: 17px; height: 17px; }
   .sello b { font-size: 17px; font-weight: 800; letter-spacing: -.02em; }
-  .sello.dos { background: var(--rojo); color: #fff; }
+  .sello.dos { background: var(--acento); color: var(--sobre-acento); }
   /* En el panel, cada edición lleva su portada con el sello en la esquina, como la pestaña del mosaico. */
   .mini { display: none; }
   :global(.hoja) .mini { display: block; position: static; width: 96px; height: auto; aspect-ratio: 16 / 9; border-radius: 6px; }

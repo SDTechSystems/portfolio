@@ -8,8 +8,10 @@
 **La página es un tablero de mosaicos planos encajados borde a borde**, como el póster
 original de la tienda, pero ordenado. Cada mosaico es **una sola cosa**: el nombre de la
 tienda o un juego con su precio (y la pestaña de su consola). Desde 2026-11-05 el tablero es una **vitrina oscura**: suelo casi negro y mosaicos grafito para que las portadas
-resalten como en una tienda de consola. El tablero empieza en la cabecera (marca en pastilla roja) y termina en
-"¿No ves tu juego?".
+resalten como en una tienda de consola. Desde 2026-11-06 lleva la **marca SD Tech Imports** con el aire del
+portafolio de SD Tech (https://sdtechsystems.dev): paleta navy y cian, tipografía DejaVu, ceja en mono y título en dos
+tonos. El tablero empieza en la cabecera (logo de SD Tech Imports en su placa blanca, ceja y título) y termina en
+"¿No ves tu juego?"; debajo va el pie de contacto (`Pie.astro`: WhatsApp y Facebook de `tienda.ts`).
 
 **Sin texto que explique la pantalla.** Nada de eslóganes, ayudas, beneficios ni etiquetas
 repetidas. Si algo necesita una frase para entenderse, se cambia el diseño (ej.: el "+" en
@@ -31,35 +33,45 @@ sale y manda el sistema. Los componentes solo usan tokens: nunca un color fijo q
 
 | Token | Claro | Oscuro | Uso |
 |---|---|---|---|
-| `--suelo` | `#e9e9ec` | `#0e0e10` | Fondo de la página (entre mosaicos); texto de mosaicos elegidos, barra y "Listo". |
-| `--mosaico` | `#ffffff` | `#1c1c21` | Fondo de cada mosaico normal y del botón de tema. |
-| `--tinta` | `#121214` | `#f5f5f7` | Texto; fondo de la barra de pedido, de "Listo" y de mosaicos seleccionados (contraste invertido). |
-| `--suave` | `#5b5b63` | `#a1a1aa` | La línea bajo el nombre (consola y/o nota, o "N versiones · Switch 1 desde"). Nada más. |
-| `--suave-sel` | `#b9b9c2` | `#55555e` | Esa misma línea dentro de un mosaico elegido. |
-| `--sin-portada` | `#d6d6dc` | `#26262c` | Fondo del hueco de la portada mientras carga. |
-| `--sombra` | negro 28% | negro 60% | Solo lo que flota: barra de pedido, lupa y campo de búsqueda. |
+| `--suelo` | `#eef5fb` | `#07111f` | Fondo de la página (entre mosaicos); texto de mosaicos elegidos, barra y "Listo". |
+| `--mosaico` | `#ffffff` | `#0f1e36` | Fondo de cada mosaico normal y del botón de tema. |
+| `--tinta` | `#0d1b33` | `#f4f8fc` | Texto; fondo de la barra de pedido, de "Listo" y de mosaicos seleccionados (contraste invertido). |
+| `--suave` | `#5d6778` | `#a7b9cd` | La línea bajo el nombre (consola y/o nota, o "N versiones · Switch 1 desde"). Nada más. |
+| `--suave-sel` | `#a7b9cd` | `#4a5b72` | Esa misma línea dentro de un mosaico elegido. |
+| `--sin-portada` | `#d6e2ee` | `#1a2b47` | Fondo del hueco de la portada mientras carga. |
+| `--sombra` | navy 25% | negro 60% | Solo lo que flota: barra de pedido, lupa y campo de búsqueda. |
 | `--vidrio` | `--mosaico` al 40% | `--mosaico` al 40% | Vidrio líquido de la lupa (el campo usa `--mosaico` al 65%: lleva texto). Nada más. |
 | `--brillo` | blanco 95% | blanco 45% | Reflejo del vidrio, arriba a la izquierda. |
 | `--brillo-suave` | blanco 40% | blanco 12% | Canto y resplandor interior del vidrio. |
 | `--canto` | negro 14% | negro 40% | Lado en sombra del grosor del vidrio (abajo a la derecha). |
-| `--rojo` | `#e60012` | `#e60012` | Acento: cabecera, "¿No ves tu juego?", pestaña y sello de Switch 2, ✓ de seleccionado, botón de la barra. |
+| `--acento` | `#00bfef` | `#00bfef` | Cian de SD Tech Imports. Acento: parte del título y punto final, rayita de las cejas, "¿No ves tu juego?", pestaña y sello de Switch 2, ✓ de seleccionado, botón de la barra. |
+| `--acento-texto` | `#0094c6` | `#00bfef` | El acento cuando es texto (parte del título, "Escríbenos."): en claro, el cian oscuro de la marca (3,2:1 sobre `--suelo`, solo texto grande). |
+| `--sobre-acento` | `#001b44` | `#001b44` | Navy de SD Tech Imports: texto e íconos sobre `--acento` (nunca blanco sobre cian: no llega a AA). |
+| `--linea` | `#d6e2ee` | `#2c405b` | Líneas finas bajo la ceja de la cabecera y sobre la firma del pie. Nada más. |
 
-Proporción: el suelo domina, los mosaicos llevan el contenido, el rojo
-aparece en **5 lugares fijos** (pastilla de la marca en la cabecera, "¿No ves tu juego?", pestaña y sello de Switch 2, ✓, acción del pedido).
-No agregar rojo en otros sitios.
+El logo maestro (`src/assets/marca/logo-sd-tech-imports.png`) va siempre sobre una placa blanca (`#fff`, única
+excepción fija): sus letras navy no se leen sobre el suelo oscuro. No recolorearlo, estirarlo ni redibujarlo.
+El favicon (`public/favicon.png` y `apple-touch-icon.png`) es el símbolo SD con la órbita y el avión recortado del mismo logo.
 
-**Tipografía:** una sola familia, **Schibsted Grotesk**, pesos **500** y **800**
-(servida desde el propio sitio: `astro.config.mjs` → `fonts`, variable `--fuente`). Respaldo: `system-ui, sans-serif`.
+Proporción: el suelo domina, los mosaicos llevan el contenido, el cian
+aparece en **lugares fijos** (título y cejas, "¿No ves tu juego?", pestaña y sello de Switch 2, ✓, acción del pedido, frase del pie).
+No agregar cian en otros sitios.
+
+**Tipografía:** la del portafolio de SD Tech: **DejaVu Sans** ("SD Sans", regular y negrita; en CSS los pesos 500 y 800
+caen en esas dos) y **DejaVu Sans Mono** ("SD Mono", variable `--mono`) solo para cejas, redes del pie y firma, en
+mayúsculas con tracking .12em. Servidas desde el propio sitio y recortadas a latín (`src/assets/marca/*.woff2`,
+`astro.config.mjs` → `fonts`). DejaVu es más ancha que la anterior: el precio de los mosaicos usa
+`clamp(17px, 5.4vw, 22px)` y a 360px o menos el botón de la barra dice solo «Pedir».
 
 | Rol | Tamaño | Peso | Otros |
 |---|---|---|---|
-| Título `h1` | `clamp(38px, 11vw, 88px)` | 800 | interlineado .95, tracking -0.035em; celular: máx. 12ch → 2 líneas; escritorio: 1 línea |
+| Título `h1` | `clamp(36px, 10vw, 76px)` | 800 | interlineado 1, tracking -0.045em; "Switch 1 y 2" y el punto en `--acento`; celular: máx. 12ch → 2 líneas; escritorio: 1 línea |
 | Títulos de sección `h2` | `clamp(26px, 6.4vw, 44px)` | 800 | tracking -0.03em |
-| Precio | 22px (destacado grande: 30px) | 800 | tracking -0.02em, **sin** `tabular-nums` (deja huecos en la coma) |
+| Precio | `clamp(17px, 5.4vw, 22px)` (destacado grande: 30px) | 800 | tracking -0.02em, **sin** `tabular-nums` (deja huecos en la coma) |
 | Nombre del juego | 14px (grande: 18px) | 800 | máximo 2 líneas con `line-clamp`. En 800 porque casi todos los precios son iguales: el nombre es lo que distingue un mosaico de otro. |
 | Nota ("Necesita Ring-Con", "3 versiones · Switch 1 desde"; la edición no se parte de línea) | 13px | 500 | color `--suave` |
 | Pestaña de consola | logo 17px; "2" 17px | 800 | 32px de alto, relleno 0 9px |
-| Sello de versión (juego con versiones) | logo 17px; "2" 17px; "Mejora a" 13px | 800 | 28px de alto, relleno 0 8px, radio 6px; fondo `--suelo` (Switch 2: `--rojo`) |
+| Sello de versión (juego con versiones) | logo 17px; "2" 17px; "Mejora a" 13px | 800 | 28px de alto, relleno 0 8px, radio 6px; fondo `--suelo` (Switch 2: `--acento`) |
 | "¿No ves tu juego?" | 22px | 800 | tracking -0.02em |
 | Botones de la barra ("Pedir por WhatsApp") y "Listo" del panel | 15px | 800 | |
 | Título del panel de versiones | 18px | 800 | máximo 2 líneas |
@@ -90,7 +102,7 @@ Estructura de un mosaico de juego (no cambiar el orden):
 
 ```
 ┌──────────────────────┐
-│[⊞2]                  │  .consola: pestaña pegada a la esquina (logo; Switch 2 en rojo + "2")
+│[⊞2]                  │  .consola: pestaña pegada a la esquina (logo; Switch 2 en cian + "2")
 │ portada 16:9         │  .img  (object-fit: cover)
 ├──────────────────────┤
 │ Nombre (2 líneas)    │  .n
@@ -123,7 +135,7 @@ Sin JavaScript (y en el destacado grande), las filas van dentro del mosaico:
 
 ```
 ┌──────────────────────────────────┐
-│[⊞|⊞2]                            │  .consola.doble: pestaña doble (Switch 2 en rojo)
+│[⊞|⊞2]                            │  .consola.doble: pestaña doble (Switch 2 en cian)
 │ portada general o de la edición  │  la del precio "desde" si no hay general
 ├──────────────────────────────────┤
 │ Nombre                           │  .n
@@ -146,9 +158,9 @@ Así el respaldo también funciona si el script falla. Si falla `showModal`, se 
 - **Sin precio** ("Consultar"): en lugar del "+" lleva un círculo igual con "↗", porque al tocarlo abre WhatsApp en vez de sumarse al pedido.
 - **Pestaña de consola:** esquina sólida arriba a la izquierda, radio solo en la esquina de
   abajo a la derecha (8px). Switch 1: fondo del mosaico (`--fondo`) y logo en tinta; Switch 2:
-  `--rojo`, logo y "2" en blanco. Sin sombra ni borde.
+  `--acento`, logo y "2" en `--sobre-acento`. Sin sombra ni borde.
 - **Seleccionado** (`[aria-pressed="true"]`): mosaico en `--tinta` (la pestaña de Switch 1 lo
-  sigue porque usa `--fondo`), texto `--suelo`, nota en `#55555e`, círculo rojo con ✓ blanco. Es la única señal: no agregar bordes ni sombras.
+  sigue porque usa `--fondo`), texto `--suelo`, nota en `--suave-sel`, círculo cian con ✓ en `--sobre-acento`. Es la única señal: no agregar bordes ni sombras.
 - **Juego con varias versiones:** el estado es de cada fila: la fila elegida se pone en `--tinta` con su ✓.
   Como las filas no están a la vista, el mosaico se pone en
   `--tinta` con ✓ si hay al menos una versión elegida (`:has()`, sin estado aparte). Al cerrar el panel
@@ -156,12 +168,12 @@ Así el respaldo también funciona si el script falla. Si falla `showModal`, se 
   "Nombre del juego, Nintendo Switch 2, $ …" (el nombre va oculto dentro de la fila).
 - **Al tocar:** `transform: scale(.98)` (150 ms).
 - **Barra de pedido** (`Pedido.astro`): píldora clara (`--tinta`) fija abajo con el total, "Vaciar" y el
-  botón rojo "Pedir por WhatsApp". Hasta 420px "Vaciar" se oculta (se vacía tocando los
+  botón cian "Pedir por WhatsApp". Hasta 420px "Vaciar" se oculta (se vacía tocando los
   mosaicos) para que quepa un total de 7 cifras. Lleva sombra porque flota (como
   la lupa y el campo de búsqueda). Aparece con una subida de 250 ms.
 - **Buscador** (`Buscador.astro`), estilo vidrio líquido: casi transparente, desenfoque corto (10px,
   saturación 1,8), canto de luz con reflejo arriba a la izquierda (`--brillo`), lado en sombra abajo a la
-  derecha (`--canto`) y la sombra de lo que flota. Ícono en `--tinta`, nunca rojo. Sin desenfoque en el
+  derecha (`--canto`) y la sombra de lo que flota. Ícono en `--tinta`, nunca cian. Sin desenfoque en el
   navegador: fondo `--mosaico`.
   - Lupa redonda de 52px abajo a la derecha. Entra con rebote al cargar, crece a 1,07 con el ratón y se
     hunde a 0,88 al tocarla. Con la barra de pedido visible sube con rebote a `bottom: 84px`.
@@ -176,7 +188,7 @@ Así el respaldo también funciona si el script falla. Si falla `showModal`, se 
     el buscador: al cargar, la página sale quieta.
 - `prefers-reduced-motion`: se quitan transiciones y animaciones (barra, lupa, campo y fundido de resultados).
 - Foco visible: `outline: 3px solid var(--tinta)` con 2px de separación (global en `Layout.astro`), que queda
-  sobre el suelo oscuro (18:1) aunque el mosaico esté elegido o sea rojo. Dentro de la barra de pedido va en `--suelo`.
+  sobre el suelo oscuro (18:1) aunque el mosaico esté elegido o sea cian. Dentro de la barra de pedido va en `--suelo`.
   No usar `currentColor`: en mosaicos elegidos el contorno quedaría oscuro sobre el suelo oscuro.
 - Mientras la barra de pedido está visible, `scroll-padding-bottom` evita que tape el mosaico con foco.
 - Lector de pantalla: el "+" / "✓" es decorativo (`content: '+' / ''`); el estado lo da `aria-pressed`. Al
@@ -222,8 +234,8 @@ lugar del tablero, lleva la pestaña de su consola. El lector de pantalla la lee
 - **Un nuevo tipo de mosaico:** usar uno de los tamaños existentes (2/3/4/6/10 columnas),
   fondo de un token, radio de 12px, texto alineado arriba a la izquierda con 16–22px de
   relleno. Nunca centrado ni con borde.
-- **Logo de la tienda:** va dentro de `.cabecera`, en el lugar de `.marca`, blanco
-  sobre rojo, alto máx. 40px. No usar el logo de Nintendo.
+- **Logo de la tienda:** el maestro de SD Tech Imports, dentro de `.cabecera` en `.marca`, sobre su placa
+  blanca; 40px de alto en celular y 48px en escritorio. No usar el logo de Nintendo.
 - **Ofertas** (si el dueño las pide): precio anterior tachado en `--suave` a 14px junto
   al precio; sin píldora de "%".
 - **Logo de consola:** `src/assets/switch.svg` (`fill="currentColor"`). Para usar el oficial,
@@ -238,8 +250,8 @@ lugar del tablero, lleva la pestaña de su consola. El lector de pantalla la lee
 - [ ] Todos los precios visibles y sin cortar; nombres largos cortados a 2 líneas con "…".
 - [ ] Seleccionar 2 títulos: se encienden en `--tinta` con ✓ y la barra muestra el total correcto.
 - [ ] A 320px con todos elegidos, la barra no se desborda.
-- [ ] Contraste: blanco sobre `--rojo` (4.8:1), `--suave` sobre `--mosaico` (6.6:1), `--tinta` sobre `--mosaico` (16:1) y `#55555e` sobre `--tinta` (6.9:1) cumplen AA.
-- [ ] Con Tab: el contorno de foco se ve en mosaicos grafito, elegidos y rojos, y ninguno queda bajo la barra.
+- [ ] Contraste: `--sobre-acento` sobre `--acento` (7.8:1), `--suave` sobre `--mosaico` (5.7:1 claro, 8.3:1 oscuro), `--tinta` sobre `--mosaico` (17:1 claro, 15.6:1 oscuro), `--suave-sel` sobre `--tinta` (6.5:1 / 8.6:1) y `--acento-texto` sobre `--suelo` en texto grande (3.2:1 claro, 8.7:1 oscuro) cumplen AA.
+- [ ] Con Tab: el contorno de foco se ve en mosaicos grafito, elegidos y cian, y ninguno queda bajo la barra.
 - [ ] Ningún elemento de la tabla "No hacer" del §6.
-- [ ] Buscador a 390px, con y sin pedido: la lupa no tapa la barra; buscar "zelda" y "xyz" no deja huecos y el cierre rojo queda al final; Escape devuelve el tablero; la lupa se lee sobre portadas claras y rojas.
+- [ ] Buscador a 390px, con y sin pedido: la lupa no tapa la barra; buscar "zelda" y "xyz" no deja huecos y el cierre cian queda al final; Escape devuelve el tablero; la lupa se lee sobre portadas claras y cian.
 - [ ] Juegos con versiones: a 320px las filas de precio no se salen; los precios quedan alineados a la derecha junto al "+"; elegir una versión enciende solo esa fila en `--tinta`. En celular y escritorio: el mosaico mide lo mismo que un juego, el panel abre al tocar, y al cerrar el mosaico queda encendido con ✓.

@@ -14,7 +14,7 @@ Eres el revisor del Diseño A · Tablero de esta tienda. No editas archivos: dev
 ## Qué comprobar (cita la regla en cada hallazgo)
 
 - **Tokens (§2):** solo `--suelo`, `--mosaico`, `--tinta`, `--suave`, `--rojo` (y `#b9b9c2` en seleccionado). Ningún color nuevo. El rojo solo en sus 5 lugares.
-- **Tipografía (§2):** solo Schibsted Grotesk 500/800 vía `--fuente`; ningún tamaño fuera de la tabla.
+- **Tipografía (§2):** solo DejaVu ("SD Sans" vía `--fuente`, pesos 500/800; "SD Mono" vía `--mono` solo en cejas, redes del pie y firma); ningún tamaño fuera de la tabla.
 - **Retícula (§3):** 6/10 columnas, separación 8px, radio 8px (999px solo en controles), `grid-auto-flow: dense`. Orden del mosaico: pestaña → portada → nombre → nota → precio; el precio nunca sobre la imagen.
 - **Prohibidos (§6):** degradados, sombras (salvo la barra de pedido), bordes de 1px, píldoras tipo "NUEVO", MAYÚSCULAS espaciadas, monospace, emojis, títulos de más de 2 líneas, textos de ayuda o eslóganes.
 - **Textos (§5):** solo los permitidos; tuteo, sin "Descubre"/"Increíble".

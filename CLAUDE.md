@@ -59,13 +59,15 @@ plantillas de issue (`.github/ISSUE_TEMPLATE/`: «Error» → `bug`, «Solicitud
   calcula su ancho con `lib/reticula.ts`, que simula `dense` con los anchos de cada mosaico (los juegos
   con versiones miden 2): si cambias tamaños de mosaico, actualiza las piezas en `index.astro`.
 - **Endpoints estáticos:** `pages/og.jpg.ts` compone con `sharp` la imagen para compartir a partir
-  de los 3 destacados, que debe quedar en menos de ~300 KB para WhatsApp. `pages/favicon.svg.ts`
-  usa la inicial de `tienda.nombre`. Las etiquetas `og:*`/`canonical` de `Layout.astro` solo salen
+  de los 3 destacados, que debe quedar en menos de ~300 KB para WhatsApp. El favicon es el símbolo
+  de SD Tech Imports (`public/favicon.png`, `public/apple-touch-icon.png`). Las etiquetas `og:*`/`canonical` de `Layout.astro` solo salen
   si `tienda.url` está lleno.
 - **Estilos:** CSS con alcance por componente. Los tokens de color viven en `:root` de
   `layouts/Layout.astro`: no agregues colores, sombras, bordes ni tamaños de letra fuera de
-  `docs/diseno.md` §2. La fuente (Schibsted Grotesk 500/800) se sirve localmente mediante la API
-  `fonts` de `astro.config.mjs`, sin Google.
+  `docs/diseno.md` §2. Las fuentes del portafolio de SD Tech (DejaVu Sans y Sans Mono, en
+  `src/assets/marca/`) se sirven localmente mediante la API `fonts` de `astro.config.mjs`, sin Google.
+  Marca: SD Tech Imports (logo maestro en `src/assets/marca/`, navy `#001B44` y cian `#00BFEF`);
+  contacto en `tienda.ts` (WhatsApp y Facebook) y pie en `components/Pie.astro`.
 - **Portadas:** `import.meta.glob` sobre `imagenes/*.{webp,jpg,jpeg,png}`. Astro genera las variantes
   webp de 320 a 1920 px (originales de 1920×1080). Agregar un juego es solo datos + portada; no hay que tocar el diseño.
 
