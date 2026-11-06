@@ -172,7 +172,7 @@ test('dos títulos: selección, total, WhatsApp y restauración', async ({ page 
   expect(dos).toHaveLength(2);
   for (const p of dos) await elegir(page, p);
   await comprobarPedido(page, dos);
-  for (const p of dos) await expect(item(page, p.id)).toHaveCSS('background-color', 'rgb(18, 18, 20)');
+  for (const p of dos) await expect(item(page, p.id)).toHaveCSS('background-color', 'rgb(13, 27, 51)');
   await page.reload();
   for (const p of dos) await expect(item(page, p.id)).toHaveAttribute('aria-pressed', 'true');
   await comprobarPedido(page, dos);
@@ -259,14 +259,14 @@ test('tema: sigue al sistema, el botón lo cambia y se recuerda', async ({ page 
   const boton = page.getByRole('button', { name: 'Modo oscuro' });
   await page.emulateMedia({ colorScheme: 'dark' });
   await page.goto('/');
-  expect(await suelo()).toBe('rgb(14, 14, 16)');
+  expect(await suelo()).toBe('rgb(7, 17, 31)');
   await expect(boton).toHaveAttribute('aria-pressed', 'true');
   await boton.click();
-  expect(await suelo()).toBe('rgb(233, 233, 236)');
+  expect(await suelo()).toBe('rgb(238, 245, 251)');
   await expect(boton).toHaveAttribute('aria-pressed', 'false');
   // Lo elegido gana al sistema al recargar.
   await page.reload();
-  expect(await suelo()).toBe('rgb(233, 233, 236)');
+  expect(await suelo()).toBe('rgb(238, 245, 251)');
   await expect(boton).toHaveAttribute('aria-pressed', 'false');
 });
 
@@ -274,7 +274,7 @@ test('tema sin JavaScript: manda el sistema', async ({ browser }) => {
   const contexto = await browser.newContext({ javaScriptEnabled: false, colorScheme: 'dark' });
   const page = await contexto.newPage();
   await page.goto('/');
-  expect(await page.locator('body').evaluate((b) => getComputedStyle(b).backgroundColor)).toBe('rgb(14, 14, 16)');
+  expect(await page.locator('body').evaluate((b) => getComputedStyle(b).backgroundColor)).toBe('rgb(7, 17, 31)');
   await expect(page.locator('.tema')).toBeHidden();
   await contexto.close();
 });

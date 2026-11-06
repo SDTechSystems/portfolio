@@ -12,8 +12,8 @@ const canonica = Astro.site && new URL(Astro.url.pathname, Astro.site).href;
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<meta name="theme-color" content="#e9e9ec" media="(prefers-color-scheme: light)" />
-		<meta name="theme-color" content="#0e0e10" media="(prefers-color-scheme: dark)" />
+		<meta name="theme-color" content="#eef5fb" media="(prefers-color-scheme: light)" />
+		<meta name="theme-color" content="#07111f" media="(prefers-color-scheme: dark)" />
 		<script is:inline>
 			// Tema antes de pintar (sin parpadeo): lo elegido en este navegador o, si no, el del sistema.
 			(() => {
@@ -21,7 +21,7 @@ const canonica = Astro.site && new URL(Astro.url.pathname, Astro.site).href;
 				const guardado = () => { try { return localStorage.getItem('tema'); } catch { return null; } };
 				const poner = (t) => {
 					html.dataset.tema = t;
-					for (const m of document.querySelectorAll('meta[name="theme-color"]')) m.content = t === 'oscuro' ? '#0e0e10' : '#e9e9ec';
+					for (const m of document.querySelectorAll('meta[name="theme-color"]')) m.content = t === 'oscuro' ? '#07111f' : '#eef5fb';
 				};
 				const g = guardado();
 				poner(g === 'claro' || g === 'oscuro' ? g : sistema.matches ? 'oscuro' : 'claro');
@@ -31,8 +31,10 @@ const canonica = Astro.site && new URL(Astro.url.pathname, Astro.site).href;
 			})();
 		</script>
 		<meta name="description" content={descripcion} />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" type="image/png" sizes="48x48" href="/favicon.png" />
+		<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 		<Font cssVariable="--fuente" preload />
+		<Font cssVariable="--mono" />
 		<title>{tienda.nombre}</title>
 		{canonica && <link rel="canonical" href={canonica} />}
 		<meta property="og:type" content="website" />
@@ -57,12 +59,13 @@ const canonica = Astro.site && new URL(Astro.url.pathname, Astro.site).href;
 	</body>
 </html>
 <style is:global>
-	/* Tokens del diseño (docs/diseno.md §2). Únicos colores permitidos. Claro por defecto;
+	/* Tokens del diseño (docs/diseno.md §2), con la paleta de SD Tech Imports (navy #001B44 y cian #00BFEF)
+	   y el aire del portafolio de SD Tech. Únicos colores permitidos. Claro por defecto;
 	   oscuro si se eligió (data-tema) o, sin JavaScript, si el sistema lo pide. */
-	:root { color-scheme: light; --suelo: #e9e9ec; --mosaico: #ffffff; --tinta: #121214; --suave: #5b5b63; --suave-sel: #b9b9c2; --sin-portada: #d6d6dc; --sombra: rgb(0 0 0 / .28); --rojo: #e60012; }
-	:root[data-tema='oscuro'] { color-scheme: dark; --suelo: #0e0e10; --mosaico: #1c1c21; --tinta: #f5f5f7; --suave: #a1a1aa; --suave-sel: #55555e; --sin-portada: #26262c; --sombra: rgb(0 0 0 / .6); }
+	:root { color-scheme: light; --suelo: #eef5fb; --mosaico: #ffffff; --tinta: #0d1b33; --suave: #5d6778; --suave-sel: #a7b9cd; --sin-portada: #d6e2ee; --sombra: rgb(6 28 69 / .25); --acento: #00bfef; --acento-texto: #0094c6; --sobre-acento: #001b44; --linea: #d6e2ee; }
+	:root[data-tema='oscuro'] { color-scheme: dark; --suelo: #07111f; --mosaico: #0f1e36; --tinta: #f4f8fc; --suave: #a7b9cd; --suave-sel: #4a5b72; --sin-portada: #1a2b47; --sombra: rgb(0 0 0 / .6); --linea: #2c405b; --acento-texto: #00bfef; }
 	@media (prefers-color-scheme: dark) {
-		:root:not([data-tema]) { color-scheme: dark; --suelo: #0e0e10; --mosaico: #1c1c21; --tinta: #f5f5f7; --suave: #a1a1aa; --suave-sel: #55555e; --sin-portada: #26262c; --sombra: rgb(0 0 0 / .6); }
+		:root:not([data-tema]) { color-scheme: dark; --suelo: #07111f; --mosaico: #0f1e36; --tinta: #f4f8fc; --suave: #a7b9cd; --suave-sel: #4a5b72; --sin-portada: #1a2b47; --sombra: rgb(0 0 0 / .6); --linea: #2c405b; --acento-texto: #00bfef; }
 	}
 	/* Vidrio líquido de lo que flota (lupa y campo de búsqueda): el mosaico casi transparente y un canto
 	   de luz (--brillo, reflejo arriba a la izquierda; --brillo-suave, canto y resplandor interior). */
@@ -71,6 +74,16 @@ const canonica = Astro.site && new URL(Astro.url.pathname, Astro.site).href;
 	:root[data-tema='oscuro'] { --brillo: rgb(255 255 255 / .45); --brillo-suave: rgb(255 255 255 / .12); --canto: rgb(0 0 0 / .4); }
 	@media (prefers-color-scheme: dark) {
 		:root:not([data-tema]) { --brillo: rgb(255 255 255 / .45); --brillo-suave: rgb(255 255 255 / .12); --canto: rgb(0 0 0 / .4); }
+	}
+	/* Vidrio de lo que se superpone (pestañas sobre portadas, panel del destacado, barra del pedido, panel de
+	   versiones): --relieve es el canto de luz del vidrio líquido; --cristal, el vidrio oscuro de las pestañas
+	   sobre las portadas (igual en los dos modos: van sobre la imagen, no sobre el suelo). */
+	:root {
+		--relieve: inset 0 0 0 1px var(--brillo-suave), inset 1.5px 2px 1px -1px var(--brillo),
+			inset -1.5px -2px 1px -1px var(--brillo-suave), inset -3px -4px 8px -4px var(--canto);
+		--desenfoque: blur(16px) saturate(1.7);
+		--cristal: rgb(7 17 31 / .58); --sobre-cristal: #f4f8fc;
+		--acento-cristal: color-mix(in srgb, var(--acento) 80%, transparent);
 	}
 	*, *::before, *::after { box-sizing: border-box; }
 	html, body { margin: 0; }

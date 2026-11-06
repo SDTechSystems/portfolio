@@ -1,0 +1,67 @@
+---
+// Pie de contacto, con el aire del cierre del portafolio de SD Tech: ceja en mono, frase grande
+// en dos tonos y los enlaces de WhatsApp y Facebook (tienda.ts). Sin JavaScript funciona igual.
+import { Image } from 'astro:assets';
+import logo from '../assets/marca/logo-sd-tech-imports.png';
+import { tienda } from '../data/tienda';
+import { whatsapp } from '../lib/catalogo';
+
+// 573058147293 → 305 814 7293 (sin el 57 de Colombia).
+const local = tienda.whatsapp.replace(/^57(?=\d{10}$)/, '');
+const telefono = local.length === 10 ? `${local.slice(0, 3)} ${local.slice(3, 6)} ${local.slice(6)}` : `+${tienda.whatsapp}`;
+const anio = new Date().getFullYear();
+---
+<footer class="pie-contacto">
+  <p class="ceja">Conversemos</p>
+  <p class="frase">¿Dudas o buscas otro juego? <span class="acento">Escríbenos<span class="punto">.</span></span></p>
+  <ul class="contacto">
+    <li>
+      <a href={whatsapp('Hola, tengo una pregunta sobre el catálogo')} target="_blank" rel="noopener">
+        <span class="red">WhatsApp</span><span class="dato">{telefono}</span><span aria-hidden="true">↗</span>
+      </a>
+    </li>
+    {tienda.facebook && (
+      <li>
+        <a href={tienda.facebook} target="_blank" rel="noopener">
+          <span class="red">Facebook</span><span class="dato">{tienda.nombre}</span><span aria-hidden="true">↗</span>
+        </a>
+      </li>
+    )}
+  </ul>
+  <div class="firma">
+    <span class="placa"><Image src={logo} alt={tienda.nombre} width={210} height={80} /></span>
+    <p>{tienda.nombre} · Parte de SD Tech · {tienda.ciudad}<br />© {anio} {tienda.nombre}</p>
+  </div>
+</footer>
+
+<style>
+  .pie-contacto { max-width: 1440px; margin: 0 auto; padding: 56px 16px 40px; }
+  .ceja {
+    display: flex; align-items: center; gap: 10px;
+    font-family: var(--mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--suave);
+  }
+  .ceja::before { content: ''; width: 18px; height: 2px; background: var(--acento); }
+  .frase { margin-top: 14px; max-width: 16ch; font-size: clamp(30px, 8vw, 60px); font-weight: 800; line-height: 1.02; letter-spacing: -.045em; }
+  .acento, .punto { color: var(--acento-texto); }
+  .contacto { list-style: none; margin: 28px 0 0; padding: 0; display: grid; gap: 10px; }
+  .contacto a {
+    min-height: 56px; padding: 12px 18px; border-radius: 12px; background: var(--mosaico);
+    display: flex; align-items: center; gap: 14px; font-size: 17px; font-weight: 800;
+    transition: transform .15s;
+  }
+  .contacto a:active { transform: scale(.98); }
+  .red { font-family: var(--mono); font-size: 11px; font-weight: 400; letter-spacing: .12em; text-transform: uppercase; color: var(--suave); min-width: 9ch; }
+  .dato { flex: 1; }
+  .firma {
+    margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--linea);
+    display: flex; flex-wrap: wrap; align-items: center; gap: 14px 18px;
+  }
+  .placa { display: inline-flex; padding: 5px 10px; border-radius: 10px; background: #fff; }
+  .placa img { display: block; width: auto; height: 30px; }
+  .firma p { font-family: var(--mono); font-size: 11px; line-height: 1.7; letter-spacing: .06em; color: var(--suave); }
+  @media (min-width: 760px) {
+    .pie-contacto { padding: 72px 20px 48px; }
+    .contacto { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 820px; }
+  }
+  @media (prefers-reduced-motion: reduce) { .contacto a { transition: none; } }
+</style>

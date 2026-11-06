@@ -89,9 +89,9 @@ administración, filtros, varias páginas, multi-idioma.
   sin él, Wrangler intenta autoconfigurar el proyecto con el adaptador de servidor de Astro y falla.
   Variable `NODE_VERSION=22.23.4` en el panel, además de `.nvmrc`. Las ramas que no son `main` (PR)
   se publican con `npx wrangler preview`, que exige `"previews": {}` en `wrangler.jsonc`.
-- **Fuente:** API de fuentes de Astro con proveedor local (`astro.config.mjs`), archivos del paquete
-  `@fontsource/schibsted-grotesk` (OFL): solo `latin`, pesos 500 y 800, precargados, con respaldo de
-  métricas ajustadas. Ni el build ni la visita dependen de Google.
+- **Fuente:** API de fuentes de Astro con proveedor local (`astro.config.mjs`): DejaVu Sans y DejaVu Sans
+  Mono, las del portafolio de SD Tech, recortadas a latín en `src/assets/marca/*.woff2` (~67 KB las tres),
+  con respaldo de métricas ajustadas. Ni el build ni la visita dependen de Google.
 - **Vista previa al compartir:** `pages/og.jpg.ts` genera con `sharp` una imagen 1200×630 con los 3
   destacados (portada de cine arriba y dos abajo, como el tablero). Las etiquetas `og:*` y `twitter:card` de
   `Layout.astro` solo incluyen imagen, `og:url` y `canonical` si `tienda.ts → url` está lleno.
@@ -122,7 +122,6 @@ src/
   layouts/Layout.astro← <head> (fuente, og:*), tokens de color en :root, reset global
   pages/
     index.astro       ← la página: diseño A · Tablero
-    favicon.svg.ts    ← ícono de pestaña: inicial de tienda.nombre en blanco sobre rojo
     og.jpg.ts         ← imagen de vista previa al compartir (1200×630, ~165 KB)
 docs/                 ← este spec y las directrices de diseño
 ```
@@ -586,6 +585,8 @@ La revisión humana de diseño y la prueba en celular real siguen siendo necesar
 | 2026-11-05 | Vidrio líquido con animaciones en lugar del vidrio esmerilado | El dueño lo vio soso y abrupto. Pidió el estilo Liquid Glass y transiciones. Se logra con sombras interiores (canto y reflejo), desenfoque corto y transiciones con rebote, sin degradados. El campo se enfoca dentro del mismo toque (sigue en la página, `inert`), porque si no iOS no abre el teclado. No se usa la refracción por filtro SVG: solo funciona en Chromium. |
 | 2026-11-05 | Vidrio y sombra solo en lo que flota (barra, lupa, campo) | Misma razón que la sombra de la barra: lo que flota se separa del tablero. Sin borde fino (§6); con fondo opaco si el navegador no desenfoca. |
 | 2026-11-05 | Sin filtros | Consola: la marca la pestaña y engaña (casi todo Switch 1 corre en Switch 2, D6). Tipo: hoy todo es Juego (`mostrarDlcUpdates: false`). Precio: casi todos iguales. Revisar si se activan los DLC, entra otra categoría o se pasa de ~80 títulos; el filtro útil sería por tipo. |
+| 2026-11-06 | Marca SD Tech Imports con el aire del portafolio de SD Tech: paleta navy/cian, DejaVu, logo maestro en placa blanca, favicon con el símbolo SD, ceja en mono, título en dos tonos y pie con WhatsApp y Facebook | Pedido del dueño al publicar el catálogo en catalogo-juegos-sdtechimports.sdtechsystems.dev. Se cambiaron los valores de los tokens (rojo → cian `--acento`, con texto navy encima: blanco sobre cian no llega a AA) y se agregaron `--acento-texto`, `--sobre-acento` y `--linea`. DejaVu es más ancha: el precio baja a 17 px a 320 px y el botón de la barra dice «Pedir» hasta 360 px (el lector oye «Pedir por WhatsApp»). |
+| 2026-11-06 | Vidrio en todo lo que se superpone: pestañas de consola como chips flotantes, panel del destacado, barra de pedido, panel de versiones y sellos sobre miniaturas | Pedido del dueño: un diseño más moderno, con transparencia en lugar de colores sólidos. Tokens nuevos `--cristal`, `--acento-cristal`, `--relieve` y `--desenfoque`; sin `backdrop-filter` vuelven los colores sólidos. Los mosaicos, la cabecera y el suelo siguen planos. |
 
 ## 9. Cómo verificar un cambio
 

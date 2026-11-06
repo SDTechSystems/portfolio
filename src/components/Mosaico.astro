@@ -1,6 +1,6 @@
 ---
 // Un juego: portada con la pestaña de consola, nombre, nota y precio. Tocarlo lo suma al pedido (Pedido.astro).
-// Pestaña: logo de Switch (src/assets/switch.svg); en Switch 2, seguido de "2" y en rojo.
+// Pestaña: logo de Switch (src/assets/switch.svg); en Switch 2, seguido de "2" y en cian.
 // Juego con varias versiones (Switch 1, Switch 2, paquete de mejora): un solo mosaico con la pestaña doble y
 // una fila por versión; cada fila es su propio botón con su precio y su "+".
 // Mosaico normal con "N versiones · Switch 1 desde $ …" (la edición de ese precio); tocarlo abre el panel (PanelVersiones.astro), al que se
@@ -93,27 +93,34 @@ const RECORTE = { arriba: '50% 0%', centro: '50% 50%', abajo: '50% 100%', izquie
   /* Vitrina: con ratón, la portada se acerca un poco al pasar por encima. */
   .img img { transition: transform .3s cubic-bezier(.2, .8, .2, 1); }
   @media (hover: hover) { .mosaico:hover .img img { transform: scale(1.04); } }
-  /* Pestaña de consola: esquina sólida pegada al borde; Switch 1 del color del mosaico, Switch 2 en rojo. */
-  .consola { position: absolute; top: 0; left: 0; z-index: 1; height: 32px; padding: 0 9px; display: flex; align-items: center; gap: 3px; border-radius: 0 0 8px 0; background: var(--fondo); font-size: 17px; line-height: 1; transition: background-color .15s; }
+  /* Pestaña de consola: chip de vidrio que flota sobre la portada (8px del borde); Switch 1 en vidrio oscuro,
+     Switch 2 en vidrio cian. */
+  .consola {
+    position: absolute; top: 8px; left: 8px; z-index: 1; height: 28px; padding: 0 10px; display: flex; align-items: center; gap: 3px;
+    border-radius: 999px; background: var(--cristal); color: var(--sobre-cristal); font-size: 16px; line-height: 1;
+    -webkit-backdrop-filter: var(--desenfoque); backdrop-filter: var(--desenfoque); box-shadow: var(--relieve);
+  }
   .consola svg { width: 1em; height: 1em; }
   .consola b { font-weight: 800; letter-spacing: -.02em; }
-  .consola.dos, .doble .dos { background: var(--rojo); color: #fff; }
-  /* Pestaña doble: Switch 1 del color del mosaico y Switch 2 en rojo, pegadas. */
+  .consola.dos, .doble .dos { background: var(--acento-cristal); color: var(--sobre-acento); }
+  /* Pestaña doble: Switch 1 en vidrio oscuro y Switch 2 en vidrio cian, en la misma píldora. */
   .consola.doble { padding: 0; gap: 0; overflow: hidden; }
-  .doble > span { height: 100%; padding: 0 9px; display: flex; align-items: center; gap: 3px; }
+  .doble > span { height: 100%; padding: 0 10px; display: flex; align-items: center; gap: 3px; }
   img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
   .pie { flex: 1; display: flex; flex-direction: column; gap: 2px; padding: 10px 12px 12px; }
   .n { font-size: 14px; font-weight: 800; line-height: 1.2; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
   .c { font-size: 13px; color: var(--suave); }
   .junto { white-space: nowrap; }
-  strong { margin-top: auto; padding-top: 6px; display: flex; justify-content: space-between; align-items: center; font-size: 22px; font-weight: 800; letter-spacing: -.02em; }
+  /* DejaVu (tipografía de SD Tech) es más ancha: a 320px el precio baja a 17px para no chocar con el +/✓. */
+  strong { margin-top: auto; padding-top: 6px; display: flex; justify-content: space-between; align-items: center; gap: 4px; font-size: clamp(17px, 5.4vw, 22px); font-weight: 800; letter-spacing: -.02em; }
+  strong::after { flex: none; }
 
   /* "+" / "✓": dice que el mosaico se suma al pedido. Solo aparece si el script de Pedido lo activó. */
   [aria-pressed] strong::after { content: '+'; content: '+' / ''; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: var(--suelo); font-size: 20px; font-weight: 500; letter-spacing: 0; }
-  /* Elegido: el mosaico se enciende en tinta (casi blanco) con texto oscuro y ✓ rojo. */
+  /* Elegido: el mosaico se enciende en tinta (casi blanco) con texto oscuro y ✓ cian. */
   [aria-pressed='true'] { --fondo: var(--tinta); color: var(--suelo); }
   [aria-pressed='true'] .c { color: var(--suave-sel); }
-  [aria-pressed='true'] strong::after { content: '✓'; content: '✓' / ''; background: var(--rojo); color: #fff; font-size: 15px; }
+  [aria-pressed='true'] strong::after { content: '✓'; content: '✓' / ''; background: var(--acento); color: var(--sobre-acento); font-size: 15px; }
   /* Sin precio ("Consultar"): el mosaico abre WhatsApp en vez de sumarse al pedido; la flecha lo distingue del "+". */
   [target] strong::after { content: '↗'; content: '↗' / ''; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: var(--suelo); font-size: 16px; font-weight: 500; letter-spacing: 0; }
 
@@ -131,7 +138,7 @@ const RECORTE = { arriba: '50% 0%', centro: '50% 50%', abajo: '50% 100%', izquie
   .panel[data-panel-listo]:has(.version[aria-pressed='true']) { --fondo: var(--tinta); color: var(--suelo); }
   .panel[data-panel-listo]:has(.version[aria-pressed='true']) .c { color: var(--suave-sel); }
   /* El ✓ lleva texto para el lector de pantalla: las filas con aria-pressed están ocultas en el panel. */
-  .panel[data-panel-listo]:has(.version[aria-pressed='true']) .abrir strong::after { content: '✓'; content: '✓' / 'versión elegida'; background: var(--rojo); color: #fff; font-size: 15px; }
+  .panel[data-panel-listo]:has(.version[aria-pressed='true']) .abrir strong::after { content: '✓'; content: '✓' / 'versión elegida'; background: var(--acento); color: var(--sobre-acento); font-size: 15px; }
   .panel[data-panel-listo] .abrir { display: flex; }
   .panel[data-panel-listo] .versiones { display: none; }
   /* Respaldo por defecto, también si falla el script con JavaScript habilitado. */
@@ -146,25 +153,44 @@ const RECORTE = { arriba: '50% 0%', centro: '50% 50%', abajo: '50% 100%', izquie
   .version { --fondo: var(--mosaico); min-height: 44px; margin: 0 -6px; padding: 4px 6px; border-radius: 6px; grid-column: 1 / -1; display: grid; grid-template-columns: subgrid; align-items: center; background: var(--fondo); cursor: pointer; transition: transform .15s, background-color .15s; }
   .version:active { transform: scale(.98); }
   .version[aria-pressed='true'] { --fondo: var(--tinta); color: var(--suelo); }
-  .version[aria-pressed='true'] strong::after { color: #fff; }
+  .version[aria-pressed='true'] strong::after { color: var(--sobre-acento); }
   .version strong { margin: 0; padding: 0; justify-content: flex-end; gap: 10px; }
-  /* Sello de cada versión: como la pestaña, en pequeño (Switch 2 en rojo). */
+  /* Sello de cada versión: como la pestaña, en pequeño (Switch 2 en cian). */
   .edicion { justify-self: start; position: relative; }
   .sello { height: 28px; padding: 0 8px; border-radius: 6px; display: flex; align-items: center; gap: 3px; background: var(--suelo); color: var(--tinta); font-size: 13px; font-weight: 800; line-height: 1; }
   .sello svg { width: 17px; height: 17px; }
   .sello b { font-size: 17px; font-weight: 800; letter-spacing: -.02em; }
-  .sello.dos { background: var(--rojo); color: #fff; }
+  .sello.dos { background: var(--acento-cristal); color: var(--sobre-acento); }
+  /* En el panel (vidrio) las filas no elegidas son transparentes y los sellos, vidrio. */
+  :global(.hoja) .version:not([aria-pressed='true']) { --fondo: transparent; }
+  :global(.hoja) .sello:not(.dos) { background: color-mix(in srgb, var(--suelo) 55%, transparent); }
   /* En el panel, cada edición lleva su portada con el sello en la esquina, como la pestaña del mosaico. */
   .mini { display: none; }
   :global(.hoja) .mini { display: block; position: static; width: 96px; height: auto; aspect-ratio: 16 / 9; border-radius: 6px; }
-  :global(.hoja) .mini + .sello { position: absolute; top: 0; left: 0; border-radius: 6px 0 6px 0; }
+  :global(.hoja) .mini + .sello {
+    position: absolute; top: 4px; left: 4px; height: 22px; padding: 0 6px; border-radius: 999px;
+    -webkit-backdrop-filter: var(--desenfoque); backdrop-filter: var(--desenfoque); box-shadow: var(--relieve);
+  }
+  :global(.hoja) .mini + .sello:not(.dos) { background: var(--cristal); color: var(--sobre-cristal); }
   .solo-lector { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 
-  /* Portada de cine: el destacado ocupa todo el ancho y su pie es un panel sólido que se monta sobre la
-     parte baja de la portada (celular) o flota abajo a la izquierda (escritorio). Sin degradado: color plano. */
+  /* Portada de cine: el destacado ocupa todo el ancho y su pie es un panel de vidrio que se monta sobre la
+     parte baja de la portada (celular) o flota abajo a la izquierda (escritorio). Sin degradado. */
   .grande { grid-column: 1 / -1; position: relative; }
   .grande .img { aspect-ratio: 16 / 9; }
-  .grande .pie { position: relative; z-index: 1; margin: -44px 10px 10px; border-radius: 8px; padding: 14px 16px 16px; background: var(--fondo); transition: background-color .15s; }
+  .grande .pie {
+    position: relative; z-index: 1; margin: -44px 10px 10px; border-radius: 14px; padding: 14px 16px 16px;
+    background: color-mix(in srgb, var(--fondo) 60%, transparent); transition: background-color .15s;
+    -webkit-backdrop-filter: var(--desenfoque); backdrop-filter: var(--desenfoque); box-shadow: var(--relieve), 0 8px 24px var(--sombra);
+  }
+  .grande strong::after { background: color-mix(in srgb, var(--suelo) 55%, transparent); }
+  .grande[aria-pressed='true'] strong::after { background: var(--acento-cristal); }
+  /* Sin vidrio (navegadores viejos): vuelven los colores sólidos para que todo se lea. */
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .consola, :global(.hoja) .mini + .sello:not(.dos) { background: var(--tinta); color: var(--suelo); }
+    .consola.dos, .doble .dos, .sello.dos { background: var(--acento); }
+    .grande .pie { background: var(--fondo); }
+  }
   .grande .n { font-size: 18px; font-weight: 800; }
   .grande strong { font-size: 30px; }
 
@@ -179,5 +205,5 @@ const RECORTE = { arriba: '50% 0%', centro: '50% 50%', abajo: '50% 100%', izquie
     .medio.panel:not([data-panel-listo]) { grid-column: span 5; }
     .medio .img { aspect-ratio: 2.1 / 1; }
   }
-  @media (prefers-reduced-motion: reduce) { .mosaico, .consola, .version, .img img, .grande .pie { transition: none; } .mosaico:hover .img img { transform: none; } }
+  @media (prefers-reduced-motion: reduce) { .mosaico, .version, .img img, .grande .pie { transition: none; } .mosaico:hover .img img { transform: none; } }
 </style>

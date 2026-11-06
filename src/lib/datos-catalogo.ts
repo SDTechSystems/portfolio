@@ -63,7 +63,7 @@ function leerFilas(datos: unknown): Fila[] {
 /** Valida la estructura antes de filtrar y aplicar las reglas; devuelve solo filas publicadas. */
 export function validarCatalogo(
   datos: unknown,
-  tienda: { destacados: string[]; whatsapp: string },
+  tienda: { destacados: string[]; whatsapp: string; facebook?: string },
   existePortada: (ruta: string) => boolean,
 ): Fila[] {
   const todas = leerFilas(datos);
@@ -128,6 +128,7 @@ export function validarCatalogo(
   const juegoDe = (id: string) => filas.find((f) => f.id === id)?.grupo ?? id;
   if (new Set(tienda.destacados.map(juegoDe)).size < new Set(tienda.destacados).size) errores.push('tienda.ts: dos destacados son versiones del mismo juego; elige 3 juegos distintos.');
   if (!/^\d{11,15}$/.test(tienda.whatsapp)) errores.push('tienda.ts: "whatsapp" debe ser solo dígitos con código de país (Colombia: 57 + 10 dígitos).');
+  if (tienda.facebook && !/^https:\/\/(www\.)?facebook\.com\/[^\s]+$/.test(tienda.facebook)) errores.push(`tienda.ts: "facebook" es "${tienda.facebook}"; debe ser la dirección de la página con https:// (ej. "https://www.facebook.com/SDTechImports") o quedar vacío.`);
   if (errores.length) fallar(errores);
 
   return filas;
