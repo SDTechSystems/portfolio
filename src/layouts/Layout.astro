@@ -64,6 +64,14 @@ const canonica = Astro.site && new URL(Astro.url.pathname, Astro.site).href;
 	@media (prefers-color-scheme: dark) {
 		:root:not([data-tema]) { color-scheme: dark; --suelo: #0e0e10; --mosaico: #1c1c21; --tinta: #f5f5f7; --suave: #a1a1aa; --suave-sel: #55555e; --sin-portada: #26262c; --sombra: rgb(0 0 0 / .6); }
 	}
+	/* Vidrio líquido de lo que flota (lupa y campo de búsqueda): el mosaico casi transparente y un canto
+	   de luz (--brillo, reflejo arriba a la izquierda; --brillo-suave, canto y resplandor interior). */
+	/* --canto: el lado en sombra del grosor del vidrio (abajo a la derecha); en claro es lo que lo despega del blanco. */
+	:root { --vidrio: color-mix(in srgb, var(--mosaico) 40%, transparent); --brillo: rgb(255 255 255 / .95); --brillo-suave: rgb(255 255 255 / .4); --canto: rgb(0 0 0 / .14); }
+	:root[data-tema='oscuro'] { --brillo: rgb(255 255 255 / .45); --brillo-suave: rgb(255 255 255 / .12); --canto: rgb(0 0 0 / .4); }
+	@media (prefers-color-scheme: dark) {
+		:root:not([data-tema]) { --brillo: rgb(255 255 255 / .45); --brillo-suave: rgb(255 255 255 / .12); --canto: rgb(0 0 0 / .4); }
+	}
 	*, *::before, *::after { box-sizing: border-box; }
 	html, body { margin: 0; }
 	body {

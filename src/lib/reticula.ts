@@ -48,3 +48,8 @@ export function cierres(piezas: Pieza[], columnas: number, minimo: number): numb
   }
   return anchos;
 }
+
+/** Columnas que ocupa cada pieza del tablero (celular: 6 columnas; escritorio: 10).
+ *  La usan index.astro al compilar y el buscador al recalcular el cierre. */
+export const anchoPieza = (tipo: 'fila' | 'grande' | 'medio' | 'normal', movil: boolean) =>
+  tipo === 'fila' || tipo === 'grande' ? (movil ? 6 : 10) : tipo === 'medio' ? (movil ? 3 : 5) : (movil ? 3 : 2);

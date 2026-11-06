@@ -1,0 +1,198 @@
+---
+// Buscador: lupa flotante de vidrio líquido que se estira en un campo arriba y oculta los mosaicos que
+// no coinciden. "¿No ves tu juego?" pasa al final de los resultados, cierra la fila y su WhatsApp lleva
+// lo buscado. Sin JavaScript no sale nada y la página queda como antes.
+// Abierto/cerrado vive en data-abierto; el campo cerrado sigue en la página (inert, invisible) para
+// poder enfocarlo dentro del mismo toque: si no, iOS no abre el teclado.
+---
+<div class="buscador" hidden>
+  <button class="lupa vidrio" type="button" aria-label="Buscar juego" aria-expanded="false" aria-controls="buscar">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="m20 20-4-4" /></svg>
+  </button>
+  <div class="campo vidrio" inert>
+    <input id="buscar" type="search" aria-label="Buscar juego" placeholder="Buscar juego" autocomplete="off" enterkeyhint="search" />
+    <button class="cerrar" type="button" aria-label="Cerrar búsqueda">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" /></svg>
+    </button>
+  </div>
+  <p class="solo-lector" aria-live="polite" data-resultados></p>
+</div>
+
+<script>
+  import { coincide } from '../lib/buscar';
+  import { anchoPieza, cierres, type Pieza } from '../lib/reticula';
+  const raiz = document.querySelector<HTMLElement>('.buscador')!;
+  const lupa = raiz.querySelector<HTMLButtonElement>('.lupa')!;
+  const caja = raiz.querySelector<HTMLElement>('.campo')!;
+  const campo = caja.querySelector('input')!;
+  const tablero = document.querySelector<HTMLElement>('.tablero')!;
+  const mosaicos = [...tablero.querySelectorAll<HTMLElement>('.mosaico')];
+  const titulos = [...tablero.querySelectorAll<HTMLElement>('h2')];
+  const cierresDom = [...tablero.querySelectorAll<HTMLAnchorElement>('.mas')];
+  const cierre = cierresDom[0];
+  // Para restaurar al cerrar: lugar, mensaje y ancho calculados al compilar.
+  const original = { siguiente: cierre.nextSibling, href: cierre.href, style: cierre.getAttribute('style') ?? '' };
+  const aviso = raiz.querySelector('[data-resultados]')!;
+  const quieto = matchMedia('(prefers-reduced-motion: reduce)');
+  raiz.hidden = false;
+
+  const tipo = (el: Element) => el.matches('h2') ? 'fila'
+    : el.classList.contains('grande') ? 'grande' : el.classList.contains('medio') ? 'medio' : 'normal';
+
+  const cabecera = tablero.querySelector<HTMLElement>('.cabecera')!;
+  // Inicio del catálogo justo bajo el campo (52px + 12px arriba + 12px de aire): el vidrio queda sobre
+  // las portadas y no sobre la marca roja, que se veía como una mancha detrás del texto.
+  const alCatalogo = (suave: boolean) => {
+    const destino = cabecera.getBoundingClientRect().bottom + scrollY - 76;
+    const lejos = Math.abs(destino - scrollY) > innerHeight;
+    scrollTo({ top: Math.max(0, destino), behavior: suave && !lejos && !quieto.matches ? 'smooth' : 'auto' });
+  };
+
+  function filtrar() {
+    const q = campo.value.trim();
+    // Con texto se oculta la cabecera (index.astro) para dejar sitio a los resultados sobre el teclado;
+    // al aparecer o desaparecer, el tablero se reacomoda y se vuelve al inicio de los resultados.
+    const antes = tablero.hasAttribute('data-buscando');
+    tablero.toggleAttribute('data-buscando', !!q);
+    if (antes !== !!q && 'abierto' in raiz.dataset) { if (q) scrollTo({ top: 0 }); else alCatalogo(false); }
+    mosaicos.forEach((m) => { m.hidden = !coincide(m.dataset.buscar ?? '', q); });
+    titulos.forEach((h) => (h.hidden = !!q));
+    cierresDom.forEach((a, i) => (a.hidden = !!q && i > 0));
+    if (!q) {
+      tablero.insertBefore(cierre, original.siguiente);
+      cierre.href = original.href;
+      cierre.setAttribute('style', original.style);
+      aviso.textContent = '';
+      return;
+    }
+    tablero.append(cierre);
+    // Mismo cálculo que index.astro al compilar, con las piezas que quedan a la vista.
+    const visibles = [...tablero.children].filter((el) => el !== cierre && (el as HTMLElement).offsetParent !== null);
+    const ancho = (movil: boolean) => cierres(
+      [...visibles.map((el): Pieza => ({ ancho: anchoPieza(tipo(el), movil) })), 'cierre'],
+      movil ? 6 : 10, movil ? 3 : 2)[0];
+    cierre.style.setProperty('--movil', String(ancho(true)));
+    cierre.style.setProperty('--escritorio', String(ancho(false)));
+    const url = new URL(original.href);
+    url.searchParams.set('text', `Hola, busco ${q}`);
+    cierre.href = url.href;
+    const n = mosaicos.filter((m) => !m.hidden).length;
+    aviso.textContent = n === 1 ? '1 resultado' : `${n} resultados`;
+  }
+
+  function abrir() {
+    raiz.dataset.abierto = '';
+    tablero.dataset.filtrado = ''; // desde ahora los mosaicos que reaparecen lo hacen con un fundido
+    lupa.inert = true;
+    caja.inert = false;
+    lupa.setAttribute('aria-expanded', 'true');
+    campo.focus({ preventScroll: true });
+    alCatalogo(true);
+  }
+
+  function cerrar() {
+    campo.value = '';
+    filtrar();
+    delete raiz.dataset.abierto;
+    caja.inert = true;
+    lupa.inert = false;
+    lupa.setAttribute('aria-expanded', 'false');
+    lupa.focus({ preventScroll: true });
+  }
+
+  lupa.addEventListener('click', abrir);
+  caja.querySelector('.cerrar')!.addEventListener('click', cerrar);
+  campo.addEventListener('input', filtrar);
+  // Enter cierra el teclado; los resultados ya están a la vista.
+  campo.addEventListener('keydown', (e) => { if (e.key === 'Enter') campo.blur(); });
+  // Escape cierra la búsqueda con el foco en cualquier parte (el navegador solo borraría el texto),
+  // salvo con el panel de versiones abierto: ese Escape es del panel.
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape' || !('abierto' in raiz.dataset) || document.querySelector('dialog[open]')) return;
+    e.preventDefault();
+    cerrar();
+  });
+</script>
+
+<style>
+  .buscador { --resorte: cubic-bezier(.34, 1.4, .64, 1); --suave-salida: cubic-bezier(.4, 0, .2, 1); }
+  .buscador[hidden] { display: none; }
+
+  /* Vidrio líquido: casi transparente, desenfoque corto que deja ver lo de atrás, canto de luz y
+     reflejo arriba a la izquierda. Es lo único con canto: no es un borde, es el grosor del vidrio. */
+  .vidrio {
+    background: var(--vidrio); color: var(--tinta);
+    -webkit-backdrop-filter: blur(10px) saturate(1.8); backdrop-filter: blur(10px) saturate(1.8);
+    box-shadow:
+      inset 0 0 0 1px var(--brillo-suave),
+      inset 1.5px 2px 1px -1px var(--brillo),
+      inset -1.5px -2px 1px -1px var(--brillo-suave),
+      inset -3px -4px 8px -4px var(--canto),
+      inset 0 0 14px var(--brillo-suave),
+      0 8px 24px var(--sombra);
+  }
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .vidrio { background: var(--mosaico); }
+  }
+
+  /* Lupa: entra con rebote, crece al pasar el ratón, se hunde al tocarla y se encoge al abrir. */
+  .lupa {
+    position: fixed; right: 12px; bottom: 12px; z-index: 10;
+    width: 52px; height: 52px; border: 0; border-radius: 999px; padding: 0;
+    display: grid; place-items: center; cursor: pointer;
+    transition: transform .45s var(--resorte), opacity .25s, bottom .45s var(--resorte), visibility 0s;
+    animation: entrar .6s var(--resorte) .2s backwards;
+  }
+  @media (hover: hover) { .lupa:hover { transform: scale(1.07); } }
+  .lupa:active { transform: scale(.88); transition-duration: .12s; }
+  [data-abierto] .lupa {
+    transform: scale(.3); opacity: 0; visibility: hidden;
+    transition: transform .3s var(--suave-salida), opacity .2s, bottom .45s var(--resorte), visibility 0s .3s;
+  }
+  @keyframes entrar { from { transform: scale(.3); opacity: 0; } }
+  /* Con la barra del pedido visible, la lupa sube y queda encima. */
+  :global(body:has(.pedido:not([hidden]))) .lupa { bottom: 84px; }
+  /* Que la lupa no tape la esquina del último mosaico. */
+  :global(body:has(.buscador:not([hidden]))) { padding-bottom: 76px; }
+  :global(body:has(.buscador:not([hidden])):has(.pedido:not([hidden]))) { padding-bottom: 148px; }
+
+  /* Campo: nace como un círculo del tamaño de la lupa arriba a la derecha y se estira hasta la píldora;
+     al cerrar se recoge y se desvanece. Más opaco que la lupa porque lleva texto. */
+  .campo {
+    position: fixed; top: 12px; right: 12px; z-index: 11;
+    width: 52px; height: 52px; border-radius: 999px; padding: 0 6px 0 20px; overflow: hidden;
+    display: flex; align-items: center; gap: 8px;
+    background: color-mix(in srgb, var(--mosaico) 65%, transparent);
+    opacity: 0; visibility: hidden; translate: 0 -14px;
+    transition: width .35s var(--suave-salida), right .35s var(--suave-salida), translate .3s var(--suave-salida),
+      opacity .25s .1s, visibility 0s .35s;
+  }
+  [data-abierto] .campo {
+    width: min(560px, calc(100% - 24px)); right: max(12px, calc((100% - 560px) / 2));
+    opacity: 1; visibility: visible; translate: 0;
+    transition: width .6s var(--resorte), right .6s var(--resorte), translate .5s var(--resorte), opacity .2s, visibility 0s;
+  }
+  .campo > * { opacity: 0; transition: opacity .12s; }
+  [data-abierto] .campo > * { opacity: 1; transition: opacity .3s .18s; }
+  .campo input {
+    flex: 1; min-width: 0; height: 100%; border: 0; padding: 0; background: none; color: inherit;
+    font: 500 18px var(--fuente), system-ui, sans-serif;
+  }
+  .campo input::placeholder { color: var(--suave); }
+  .campo input::-webkit-search-cancel-button { display: none; }
+  /* 18px: con menos, iOS acerca la página al enfocar. El campo se enfoca solo al abrirse: el cursor que
+     parpadea ya dice dónde está el foco, y un contorno fijo taparía el canto del vidrio. El ✕ sí lleva el
+     contorno global cuando se llega con Tab. */
+  .campo input:focus-visible { outline: none; }
+  .cerrar {
+    flex: none; width: 40px; height: 40px; border: 0; border-radius: 999px; padding: 0;
+    background: none; color: inherit; display: grid; place-items: center; cursor: pointer;
+    transition: transform .3s var(--resorte);
+  }
+  .cerrar:active { transform: scale(.85); transition-duration: .1s; }
+  svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  @media (prefers-reduced-motion: reduce) {
+    .lupa, .campo, .campo > *, .cerrar, [data-abierto] .lupa, [data-abierto] .campo, [data-abierto] .campo > * { transition: none; animation: none; }
+  }
+  .solo-lector { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+</style>
