@@ -41,6 +41,10 @@ sale y manda el sistema. Los componentes solo usan tokens: nunca un color fijo q
 | `--sin-portada` | `#d6e2ee` | `#1a2b47` | Fondo del hueco de la portada mientras carga. |
 | `--sombra` | navy 25% | negro 60% | Solo lo que flota: barra de pedido, lupa y campo de búsqueda. |
 | `--vidrio` | `--mosaico` al 40% | `--mosaico` al 40% | Vidrio líquido de la lupa (el campo usa `--mosaico` al 65%: lleva texto). Nada más. |
+| `--cristal` / `--sobre-cristal` | navy `#07111f` al 58% / `#f4f8fc` | igual | Vidrio oscuro de las pestañas de consola y sellos sobre portadas, y su texto. |
+| `--acento-cristal` | `--acento` al 80% | igual | Vidrio cian: Switch 2 en pestañas y sellos, ✓ del destacado y botón de la barra. |
+| `--relieve` | canto de luz | canto de luz | Sombras interiores del vidrio (`--brillo`, `--brillo-suave`, `--canto`). Todo lo que es vidrio lo lleva. |
+| `--desenfoque` | `blur(16px) saturate(1.7)` | igual | Desenfoque del vidrio (el panel de versiones usa 24px). |
 | `--brillo` | blanco 95% | blanco 45% | Reflejo del vidrio, arriba a la izquierda. |
 | `--brillo-suave` | blanco 40% | blanco 12% | Canto y resplandor interior del vidrio. |
 | `--canto` | negro 14% | negro 40% | Lado en sombra del grosor del vidrio (abajo a la derecha). |
@@ -92,7 +96,7 @@ Tamaños de mosaico (clases) y cuántas columnas ocupan:
 |---|---|---|---|
 | Cabecera (tienda + h1) | `.cabecera` | 6 | 10 |
 | Título de sección (solo "DLC y updates") | `h2` | 6 (sin fondo) | 10 |
-| Destacado grande (portada de cine) | `<Mosaico tamano="grande">` | 6, imagen 16:9; el pie es un panel sólido (`--fondo`, radio 8px) que sube 44px sobre la portada | 10 (todo el ancho), imagen 21:9 con alto máx. `max(360px, 100svh − 280px)`; el pie flota abajo a la izquierda (16px del borde, ancho `min(440px, 45%)`). Sin degradado. |
+| Destacado grande (portada de cine) | `<Mosaico tamano="grande">` | 6, imagen 16:9; el pie es un panel de vidrio (`--fondo` al 60%, radio 14px, canto y sombra) que sube 44px sobre la portada | 10 (todo el ancho), imagen 21:9 con alto máx. `max(360px, 100svh − 280px)`; el pie flota abajo a la izquierda (16px del borde, ancho `min(440px, 45%)`). Sin degradado. |
 | Destacados chicos | `<Mosaico tamano="medio">` | 3 | 5 (dos lado a lado bajo la portada de cine), imagen 2.1:1; asoman bajo el pliegue para invitar a bajar |
 | Juego / DLC / update | `<Mosaico>` | 3 (2 por fila) | 2 (5 por fila) |
 | Juego con varias versiones | `.ancho` (lo pone `Mosaico` si hay `grupo`) | 3, igual a un juego; las versiones van en el panel (`.panel`; sin JavaScript: 6 con las filas a la vista) | 2, igual a un juego (destacado chico: 4); las versiones van en el panel (sin JavaScript: 4 con las filas a la vista). Destacado chico con versiones: portada con alto máx. `50svh − 199px` (una línea más en el pie) |
@@ -156,9 +160,10 @@ Así el respaldo también funciona si el script falla. Si falla `showModal`, se 
 - **Se puede elegir** (`[aria-pressed]`, lo pone el script): círculo de 28px en `--suelo`
   con "+" a la derecha del precio. Sin JavaScript no aparece.
 - **Sin precio** ("Consultar"): en lugar del "+" lleva un círculo igual con "↗", porque al tocarlo abre WhatsApp en vez de sumarse al pedido.
-- **Pestaña de consola:** esquina sólida arriba a la izquierda, radio solo en la esquina de
-  abajo a la derecha (8px). Switch 1: fondo del mosaico (`--fondo`) y logo en tinta; Switch 2:
-  `--acento`, logo y "2" en `--sobre-acento`. Sin sombra ni borde.
+- **Pestaña de consola:** chip de vidrio (píldora de 28px) que flota a 8px de la esquina de arriba a la
+  izquierda de la portada. Switch 1: `--cristal` (vidrio oscuro, igual en los dos modos) con logo en
+  `--sobre-cristal`; Switch 2: `--acento-cristal` (cian al 80%), logo y "2" en `--sobre-acento`. Lleva el canto
+  de luz (`--relieve`) y desenfoque (`--desenfoque`); en el panel de versiones, el sello sobre la miniatura igual.
 - **Seleccionado** (`[aria-pressed="true"]`): mosaico en `--tinta` (la pestaña de Switch 1 lo
   sigue porque usa `--fondo`), texto `--suelo`, nota en `--suave-sel`, círculo cian con ✓ en `--sobre-acento`. Es la única señal: no agregar bordes ni sombras.
 - **Juego con varias versiones:** el estado es de cada fila: la fila elegida se pone en `--tinta` con su ✓.
@@ -167,7 +172,7 @@ Así el respaldo también funciona si el script falla. Si falla `showModal`, se 
   (Listo, Escape o tocar afuera) el foco vuelve al mosaico; con el panel abierto el total se anuncia desde él. El lector de pantalla lee cada fila como
   "Nombre del juego, Nintendo Switch 2, $ …" (el nombre va oculto dentro de la fila).
 - **Al tocar:** `transform: scale(.98)` (150 ms).
-- **Barra de pedido** (`Pedido.astro`): píldora clara (`--tinta`) fija abajo con el total, "Vaciar" y el
+- **Barra de pedido** (`Pedido.astro`): píldora de vidrio en `--tinta` al 72% fija abajo con el total, "Vaciar" y el
   botón cian "Pedir por WhatsApp". Hasta 420px "Vaciar" se oculta (se vacía tocando los
   mosaicos) para que quepa un total de 7 cifras. Lleva sombra porque flota (como
   la lupa y el campo de búsqueda). Aparece con una subida de 250 ms.
@@ -212,12 +217,12 @@ lugar del tablero, lleva la pestaña de su consola. El lector de pantalla la lee
 | No hacer | En su lugar |
 |---|---|
 | Degradados (fondos, botones, texto) | Colores planos de los tokens o la portada. |
-| Vidrio/desenfoque en mosaicos, cabecera o tablero | Solo en lo que flota sobre el contenido (lupa y campo de búsqueda). |
+| Vidrio/desenfoque en los mosaicos, la cabecera o el suelo del tablero | Solo en lo que se superpone a otro contenido: pestañas de consola y sellos sobre portadas, panel del destacado grande, barra de pedido, panel de versiones, lupa y campo de búsqueda. Siempre con el canto (`--relieve`) y con colores sólidos de respaldo si el navegador no tiene `backdrop-filter`. |
 | Sombras en elementos quietos | Cambio de tono entre suelo y mosaico. La sombra es solo de lo que flota: barra de pedido, lupa y campo de búsqueda. Con ratón, la portada se acerca (escala 1,04, 300 ms; nada con movimiento reducido). |
-| Bordes finos o líneas divisorias de 1px | Separación de 10/12px del tablero. Única excepción: el canto de luz del vidrio líquido (sombra interior), que es su grosor y no un borde. |
+| Bordes finos o líneas divisorias de 1px | Separación de 10/12px del tablero. Excepciones: el canto de luz del vidrio (sombra interior), que es su grosor y no un borde, y la línea `--linea` bajo la ceja de la cabecera y sobre la firma del pie. |
 | Píldoras/etiquetas sobre títulos ("NUEVO", "HOT", "-20%") | Destacar por tamaño. *Decisión abierta D3 en el spec.* La **única** marca sobre la portada es la pestaña de consola. |
-| Letras chiquitas en MAYÚSCULAS con espaciado | Texto normal, legible, en minúsculas con mayúscula inicial. |
-| Monospace, numeración 01/02/03 | Orden por posición y tamaño. |
+| Letras chiquitas en MAYÚSCULAS con espaciado | Texto normal, legible. Única excepción: las cejas en mono del estilo SD Tech (cabecera y pie) y las etiquetas «WhatsApp»/«Facebook» del pie. |
+| Numeración 01/02/03 | Orden por posición y tamaño. |
 | Más de una familia tipográfica, o tamaños intermedios nuevos | La tabla del §2. |
 | Emojis, íconos decorativos, formas de relleno | Una portada real o nada. |
 | Títulos de más de 2 líneas | Recortar palabras; luego ensanchar; el tamaño, al final. |

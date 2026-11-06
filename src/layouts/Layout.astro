@@ -75,6 +75,16 @@ const canonica = Astro.site && new URL(Astro.url.pathname, Astro.site).href;
 	@media (prefers-color-scheme: dark) {
 		:root:not([data-tema]) { --brillo: rgb(255 255 255 / .45); --brillo-suave: rgb(255 255 255 / .12); --canto: rgb(0 0 0 / .4); }
 	}
+	/* Vidrio de lo que se superpone (pestañas sobre portadas, panel del destacado, barra del pedido, panel de
+	   versiones): --relieve es el canto de luz del vidrio líquido; --cristal, el vidrio oscuro de las pestañas
+	   sobre las portadas (igual en los dos modos: van sobre la imagen, no sobre el suelo). */
+	:root {
+		--relieve: inset 0 0 0 1px var(--brillo-suave), inset 1.5px 2px 1px -1px var(--brillo),
+			inset -1.5px -2px 1px -1px var(--brillo-suave), inset -3px -4px 8px -4px var(--canto);
+		--desenfoque: blur(16px) saturate(1.7);
+		--cristal: rgb(7 17 31 / .58); --sobre-cristal: #f4f8fc;
+		--acento-cristal: color-mix(in srgb, var(--acento) 80%, transparent);
+	}
 	*, *::before, *::after { box-sizing: border-box; }
 	html, body { margin: 0; }
 	body {
