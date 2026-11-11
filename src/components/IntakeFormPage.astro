@@ -29,11 +29,11 @@ const others=forms.filter(f=>f.slug!==slug);
 
       <section class="intake-step intake-intro is-active" data-step="intro" aria-labelledby="intake-title">
         <p class="eyebrow"><span class="terminal-cursor" aria-hidden="true">&gt;_</span>{form.eyebrow}</p>
+        <div class="intake-draft" data-draft-notice hidden><span class="intake-draft-dot" aria-hidden="true"></span><div><p><b>Tienes un formulario a medias.</b> Guardamos <span data-draft-count></span> respuestas en este dispositivo.</p><button type="button" class="intake-btn intake-btn-primary intake-resume" data-start><span data-start-label>Continuar</span> <span aria-hidden="true">→</span></button></div></div>
         <h1 id="intake-title" class="intake-title"><span class="line">{form.title}</span><span class="line"><em>{form.titleAccent}</em><span class="accent">.</span></span></h1>
         <p class="intake-lead">{form.lead}</p>
         <ul class="intake-meta"><li><b>{total}</b> preguntas</li><li><b>≈ {form.minutes}</b> minutos</li><li><b>{form.sections.length}</b> secciones</li></ul>
-        <div class="intake-actions"><button type="button" class="intake-btn intake-btn-primary" data-start>Comenzar <span aria-hidden="true">→</span></button><span class="intake-hint">o pulsa <kbd>Enter ↵</kbd></span></div>
-        <p class="intake-draft" data-draft-notice hidden>Retomamos tus respuestas guardadas en este dispositivo. <button type="button" data-clear-draft>Empezar de nuevo</button></p>
+        <div class="intake-actions"><button type="button" class="intake-btn intake-btn-primary" data-start><span data-start-label>Comenzar</span> <span aria-hidden="true">→</span></button><span class="intake-hint">o pulsa <kbd>Enter ↵</kbd></span><button type="button" class="intake-skip intake-restart" data-clear-draft hidden>Empezar de nuevo</button></div>
       </section>
 
       {questions.map((q,i)=>(

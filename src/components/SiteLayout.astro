@@ -19,6 +19,7 @@ const connectSrc=connect?`connect-src ${connect}`:"connect-src 'none'";
   <title>{title}</title><meta name="description" content={description}/><meta name="theme-color" content="#07111F"/>
   <meta http-equiv="Content-Security-Policy" content={import.meta.env.PROD?`form-action 'none'; frame-src 'none'; ${connectSrc}; object-src 'none'; base-uri 'self'`:"form-action 'none'; frame-src 'none'; object-src 'none'; base-uri 'self'"}/>
   <link rel="canonical" href={url(locale)}/>{!single&&<><link rel="alternate" hreflang="es" href={url('es')}/><link rel="alternate" hreflang="en" href={url('en')}/><link rel="alternate" hreflang="x-default" href={url('es')}/></>}
+  <meta property="og:type" content="website"/><meta property="og:site_name" content={siteConfig.name}/><meta property="og:title" content={title}/><meta property="og:description" content={description}/><meta property="og:url" content={url(locale)}/><meta property="og:locale" content={locale==='es'?'es_CO':'en_US'}/><meta property="og:image" content={new URL(`${base}brand/og-card.png`,Astro.site).href}/><meta property="og:image:width" content="1200"/><meta property="og:image:height" content="630"/><meta property="og:image:alt" content="SD Tech Systems"/><meta name="twitter:card" content="summary_large_image"/>
   <link rel="icon" href={`${base}favicon.ico`} sizes="any"/><link rel="icon" href={`${base}favicon-32.png`} type="image/png" sizes="32x32"/>
   <script is:inline>
     try {

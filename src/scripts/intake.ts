@@ -8,7 +8,8 @@ function initIntake(root: HTMLElement) {
   const questions = steps.filter(s => s.dataset.entry);
   const total = Number(root.dataset.total);
   const slug = root.dataset.slug!;
-  const draftKey = `sd-intake-${slug}-v1`;
+  const draftKey = `sd-intake-${slug}-v2`;
+  const legacyKey = `sd-intake-${slug}-v1`;
   const bar = document.querySelector<HTMLElement>('.intake-progress')!;
   const counter = document.querySelector<HTMLElement>('[data-counter]');
   const nav = root.querySelector<HTMLElement>('[data-nav]')!;
@@ -16,18 +17,34 @@ function initIntake(root: HTMLElement) {
   let current = 0;
   let busy = false;
   let sent = false;
+  let resumeAt = 1; // first question, or where a saved draft left off
 
   document.documentElement.classList.add('intake-js');
 
   // ----- Draft (per device, optional) -----
-  const readDraft = (): Record<string, string[]> | null => {
-    try { const raw = localStorage.getItem(draftKey); return raw ? JSON.parse(raw) : null; } catch { return null; }
+  // Answers and the question the person was on, so an accidental reload resumes exactly there.
+  type Draft = { answers: Record<string, string[]>; step: number; at: number };
+  const readDraft = (): Draft | null => {
+    try {
+      const raw = localStorage.getItem(draftKey);
+      if (raw) {
+        const d = JSON.parse(raw);
+        if (d && typeof d === 'object' && d.answers && typeof d.answers === 'object') return { answers: d.answers, step: Number(d.step) || 0, at: Number(d.at) || 0 };
+      }
+      // Drafts saved by the first version only held the answers.
+      const old = localStorage.getItem(legacyKey);
+      if (old) { const answers = JSON.parse(old); if (answers && typeof answers === 'object') return { answers, step: 0, at: 0 }; }
+    } catch {}
+    return null;
   };
   const saveDraft = () => {
     if (sent) return;
-    try { localStorage.setItem(draftKey, JSON.stringify(collect())); } catch {}
+    const answers = collect();
+    if (!Object.keys(answers).length && current === 0) return;
+    const step = steps[current]?.dataset.step === 'done' ? 0 : current;
+    try { localStorage.setItem(draftKey, JSON.stringify({ answers, step, at: Date.now() })); localStorage.removeItem(legacyKey); } catch {}
   };
-  const clearDraft = () => { try { localStorage.removeItem(draftKey); } catch {} };
+  const clearDraft = () => { try { localStorage.removeItem(draftKey); localStorage.removeItem(legacyKey); } catch {} };
 
   function collect(): Record<string, string[]> {
     const data: Record<string, string[]> = {};
@@ -50,15 +67,28 @@ function initIntake(root: HTMLElement) {
   }
 
   const draft = readDraft();
-  if (draft && Object.keys(draft).length) {
-    restore(draft);
-    const notice = root.querySelector<HTMLElement>('[data-draft-notice]');
-    if (notice) notice.hidden = false;
-  }
-  root.querySelector('[data-clear-draft]')?.addEventListener('click', () => {
-    clearDraft(); form.reset(); questions.forEach(syncChoices);
+  const hasDraft = !!draft && Object.keys(draft.answers).length > 0;
+  if (hasDraft) restore(draft!.answers);
+
+  function resetAll() {
+    clearDraft(); form.reset();
+    form.querySelectorAll<HTMLInputElement>('[data-other-text]').forEach(i => { i.hidden = true; });
+    questions.forEach(step => { syncChoices(step); showError(step, ''); });
     root.querySelector<HTMLElement>('[data-draft-notice]')!.hidden = true;
-  });
+    root.querySelector<HTMLElement>('[data-clear-draft]')!.hidden = true;
+    root.querySelectorAll('[data-start-label]').forEach(l => { l.textContent = 'Comenzar'; });
+    resumeAt = 1;
+  }
+
+  // Erasing answers takes two taps, so nobody loses their progress by accident.
+  function confirmReset(button: HTMLButtonElement, onReset: () => void) {
+    if (button.dataset.armed) { onReset(); return; }
+    button.dataset.armed = 'true';
+    const label = button.textContent;
+    button.textContent = '¿Seguro? Toca de nuevo para borrar todo';
+    button.classList.add('is-armed');
+    setTimeout(() => { if (button.isConnected) { delete button.dataset.armed; button.textContent = label; button.classList.remove('is-armed'); } }, 4000);
+  }
 
   // ----- Helpers per question -----
   const fieldsOf = (step: HTMLElement) => [...step.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('input, textarea')];
@@ -168,6 +198,7 @@ function initIntake(root: HTMLElement) {
     const focusTarget = next.querySelector<HTMLElement>('.intake-input:not([hidden]), .intake-choice input:checked, .intake-choice input, [data-send], .intake-btn-wa');
     focusTarget?.focus({ preventScroll: true });
     busy = false;
+    saveDraft();
   }
 
   function forward() {
@@ -254,7 +285,8 @@ function initIntake(root: HTMLElement) {
   }
 
   // ----- Events -----
-  root.querySelector('[data-start]')?.addEventListener('click', () => go(1, 1));
+  root.querySelectorAll('[data-start]').forEach(b => b.addEventListener('click', () => go(resumeAt, 1)));
+  root.querySelector<HTMLButtonElement>('[data-clear-draft]')?.addEventListener('click', event => confirmReset(event.currentTarget as HTMLButtonElement, resetAll));
   form.addEventListener('submit', send);
   root.querySelectorAll('[data-next]').forEach(b => b.addEventListener('click', forward));
   root.querySelector('[data-prev]')?.addEventListener('click', back);
@@ -284,7 +316,7 @@ function initIntake(root: HTMLElement) {
     const step = steps[current];
     const target = event.target as HTMLElement;
     const inText = target.matches('input[type=text], input[type=tel], textarea');
-    if (step.dataset.step === 'intro' && event.key === 'Enter' && !target.closest('button, a')) { event.preventDefault(); go(1, 1); return; }
+    if (step.dataset.step === 'intro' && event.key === 'Enter' && !target.closest('button, a')) { event.preventDefault(); go(resumeAt, 1); return; }
     if (!step.dataset.entry) return;
     if (event.key === 'Enter') {
       if (target.tagName === 'TEXTAREA' && !(event.ctrlKey || event.metaKey)) return;
@@ -304,6 +336,54 @@ function initIntake(root: HTMLElement) {
     }
   });
 
-  window.addEventListener('beforeunload', saveDraft);
+  // Phones rarely fire beforeunload; pagehide and hiding the tab cover reloads, app switches and closing.
+  window.addEventListener('pagehide', saveDraft);
+  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') saveDraft(); });
+
+  // ----- Resume a saved draft -----
+  const reviewIndex = steps.findIndex(s => s.dataset.step === 'review');
+  if (hasDraft) {
+    const saved = Math.min(Math.max(draft!.step, 0), reviewIndex);
+    // Without a saved position (older drafts), continue at the first unanswered question.
+    const firstOpen = questions.findIndex(s => !answerOf(s).length);
+    resumeAt = saved > 0 ? saved : firstOpen >= 0 ? steps.indexOf(questions[firstOpen]) : reviewIndex;
+    const answered = questions.filter(s => answerOf(s).length).length;
+    const notice = root.querySelector<HTMLElement>('[data-draft-notice]');
+    if (notice) {
+      notice.hidden = false;
+      notice.querySelector('[data-draft-count]')!.textContent = `${answered} de ${total}`;
+    }
+    root.querySelector<HTMLElement>('[data-clear-draft]')!.hidden = false;
+    const where = steps[resumeAt].dataset.entry ? `pregunta ${questions.indexOf(steps[resumeAt]) + 1}` : 'revisión final';
+    root.querySelectorAll('[data-start-label]').forEach(l => { l.textContent = `Continuar en la ${where}`; });
+    if (saved > 0) {
+      // An accidental reload goes straight back to the same question.
+      steps[0].hidden = true; steps[0].classList.remove('is-active');
+      steps[resumeAt].hidden = false; steps[resumeAt].classList.add('is-active');
+      current = resumeAt;
+      if (steps[resumeAt].dataset.step === 'review') buildSummary();
+      steps[resumeAt].querySelector<HTMLElement>('.intake-input:not([hidden]), .intake-choice input:checked, .intake-choice input, [data-send]')?.focus({ preventScroll: true });
+      showResumeToast(answered);
+    }
+  }
+
+  function showResumeToast(answered: number) {
+    const toast = document.createElement('div');
+    toast.className = 'intake-toast';
+    toast.setAttribute('role', 'status');
+    const text = document.createElement('p');
+    text.innerHTML = `<b>Recuperamos tu avance.</b> ${answered} de ${total} respuestas guardadas en este dispositivo.`;
+    const restart = document.createElement('button');
+    restart.type = 'button'; restart.textContent = 'Empezar de nuevo';
+    const close = document.createElement('button');
+    close.type = 'button'; close.className = 'intake-toast-close'; close.setAttribute('aria-label', 'Cerrar aviso'); close.textContent = '✕';
+    const dismiss = () => { toast.classList.add('is-leaving'); setTimeout(() => toast.remove(), reduced() ? 0 : 300); };
+    restart.addEventListener('click', () => confirmReset(restart, () => { resetAll(); dismiss(); busy = false; go(0, -1); }));
+    close.addEventListener('click', dismiss);
+    toast.append(text, restart, close);
+    document.body.append(toast);
+    setTimeout(() => { if (!restart.dataset.armed) dismiss(); }, 9000);
+  }
+
   updateProgress();
 }

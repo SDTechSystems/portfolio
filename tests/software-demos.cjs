@@ -504,6 +504,71 @@ async function run() {
   }
   await nojs.close();
   console.log("PASS: all five bilingual demos and no-JavaScript form safety");
+  await testIntakeForms();
+}
+
+// Quote forms: answer on a phone, reload mid-way, resume, send and see the WhatsApp hand-off.
+// Google Forms is intercepted, so the tests never write to the real spreadsheets.
+async function testIntakeForms() {
+  for (const slug of ["diseno-de-marca", "pagina-web", "software-a-medida"]) {
+    const context = await browser.newContext({
+      viewport: { width: 375, height: 812 },
+      isMobile: true,
+      hasTouch: true,
+      reducedMotion: "reduce",
+    });
+    const page = await context.newPage();
+    const errors = [];
+    let posted = null;
+    page.on("pageerror", (e) => errors.push(e.message));
+    await page.route("https://docs.google.com/**", (route) => {
+      posted = new URLSearchParams(route.request().postData() || "");
+      route.fulfill({ status: 200, body: "ok" });
+    });
+    const url = `${base}es/formularios/${slug}/`;
+    await page.goto(url);
+    const active = () =>
+      page.locator(".intake-form > .intake-step.is-active").getAttribute("data-step");
+    // Answer the current question (text, or the first option) and continue.
+    const answerAndNext = async () => {
+      const step = page.locator(".intake-form > .intake-step.is-active");
+      const input = step.locator(".intake-input:not([data-other-text])");
+      if (await input.count()) {
+        const tel = (await step.getAttribute("data-input")) === "tel";
+        await input.fill(tel ? "57 300 000 0000" : `Prueba ${await active()}`);
+      } else {
+        const radio = (await step.getAttribute("data-kind")) === "radio";
+        await step.locator(".intake-choice").first().click();
+        if (radio) { await page.waitForFunction((s) => document.querySelector(".intake-form > .intake-step.is-active")?.getAttribute("data-step") !== s, await step.getAttribute("data-step")); return; }
+      }
+      await step.locator(".intake-btn-primary[data-next]").click();
+    };
+    await page.locator(".intake-intro [data-start]").last().click();
+    for (let i = 0; i < 6; i++) await answerAndNext();
+    const before = await active();
+    assert.equal(before, "6", `${slug}: should be on question 7`);
+    // Accidental reload: back on the same question with the answers kept.
+    await page.reload();
+    assert.equal(await active(), before, `${slug}: reload must resume on the same question`);
+    assert.equal(await page.locator(".intake-toast").count(), 1, `${slug}: resume banner`);
+    assert.equal(await page.locator(".intake-step[data-entry]").first().locator(".intake-input").inputValue(), "Prueba 0");
+    const results = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa"]).analyze();
+    assert.deepEqual(results.violations.map((v) => v.id), [], `${slug}: accessibility violations`);
+    // Finish: answer the rest, review and send.
+    while ((await active()) !== "review") await answerAndNext();
+    await page.locator("[data-send]").click();
+    await page.waitForSelector(".intake-done.is-active");
+    assert.ok(posted && [...posted.keys()].some((k) => k.startsWith("entry.")), `${slug}: answers posted to Google Forms`);
+    assert.equal(posted.getAll([...posted.keys()].find((k) => k.startsWith("entry.")))[0], "Prueba 0");
+    const wa = await page.locator("[data-done-wa]").getAttribute("href");
+    assert.ok(wa.startsWith("https://wa.me/573058147293?text=") && decodeURIComponent(wa).includes("acabo de llenar el formulario de"), `${slug}: WhatsApp hand-off`);
+    // After sending, a reload starts fresh instead of resuming.
+    await page.reload();
+    assert.equal(await active(), "intro", `${slug}: draft cleared after sending`);
+    assert.deepEqual(errors, [], `${slug}: browser errors`);
+    console.log(`PASS formularios/${slug}: mobile flow, resume after reload, accessibility, send and WhatsApp hand-off`);
+    await context.close();
+  }
 }
 run()
   .catch((e) => {
