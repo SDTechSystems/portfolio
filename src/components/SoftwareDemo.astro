@@ -5,7 +5,8 @@ import BusinessDemo from './demos/BusinessDemo.astro';
 import TvDemo from './demos/TvDemo.astro';
 import TaskToneDemo from './demos/TaskToneDemo.astro';
 import {getProjects} from '../i18n';
-import {demoKinds,type Locale,type SoftwareDemoId} from '../data/catalog';
+import WhatsAppFab from './WhatsAppFab.astro';
+import {demoKinds,waLink,waMessages,type Locale,type SoftwareDemoId} from '../data/catalog';
 import '../styles/software-demos.css';
 const {locale,id}=Astro.props as {locale:Locale;id:SoftwareDemoId};
 const base=import.meta.env.BASE_URL,es=locale==='es',p=getProjects(locale).find(p=>p.id===id)!;
@@ -38,6 +39,7 @@ const note=id==='tasktone'?(es?'Propuesta interactiva · Datos ficticios':'Inter
  {id==='tasktone'&&<TaskToneDemo locale={locale}/>}
  <footer class="demo-footer"><a href={`${base}${locale}/`}>SD Tech Systems</a><a href={`${base}${locale}/#contacto`}>{es?'Conversemos sobre tu proyecto':'Let’s talk about your project'} ↗</a><a href={`${base}demos/ATTRIBUTIONS.txt`}>{es?'Créditos':'Credits'}</a></footer>
  <div id="demo-notice" class="demo-toast" role="status" aria-live="polite" aria-atomic="true"></div>
+ <WhatsAppFab href={waLink(waMessages.demo(p.name,locale))} label={es?'Preguntar por WhatsApp':'Ask on WhatsApp'}/>
  <Accessibility locale={locale}/>
  <script>
    document.querySelector('#reset-demo')?.addEventListener('click',()=>location.reload());

@@ -1,0 +1,99 @@
+---
+import SiteLayout from './SiteLayout.astro';
+import Brand from './Brand.astro';
+import { forms, type Question } from '../data/forms';
+import { siteConfig, waLink, waMessages } from '../data/catalog';
+import '../styles/intake.css';
+const { slug }=Astro.props as {slug:string};
+const form=forms.find(f=>f.slug===slug)!;
+const base=import.meta.env.BASE_URL;
+const keys='ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+const questions=form.sections.flatMap((s,si)=>s.questions.map((q,qi)=>({...q,section:s,si,first:qi===0})));
+const total=questions.length;
+const googleUrl=`https://docs.google.com/forms/d/e/${form.formId}/viewform`;
+const fieldId=(q:Question)=>`q-${q.entry}`;
+const others=forms.filter(f=>f.slug!==slug);
+---
+<SiteLayout locale="es" title={`${form.name} · Formulario — SD Tech Systems`} description={form.lead} path={`formularios/${form.slug}/`} connect="https://docs.google.com" single>
+  <div class="intake-glow" aria-hidden="true"></div>
+  <header class="intake-top wrap">
+    <a class="intake-back" href={`${base}es/#cotizar`}>← <span>Portafolio</span></a>
+    <Brand href={`${base}es/`}/>
+    <p class="intake-counter" aria-hidden="true"><span data-counter>00</span> / {String(total).padStart(2,'0')}</p>
+  </header>
+  <div class="intake-progress" role="progressbar" aria-label="Avance del formulario" aria-valuemin="0" aria-valuemax={total} aria-valuenow="0"><span></span></div>
+
+  <main id="contenido" class="intake wrap" data-intake data-slug={form.slug} data-form-id={form.formId} data-total={total} data-label={form.whatsappLabel} data-wa={siteConfig.whatsapp}>
+    <noscript><p class="intake-nojs">Este formulario necesita JavaScript. También puedes <a href={googleUrl} target="_blank" rel="noopener noreferrer">responderlo en Google Forms ↗</a>.</p></noscript>
+    <form class="intake-form" novalidate data-intake-form>
+
+      <section class="intake-step intake-intro is-active" data-step="intro" aria-labelledby="intake-title">
+        <p class="eyebrow"><span class="terminal-cursor" aria-hidden="true">&gt;_</span>{form.eyebrow}</p>
+        <h1 id="intake-title" class="intake-title"><span class="line">{form.title}</span><span class="line"><em>{form.titleAccent}</em><span class="accent">.</span></span></h1>
+        <p class="intake-lead">{form.lead}</p>
+        <ul class="intake-meta"><li><b>{total}</b> preguntas</li><li><b>≈ {form.minutes}</b> minutos</li><li><b>{form.sections.length}</b> secciones</li></ul>
+        <div class="intake-actions"><button type="button" class="intake-btn intake-btn-primary" data-start>Comenzar <span aria-hidden="true">→</span></button><span class="intake-hint">o pulsa <kbd>Enter ↵</kbd></span></div>
+        <p class="intake-draft" data-draft-notice hidden>Retomamos tus respuestas guardadas en este dispositivo. <button type="button" data-clear-draft>Empezar de nuevo</button></p>
+      </section>
+
+      {questions.map((q,i)=>(
+        <section class="intake-step" data-step={i} data-entry={q.entry} data-kind={q.kind} data-required={q.required?'true':undefined} data-max={q.max} data-input={q.input} hidden>
+          <p class="intake-section" data-section-title={q.section.title}><span class="intake-section-num">{String(q.si+1).padStart(2,'0')}</span><span class="intake-section-name">{q.section.title}</span></p>
+          {q.first&&q.section.help&&<p class="intake-section-help">{q.section.help}</p>}
+          <fieldset class="intake-field">
+            <legend class="intake-question"><span class="intake-qnum" aria-hidden="true">{String(i+1).padStart(2,'0')} →</span>{(q.kind==='text'||q.kind==='long')?<label for={fieldId(q)}>{q.label}</label>:<span>{q.label}</span>}{q.required&&<span class="intake-req" aria-label="obligatoria">*</span>}</legend>
+            {q.help&&<p class="intake-help" id={`${fieldId(q)}-help`}>{q.help}</p>}
+            {q.kind==='text'&&<input class="intake-input" id={fieldId(q)} name={`entry.${q.entry}`} type={q.input==='tel'?'tel':'text'} inputmode={q.input==='tel'?'tel':q.input==='url'?'url':undefined} autocomplete={q.autocomplete||'off'} placeholder={q.placeholder||'Escribe tu respuesta aquí…'} aria-describedby={q.help?`${fieldId(q)}-help`:undefined} required={q.required} />}
+            {q.kind==='long'&&<textarea class="intake-input intake-textarea" id={fieldId(q)} name={`entry.${q.entry}`} rows="3" placeholder={q.placeholder||'Escribe tu respuesta aquí…'} aria-describedby={q.help?`${fieldId(q)}-help`:undefined} required={q.required}></textarea>}
+            {(q.kind==='radio'||q.kind==='checkbox')&&<div class:list={['intake-choices',(q.options!.length>6)&&'is-grid']}>
+              {q.options!.map((o,oi)=><label class="intake-choice" style={`--i:${oi}`}><input type={q.kind} name={`entry.${q.entry}`} value={o}/><span class="intake-key" aria-hidden="true">{keys[oi]}</span><span class="intake-choice-text">{o}</span><svg class="intake-check" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></label>)}
+              {q.other&&<label class="intake-choice intake-choice-other" style={`--i:${q.options!.length}`}><input type={q.kind} name={`entry.${q.entry}`} value="__other_option__" data-other/><span class="intake-key" aria-hidden="true">{keys[q.options!.length]}</span><span class="intake-choice-text">Otro</span><svg class="intake-check" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></label>}
+            </div>}
+            {q.other&&<input class="intake-input intake-other" type="text" name={`entry.${q.entry}.other_option_response`} placeholder="¿Cuál? Escríbelo aquí" aria-label={`${q.label}: otra opción`} hidden data-other-text/>}
+            {q.max&&<p class="intake-help intake-limit" aria-live="polite"><span data-picked>0</span> de {q.max} elegidas</p>}
+          </fieldset>
+          <p class="intake-error" role="alert" data-error></p>
+          <div class="intake-actions">
+            <button type="button" class="intake-btn intake-btn-primary" data-next>{i===total-1?'Revisar y enviar':'Continuar'} <span aria-hidden="true">{i===total-1?'✓':'→'}</span></button>
+            <span class="intake-hint">{q.kind==='long'?<>pulsa <kbd>Ctrl + Enter ↵</kbd></>:(q.kind==='text'?<>pulsa <kbd>Enter ↵</kbd></>:<>elige con <kbd>A</kbd>, <kbd>B</kbd>, <kbd>C</kbd>…</>)}</span>
+            {!q.required&&<button type="button" class="intake-skip" data-next data-skip>Omitir</button>}
+          </div>
+        </section>
+      ))}
+
+      <section class="intake-step intake-review" data-step="review" hidden aria-labelledby="review-title">
+        <p class="eyebrow">ÚLTIMO PASO</p>
+        <h2 id="review-title" class="intake-title intake-title-sm">Todo listo para <em>enviar</em><span class="accent">.</span></h2>
+        <p class="intake-lead">Respondiste <b data-answered>0</b> de {total} preguntas. Puedes volver a cualquier pregunta antes de enviar.</p>
+        <ol class="intake-summary" data-summary></ol>
+        <p class="intake-error" role="alert" data-send-error></p>
+        <div class="intake-actions"><button type="submit" class="intake-btn intake-btn-primary" data-send><span data-send-label>Enviar respuestas</span> <span aria-hidden="true">↗</span></button><span class="intake-hint">Tus respuestas llegan directo a SD Tech Systems.</span></div>
+      </section>
+
+      <section class="intake-step intake-done" data-step="done" hidden aria-labelledby="done-title" tabindex="-1">
+        <div class="intake-burst" aria-hidden="true">{Array.from({length:18},(_,k)=><i style={`--k:${k}`}></i>)}</div>
+        <svg class="intake-done-check" viewBox="0 0 80 80" aria-hidden="true"><circle cx="40" cy="40" r="36"/><path d="M24 41l11 11 22-24"/></svg>
+        <p class="eyebrow">FORMULARIO RECIBIDO / {form.name.toUpperCase()}</p>
+        <h2 id="done-title" class="intake-title intake-title-sm">¡Gracias<span data-done-name></span>!<br/><em>Ya estoy en ello</em><span class="accent">.</span></h2>
+        <p class="intake-lead">Recibí tus respuestas sobre <b>{form.name.toLowerCase()}</b>. Comenzaré a trabajar en ello y te escribiré por WhatsApp con los siguientes pasos. Si quieres adelantar la conversación o enviarme imágenes de referencia, avísame que ya llenaste el formulario:</p>
+        <div class="intake-actions">
+          <a class="intake-btn intake-btn-wa" data-done-wa href={waLink(`Hola Juan, acabo de llenar el formulario de ${form.whatsappLabel} en sdtechsystems.dev. Quedo atento(a).`)} target="_blank" rel="noopener noreferrer"><svg class="wa-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.2A9.7 9.7 0 0 0 3.7 16.9L2.4 21.6l4.8-1.3A9.7 9.7 0 1 0 12 2.2Zm0 17.7c-1.5 0-3-.4-4.2-1.2l-.3-.2-2.9.8.8-2.8-.2-.3A8 8 0 1 1 12 19.9Zm4.4-6c-.2-.1-1.4-.7-1.7-.8-.2-.1-.4-.1-.5.1l-.8 1c-.1.2-.3.2-.5.1a6.5 6.5 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.5-.4h-.5a.9.9 0 0 0-.7.3 2.8 2.8 0 0 0-.9 2.1 4.9 4.9 0 0 0 1 2.6 11.2 11.2 0 0 0 4.3 3.8c1.6.7 2.2.7 3 .6.5-.1 1.4-.6 1.6-1.1.2-.6.2-1 .1-1.1l-.5-.3Z"/></svg>Avisar por WhatsApp</a>
+          <a class="intake-btn" href={`${base}es/`}>Volver al portafolio</a>
+        </div>
+        <p class="intake-hint">El mensaje se escribe solo e incluye el formulario que llenaste.</p>
+      </section>
+    </form>
+
+    <nav class="intake-nav" aria-label="Navegar el formulario" data-nav hidden>
+      <button type="button" data-prev aria-label="Pregunta anterior">↑</button>
+      <button type="button" data-fwd aria-label="Pregunta siguiente">↓</button>
+    </nav>
+  </main>
+
+  <aside class="intake-more wrap" aria-labelledby="otros-formularios">
+    <p class="eyebrow" id="otros-formularios">¿BUSCABAS OTRO SERVICIO?</p>
+    <div class="intake-more-links">{others.map(f=><a href={`${base}es/formularios/${f.slug}/`}>{f.name} ↗</a>)}<a href={waLink(waMessages.quotes.es)} target="_blank" rel="noopener noreferrer">Prefiero escribir por WhatsApp ↗</a><a href={googleUrl} target="_blank" rel="noopener noreferrer">Abrir en Google Forms ↗</a></div>
+  </aside>
+
+  <script>import '../scripts/intake';</script>
+</SiteLayout>

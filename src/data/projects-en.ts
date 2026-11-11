@@ -1,19 +1,19 @@
 // English product content; original Spanish content lives in projects.ts.
 export const english: Record<string, { name?: string; category: string; status: string; version: string; title: string; description: string; features: string[]; progress: string; capture: string }> = {
  'akashic-vault': {
-  category:'Local AI · Desktop', status:'In development', version:'0.6.0-dev',
+  category:'Local AI · Desktop', status:'Release candidate', version:'0.9.0-rc.2',
   title:'A space to think. A vault to keep it.',
   description:'A Windows desktop application combining local AI assistants with an encrypted vault. Once models are installed, chat can run without an account or cloud services.',
   features:['Chat with local models and different assistance modes.','Encrypted history with access tied to the original USB drive.','Image generation and, in the Max edition, silent video generation.','Engine installation from USB or through a consented download.'],
-  progress:'In development for Windows, with Lite, Pro and Max editions. Commercial distribution and the update system are in preparation.',
+  progress:'Release candidate 0.9 for Windows, with Lite, Pro and Max editions. The Lite edition passed its physical acceptance test and Akashic Studio now prepares, tests and delivers USB drives in batches. Commercial distribution is in its final stage.',
   capture:'Interactive workspace reconstruction with sample conversations.',
  },
  openmultipos:{
-  category:'Business management · ERP',status:'In development',version:'Local integration',
+  category:'Business management · ERP',status:'Delivery testing',version:'Windows installation',
   title:'Two businesses. One workspace.',
   description:'A self-hosted administration workspace built on ERPNext, Frappe and X POS. It brings together sales, inventory, purchases and finances for two businesses while keeping their documents, stock and accounts separate.',
   features:['Business selection, profiles and permissions.','Sales, inventory, purchases, customers and team management.','A combined basket with a separate invoice per business and an internal receipt.','Native online checkout, backups and local recovery.'],
-  progress:'Local integration in development for administration and point of sale. DIAN electronic invoicing and offline operation are not included in the current version. Portable and installable delivery is in preparation.',
+  progress:'Administration, checkout, returns, warranties and purchase costs are integrated. The Windows delivery now includes a local server, guided first use in Spanish, real cashier receipts and guided backups, and is in acceptance testing. DIAN electronic invoicing and offline operation are not included in the current version.',
   capture:'Demo dashboard adapted from the administration workspace, with fictional data.',
  },
  'easy-drink':{
@@ -21,7 +21,7 @@ export const english: Record<string, { name?: string; category: string; status: 
   title:'Business keeps moving, even offline.',
   description:'An offline point-of-sale adaptation based on FreeKasir. A shared codebase supports a PWA and an Android application, with local storage and Spanish/English interfaces.',
   features:['Checkout, discounts, payments and open bills.','Products, barcodes and inventory.','Customers, suppliers, expenses, debts and reports.','PIN-based users, backups and thermal printing.'],
-  progress:'An evolving point of sale for web and Android, with local storage and Spanish/English interfaces. Printer and device setup is defined for each implementation.',
+  progress:'An evolving point of sale for web and Android. The latest version runs fully locally, with no cloud, billing or telemetry, uses Colombian pesos (COP) and opens in Spanish by default. Printer and device setup is defined for each implementation.',
   capture:'Reconstructed demo interface with fictional products and sales.',
  },
  'akashic-tv':{

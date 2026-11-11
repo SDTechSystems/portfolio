@@ -3,7 +3,8 @@ import { Image,getImage } from 'astro:assets';
 import Icon from './WeddingIcon.astro';
 import Rose from './WeddingRose.astro';
 import { demoEvent,weddingCopy } from '../data/wedding-demo';
-import type { Locale } from '../data/catalog';
+import { waLink, type Locale } from '../data/catalog';
+import WhatsAppFab from './WhatsAppFab.astro';
 import stationery from '../assets/wedding/stationery.png';
 import table from '../assets/wedding/table.png';
 import garden from '../assets/wedding/garden.png';
@@ -47,6 +48,7 @@ const stamp=(value:string)=>value.replace(/[-:]/g,'').replace('.000','');
   <dialog id="access-dialog" aria-labelledby="access-title"><button class="dialog-close" type="button" data-close aria-label={t.close}><Icon name="close"/></button><p class="eyebrow">{t.access}</p><h2 id="access-title">{t.accessTitle}</h2><p>{t.accessIntro}</p><fieldset><legend>{t.textSize}</legend><div class="text-size-options">{t.sizes.map((label,i)=><label><input type="radio" name="text-size" value={i} checked={i===0}/><span>{label}</span></label>)}</div></fieldset><label class="toggle-row"><span>{t.contrast}</span><input type="checkbox" id="contrast"/></label><label class="toggle-row"><span>{t.motion}</span><input type="checkbox" id="motion"/></label><button class="button button-outline" type="button" id="reset-preferences">{t.resetPreferences}</button><p class="small">{t.preferencesNote}</p><p id="preference-status" class="sr-only" role="status"></p></dialog>
   <dialog id="photo-dialog" class="photo-dialog" aria-labelledby="photo-dialog-title"><div class="lightbox-heading"><h2 id="photo-dialog-title">{t.lightbox}</h2><button class="dialog-close" type="button" data-close aria-label={t.close}><Icon name="close"/></button></div><img id="lightbox-image" width="1440" height="1080" alt=""/><div class="lightbox-controls"><button type="button" id="previous-photo" aria-label={t.previous}><Icon name="left"/></button><p id="photo-counter" role="status"></p><button type="button" id="next-photo" aria-label={t.next}><Icon name="right"/></button></div></dialog>
   <dialog id="map-dialog" aria-labelledby="map-title"><button class="dialog-close" type="button" data-close aria-label={t.close}><Icon name="close"/></button><h2 id="map-title">{t.mapTitle}</h2><p id="map-venue"></p><div class="demo-map-canvas"><svg id="demo-map-art" viewBox="0 0 500 330" role="img" aria-label={t.mapTitle}><rect width="500" height="330" fill="#eee9df"/><path d="M0 70h500M0 260h500M100 0v330M370 0v330" stroke="#fffdf8" stroke-width="28"/><rect x="140" y="110" width="190" height="110" rx="35" fill="#c7d1b9"/><path d="M255 135c-34 0-40 44 0 74 40-30 34-74 0-74Z" fill="#713c49"/><circle cx="255" cy="162" r="9" fill="#fffdf8"/></svg></div><div class="demo-map-controls"><button type="button" class="button button-outline" id="map-out" aria-label={t.zoomOut}>−</button><button type="button" class="button button-outline" id="map-in" aria-label={t.zoomIn}>+</button></div><p class="small">{t.mapNotice}</p></dialog>
+  <WhatsAppFab href={waLink(locale==='es'?'Hola Juan, estuve viendo la invitación de boda interactiva en tu portafolio y me gustaría una web así para mi evento.':'Hi Juan, I was looking at the interactive wedding invitation in your portfolio and would like a website like this for my event.')} label={locale==='es'?'Quiero una web así':'I want one like this'}/>
   <script>
     import '../scripts/wedding-demo';
   </script>

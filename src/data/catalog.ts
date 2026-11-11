@@ -22,7 +22,31 @@ export const siteConfig = {
   author: 'Juan Sebastián Duque Valencia',
   email: 'contacto@sdtechsystems.dev',
   github: 'https://github.com/SDTechSystems',
+  // WhatsApp Business with country code, digits only (57 = Colombia).
+  whatsapp: '573058147293',
   defaultLocale: 'es' as Locale,
+};
+
+// wa.me link that opens the chat with a pre-written message.
+export const waLink = (text:string) => `https://wa.me/${siteConfig.whatsapp}?text=${encodeURIComponent(text)}`;
+export const waMessages = {
+  portfolio: { es:'Hola Juan, estuve viendo el portafolio de SD Tech Systems y me gustaría hablar sobre un proyecto.', en:'Hi Juan, I was looking at the SD Tech Systems portfolio and would like to talk about a project.' },
+  projects: { es:'Hola Juan, vi los proyectos de tu portafolio y quiero saber cuál solución se adapta a mi negocio.', en:'Hi Juan, I saw the projects in your portfolio and would like to know which solution fits my business.' },
+  contact: { es:'Hola Juan, vengo de la sección de contacto de tu portafolio. Tengo una idea y me gustaría conversarla contigo.', en:'Hi Juan, I’m coming from the contact section of your portfolio. I have an idea and would like to discuss it with you.' },
+  quotes: { es:'Hola Juan, quiero cotizar un proyecto con SD Tech Systems, pero aún no sé cuál formulario llenar.', en:'Hi Juan, I’d like a quote from SD Tech Systems, but I’m not sure which form to fill in.' },
+  project: (name:string,locale:Locale) => locale==='es'
+    ? `Hola Juan, estuve viendo ${name} en tu portafolio y me interesa una solución así para mi negocio.`
+    : `Hi Juan, I was looking at ${name} in your portfolio and I’m interested in a similar solution for my business.`,
+  demo: (name:string,locale:Locale) => locale==='es'
+    ? `Hola Juan, estuve probando la demo de ${name} en tu portafolio y quiero saber más.`
+    : `Hi Juan, I was trying the ${name} demo in your portfolio and would like to know more.`,
+};
+
+// "Act. nov 2026" from an ISO date or a bare year.
+export const formatUpdated = (value:string,locale:Locale) => {
+  if(/^\d{4}$/.test(value)) return value;
+  const date=new Date(`${value}T12:00:00`);
+  return new Intl.DateTimeFormat(locale==='es'?'es-CO':'en-US',{day:'numeric',month:'short',year:'numeric'}).format(date).replace('.','');
 };
 
 // Routes to full, anonymous product showcases (relative to each language root).

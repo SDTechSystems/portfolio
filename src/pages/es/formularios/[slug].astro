@@ -1,0 +1,8 @@
+---
+import IntakeFormPage from '../../../components/IntakeFormPage.astro';
+import { forms } from '../../../data/forms';
+// Forms are Spanish only; /en/ pages link here too.
+export function getStaticPaths(){ return forms.map(f=>({params:{slug:f.slug},props:{slug:f.slug}})); }
+const {slug}=Astro.props;
+---
+<IntakeFormPage slug={slug}/>

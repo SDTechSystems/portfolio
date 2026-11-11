@@ -5,18 +5,20 @@ import Brand from './Brand.astro';
 import { siteConfig, type Locale } from '../data/catalog';
 import { words } from '../i18n';
 import '../styles.css';
-const { locale, title, description, projectId }=Astro.props as {locale:Locale;title:string;description:string;projectId?:string};
+const { locale, title, description, projectId, path, connect, single }=Astro.props as {locale:Locale;title:string;description:string;projectId?:string;path?:string;connect?:string;single?:boolean};
 const t=words[locale], base=import.meta.env.BASE_URL;
-const suffix=projectId?`proyectos/${projectId}/`:'';
+const suffix=path??(projectId?`proyectos/${projectId}/`:'');
 const url=(lang:string)=>new URL(`${base}${lang}/${suffix}`,Astro.site).href;
+// Intake forms may only reach Google Forms; every other page keeps connections blocked.
+const connectSrc=connect?`connect-src ${connect}`:"connect-src 'none'";
 ---
 <!doctype html>
 <html lang={locale}>
 <head>
   <meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>{title}</title><meta name="description" content={description}/><meta name="theme-color" content="#07111F"/>
-  <meta http-equiv="Content-Security-Policy" content={import.meta.env.PROD?"form-action 'none'; frame-src 'none'; connect-src 'none'; object-src 'none'; base-uri 'self'":"form-action 'none'; frame-src 'none'; object-src 'none'; base-uri 'self'"}/>
-  <link rel="canonical" href={url(locale)}/><link rel="alternate" hreflang="es" href={url('es')}/><link rel="alternate" hreflang="en" href={url('en')}/><link rel="alternate" hreflang="x-default" href={url('es')}/>
+  <meta http-equiv="Content-Security-Policy" content={import.meta.env.PROD?`form-action 'none'; frame-src 'none'; ${connectSrc}; object-src 'none'; base-uri 'self'`:"form-action 'none'; frame-src 'none'; object-src 'none'; base-uri 'self'"}/>
+  <link rel="canonical" href={url(locale)}/>{!single&&<><link rel="alternate" hreflang="es" href={url('es')}/><link rel="alternate" hreflang="en" href={url('en')}/><link rel="alternate" hreflang="x-default" href={url('es')}/></>}
   <link rel="icon" href={`${base}favicon.ico`} sizes="any"/><link rel="icon" href={`${base}favicon-32.png`} type="image/png" sizes="32x32"/>
   <script is:inline>
     try {

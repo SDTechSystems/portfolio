@@ -42,7 +42,11 @@ En PowerShell, usar `$env:PAGES_BASE='/portfolio/'` antes de `npm run build`.
 
 ## Contenido y mantenimiento
 
-Los proyectos se editan en `src/data/projects.ts` y `src/data/projects-en.ts`. Las categorías y los datos de contacto están en `src/data/catalog.ts`.
+Los proyectos se editan en `src/data/projects.ts` y `src/data/projects-en.ts` (`updated` es la fecha de la última actualización que muestra cada ficha). Las categorías, el WhatsApp y los mensajes prescritos están en `src/data/catalog.ts`.
+
+Los formularios de cotización (`/es/formularios/diseno-de-marca/`, `/pagina-web/` y `/software-a-medida/`) envían las respuestas al Google Form correspondiente y de ahí a su hoja. Sus preguntas están en `src/data/forms.ts`: si cambias una pregunta u opción en Google Forms, copia el mismo texto allí, porque Google descarta opciones que no coinciden exactamente.
+
+El catálogo Nintendo Switch se retiró en noviembre de 2026; su código completo quedó en la etiqueta `archivo/catalogo-nintendo-2026-11`.
 
 - [Guía de configuración](docs/CONFIGURACION.md).
 - [Funcionamiento de las demos](docs/DEMOS_SOFTWARE.md).
