@@ -37,6 +37,11 @@ export const waMessages = {
   project: (name:string,locale:Locale) => locale==='es'
     ? `Hola Juan, estuve viendo ${name} en tu portafolio y me interesa una solución así para mi negocio.`
     : `Hi Juan, I was looking at ${name} in your portfolio and I’m interested in a similar solution for my business.`,
+  brands: { es:'Hola Juan, vi los diseños de marca de tu portafolio y quiero cotizar la identidad de mi negocio.', en:'Hi Juan, I saw the brand designs in your portfolio and I’d like a quote for my business identity.' },
+  // Tells Juan exactly which showcase design the client liked, with its link.
+  brand: (name:string,style:string,url:string,locale:Locale) => locale==='es'
+    ? `Hola Juan, me gustó el diseño de marca «${name}» (${style.toLowerCase()}) de tu portafolio y quiero algo así para mi negocio: ${url}`
+    : `Hi Juan, I liked the «${name}» brand design (${style.toLowerCase()}) in your portfolio and I’d like something like it for my business: ${url}`,
   demo: (name:string,locale:Locale) => locale==='es'
     ? `Hola Juan, estuve probando la demo de ${name} en tu portafolio y quiero saber más.`
     : `Hi Juan, I was trying the ${name} demo in your portfolio and would like to know more.`,

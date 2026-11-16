@@ -1,9 +1,9 @@
 ---
 import type { Locale } from '../data/catalog';
 import { words } from '../i18n';
-const { locale, projectId } = Astro.props as {locale:Locale;projectId?:string};
+const { locale, projectId, path } = Astro.props as {locale:Locale;projectId?:string;path?:string};
 const base=import.meta.env.BASE_URL;
-const suffix=projectId ? `proyectos/${projectId}/` : '';
+const suffix=path ?? (projectId ? `proyectos/${projectId}/` : '');
 ---
 <nav class="language-switch" aria-label={words[locale].lang}>
   {(['es','en'] as const).map(lang=><a href={`${base}${lang}/${suffix}`} lang={lang} hreflang={lang} aria-current={locale===lang?'page':undefined} aria-label={lang==='es'?'Español':'English'}>{lang.toUpperCase()}</a>)}
