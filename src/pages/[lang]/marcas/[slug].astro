@@ -1,0 +1,8 @@
+---
+import BrandPage from '../../../components/BrandPage.astro';
+import { locales } from '../../../i18n';
+import { brands } from '../../../data/brands';
+export function getStaticPaths(){ return locales.flatMap(locale=>brands.map(b=>({params:{lang:locale,slug:b.slug},props:{locale,slug:b.slug}}))); }
+const {locale,slug}=Astro.props;
+---
+<BrandPage locale={locale} slug={slug}/>

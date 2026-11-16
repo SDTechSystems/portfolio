@@ -505,6 +505,7 @@ async function run() {
   await nojs.close();
   console.log("PASS: all five bilingual demos and no-JavaScript form safety");
   await testIntakeForms();
+  await testBrandShowcase();
 }
 
 // Quote forms: answer on a phone, reload mid-way, resume, send and see the WhatsApp hand-off.
@@ -567,6 +568,63 @@ async function testIntakeForms() {
     assert.equal(await active(), "intro", `${slug}: draft cleared after sending`);
     assert.deepEqual(errors, [], `${slug}: browser errors`);
     console.log(`PASS formularios/${slug}: mobile flow, resume after reload, accessibility, send and WhatsApp hand-off`);
+    await context.close();
+  }
+}
+// Brand design showcase: gallery filters, brand pages, WhatsApp hand-off, zoom, assets and accessibility.
+async function testBrandShowcase() {
+  const data = JSON.parse(fs.readFileSync(path.join(__dirname, "../src/data/brand-showcase.json"), "utf8"));
+  assert.equal(data.brands.length, 24, "24 sample brands");
+  for (const lang of ["es", "en"]) {
+    const context = await browser.newContext({ reducedMotion: "reduce" });
+    const page = await context.newPage();
+    const errors = [], failed = [];
+    page.on("pageerror", (e) => errors.push(e.message));
+    page.on("requestfailed", (r) => failed.push(r.url()));
+    page.on("response", (r) => { if (r.status() >= 400) failed.push(`${r.status()} ${r.url()}`); });
+    await page.goto(`${base}${lang}/`);
+    const nav = page.locator(`.main-navigation a[href$="/${lang}/marcas/"]`);
+    assert.equal(await nav.count(), 1, `${lang}: brands link in the main menu`);
+    assert.equal(await page.locator("#marcas .brand-card").count(), 6, `${lang}: home teaser shows 6 brands`);
+    await nav.click();
+    await page.waitForURL(`**/${lang}/marcas/`);
+    assert.equal(await page.locator(".brand-card").count(), 24, `${lang}: gallery lists 24 brands`);
+    for (const style of data.styles) {
+      await page.locator(`[data-brand-filter="${style.id}"]`).click();
+      const visible = await page.locator(".brand-card:not([hidden])").count();
+      assert.equal(visible, data.brands.filter((b) => b.style === style.id).length, `${lang}: filter ${style.id}`);
+    }
+    await page.locator('[data-brand-filter="all"]').click();
+    const axe = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa"]).analyze();
+    assert.deepEqual(axe.violations.map((v) => v.id), [], `${lang}: gallery accessibility`);
+    for (const slug of ["sereno", "voltio", "la-navaja"]) {
+      const brand = data.brands.find((b) => b.slug === slug);
+      await page.goto(`${base}${lang}/marcas/${slug}/`);
+      await page.evaluate(async () => { for (let y = 0; y < document.body.scrollHeight; y += 700) { window.scrollTo(0, y); await new Promise((r) => setTimeout(r, 30)); } });
+      const broken = await page.evaluate(() => [...document.images].filter((i) => i.getAttribute("src") && i.complete && i.naturalWidth === 0).map((i) => i.src));
+      assert.deepEqual(broken, [], `${lang}/${slug}: images load`);
+      const wa = await page.locator(".bp-hero a.brand-btn.wa").getAttribute("href");
+      assert.ok(wa.startsWith("https://wa.me/573058147293?text="), `${lang}/${slug}: WhatsApp number`);
+      const text = decodeURIComponent(wa.split("text=")[1]);
+      assert.ok(text.includes(`«${brand.name}»`) && text.includes(`/${lang}/marcas/${slug}/`), `${lang}/${slug}: message names the design and its link`);
+      assert.equal(await page.locator(".mockup-grid .mock").count(), brand.mockups.length + brand.corporate.length, `${lang}/${slug}: product and corporate mockups`);
+      await page.locator(".mockup-grid .mock button").first().click();
+      assert.ok(await page.locator("#brand-zoom").evaluate((d) => d.open), `${lang}/${slug}: zoom opens`);
+      await page.keyboard.press("Escape");
+      assert.ok(!(await page.locator("#brand-zoom").evaluate((d) => d.open)), `${lang}/${slug}: zoom closes`);
+      const results = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa"]).analyze();
+      assert.deepEqual(results.violations.map((v) => `${v.id}: ${v.nodes.map((n) => n.target).join(" ")}`), [], `${lang}/${slug}: accessibility`);
+      for (const width of [360, 390, 768, 1440]) {
+        await page.setViewportSize({ width, height: 900 });
+        assert.ok(!(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth)), `${lang}/${slug}: no horizontal scroll at ${width}px`);
+      }
+      await page.setViewportSize({ width: 1280, height: 720 });
+      const other = lang === "es" ? "en" : "es";
+      assert.ok((await page.locator(`.language-switch a[lang=${other}]`).getAttribute("href")).endsWith(`/${other}/marcas/${slug}/`), `${lang}/${slug}: language switch keeps the brand`);
+    }
+    assert.deepEqual(errors, [], `${lang}: browser errors`);
+    assert.deepEqual(failed, [], `${lang}: failed requests`);
+    console.log(`PASS ${lang}/marcas: menu, filters, 3 brand pages, WhatsApp hand-off, zoom, images, accessibility and reflow`);
     await context.close();
   }
 }

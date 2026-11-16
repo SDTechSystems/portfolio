@@ -1,0 +1,127 @@
+---
+import SiteLayout from './SiteLayout.astro';
+import LanguageSwitch from './LanguageSwitch.astro';
+import Brand from './Brand.astro';
+import WhatsAppIcon from './WhatsAppIcon.astro';
+import { brands, brandAsset, styleLabel, versionLabels, kitPieces, misuses, packageItems, corporateItems, zipTree } from '../data/brands';
+import { waLink, waMessages, type Locale } from '../data/catalog';
+import '../styles/brands.css';
+const { locale, slug } = Astro.props as { locale: Locale; slug: string };
+const base = import.meta.env.BASE_URL, es = locale === 'es';
+const i = brands.findIndex(b => b.slug === slug), b = brands[i];
+const prev = brands[(i - 1 + brands.length) % brands.length], next = brands[(i + 1) % brands.length];
+const asset = (f: string) => brandAsset(base, b.slug, f);
+const path = `marcas/${b.slug}/`;
+const style = styleLabel(b.style, locale);
+const wa = waLink(waMessages.brand(b.name, style, new URL(`${base}${locale}/${path}`, Astro.site).href, locale));
+const form = `${base}es/formularios/diseno-de-marca/`;
+const tile = (bg: string) => ({ bg });
+const s = b.surfaces;
+const display = b.fonts[0], textFont = b.fonts[1];
+const alt = (what: string) => `${b.name}: ${what}`;
+const rules = es ? [
+  `Deja alrededor del logo un margen libre al menos igual a la mitad de la altura del símbolo.`,
+  `Tamaño mínimo: 25 mm de ancho impreso o 120 px en pantalla; el símbolo solo, 10 mm o 32 px.`,
+  `Usa la versión principal sobre fondos claros y la inversa sobre ${b.colors.find(c => c.hex === s.strong.toUpperCase())?.name.es.toLowerCase() ?? 'fondos oscuros'}.`,
+  `Para sellos, grabados o una sola tinta, usa las versiones en negro o blanco.`,
+] : [
+  `Keep clear space around the logo of at least half the symbol's height.`,
+  `Minimum size: 25 mm wide in print or 120 px on screen; the symbol alone, 10 mm or 32 px.`,
+  `Use the primary version on light backgrounds and the reversed one on ${b.colors.find(c => c.hex === s.strong.toUpperCase())?.name.en.toLowerCase() ?? 'dark backgrounds'}.`,
+  `For stamps, engraving or single-ink printing, use the black or white versions.`,
+];
+const sections = es
+  ? ['Logotipo y versiones', 'Paleta de color', 'Tipografías', 'Redes sociales y stickers', 'Aplicaciones en productos', 'Imagen corporativa', 'Guía de uso', 'Lo que recibe el cliente']
+  : ['Logo and versions', 'Color palette', 'Typefaces', 'Social media and stickers', 'Product applications', 'Corporate identity', 'Usage guide', 'What the client receives'];
+const num = (n: number) => String(n).padStart(2, '0');
+---
+<SiteLayout locale={locale} title={`${b.name} — ${es ? 'Diseño de marca' : 'Brand design'} · SD Tech Systems`} description={b.concept[locale]} path={path}>
+  <nav class="wrap detail-nav" aria-label={es ? 'Navegación' : 'Navigation'}><a href={`${base}${locale}/marcas/`}>← {es ? 'Todas las marcas' : 'All brands'}</a><Brand href={`${base}${locale}/`} /><LanguageSwitch locale={locale} path={path} /></nav>
+  <main id="contenido" class="brand-page" style={`--brand-strong:${s.strong};--brand-strong-text:${s.strongText};--brand-light:${s.light};--brand-light-text:${s.lightText}`}>
+    <section class="wrap bp-hero" aria-labelledby="marca-titulo">
+      <div>
+        <p class="eyebrow">{es ? 'EJEMPLO' : 'SAMPLE'} {num(b.n)} / 24 · {style.toUpperCase()}</p>
+        <h1 id="marca-titulo">{b.name}<span class="accent">.</span></h1>
+        <p class="bp-concept">{b.concept[locale]}</p>
+        <div class="bp-meta"><span class="chip">{b.sector[locale]}</span><span class="chip">{b.logoKind[locale]}</span>{b.personality[locale].map(p => <span class="chip">{p}</span>)}</div>
+        <p class="bp-tagline">{es ? 'Eslogan' : 'Tagline'}: <strong>«{b.tagline.es}»</strong>{!es && <> ({b.tagline.en})</>}</p>
+        <div class="brand-actions"><a class="brand-btn wa" href={wa} target="_blank" rel="noopener noreferrer"><WhatsAppIcon />{es ? 'Quiero un diseño así' : 'I want a design like this'}</a><a class="brand-btn" href={form}>{es ? 'Llenar el brief' : 'Fill in the brief'}{!es && <small> · ES</small>} ↗</a></div>
+      </div>
+      <figure class="bp-cover"><img src={asset('portada.svg')} alt={alt(es ? 'logo, símbolo y paleta' : 'logo, symbol and palette')} width="1200" height="900" /></figure>
+    </section>
+
+    <nav class="wrap bp-index" aria-label={es ? 'Secciones de la marca' : 'Brand sections'}>{sections.map((t, k) => <a href={`#s${k + 1}`}><span>{num(k + 1)}</span>{t}</a>)}</nav>
+
+    <section id="s1" class="wrap bp-section" aria-labelledby="h-s1">
+      <p class="eyebrow">01 / {sections[0].toUpperCase()}</p><h2 id="h-s1" class="bp-title">{es ? 'Un logo, seis formas de usarlo' : 'One logo, six ways to use it'}<span>.</span></h2>
+      <p class="section-intro">{es ? 'Cada versión resuelve un caso: la principal para casi todo, la vertical para espacios cuadrados, el símbolo para perfiles y sellos, y las de una tinta para grabados e impresiones económicas.' : 'Each version solves a case: the primary for almost everything, the stacked one for square spaces, the symbol for profiles and stamps, and the one-color versions for engraving and low-cost printing.'}</p>
+      <div class="logo-grid">{b.versions.map(v => { const t = tile(v.bg); return <figure class="logo-fig"><div class="logo-tile" style={`background:${t.bg}`}><img src={asset(`logo-${v.key}.svg`)} alt={alt(versionLabels[v.key][locale])} width={Math.round(300 * Math.min(v.ratio, 4))} height="300" loading="lazy" /></div><figcaption>{versionLabels[v.key][locale]}</figcaption></figure>; })}</div>
+    </section>
+
+    <section id="s2" class="wrap bp-section" aria-labelledby="h-s2">
+      <p class="eyebrow">02 / {sections[1].toUpperCase()}</p><h2 id="h-s2" class="bp-title">{es ? 'Colores con nombre propio' : 'Colors with their own names'}<span>.</span></h2>
+      <div class="swatches">{b.colors.map(c => <div class="swatch"><div class="swatch-color" style={`background:${c.hex}`}></div><p class="swatch-name"><strong>{c.name[locale]}</strong><span>{c.use[locale]}</span></p><dl><div><dt>HEX</dt><dd>{c.hex}</dd></div><div><dt>RGB</dt><dd>{c.rgb.join(', ')}</dd></div><div><dt>CMYK*</dt><dd>{c.cmyk.join(', ')}</dd></div></dl></div>)}</div>
+      <p class="fine-print">{es ? '* CMYK aproximado. Para impresión, pide una prueba de color a la imprenta.' : '* Approximate CMYK. For print, ask the printer for a color proof.'}</p>
+    </section>
+
+    <section id="s3" class="wrap bp-section" aria-labelledby="h-s3">
+      <p class="eyebrow">03 / {sections[2].toUpperCase()}</p><h2 id="h-s3" class="bp-title">{es ? 'Letras con carácter' : 'Type with character'}<span>.</span></h2>
+      <div class="type-grid">{[display, textFont].map(f => <figure class="type-card"><img src={asset(f.file)} alt={alt(`${f.family}`)} width="1200" height="640" loading="lazy" /><figcaption><span class="tc-name"><strong>{f.family}</strong> · {f.role === 'display' ? (es ? 'títulos y logo' : 'headings and logo') : (es ? 'textos' : 'body text')}</span><span class="tc-lic">{f.license} · <a href={f.url} target="_blank" rel="noopener noreferrer">Google Fonts ↗</a></span></figcaption></figure>)}</div>
+    </section>
+
+    <section id="s4" class="wrap bp-section" aria-labelledby="h-s4">
+      <p class="eyebrow">04 / {sections[3].toUpperCase()}</p><h2 id="h-s4" class="bp-title">{es ? 'Lista para publicar' : 'Ready to post'}<span>.</span></h2>
+      <div class="kit-grid">{kitPieces.map((p, k) => <figure class={`kit-item kit-${k}`}><button type="button" data-zoom={asset(p.file)} data-caption={`${p.label[locale]} · ${p.w} × ${p.h} px`}><img src={asset(p.file)} alt={alt(p.label[locale])} width={p.w} height={p.h} loading="lazy" /></button><figcaption>{p.label[locale]}<span>{p.w} × {p.h} px</span></figcaption></figure>)}</div>
+    </section>
+
+    <section id="s5" class="wrap bp-section" aria-labelledby="h-s5">
+      <p class="eyebrow">05 / {sections[4].toUpperCase()}</p><h2 id="h-s5" class="bp-title">{es ? 'Así se ve en sus productos' : 'How it looks on its products'}<span>.</span></h2>
+      <p class="section-intro">{es ? 'Visualizaciones de referencia para imaginar la marca en uso. El diseño de empaques, etiquetas o avisos se cotiza aparte.' : 'Reference visuals to picture the brand in use. Packaging, label or sign design is quoted separately.'}</p>
+      <div class="mockup-grid">{b.mockups.map(m => <figure class="mock"><button type="button" data-zoom={asset(`mockup-${m.key}.svg`)} data-caption={m.label[locale]}><img src={asset(`mockup-${m.key}.svg`)} alt={alt(m.label[locale])} width="1200" height="900" loading="lazy" /></button><figcaption>{m.label[locale]}<span>{es ? 'Ampliar' : 'Enlarge'} ↗</span></figcaption></figure>)}</div>
+    </section>
+
+    <section id="s6" class="wrap bp-section" aria-labelledby="h-s6">
+      <p class="eyebrow">06 / {sections[5].toUpperCase()}</p><h2 id="h-s6" class="bp-title">{es ? 'La marca en cada contacto' : 'The brand at every touchpoint'}<span>.</span></h2>
+      <p class="section-intro">{es ? 'La imagen corporativa lleva la identidad a la papelería, el correo, las presentaciones, los uniformes y los avisos, para que el negocio se vea igual de profesional en todas partes.' : 'Corporate identity carries the brand into stationery, email, presentations, uniforms and signs, so the business looks equally professional everywhere.'}</p>
+      <div class="mockup-grid">{b.corporate.map(m => <figure class="mock"><button type="button" data-zoom={asset(`mockup-${m.key}.svg`)} data-caption={m.label[locale]}><img src={asset(`mockup-${m.key}.svg`)} alt={alt(m.label[locale])} width="1200" height="900" loading="lazy" /></button><figcaption>{m.label[locale]}<span>{es ? 'Ampliar' : 'Enlarge'} ↗</span></figcaption></figure>)}</div>
+      <ul class="corp-list">{corporateItems[locale].map(t => <li>{t}</li>)}</ul>
+    </section>
+
+    <section id="s7" class="wrap bp-section" aria-labelledby="h-s7">
+      <p class="eyebrow">07 / {sections[6].toUpperCase()}</p><h2 id="h-s7" class="bp-title">{es ? 'Reglas para cuidarla' : 'Rules to protect it'}<span>.</span></h2>
+      <div class="guide">
+        <figure class="guide-space"><img src={asset('guia-area.svg')} alt={alt(es ? 'área de protección del logo' : 'logo clear space')} width="1200" height="640" loading="lazy" /><figcaption>{es ? 'Área de protección' : 'Clear space'}</figcaption></figure>
+        <ul class="guide-rules">{rules.map(r => <li>{r}</li>)}</ul>
+      </div>
+      <div class="misuse-grid">{misuses.map(m => <figure><img src={asset(m.file)} alt={alt(m.label[locale])} width="600" height="420" loading="lazy" /><figcaption>✕ {m.label[locale]}</figcaption></figure>)}</div>
+    </section>
+
+    <section id="s8" class="wrap bp-section" aria-labelledby="h-s8">
+      <p class="eyebrow">08 / {sections[7].toUpperCase()}</p><h2 id="h-s8" class="bp-title">{es ? 'Todo en un solo archivo' : 'Everything in one file'}<span>.</span></h2>
+      <div class="package">
+        <div class="package-card"><p class="package-tag">{es ? 'PAQUETE DE MARCA' : 'BRAND PACKAGE'}</p><ul>{packageItems[locale].map(t => <li>{t}</li>)}</ul></div>
+        <div class="package-card zip"><p class="package-tag">{es ? 'ENTREGA DIGITAL EN ZIP' : 'DIGITAL DELIVERY (ZIP)'}</p><pre>{zipTree(b.name).join('\n')}</pre><p class="fine-print">{es ? 'No incluye impresión. La imagen corporativa se cotiza aparte.' : 'Printing not included. Corporate identity is quoted separately.'}</p></div>
+      </div>
+    </section>
+
+    <section class="wrap bp-cta" aria-labelledby="cta-titulo">
+      <div><p class="eyebrow">{es ? '¿TE GUSTÓ ESTE ESTILO?' : 'LIKE THIS STYLE?'}</p><h2 id="cta-titulo">{es ? `Creemos tu marca a partir de ${b.name}` : `Let’s build your brand from ${b.name}`}</h2><p>{es ? 'Escríbeme por WhatsApp: el mensaje ya incluye este diseño para que partamos de aquí.' : 'Message me on WhatsApp: the message already mentions this design so we can start from here.'}</p></div>
+      <div class="brand-actions"><a class="brand-btn wa" href={wa} target="_blank" rel="noopener noreferrer"><WhatsAppIcon />{es ? 'Me interesa este diseño' : 'I’m interested in this design'}</a><a class="brand-btn" href={form}>{es ? 'Llenar el brief' : 'Fill in the brief'}{!es && <small> · ES</small>} ↗</a></div>
+    </section>
+
+    <nav class="wrap bp-pager" aria-label={es ? 'Otras marcas' : 'Other brands'}><a href={`${base}${locale}/marcas/${prev.slug}/`}><span>← {es ? 'ANTERIOR' : 'PREVIOUS'}</span>{prev.name}</a><a href={`${base}${locale}/marcas/`} class="bp-all">{es ? 'Ver las 24' : 'See all 24'}</a><a href={`${base}${locale}/marcas/${next.slug}/`}><span>{es ? 'SIGUIENTE' : 'NEXT'} →</span>{next.name}</a></nav>
+  </main>
+  <dialog id="brand-zoom" class="brand-zoom" aria-label={es ? 'Imagen ampliada' : 'Enlarged image'}><button type="button" class="zoom-close" aria-label={es ? 'Cerrar' : 'Close'}>✕</button><img alt="" /><p></p></dialog>
+<script>
+  const dialog = document.querySelector<HTMLDialogElement>('#brand-zoom')!;
+  const img = dialog.querySelector('img')!, cap = dialog.querySelector('p')!;
+  document.querySelectorAll<HTMLButtonElement>('[data-zoom]').forEach(btn => btn.addEventListener('click', () => {
+    img.src = btn.dataset.zoom!;
+    img.alt = btn.querySelector('img')?.alt ?? '';
+    cap.textContent = btn.dataset.caption ?? '';
+    dialog.showModal();
+  }));
+  dialog.querySelector('.zoom-close')!.addEventListener('click', () => dialog.close());
+  dialog.addEventListener('click', e => { if (e.target === dialog) dialog.close(); });
+</script>
+</SiteLayout>

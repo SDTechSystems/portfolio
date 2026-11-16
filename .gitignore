@@ -5,3 +5,6 @@ dist/
 .env.*
 !.env.example
 test-results/
+
+tools/brand-showcase/.cache/
+__pycache__/

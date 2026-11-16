@@ -53,7 +53,7 @@ export const forms: IntakeForm[] = [
     title: 'Tu marca empieza', titleAccent: 'con tu historia',
     lead: 'Con tus respuestas creamos las 2 propuestas de logo de tu marca. Responde con tus palabras; si alguna pregunta no aplica, escribe “no aplica”. Las imágenes de referencia o tu logo actual puedes enviarlos por WhatsApp.',
     minutes: 8,
-    card: 'Logo, paleta, tipografías y piezas para redes. Cuéntanos de tu negocio y preparamos 2 propuestas.',
+    card: 'Logo, paleta, tipografías, piezas para redes e imagen corporativa. Cuéntanos de tu negocio y preparamos 2 propuestas.',
     whatsappLabel: 'Diseño de marca (brief de identidad visual)',
     sections: [
       contact([1894455767, 869340618, 1152472857, 26859726]),

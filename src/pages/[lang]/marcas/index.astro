@@ -1,0 +1,7 @@
+---
+import BrandGallery from '../../../components/BrandGallery.astro';
+import { locales } from '../../../i18n';
+export function getStaticPaths(){ return locales.map(locale=>({params:{lang:locale},props:{locale}})); }
+const {locale}=Astro.props;
+---
+<BrandGallery locale={locale}/>

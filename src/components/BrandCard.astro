@@ -1,0 +1,24 @@
+---
+import WhatsAppIcon from './WhatsAppIcon.astro';
+import { brandAsset, styleLabel, type Brand } from '../data/brands';
+import { waLink, waMessages, type Locale } from '../data/catalog';
+const { brand: b, locale, eager = false, heading = 'h3' } = Astro.props as { brand: Brand; locale: Locale; eager?: boolean; heading?: 'h2' | 'h3' };
+const base = import.meta.env.BASE_URL, es = locale === 'es';
+const href = `${base}${locale}/marcas/${b.slug}/`;
+const style = styleLabel(b.style, locale);
+const wa = waLink(waMessages.brand(b.name, style, new URL(href, Astro.site).href, locale));
+const H = heading;
+---
+<article class="brand-card" data-style={b.style}>
+  <a class="brand-cover" href={href} aria-label={`${es ? 'Ver la marca' : 'View the brand'} ${b.name}`}>
+    <img src={brandAsset(base, b.slug, 'portada.svg')} alt="" width="1200" height="900" loading={eager ? 'eager' : 'lazy'} decoding="async" />
+    <img class="brand-peek" src={brandAsset(base, b.slug, `mockup-${b.mockups[0].key}.svg`)} alt="" width="1200" height="900" loading="lazy" decoding="async" />
+    <span class="brand-num" aria-hidden="true">{String(b.n).padStart(2, '0')}</span>
+  </a>
+  <div class="brand-card-head"><H><a href={href}>{b.name}</a></H><span class="brand-style">{style}</span></div>
+  <p class="brand-sector">{b.sector[locale]}</p>
+  <div class="brand-card-foot">
+    <span class="brand-dots" aria-hidden="true">{b.colors.map(c => <i style={`background:${c.hex}`}></i>)}</span>
+    <a class="wa-link" href={wa} target="_blank" rel="noopener noreferrer" aria-label={`${es ? 'Me interesa un diseño como' : 'I want a design like'} ${b.name} (WhatsApp)`}><WhatsAppIcon />{es ? 'Me interesa' : 'I’m interested'}</a>
+  </div>
+</article>
