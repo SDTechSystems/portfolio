@@ -1,6 +1,13 @@
 {
  "styles": [
   {
+   "id": "luxe",
+   "label": {
+    "es": "Lujo y monogramas",
+    "en": "Luxury and monograms"
+   }
+  },
+  {
    "id": "minimal",
    "label": {
     "es": "Minimalista",
@@ -55,18 +62,3011 @@
     "es": "Tecnológica",
     "en": "Tech"
    }
-  },
-  {
-   "id": "luxe",
-   "label": {
-    "es": "Lujo y monogramas",
-    "en": "Luxury and monograms"
-   }
   }
  ],
  "brands": [
   {
    "n": 1,
+   "slug": "aurelia",
+   "name": "Aurelia Hotel & Spa",
+   "style": "luxe",
+   "sector": {
+    "es": "Hotel boutique y spa",
+    "en": "Boutique hotel and spa"
+   },
+   "concept": {
+    "es": "Una A clásica coronada por laureles y una estrella: descanso con categoría. Oro sobre verde esmeralda, con letras romanas de gran espacio.",
+    "en": "A classical A crowned with laurels and a star: rest with distinction. Gold on emerald green, with widely spaced Roman capitals."
+   },
+   "tagline": {
+    "es": "Donde el tiempo descansa",
+    "en": "Where time slows down"
+   },
+   "personality": {
+    "es": [
+     "Serena",
+     "Distinguida",
+     "Cálida"
+    ],
+    "en": [
+     "Serene",
+     "Distinguished",
+     "Warm"
+    ]
+   },
+   "logoKind": {
+    "es": "Emblema con monograma y laureles",
+    "en": "Monogram emblem with laurels"
+   },
+   "colors": [
+    {
+     "key": "dark",
+     "hex": "#0F3B32",
+     "rgb": [
+      15,
+      59,
+      50
+     ],
+     "cmyk": [
+      75,
+      0,
+      15,
+      77
+     ],
+     "name": {
+      "es": "Verde esmeralda",
+      "en": "Emerald green"
+     },
+     "use": {
+      "es": "Fondo principal",
+      "en": "Main background"
+     },
+     "text": "#FFFFFF"
+    },
+    {
+     "key": "gold",
+     "hex": "#C9A45C",
+     "rgb": [
+      201,
+      164,
+      92
+     ],
+     "cmyk": [
+      0,
+      18,
+      54,
+      21
+     ],
+     "name": {
+      "es": "Oro",
+      "en": "Gold"
+     },
+     "use": {
+      "es": "Logo y detalles",
+      "en": "Logo and details"
+     },
+     "text": "#111111"
+    },
+    {
+     "key": "soft",
+     "hex": "#F3EDE1",
+     "rgb": [
+      243,
+      237,
+      225
+     ],
+     "cmyk": [
+      0,
+      2,
+      7,
+      5
+     ],
+     "name": {
+      "es": "Marfil",
+      "en": "Ivory"
+     },
+     "use": {
+      "es": "Fondo claro",
+      "en": "Light background"
+     },
+     "text": "#111111"
+    },
+    {
+     "key": "sage",
+     "hex": "#8FA89A",
+     "rgb": [
+      143,
+      168,
+      154
+     ],
+     "cmyk": [
+      15,
+      0,
+      8,
+      34
+     ],
+     "name": {
+      "es": "Salvia",
+      "en": "Sage"
+     },
+     "use": {
+      "es": "Apoyo",
+      "en": "Support"
+     },
+     "text": "#111111"
+    }
+   ],
+   "fonts": [
+    {
+     "role": "display",
+     "family": "Cinzel",
+     "weight": 400,
+     "italic": false,
+     "license": "SIL Open Font License 1.1",
+     "url": "https://fonts.google.com/specimen/Cinzel",
+     "file": "tipo-titulos.svg"
+    },
+    {
+     "role": "body",
+     "family": "Montserrat",
+     "weight": 400,
+     "italic": false,
+     "license": "SIL Open Font License 1.1",
+     "url": "https://fonts.google.com/specimen/Montserrat",
+     "file": "tipo-textos.svg"
+    }
+   ],
+   "surfaces": {
+    "light": "#F3EDE1",
+    "strong": "#0F3B32",
+    "lightText": "#111111",
+    "strongText": "#FFFFFF"
+   },
+   "versions": [
+    {
+     "key": "horizontal",
+     "bg": "#0F3B32",
+     "ratio": 4.8657
+    },
+    {
+     "key": "vertical",
+     "bg": "#0F3B32",
+     "ratio": 1.5186
+    },
+    {
+     "key": "simbolo",
+     "bg": "#0F3B32",
+     "ratio": 1.0
+    },
+    {
+     "key": "inversa",
+     "bg": "#F3EDE1",
+     "ratio": 4.8657
+    },
+    {
+     "key": "negro",
+     "bg": "#FFFFFF",
+     "ratio": 4.8657
+    },
+    {
+     "key": "blanco",
+     "bg": "#111111",
+     "ratio": 4.8657
+    }
+   ],
+   "mockups": [
+    {
+     "key": "cards",
+     "label": {
+      "es": "Tarjetas de presentación",
+      "en": "Business cards"
+     }
+    },
+    {
+     "key": "bottles",
+     "label": {
+      "es": "Envases",
+      "en": "Bottles"
+     }
+    },
+    {
+     "key": "wallsign",
+     "label": {
+      "es": "Señalética interior",
+      "en": "Interior signage"
+     }
+    },
+    {
+     "key": "menu",
+     "label": {
+      "es": "Menú",
+      "en": "Menu"
+     }
+    },
+    {
+     "key": "bag",
+     "label": {
+      "es": "Bolsas de compra",
+      "en": "Shopping bags"
+     }
+    },
+    {
+     "key": "mug",
+     "label": {
+      "es": "Mugs",
+      "en": "Mugs"
+     }
+    }
+   ],
+   "corporate": [
+    {
+     "key": "stationery",
+     "label": {
+      "es": "Papelería corporativa",
+      "en": "Corporate stationery"
+     }
+    },
+    {
+     "key": "digital",
+     "label": {
+      "es": "Firma de correo y presentación",
+      "en": "Email signature and slides"
+     }
+    }
+   ]
+  },
+  {
+   "n": 2,
+   "slug": "maison-velour",
+   "name": "Maison Velour",
+   "style": "luxe",
+   "sector": {
+    "es": "Perfumería de autor",
+    "en": "Niche perfumery"
+   },
+   "concept": {
+    "es": "Una M y una V que se entrelazan como dos notas de un mismo perfume, dentro de un arco de boutique parisina. Burdeos y oro rosa.",
+    "en": "An M and a V woven together like two notes of one scent, inside a Parisian boutique arch. Burgundy and rose gold."
+   },
+   "tagline": {
+    "es": "Un aroma que te nombra",
+    "en": "A scent that speaks your name"
+   },
+   "personality": {
+    "es": [
+     "Sensual",
+     "Exclusiva",
+     "Íntima"
+    ],
+    "en": [
+     "Sensual",
+     "Exclusive",
+     "Intimate"
+    ]
+   },
+   "logoKind": {
+    "es": "Monograma entrelazado en arco",
+    "en": "Interlaced monogram in an arch"
+   },
+   "colors": [
+    {
+     "key": "dark",
+     "hex": "#5A1428",
+     "rgb": [
+      90,
+      20,
+      40
+     ],
+     "cmyk": [
+      0,
+      78,
+      56,
+      65
+     ],
+     "name": {
+      "es": "Burdeos",
+      "en": "Burgundy"
+     },
+     "use": {
+      "es": "Fondo principal",
+      "en": "Main background"
+     },
+     "text": "#FFFFFF"
+    },
+    {
+     "key": "gold",
+     "hex": "#D4A373",
+     "rgb": [
+      212,
+      163,
+      115
+     ],
+     "cmyk": [
+      0,
+      23,
+      46,
+      17
+     ],
+     "name": {
+      "es": "Oro rosa",
+      "en": "Rose gold"
+     },
+     "use": {
+      "es": "Logo y detalles",
+      "en": "Logo and details"
+     },
+     "text": "#111111"
+    },
+    {
+     "key": "soft",
+     "hex": "#F5EBE0",
+     "rgb": [
+      245,
+      235,
+      224
+     ],
+     "cmyk": [
+      0,
+      4,
+      9,
+      4
+     ],
+     "name": {
+      "es": "Crema",
+      "en": "Cream"
+     },
+     "use": {
+      "es": "Fondo claro",
+      "en": "Light background"
+     },
+     "text": "#111111"
+    },
+    {
+     "key": "mauve",
+     "hex": "#A26769",
+     "rgb": [
+      162,
+      103,
+      105
+     ],
+     "cmyk": [
+      0,
+      36,
+      35,
+      36
+     ],
+     "name": {
+      "es": "Malva",
+      "en": "Mauve"
+     },
+     "use": {
+      "es": "Apoyo",
+      "en": "Support"
+     },
+     "text": "#FFFFFF"
+    }
+   ],
+   "fonts": [
+    {
+     "role": "display",
+     "family": "Bodoni Moda",
+     "weight": 500,
+     "italic": false,
+     "license": "SIL Open Font License 1.1",
+     "url": "https://fonts.google.com/specimen/Bodoni+Moda",
+     "file": "tipo-titulos.svg"
+    },
+    {
+     "role": "body",
+     "family": "Montserrat",
+     "weight": 400,
+     "italic": false,
+     "license": "SIL Open Font License 1.1",
+     "url": "https://fonts.google.com/specimen/Montserrat",
+     "file": "tipo-textos.svg"
+    }
+   ],
+   "surfaces": {
+    "light": "#F5EBE0",
+    "strong": "#5A1428",
+    "lightText": "#111111",
+    "strongText": "#FFFFFF"
+   },
+   "versions": [
+    {
+     "key": "horizontal",
+     "bg": "#5A1428",
+     "ratio": 3.8829
+    },
+    {
+     "key": "vertical",
+     "bg": "#5A1428",
+     "ratio": 1.2686
+    },
+    {
+     "key": "simbolo",
+     "bg": "#5A1428",
+     "ratio": 0.75
+    },
+    {
+     "key": "inversa",
+     "bg": "#F5EBE0",
+     "ratio": 3.8829
+    },
+    {
+     "key": "negro",
+     "bg": "#FFFFFF",
+     "ratio": 3.8829
+    },
+    {
+     "key": "blanco",
+     "bg": "#111111",
+     "ratio": 3.8829
+    }
+   ],
+   "mockups": [
+    {
+     "key": "bottles",
+     "label": {
+      "es": "Envases",
+      "en": "Bottles"
+     }
+    },
+    {
+     "key": "box",
+     "label": {
+      "es": "Empaque",
+      "en": "Packaging"
+     }
+    },
+    {
+     "key": "bag",
+     "label": {
+      "es": "Bolsas de compra",
+      "en": "Shopping bags"
+     }
+    },
+    {
+     "key": "cards",
+     "label": {
+      "es": "Tarjetas de presentación",
+      "en": "Business cards"
+     }
+    },
+    {
+     "key": "phone",
+     "label": {
+      "es": "Perfil en redes sociales",
+      "en": "Social media profile"
+     }
+    },
+    {
+     "key": "poster",
+     "label": {
+      "es": "Afiche",
+      "en": "Poster"
+     }
+    }
+   ],
+   "corporate": [
+    {
+     "key": "stationery",
+     "label": {
+      "es": "Papelería corporativa",
+      "en": "Corporate stationery"
+     }
+    },
+    {
+     "key": "digital",
+     "label": {
+      "es": "Firma de correo y presentación",
+      "en": "Email signature and slides"
+     }
+    }
+   ]
+  },
+  {
+   "n": 3,
+   "slug": "ludovica",
+   "name": "Ludovica",
+   "style": "luxe",
+   "sector": {
+    "es": "Atelier de vestidos de novia",
+    "en": "Bridal gown atelier"
+   },
+   "concept": {
+    "es": "Una L caligráfica dentro de un medallón, con ramitas como de un ramo de novia y una firma escrita a mano. Ciruela suave y oro sobre rubor.",
+    "en": "A calligraphic L in a medallion, with sprigs like a bridal bouquet and a handwritten signature. Soft plum and gold on blush."
+   },
+   "tagline": {
+    "es": "Tu historia, a la medida",
+    "en": "Your story, made to measure"
+   },
+   "personality": {
+    "es": [
+     "Romántica",
+     "Delicada",
+     "Atemporal"
+    ],
+    "en": [
+     "Romantic",
+     "Delicate",
+     "Timeless"
+    ]
+   },
+   "logoKind": {
+    "es": "Medallón caligráfico + firma",
+    "en": "Calligraphic medallion + signature"
+   },
+   "colors": [
+    {
+     "key": "soft",
+     "hex": "#EAD7D1",
+     "rgb": [
+      234,
+      215,
+      209
+     ],
+     "cmyk": [
+      0,
+      8,
+      11,
+      8
+     ],
+     "name": {
+      "es": "Rubor",
+      "en": "Blush"
+     },
+     "use": {
+      "es": "Fondo principal",
+      "en": "Main background"
+     },
+     "text": "#111111"
+    },
+    {
+     "key": "dark",
+     "hex": "#6B4E5A",
+     "rgb": [
+      107,
+      78,
+      90
+     ],
+     "cmyk": [
+      0,
+      27,
+      16,
+      58
+     ],
+     "name": {
+      "es": "Ciruela suave",
+      "en": "Soft plum"
+     },
+     "use": {
+      "es": "Logo y textos",
+      "en": "Logo and text"
+     },
+     "text": "#FFFFFF"
+    },
+    {
+     "key": "gold",
+     "hex": "#9A7A45",
+     "rgb": [
+      154,
+      122,
+      69
+     ],
+     "cmyk": [
+      0,
+      21,
+      55,
+      40
+     ],
+     "name": {
+      "es": "Oro",
+      "en": "Gold"
+     },
+     "use": {
+      "es": "Detalles",
+      "en": "Details"
+     },
+     "text": "#111111"
+    },
+    {
+     "key": "pearl",
+     "hex": "#FBF7F4",
+     "rgb": [
+      251,
+      247,
+      244
+     ],
+     "cmyk": [
+      0,
+      2,
+      3,
+      2
+     ],
+     "name": {
+      "es": "Perla",
+      "en": "Pearl"
+     },
+     "use": {
+      "es": "Papelería",
+      "en": "Stationery"
+     },
+     "text": "#111111"
+    }
+   ],
+   "fonts": [
+    {
+     "role": "display",
+     "family": "Pinyon Script",
+     "weight": 400,
+     "italic": false,
+     "license": "SIL Open Font License 1.1",
+     "url": "https://fonts.google.com/specimen/Pinyon+Script",
+     "file": "tipo-titulos.svg"
+    },
+    {
+     "role": "body",
+     "family": "Cormorant Garamond",
+     "weight": 500,
+     "italic": false,
+     "license": "SIL Open Font License 1.1",
+     "url": "https://fonts.google.com/specimen/Cormorant+Garamond",
+     "file": "tipo-textos.svg"
+    }
+   ],
+   "surfaces": {
+    "light": "#EAD7D1",
+    "strong": "#6B4E5A",
+    "lightText": "#111111",
+    "strongText": "#FFFFFF"
+   },
+   "versions": [
+    {
+     "key": "horizontal",
+     "bg": "#EAD7D1",
+     "ratio": 3.727
+    },
+    {
+     "key": "vertical",
+     "bg": "#EAD7D1",
+     "ratio": 1.3407
+    },
+    {
+     "key": "simbolo",
+     "bg": "#EAD7D1",
+     "ratio": 0.6441
+    },
+    {
+     "key": "inversa",
+     "bg": "#6B4E5A",
+     "ratio": 3.727
+    },
+    {
+     "key": "negro",
+     "bg": "#FFFFFF",
+     "ratio": 3.727
+    },
+    {
+     "key": "blanco",
+     "bg": "#111111",
+     "ratio": 3.727
+    }
+   ],
+   "mockups": [
+    {
+     "key": "hangtag",
+     "label": {
+      "es": "Etiquetas",
+      "en": "Tags"
+     }
+    },
+    {
+     "key": "bag",
+     "label": {
+      "es": "Bolsas de compra",
+      "en": "Shopping bags"
+     }
+    },
+    {
+     "key": "box",
+     "label": {
+      "es": "Empaque",
+      "en": "Packaging"
+     }
+    },
+    {
+     "key": "cards",
+     "label": {
+      "es": "Tarjetas de presentación",
+      "en": "Business cards"
+     }
+    },
+    {
+     "key": "phone",
+     "label": {
+      "es": "Perfil en redes sociales",
+      "en": "Social media profile"
+     }
+    },
+    {
+     "key": "poster",
+     "label": {
+      "es": "Afiche",
+      "en": "Poster"
+     }
+    }
+   ],
+   "corporate": [
+    {
+     "key": "stationery",
+     "label": {
+      "es": "Papelería corporativa",
+      "en": "Corporate stationery"
+     }
+    },
+    {
+     "key": "digital",
+     "label": {
+      "es": "Firma de correo y presentación",
+      "en": "Email signature and slides"
+     }
+    }
+   ]
+  },
+  {
+   "n": 4,
+   "slug": "orvieto",
+   "name": "Orvieto",
+   "style": "luxe",
+   "sector": {
+    "es": "Vinoteca y cocina italiana",
+    "en": "Wine bar and Italian kitchen"
+   },
+   "concept": {
+    "es": "Un sol art déco que nace detrás de la O, dentro de un rombo de doble línea: noches largas, copas finas. Oro sobre negro con un toque vino.",
+    "en": "An art deco sun rising behind the O, inside a double-line diamond: long evenings, fine glasses. Gold on black with a touch of wine."
+   },
+   "tagline": {
+    "es": "Brindemos sin prisa",
+    "en": "A toast, unhurried"
+   },
+   "personality": {
+    "es": [
+     "Sofisticada",
+     "Nocturna",
+     "Generosa"
+    ],
+    "en": [
+     "Sophisticated",
+     "Nocturnal",
+     "Generous"
+    ]
+   },
+   "logoKind": {
+    "es": "Emblema art déco",
+    "en": "Art deco emblem"
+   },
+   "colors": [
+    {
+     "key": "dark",
+     "hex": "#141414",
+     "rgb": [
+      20,
+      20,
+      20
+     ],
+     "cmyk": [
+      0,
+      0,
+      0,
+      92
+     ],
+     "name": {
+      "es": "Negro",
+      "en": "Black"
+     },
+     "use": {
+      "es": "Fondo principal",
+      "en": "Main background"
+     },
+     "text": "#FFFFFF"
+    },
+    {
+     "key": "gold",
+     "hex": "#CDA349",
+     "rgb": [
+      205,
+      163,
+      73
+     ],
+     "cmyk": [
+      0,
+      20,
+      64,
+      20
+     ],
+     "name": {
+      "es": "Oro antiguo",
+      "en": "Antique gold"
+     },
+     "use": {
+      "es": "Logo y detalles",
+      "en": "Logo and details"
+     },
+     "text": "#111111"
+    },
+    {
+     "key": "wine",
+     "hex": "#6E1E2B",
+     "rgb": [
+      110,
+      30,
+      43
+     ],
+     "cmyk": [
+      0,
+      73,
+      61,
+      57
+     ],
+     "name": {
+      "es": "Vino",
+      "en": "Wine"
+     },
+     "use": {
+      "es": "Acento",
+      "en": "Accent"
+     },
+     "text": "#FFFFFF"
+    },
+    {
+     "key": "soft",
+     "hex": "#EFE6D2",
+     "rgb": [
+      239,
+      230,
+      210
+     ],
+     "cmyk": [
+      0,
+      4,
+      12,
+      6
+     ],
+     "name": {
+      "es": "Hueso",
+      "en": "Bone"
+     },
+     "use": {
+      "es": "Fondo claro",
+      "en": "Light background"
+     },
+     "text": "#111111"
+    }
+   ],
+   "fonts": [
+    {
+     "role": "display",
+     "family": "Cinzel",
+     "weight": 500,
+     "italic": false,
+     "license": "SIL Open Font License 1.1",
+     "url": "https://fonts.google.com/specimen/Cinzel",
+     "file": "tipo-titulos.svg"
+    },
+    {
+     "role": "body",
+     "family": "Montserrat",
+     "weight": 400,
+     "italic": false,
+     "license": "SIL Open Font License 1.1",
+     "url": "https://fonts.google.com/specimen/Montserrat",
+     "file": "tipo-textos.svg"
+    }
+   ],
+   "surfaces": {
+    "light": "#EFE6D2",
+    "strong": "#141414",
+    "lightText": "#111111",
+    "strongText": "#FFFFFF"
+   },
+   "versions": [
+    {
+     "key": "horizontal",
+     "bg": "#141414",
+     "ratio": 5.1199
+    },
+    {
+     "key": "vertical",
+     "bg": "#141414",
+     "ratio": 1.6272
+    },
+    {
+     "key": "simbolo",
+     "bg": "#141414",
+     "ratio": 1.0
+    },
+    {
+     "key": "inversa",
+     "bg": "#EFE6D2",
+     "ratio": 5.1199
+    },
+    {
+     "key": "negro",
+     "bg": "#FFFFFF",
+     "ratio": 5.1199
+    },
+    {
+     "key": "blanco",
+     "bg": "#111111",
+     "ratio": 5.1199
+    }
+   ],
+   "mockups": [
+    {
+     "key": "bottle",
+     "label": {
+      "es": "Botellas",
+      "en": "Bottles"
+     }
+    },
+    {
+     "key": "menu",
+     "label": {
+      "es": "Menú",
+      "en": "Menu"
+     }
+    },
+    {
+     "key": "storefront",
+     "label": {
+      "es": "Fachada y aviso",
+      "en": "Storefront and sign"
+     }
+    },
+    {
+     "key": "cards",
+     "label": {
+      "es": "Tarjetas de presentación",
+      "en": "Business cards"
+     }
+    },
+    {
+     "key": "wallsign",
+     "label": {
+      "es": "Señalética interior",
+      "en": "Interior signage"
+     }
+    },
+    {
+     "key": "bag",
+     "label": {
+      "es": "Bolsas de compra",
+      "en": "Shopping bags"
+     }
+    }
+   ],
+   "corporate": [
+    {
+     "key": "stationery",
+     "label": {
+      "es": "Papelería corporativa",
+      "en": "Corporate stationery"
+     }
+    },
+    {
+     "key": "digital",
+     "label": {
+      "es": "Firma de correo y presentación",
+      "en": "Email signature and slides"
+     }
+    }
+   ]
+  },
+  {
+   "n": 5,
+   "slug": "altamar",
+   "name": "Altamar Club Náutico",
+   "style": "luxe",
+   "sector": {
+    "es": "Club náutico y alquiler de veleros",
+    "en": "Yacht club and sailboat charters"
+   },
+   "concept": {
+    "es": "Un ancla de línea fina rodeada por un cordón de cuentas, como un sello marinero bordado. Oro sobre azul marino profundo.",
+    "en": "A fine-line anchor encircled by a beaded cord, like an embroidered sailor's crest. Gold on deep navy."
+   },
+   "tagline": {
+    "es": "El mar, a tu manera",
+    "en": "The sea, your way"
+   },
+   "personality": {
+    "es": [
+     "Clásica",
+     "Aventurera",
+     "Exclusiva"
+    ],
+    "en": [
+     "Classic",
+     "Adventurous",
+     "Exclusive"
+    ]
+   },
+   "logoKind": {
+    "es": "Emblema marinero",
+    "en": "Nautical crest"
+   },
+   "colors": [
+    {
+     "key": "dark",
+     "hex": "#0E2340",
+     "rgb": [
+      14,
+      35,
+      64
+     ],
+     "cmyk": [
+      78,
+      45,
+      0,
+      75
+     ],
+     "name": {
+      "es": "Azul marino",
+      "en": "Navy"
+     },
+     "use": {
+      "es": "Fondo principal",
+      "en": "Main background"
+     },
+     "text": "#FFFFFF"
+    },
+    {
+     "key": "gold",
+     "hex": "#C8A55F",
+     "rgb": [
+      200,
+      165,
+      95
+     ],
+     "cmyk": [
+      0,
+      17,
+      52,
+      22
+     ],
+     "name": {
+      "es": "Oro",
+      "en": "Gold"
+     },
+     "use": {
+      "es": "Logo y detalles",
+      "en": "Logo and details"
+     },
+     "text": "#111111"
+    },
+    {
+     "key": "soft",
+     "hex": "#F4EFE6",
+     "rgb": [
+      244,
+      239,
+      230
+     ],
+     "cmyk": [
+      0,
+      2,
+      6,
+      4
+     ],
+     "name": {
+      "es": "Arena blanca",
+      "en": "White sand"
+     },
+     "use": {
+      "es": "Fondo claro",
+      "en": "Light background"
+     },
+     "text": "#111111"
+    },
+    {
+     "key": "teal",
+     "hex": "#2E6F73",
+     "rgb": [
+      46,
+      111,
+      115
+     ],
+     "cmyk": [
+      60,
+      3,
+      0,
+      55
+     ],
+     "name": {
+      "es": "Verde mar",
+      "en": "Sea green"
+     },
+     "use": {
+      "es": "Apoyo",
+      "en": "Support"
+     },
+     "text": "#FFFFFF"
+    }
+   ],
+   "fonts": [
+    {
+     "role": "display",
+     "family": "Marcellus",
+     "weight": 400,
+     "italic": false,
+     "license": "SIL Open Font License 1.1",
+     "url": "https://fonts.google.com/specimen/Marcellus",
+     "file": "tipo-titulos.svg"
+    },
+    {
+     "role": "body",
+     "family": "Montserrat",
+     "weight": 400,
+     "italic": false,
+     "license": "SIL Open Font License 1.1",
+     "url": "https://fonts.google.com/specimen/Montserrat",
+     "file": "tipo-textos.svg"
+    }
+   ],
+   "surfaces": {
+    "light": "#F4EFE6",
+    "strong": "#0E2340",
+    "lightText": "#111111",
+    "strongText": "#FFFFFF"
+   },
+   "versions": [
+    {
+     "key": "horizontal",
+     "bg": "#0E2340",
+     "ratio": 5.3253
+    },
+    {
+     "key": "vertical",
+     "bg": "#0E2340",
+     "ratio": 1.7129
+    },
+    {
+     "key": "simbolo",
+     "bg": "#0E2340",
+     "ratio": 1.0
+    },
+    {
+     "key": "inversa",
+     "bg": "#F4EFE6",
+     "ratio": 5.3253
+    },
+    {
+     "key": "negro",
+     "bg": "#FFFFFF",
+     "ratio": 5.3253
+    },
+    {
+     "key": "blanco",
+     "bg": "#111111",
+     "ratio": 5.3253
+    }
+   ],
+   "mockups": [
+    {
+     "key": "cap",
+     "label": {
+      "es": "Gorra",
+      "en": "Cap"
+     }
+    },
+    {
+     "key": "tshirt",
+     "label": {
+      "es": "Camiseta",
+      "en": "T-shirt"
+     }
+    },
+    {
+     "key": "cards",
+     "label": {
+      "es": "Tarjetas de presentación",
+      "en": "Business cards"
+     }
+    },
+    {
+     "key": "wallsign",
+     "label": {
+      "es": "Señalética interior",
+      "en": "Interior signage"
+     }
+    },
+    {
+     "key": "tote",
+     "label": {
+      "es": "Bolsa de tela",
+      "en": "Tote bag"
+     }
+    },
+    {
+     "key": "phone",
+     "label": {
+      "es": "Perfil en redes sociales",
+      "en": "Social media profile"
+     }
+    }
+   ],
+   "corporate": [
+    {
+     "key": "stationery",
+     "label": {
+      "es": "Papelería corporativa",
+      "en": "Corporate stationery"
+     }
+    },
+    {
+     "key": "digital",
+     "label": {
+      "es": "Firma de correo y presentación",
+      "en": "Email signature and slides"
+     }
+    }
+   ]
+  },
+  {
+   "n": 6,
+   "slug": "sable-co",
+   "name": "Sable & Co.",
+   "style": "luxe",
+   "sector": {
+    "es": "Sastrería a la medida",
+    "en": "Bespoke tailoring"
+   },
+   "concept": {
+    "es": "Una S y una C de alto contraste que se entrelazan, atravesadas por una aguja con su hilo: el oficio a la vista. Carbón, hueso y oro viejo.",
+    "en": "A high-contrast S and C woven together, pierced by a threaded needle: craft in plain sight. Charcoal, bone and antique gold."
+   },
+   "tagline": {
+    "es": "Hecho para ti, a mano",
+    "en": "Made for you, by hand"
+   },
+   "personality": {
+    "es": [
+     "Precisa",
+     "Clásica",
+     "Masculina"
+    ],
+    "en": [
+     "Precise",
+     "Classic",
+     "Masculine"
+    ]
+   },
+   "logoKind": {
+    "es": "Monograma con aguja",
+    "en": "Monogram with needle"
+   },
+   "colors": [
+    {
+     "key": "dark",
+     "hex": "#1F1F22",
+     "rgb": [
+      31,
+      31,
+      34
+     ],
+     "cmyk": [
+      9,
+      9,
+      0,
+      87
+     ],
+     "name": {
+      "es": "Carbón",
+      "en": "Charcoal"
+     },
+     "use": {
+      "es": "Fondo principal",
+      "en": "Main background"
+     },
+     "text": "#FFFFFF"
+    },
+    {
+     "key": "gold",
+     "hex": "#B08D57",
+     "rgb": [
+      176,
+      141,
+      87
+     ],
+     "cmyk": [
+      0,
+      20,
+      51,
+      31
+     ],
+     "name": {
+      "es": "Oro viejo",
+      "en": "Antique gold"
+     },
+     "use": {
+      "es": "Logo y detalles",
+      "en": "Logo and details"
+     },
+     "text": "#111111"
+    },
+    {
+     "key": "soft",
+     "hex": "#EDE6DA",
+     "rgb": [
+      237,
+      230,
+      218
+     ],
+     "cmyk": [
+      0,
+      3,
+      8,
+      7
+     ],
+     "name": {
+      "es": "Hueso",
+      "en": "Bone"
+     },
+     "use": {
+      "es": "Fondo claro",
+      "en": "Light background"
+     },
+     "text": "#111111"
+    },
+    {
+     "key": "gray",
+     "hex": "#7A7A80",
+     "rgb": [
+      122,
+      122,
+      128
+     ],
+     "cmyk": [
+      5,
+      5,
+      0,
+      50
+     ],
+     "name": {
+      "es": "Gris paño",
+      "en": "Cloth gray"
+     },
+     "use": {
+      "es": "Apoyo",
+      "en": "Support"
+     },
+     "text": "#111111"
+    }
+   ],
+   "fonts": [
+    {
+     "role": "display",
+     "family": "Forum",
+     "weight": 400,
+     "italic": false,
+     "license": "SIL Open Font License 1.1",
+     "url": "https://fonts.google.com/specimen/Forum",
+     "file": "tipo-titulos.svg"
+    },
+    {
+     "role": "body",
+     "family": "Montserrat",
+     "weight": 400,
+     "italic": false,
+     "license": "SIL Open Font License 1.1",
+     "url": "https://fonts.google.com/specimen/Montserrat",
+     "file": "tipo-textos.svg"
+    }
+   ],
+   "surfaces": {
+    "light": "#EDE6DA",
+    "strong": "#1F1F22",
+    "lightText": "#111111",
+    "strongText": "#FFFFFF"
+   },
+   "versions": [
+    {
+     "key": "horizontal",
+     "bg": "#1F1F22",
+     "ratio": 6.0393
+    },
+    {
+     "key": "vertical",
+     "bg": "#1F1F22",
+     "ratio": 2.0711
+    },
+    {
+     "key": "simbolo",
+     "bg": "#1F1F22",
+     "ratio": 1.0616
+    },
+    {
+     "key": "inversa",
+     "bg": "#EDE6DA",
+     "ratio": 6.0393
+    },
+    {
+     "key": "negro",
+     "bg": "#FFFFFF",
+     "ratio": 6.0393
+    },
+    {
+     "key": "blanco",
+     "bg": "#111111",
+     "ratio": 6.0393
+    }
+   ],
+   "mockups": [
+    {
+     "key": "hangtag",
+     "label": {
+      "es": "Etiquetas",
+      "en": "Tags"
+     }
+    },
+    {
+     "key": "box",
+     "label": {
+      "es": "Empaque",
+      "en": "Packaging"
+     }
+    },
+    {
+     "key": "bag",
+     "label": {
+      "es": "Bolsas de compra",
+      "en": "Shopping bags"
+     }
+    },
+    {
+     "key": "cards",
+     "label": {
+      "es": "Tarjetas de presentación",
+      "en": "Business cards"
+     }
+    },
+    {
+     "key": "storefront",
+     "label": {
+      "es": "Fachada y aviso",
+      "en": "Storefront and sign"
+     }
+    },
+    {
+     "key": "phone",
+     "label": {
+      "es": "Perfil en redes sociales",
+      "en": "Social media profile"
+     }
+    }
+   ],
+   "corporate": [
+    {
+     "key": "stationery",
+     "label": {
+      "es": "Papelería corporativa",
+      "en": "Corporate stationery"
+     }
+    },
+    {
+     "key": "digital",
+     "label": {
+      "es": "Firma de correo y presentación",
+      "en": "Email signature and slides"
+     }
+    }
+   ]
+  },
+  {
+   "n": 7,
+   "slug": "villa-serena",
+   "name": "Villa Serena",
+   "style": "luxe",
+   "sector": {
+    "es": "Inmobiliaria de propiedades exclusivas",
+    "en": "Luxury real estate"
+   },
+   "concept": {
+    "es": "Una V y una S que forman una casa bajo un tejado de dos aguas: el monograma como hogar. Azul pizarra y bronce sobre arena.",
+    "en": "A V and an S that form a house under a gabled roof: the monogram as a home. Slate blue and bronze on sand."
+   },
+   "tagline": {
+    "es": "Vivir en otro nivel",
+    "en": "Living on another level"
+   },
+   "personality": {
+    "es": [
+     "Confiable",
+     "Exclusiva",
+     "Sobria"
+    ],
+    "en": [
+     "Trustworthy",
+     "Exclusive",
+     "Understated"
+    ]
+   },
+   "logoKind": {
+    "es": "Monograma arquitectónico",
+    "en": "Architectural monogram"
+   },
+   "colors": [
+    {
+     "key": "soft",
+     "hex": "#E9E2D6",
+     "rgb": [
+      233,
+      226,
+      214
+     ],
+     "cmyk": [
+      0,
+      3,
+      8,
+      9
+     ],
+     "name": {
+      "es": "Arena",
+      "en": "Sand"
+     },
+     "use": {
+      "es": "Fondo principal",
+      "en": "Main background"
+     },
+     "text": "#111111"
+    },
+    {
+     "key": "dark",
+     "hex": "#2F3E4E",
+     "rgb": [
+      47,
+      62,
+      78
+     ],
+     "cmyk": [
+      40,
+      21,
+      0,
+      69
+     ],
+     "name": {
+      "es": "Azul pizarra",
+      "en": "Slate blue"
+     },
+     "use": {
+      "es": "Logo y textos",
+      "en": "Logo and text"
+     },
+     "text": "#FFFFFF"
+    },
+    {
+     "key": "gold",
+     "hex": "#86683F",
+     "rgb": [
+      134,
+      104,
+      63
+     ],
+     "cmyk": [
+      0,
+      22,
+      53,
+      47
+     ],
+     "name": {
+      "es": "Bronce",
+      "en": "Bronze"
+     },
+     "use": {
+      "es": "Detalles",
+      "en": "Details"
+     },
+     "text": "#FFFFFF"
+    },
+    {
+     "key": "white",
+     "hex": "#FAF8F4",
+     "rgb": [
+      250,
+      248,
+      244
+     ],
+     "cmyk": [
+      0,
+      1,
+      2,
+      2
+     ],
+     "name": {
+      "es": "Blanco cal",
+      "en": "Lime white"
+     },
+     "use": {
+      "es": "Papelería",
+      "en": "Stationery"
+     },
+     "text": "#111111"
+    }
+   ],
+   "fonts": [
+    {
+     "role": "display",
+     "family": "Tenor Sans",
+     "weight": 400,
+     "italic": false,
+     "license": "SIL Open Font License 1.1",
+     "url": "https://fonts.google.com/specimen/Tenor+Sans",
+     "file": "tipo-titulos.svg"
+    },
+    {
+     "role": "body",
+     "family": "Montserrat",
+     "weight": 400,
+     "italic": false,
+     "license": "SIL Open Font License 1.1",
+     "url": "https://fonts.google.com/specimen/Montserrat",
+     "file": "tipo-textos.svg"
+    }
+   ],
+   "surfaces": {
+    "light": "#E9E2D6",
+    "strong": "#2F3E4E",
+    "lightText": "#111111",
+    "strongText": "#FFFFFF"
+   },
+   "versions": [
+    {
+     "key": "horizontal",
+     "bg": "#E9E2D6",
+     "ratio": 5.1531
+    },
+    {
+     "key": "vertical",
+     "bg": "#E9E2D6",
+     "ratio": 2.5872
+    },
+    {
+     "key": "simbolo",
+     "bg": "#E9E2D6",
+     "ratio": 0.7002
+    },
+    {
+     "key": "inversa",
+     "bg": "#2F3E4E",
+     "ratio": 5.1531
+    },
+    {
+     "key": "negro",
+     "bg": "#FFFFFF",
+     "ratio": 5.1531
+    },
+    {
+     "key": "blanco",
+     "bg": "#111111",
+     "ratio": 5.1531
+    }
+   ],
+   "mockups": [
+    {
+     "key": "cards",
+     "label": {
+      "es": "Tarjetas de presentación",
+      "en": "Business cards"
+     }
+    },
+    {
+     "key": "wallsign",
+     "label": {
+      "es": "Señalética interior",
+      "en": "Interior signage"
+     }
+    },
+    {
+     "key": "laptop",
+     "label": {
+      "es": "Sitio web",
+      "en": "Website"
+     }
+    },
+    {
+     "key": "poster",
+     "label": {
+      "es": "Afiche",
+      "en": "Poster"
+     }
+    },
+    {
+     "key": "idbadge",
+     "label": {
+      "es": "Carné y cinta",
+      "en": "ID badge and lanyard"
+     }
+    },
+    {
+     "key": "mug",
+     "label": {
+      "es": "Mugs",
+      "en": "Mugs"
+     }
+    }
+   ],
+   "corporate": [
+    {
+     "key": "stationery",
+     "label": {
+      "es": "Papelería corporativa",
+      "en": "Corporate stationery"
+     }
+    },
+    {
+     "key": "digital",
+     "label": {
+      "es": "Firma de correo y presentación",
+      "en": "Email signature and slides"
+     }
+    }
+   ]
+  },
+  {
+   "n": 8,
+   "slug": "alma-botanica",
+   "name": "Alma Botánica",
+   "style": "luxe",
+   "sector": {
+    "es": "Cuidado de la piel con ingredientes botánicos",
+    "en": "Botanical skincare"
+   },
+   "concept": {
+    "es": "Una rama dibujada con pulso fino dentro de un óvalo, y un nombre que combina caligrafía con mayúsculas espaciadas. Salvia profunda y oro.",
+    "en": "A finely drawn branch inside an oval, and a name that pairs calligraphy with spaced capitals. Deep sage and gold."
+   },
+   "tagline": {
+    "es": "Tu ritual, tu calma",
+    "en": "Your ritual, your calm"
+   },
+   "personality": {
+    "es": [
+     "Natural",
+     "Refinada",
+     "Serena"
+    ],
+    "en": [
+     "Natural",
+     "Refined",
+     "Serene"
+    ]
+   },
+   "logoKind": {
+    "es": "Emblema botánico + firma",
+    "en": "Botanical emblem + signature"
+   },
+   "colors": [
+    {
+     "key": "dark",
+     "hex": "#3E4F44",
+     "rgb": [
+      62,
+      79,
+      68
+     ],
+     "cmyk": [
+      22,
+      0,
+      14,
+      69
+     ],
+     "name": {
+      "es": "Salvia profunda",
+      "en": "Deep sage"
+     },
+     "use": {
+      "es": "Fondo principal",
+      "en": "Main background"
+     },
+     "text": "#FFFFFF"
+    },
+    {
+     "key": "gold",
+     "hex": "#C5A46D",
+     "rgb": [
+      197,
+      164,
+      109
+     ],
+     "cmyk": [
+      0,
+      17,
+      45,
+      23
+     ],
+     "name": {
+      "es": "Oro suave",
+      "en": "Soft gold"
+     },
+     "use": {
+      "es": "Logo y detalles",
+      "en": "Logo and details"
+     },
+     "text": "#111111"
+    },
+    {
+     "key": "soft",
+     "hex": "#F2EDE3",
+     "rgb": [
+      242,
+      237,
+      227
+     ],
+     "cmyk": [
+      0,
+      2,
+      6,
+      5
+     ],
+     "name": {
+      "es": "Crema",
+      "en": "Cream"
+     },
+     "use": {
+      "es": "Fondo claro",
+      "en": "Light background"
+     },
+     "text": "#111111"
+    },
+    {
+     "key": "clay",
+     "hex": "#C98B6B",
+     "rgb": [
+      201,
+      139,
+      107
+     ],
+     "cmyk": [
+      0,
+      31,
+      47,
+      21
+     ],
+     "name": {
+      "es": "Arcilla",
+      "en": "Clay"
+     },
+     "use": {
+      "es": "Acento",
+      "en": "Accent"
+     },
+     "text": "#111111"
+    }
+   ],
+   "fonts": [
+    {
+     "role": "display",
+     "family": "Parisienne",
+     "weight": 400,
+     "italic": false,
+     "license": "SIL Open Font License 1.1",
+     "url": "https://fonts.google.com/specimen/Parisienne",
+     "file": "tipo-titulos.svg"
+    },
+    {
+     "role": "body",
+     "family": "Tenor Sans",
+     "weight": 400,
+     "italic": false,
+     "license": "SIL Open Font License 1.1",
+     "url": "https://fonts.google.com/specimen/Tenor+Sans",
+     "file": "tipo-textos.svg"
+    }
+   ],
+   "surfaces": {
+    "light": "#F2EDE3",
+    "strong": "#3E4F44",
+    "lightText": "#111111",
+    "strongText": "#FFFFFF"
+   },
+   "versions": [
+    {
+     "key": "horizontal",
+     "bg": "#3E4F44",
+     "ratio": 2.6324
+    },
+    {
+     "key": "vertical",
+     "bg": "#3E4F44",
+     "ratio": 0.9053
+    },
+    {
+     "key": "simbolo",
+     "bg": "#3E4F44",
+     "ratio": 0.679
+    },
+    {
+     "key": "inversa",
+     "bg": "#F2EDE3",
+     "ratio": 2.6324
+    },
+    {
+     "key": "negro",
+     "bg": "#FFFFFF",
+     "ratio": 2.6324
+    },
+    {
+     "key": "blanco",
+     "bg": "#111111",
+     "ratio": 2.6324
+    }
+   ],
+   "mockups": [
+    {
+     "key": "bottles",
+     "label": {
+      "es": "Envases",
+      "en": "Bottles"
+     }
+    },
+    {
+     "key": "jar",
+     "label": {
+      "es": "Frascos",
+      "en": "Jars"
+     }
+    },
+    {
+     "key": "box",
+     "label": {
+      "es": "Empaque",
+      "en": "Packaging"
+     }
+    },
+    {
+     "key": "bag",
+     "label": {
+      "es": "Bolsas de compra",
+      "en": "Shopping bags"
+     }
+    },
+    {
+     "key": "cards",
+     "label": {
+      "es": "Tarjetas de presentación",
+      "en": "Business cards"
+     }
+    },
+    {
+     "key": "phone",
+     "label": {
+      "es": "Perfil en redes sociales",
+      "en": "Social media profile"
+     }
+    }
+   ],
+   "corporate": [
+    {
+     "key": "stationery",
+     "label": {
+      "es": "Papelería corporativa",
+      "en": "Corporate stationery"
+     }
+    },
+    {
+     "key": "digital",
+     "label": {
+      "es": "Firma de correo y presentación",
+      "en": "Email signature and slides"
+     }
+    }
+   ]
+  },
+  {
+   "n": 9,
+   "slug": "casa-duvall",
+   "name": "Casa Duvall",
+   "style": "luxe",
+   "sector": {
+    "es": "Bodega de vinos familiar",
+    "en": "Family winery"
+   },
+   "concept": {
+    "es": "Un escudo con corona y un monograma CD entrelazado, rematado por arabescos: tradición que se hereda. Oro sobre burdeos.",
+    "en": "A crowned shield with an interlaced CD monogram, finished with scrolls: tradition passed down. Gold on burgundy."
+   },
+   "tagline": {
+    "es": "Cosechas con historia",
+    "en": "Harvests with a history"
+   },
+   "personality": {
+    "es": [
+     "Tradicional",
+     "Noble",
+     "Cálida"
+    ],
+    "en": [
+     "Traditional",
+     "Noble",
+     "Warm"
+    ]
+   },
+   "logoKind": {
+    "es": "Escudo heráldico con monograma",
+    "en": "Heraldic crest with monogram"
+   },
+   "colors": [
+    {
+     "key": "dark",
+     "hex": "#4A0F1D",
+     "rgb": [
+      74,
+      15,
+      29
+     ],
+     "cmyk": [
+      0,
+      80,
+      61,
+      71
+     ],
+     "name": {
+      "es": "Burdeos",
+      "en": "Burgundy"
+     },
+     "use": {
+      "es": "Fondo principal",
+      "en": "Main background"
+     },
+     "text": "#FFFFFF"
+    },
+    {
+     "key": "gold",
+     "hex": "#C9A45C",
+     "rgb": [
+      201,
+      164,
+      92
+     ],
+     "cmyk": [
+      0,
+      18,
+      54,
+      21
+     ],
+     "name": {
+      "es": "Oro",
+      "en": "Gold"
+     },
+     "use": {
+      "es": "Logo y detalles",
+      "en": "Logo and details"
+     },
+     "text": "#111111"
+    },
+    {
+     "key": "soft",
+     "hex": "#F3EBDD",
+     "rgb": [
+      243,
+      235,
+      221
+     ],
+     "cmyk": [
+      0,
+      3,
+      9,
+      5
+     ],
+     "name": {
+      "es": "Crema",
+      "en": "Cream"
+     },
+     "use": {
+      "es": "Fondo claro",
+      "en": "Light background"
+     },
+     "text": "#111111"
+    },
+    {
+     "key": "olive",
+     "hex": "#59603A",
+     "rgb": [
+      89,
+      96,
+      58
+     ],
+     "cmyk": [
+      7,
+      0,
+      40,
+      62
+     ],
+     "name": {
+      "es": "Oliva",
+      "en": "Olive"
+     },
+     "use": {
+      "es": "Apoyo",
+      "en": "Support"
+     },
+     "text": "#FFFFFF"
+    }
+   ],
+   "fonts": [
+    {
+     "role": "display",
+     "family": "Cinzel",
+     "weight": 500,
+     "italic": false,
+     "license": "SIL Open Font License 1.1",
+     "url": "https://fonts.google.com/specimen/Cinzel",
+     "file": "tipo-titulos.svg"
+    },
+    {
+     "role": "body",
+     "family": "Montserrat",
+     "weight": 400,
+     "italic": false,
+     "license": "SIL Open Font License 1.1",
+     "url": "https://fonts.google.com/specimen/Montserrat",
+     "file": "tipo-textos.svg"
+    }
+   ],
+   "surfaces": {
+    "light": "#F3EBDD",
+    "strong": "#4A0F1D",
+    "lightText": "#111111",
+    "strongText": "#FFFFFF"
+   },
+   "versions": [
+    {
+     "key": "horizontal",
+     "bg": "#4A0F1D",
+     "ratio": 3.733
+    },
+    {
+     "key": "vertical",
+     "bg": "#4A0F1D",
+     "ratio": 1.2669
+    },
+    {
+     "key": "simbolo",
+     "bg": "#4A0F1D",
+     "ratio": 0.6554
+    },
+    {
+     "key": "inversa",
+     "bg": "#F3EBDD",
+     "ratio": 3.733
+    },
+    {
+     "key": "negro",
+     "bg": "#FFFFFF",
+     "ratio": 3.733
+    },
+    {
+     "key": "blanco",
+     "bg": "#111111",
+     "ratio": 3.733
+    }
+   ],
+   "mockups": [
+    {
+     "key": "bottle",
+     "label": {
+      "es": "Botellas",
+      "en": "Bottles"
+     }
+    },
+    {
+     "key": "box",
+     "label": {
+      "es": "Empaque",
+      "en": "Packaging"
+     }
+    },
+    {
+     "key": "menu",
+     "label": {
+      "es": "Menú",
+      "en": "Menu"
+     }
+    },
+    {
+     "key": "cards",
+     "label": {
+      "es": "Tarjetas de presentación",
+      "en": "Business cards"
+     }
+    },
+    {
+     "key": "bag",
+     "label": {
+      "es": "Bolsas de compra",
+      "en": "Shopping bags"
+     }
+    },
+    {
+     "key": "poster",
+     "label": {
+      "es": "Afiche",
+      "en": "Poster"
+     }
+    }
+   ],
+   "corporate": [
+    {
+     "key": "stationery",
+     "label": {
+      "es": "Papelería corporativa",
+      "en": "Corporate stationery"
+     }
+    },
+    {
+     "key": "digital",
+     "label": {
+      "es": "Firma de correo y presentación",
+      "en": "Email signature and slides"
+     }
+    }
+   ]
+  },
+  {
+   "n": 10,
+   "slug": "regalia",
+   "name": "Regalia",
+   "style": "luxe",
+   "sector": {
+    "es": "Planeación de bodas y eventos",
+    "en": "Wedding and event planning"
+   },
+   "concept": {
+    "es": "Una R caligráfica coronada dentro de un doble anillo: cada celebración tratada como realeza. Oro sobre ciruela con rosa empolvado.",
+    "en": "A crowned calligraphic R inside a double ring: every celebration treated like royalty. Gold on plum with dusty rose."
+   },
+   "tagline": {
+    "es": "Celebraciones dignas de recordar",
+    "en": "Celebrations worth remembering"
+   },
+   "personality": {
+    "es": [
+     "Festiva",
+     "Elegante",
+     "Detallista"
+    ],
+    "en": [
+     "Festive",
+     "Elegant",
+     "Meticulous"
+    ]
+   },
+   "logoKind": {
+    "es": "Monograma coronado",
+    "en": "Crowned monogram"
+   },
+   "colors": [
+    {
+     "key": "dark",
+     "hex": "#3B1E3F",
+     "rgb": [
+      59,
+      30,
+      63
+     ],
+     "cmyk": [
+      6,
+      52,
+      0,
+      75
+     ],
+     "name": {
+      "es": "Ciruela",
+      "en": "Plum"
+     },
+     "use": {
+      "es": "Fondo principal",
+      "en": "Main background"
+     },
+     "text": "#FFFFFF"
+    },
+    {
+     "key": "gold",
+     "hex": "#D1B06B",
+     "rgb": [
+      209,
+      176,
+      107
+     ],
+     "cmyk": [
+      0,
+      16,
+      49,
+      18
+     ],
+     "name": {
+      "es": "Oro",
+      "en": "Gold"
+     },
+     "use": {
+      "es": "Logo y detalles",
+      "en": "Logo and details"
+     },
+     "text": "#111111"
+    },
+    {
+     "key": "rose",
+     "hex": "#E6C9C3",
+     "rgb": [
+      230,
+      201,
+      195
+     ],
+     "cmyk": [
+      0,
+      13,
+      15,
+      10
+     ],
+     "name": {
+      "es": "Rosa empolvado",
+      "en": "Dusty rose"
+     },
+     "use": {
+      "es": "Acento",
+      "en": "Accent"
+     },
+     "text": "#111111"
+    },
+    {
+     "key": "soft",
+     "hex": "#F7F2EE",
+     "rgb": [
+      247,
+      242,
+      238
+     ],
+     "cmyk": [
+      0,
+      2,
+      4,
+      3
+     ],
+     "name": {
+      "es": "Perla",
+      "en": "Pearl"
+     },
+     "use": {
+      "es": "Fondo claro",
+      "en": "Light background"
+     },
+     "text": "#111111"
+    }
+   ],
+   "fonts": [
+    {
+     "role": "display",
+     "family": "Italiana",
+     "weight": 400,
+     "italic": false,
+     "license": "SIL Open Font License 1.1",
+     "url": "https://fonts.google.com/specimen/Italiana",
+     "file": "tipo-titulos.svg"
+    },
+    {
+     "role": "body",
+     "family": "Parisienne",
+     "weight": 400,
+     "italic": false,
+     "license": "SIL Open Font License 1.1",
+     "url": "https://fonts.google.com/specimen/Parisienne",
+     "file": "tipo-textos.svg"
+    }
+   ],
+   "surfaces": {
+    "light": "#F7F2EE",
+    "strong": "#3B1E3F",
+    "lightText": "#111111",
+    "strongText": "#FFFFFF"
+   },
+   "versions": [
+    {
+     "key": "horizontal",
+     "bg": "#3B1E3F",
+     "ratio": 3.8303
+    },
+    {
+     "key": "vertical",
+     "bg": "#3B1E3F",
+     "ratio": 1.3592
+    },
+    {
+     "key": "simbolo",
+     "bg": "#3B1E3F",
+     "ratio": 0.8209
+    },
+    {
+     "key": "inversa",
+     "bg": "#F7F2EE",
+     "ratio": 3.8303
+    },
+    {
+     "key": "negro",
+     "bg": "#FFFFFF",
+     "ratio": 3.8303
+    },
+    {
+     "key": "blanco",
+     "bg": "#111111",
+     "ratio": 3.8303
+    }
+   ],
+   "mockups": [
+    {
+     "key": "cards",
+     "label": {
+      "es": "Tarjetas de presentación",
+      "en": "Business cards"
+     }
+    },
+    {
+     "key": "box",
+     "label": {
+      "es": "Empaque",
+      "en": "Packaging"
+     }
+    },
+    {
+     "key": "phone",
+     "label": {
+      "es": "Perfil en redes sociales",
+      "en": "Social media profile"
+     }
+    },
+    {
+     "key": "poster",
+     "label": {
+      "es": "Afiche",
+      "en": "Poster"
+     }
+    },
+    {
+     "key": "bag",
+     "label": {
+      "es": "Bolsas de compra",
+      "en": "Shopping bags"
+     }
+    },
+    {
+     "key": "hangtag",
+     "label": {
+      "es": "Etiquetas",
+      "en": "Tags"
+     }
+    }
+   ],
+   "corporate": [
+    {
+     "key": "stationery",
+     "label": {
+      "es": "Papelería corporativa",
+      "en": "Corporate stationery"
+     }
+    },
+    {
+     "key": "digital",
+     "label": {
+      "es": "Firma de correo y presentación",
+      "en": "Email signature and slides"
+     }
+    }
+   ]
+  },
+  {
+   "n": 11,
+   "slug": "celeste",
+   "name": "Céleste",
+   "style": "luxe",
+   "sector": {
+    "es": "Relojería fina y accesorios",
+    "en": "Fine watches and accessories"
+   },
+   "concept": {
+    "es": "Una estrella polar sobre la esfera de un reloj, con marcas de minutos finísimas: precisión que guía. Champaña sobre azul noche.",
+    "en": "A north star over a watch dial with hairline minute marks: precision that guides. Champagne on midnight blue."
+   },
+   "tagline": {
+    "es": "El tiempo, en su mejor forma",
+    "en": "Time, at its finest"
+   },
+   "personality": {
+    "es": [
+     "Precisa",
+     "Celestial",
+     "Exclusiva"
+    ],
+    "en": [
+     "Precise",
+     "Celestial",
+     "Exclusive"
+    ]
+   },
+   "logoKind": {
+    "es": "Emblema de esfera y estrella",
+    "en": "Dial and star emblem"
+   },
+   "colors": [
+    {
+     "key": "dark",
+     "hex": "#101B33",
+     "rgb": [
+      16,
+      27,
+      51
+     ],
+     "cmyk": [
+      69,
+      47,
+      0,
+      80
+     ],
+     "name": {
+      "es": "Azul noche",
+      "en": "Midnight blue"
+     },
+     "use": {
+      "es": "Fondo principal",
+      "en": "Main background"
+     },
+     "text": "#FFFFFF"
+    },
+    {
+     "key": "gold",
+     "hex": "#D8C08A",
+     "rgb": [
+      216,
+      192,
+      138
+     ],
+     "cmyk": [
+      0,
+      11,
+      36,
+      15
+     ],
+     "name": {
+      "es": "Champaña",
+      "en": "Champagne"
+     },
+     "use": {
+      "es": "Logo y detalles",
+      "en": "Logo and details"
+     },
+     "text": "#111111"
+    },
+    {
+     "key": "silver",
+     "hex": "#C9CCD3",
+     "rgb": [
+      201,
+      204,
+      211
+     ],
+     "cmyk": [
+      5,
+      3,
+      0,
+      17
+     ],
+     "name": {
+      "es": "Plata",
+      "en": "Silver"
+     },
+     "use": {
+      "es": "Apoyo",
+      "en": "Support"
+     },
+     "text": "#111111"
+    },
+    {
+     "key": "soft",
+     "hex": "#F4F1EA",
+     "rgb": [
+      244,
+      241,
+      234
+     ],
+     "cmyk": [
+      0,
+      1,
+      4,
+      4
+     ],
+     "name": {
+      "es": "Marfil",
+      "en": "Ivory"
+     },
+     "use": {
+      "es": "Fondo claro",
+      "en": "Light background"
+     },
+     "text": "#111111"
+    }
+   ],
+   "fonts": [
+    {
+     "role": "display",
+     "family": "Italiana",
+     "weight": 400,
+     "italic": false,
+     "license": "SIL Open Font License 1.1",
+     "url": "https://fonts.google.com/specimen/Italiana",
+     "file": "tipo-titulos.svg"
+    },
+    {
+     "role": "body",
+     "family": "Montserrat",
+     "weight": 400,
+     "italic": false,
+     "license": "SIL Open Font License 1.1",
+     "url": "https://fonts.google.com/specimen/Montserrat",
+     "file": "tipo-textos.svg"
+    }
+   ],
+   "surfaces": {
+    "light": "#F4F1EA",
+    "strong": "#101B33",
+    "lightText": "#111111",
+    "strongText": "#FFFFFF"
+   },
+   "versions": [
+    {
+     "key": "horizontal",
+     "bg": "#101B33",
+     "ratio": 4.8834
+    },
+    {
+     "key": "vertical",
+     "bg": "#101B33",
+     "ratio": 1.5824
+    },
+    {
+     "key": "simbolo",
+     "bg": "#101B33",
+     "ratio": 1.0
+    },
+    {
+     "key": "inversa",
+     "bg": "#F4F1EA",
+     "ratio": 4.8834
+    },
+    {
+     "key": "negro",
+     "bg": "#FFFFFF",
+     "ratio": 4.8834
+    },
+    {
+     "key": "blanco",
+     "bg": "#111111",
+     "ratio": 4.8834
+    }
+   ],
+   "mockups": [
+    {
+     "key": "box",
+     "label": {
+      "es": "Empaque",
+      "en": "Packaging"
+     }
+    },
+    {
+     "key": "bag",
+     "label": {
+      "es": "Bolsas de compra",
+      "en": "Shopping bags"
+     }
+    },
+    {
+     "key": "cards",
+     "label": {
+      "es": "Tarjetas de presentación",
+      "en": "Business cards"
+     }
+    },
+    {
+     "key": "hangtag",
+     "label": {
+      "es": "Etiquetas",
+      "en": "Tags"
+     }
+    },
+    {
+     "key": "phone",
+     "label": {
+      "es": "Perfil en redes sociales",
+      "en": "Social media profile"
+     }
+    },
+    {
+     "key": "poster",
+     "label": {
+      "es": "Afiche",
+      "en": "Poster"
+     }
+    }
+   ],
+   "corporate": [
+    {
+     "key": "stationery",
+     "label": {
+      "es": "Papelería corporativa",
+      "en": "Corporate stationery"
+     }
+    },
+    {
+     "key": "digital",
+     "label": {
+      "es": "Firma de correo y presentación",
+      "en": "Email signature and slides"
+     }
+    }
+   ]
+  },
+  {
+   "n": 12,
+   "slug": "bramante",
+   "name": "Bramante Interiores",
+   "style": "luxe",
+   "sector": {
+    "es": "Estudio de diseño interior",
+    "en": "Interior design studio"
+   },
+   "concept": {
+    "es": "Una B construida con líneas de plano arquitectónico dentro de un círculo atravesado por el horizonte, firmada con caligrafía. Grafito, lino y oro.",
+    "en": "A B built from architectural drafting lines inside a circle crossed by the horizon, signed in calligraphy. Graphite, linen and gold."
+   },
+   "tagline": {
+    "es": "Espacios con alma",
+    "en": "Spaces with soul"
+   },
+   "personality": {
+    "es": [
+     "Moderna",
+     "Cálida",
+     "Refinada"
+    ],
+    "en": [
+     "Modern",
+     "Warm",
+     "Refined"
+    ]
+   },
+   "logoKind": {
+    "es": "Monograma lineal + firma",
+    "en": "Line monogram + signature"
+   },
+   "colors": [
+    {
+     "key": "dark",
+     "hex": "#1C1C1C",
+     "rgb": [
+      28,
+      28,
+      28
+     ],
+     "cmyk": [
+      0,
+      0,
+      0,
+      89
+     ],
+     "name": {
+      "es": "Grafito",
+      "en": "Graphite"
+     },
+     "use": {
+      "es": "Fondo principal",
+      "en": "Main background"
+     },
+     "text": "#FFFFFF"
+    },
+    {
+     "key": "gold",
+     "hex": "#BFA06A",
+     "rgb": [
+      191,
+      160,
+      106
+     ],
+     "cmyk": [
+      0,
+      16,
+      45,
+      25
+     ],
+     "name": {
+      "es": "Oro",
+      "en": "Gold"
+     },
+     "use": {
+      "es": "Logo y detalles",
+      "en": "Logo and details"
+     },
+     "text": "#111111"
+    },
+    {
+     "key": "soft",
+     "hex": "#E7E1D6",
+     "rgb": [
+      231,
+      225,
+      214
+     ],
+     "cmyk": [
+      0,
+      3,
+      7,
+      9
+     ],
+     "name": {
+      "es": "Lino",
+      "en": "Linen"
+     },
+     "use": {
+      "es": "Fondo claro",
+      "en": "Light background"
+     },
+     "text": "#111111"
+    },
+    {
+     "key": "taupe",
+     "hex": "#8C7F72",
+     "rgb": [
+      140,
+      127,
+      114
+     ],
+     "cmyk": [
+      0,
+      9,
+      19,
+      45
+     ],
+     "name": {
+      "es": "Taupe",
+      "en": "Taupe"
+     },
+     "use": {
+      "es": "Apoyo",
+      "en": "Support"
+     },
+     "text": "#111111"
+    }
+   ],
+   "fonts": [
+    {
+     "role": "display",
+     "family": "Tenor Sans",
+     "weight": 400,
+     "italic": false,
+     "license": "SIL Open Font License 1.1",
+     "url": "https://fonts.google.com/specimen/Tenor+Sans",
+     "file": "tipo-titulos.svg"
+    },
+    {
+     "role": "body",
+     "family": "Parisienne",
+     "weight": 400,
+     "italic": false,
+     "license": "SIL Open Font License 1.1",
+     "url": "https://fonts.google.com/specimen/Parisienne",
+     "file": "tipo-textos.svg"
+    }
+   ],
+   "surfaces": {
+    "light": "#E7E1D6",
+    "strong": "#1C1C1C",
+    "lightText": "#111111",
+    "strongText": "#FFFFFF"
+   },
+   "versions": [
+    {
+     "key": "horizontal",
+     "bg": "#1C1C1C",
+     "ratio": 5.2154
+    },
+    {
+     "key": "vertical",
+     "bg": "#1C1C1C",
+     "ratio": 2.303
+    },
+    {
+     "key": "simbolo",
+     "bg": "#1C1C1C",
+     "ratio": 1.2042
+    },
+    {
+     "key": "inversa",
+     "bg": "#E7E1D6",
+     "ratio": 5.2154
+    },
+    {
+     "key": "negro",
+     "bg": "#FFFFFF",
+     "ratio": 5.2154
+    },
+    {
+     "key": "blanco",
+     "bg": "#111111",
+     "ratio": 5.2154
+    }
+   ],
+   "mockups": [
+    {
+     "key": "cards",
+     "label": {
+      "es": "Tarjetas de presentación",
+      "en": "Business cards"
+     }
+    },
+    {
+     "key": "laptop",
+     "label": {
+      "es": "Sitio web",
+      "en": "Website"
+     }
+    },
+    {
+     "key": "wallsign",
+     "label": {
+      "es": "Señalética interior",
+      "en": "Interior signage"
+     }
+    },
+    {
+     "key": "tote",
+     "label": {
+      "es": "Bolsa de tela",
+      "en": "Tote bag"
+     }
+    },
+    {
+     "key": "mug",
+     "label": {
+      "es": "Mugs",
+      "en": "Mugs"
+     }
+    },
+    {
+     "key": "poster",
+     "label": {
+      "es": "Afiche",
+      "en": "Poster"
+     }
+    }
+   ],
+   "corporate": [
+    {
+     "key": "stationery",
+     "label": {
+      "es": "Papelería corporativa",
+      "en": "Corporate stationery"
+     }
+    },
+    {
+     "key": "digital",
+     "label": {
+      "es": "Firma de correo y presentación",
+      "en": "Email signature and slides"
+     }
+    }
+   ]
+  },
+  {
+   "n": 13,
    "slug": "sereno",
    "name": "Sereno",
    "style": "minimal",
@@ -316,7 +3316,7 @@
    ]
   },
   {
-   "n": 2,
+   "n": 14,
    "slug": "nido",
    "name": "Nido Arquitectura",
    "style": "minimal",
@@ -566,7 +3566,7 @@
    ]
   },
   {
-   "n": 3,
+   "n": 15,
    "slug": "lino",
    "name": "Lino",
    "style": "minimal",
@@ -816,7 +3816,7 @@
    ]
   },
   {
-   "n": 4,
+   "n": 16,
    "slug": "castelar",
    "name": "Castelar Abogados",
    "style": "corporate",
@@ -1066,7 +4066,7 @@
    ]
   },
   {
-   "n": 5,
+   "n": 17,
    "slug": "balance",
    "name": "Balance",
    "style": "corporate",
@@ -1316,7 +4316,7 @@
    ]
   },
   {
-   "n": 6,
+   "n": 18,
    "slug": "arco",
    "name": "Arco Odontología",
    "style": "corporate",
@@ -1566,7 +4566,7 @@
    ]
   },
   {
-   "n": 7,
+   "n": 19,
    "slug": "brasa-brava",
    "name": "Brasa Brava",
    "style": "bold",
@@ -1840,7 +4840,7 @@
    ]
   },
   {
-   "n": 8,
+   "n": 20,
    "slug": "voltio",
    "name": "Voltio",
    "style": "bold",
@@ -2090,7 +5090,7 @@
    ]
   },
   {
-   "n": 9,
+   "n": 21,
    "slug": "guayaba-club",
    "name": "Guayaba Club",
    "style": "bold",
@@ -2340,7 +5340,7 @@
    ]
   },
   {
-   "n": 10,
+   "n": 22,
    "slug": "ebano",
    "name": "Ébano Joyería",
    "style": "elegant",
@@ -2590,7 +5590,7 @@
    ]
   },
   {
-   "n": 11,
+   "n": 23,
    "slug": "hacienda-magnolia",
    "name": "Hacienda Magnolia",
    "style": "elegant",
@@ -2840,7 +5840,7 @@
    ]
   },
   {
-   "n": 12,
+   "n": 24,
    "slug": "ambar",
    "name": "Ámbar Chocolatería",
    "style": "elegant",
@@ -3090,7 +6090,7 @@
    ]
   },
   {
-   "n": 13,
+   "n": 25,
    "slug": "masa-madre",
    "name": "Masa Madre",
    "style": "organic",
@@ -3340,7 +6340,7 @@
    ]
   },
   {
-   "n": 14,
+   "n": 26,
    "slug": "miel-de-monte",
    "name": "Miel de Monte",
    "style": "organic",
@@ -3590,7 +6590,7 @@
    ]
   },
   {
-   "n": 15,
+   "n": 27,
    "slug": "raiz",
    "name": "Raíz Huerta Orgánica",
    "style": "organic",
@@ -3840,7 +6840,7 @@
    ]
   },
   {
-   "n": 16,
+   "n": 28,
    "slug": "michi-firulais",
    "name": "Michi & Firulais",
    "style": "playful",
@@ -4090,7 +7090,7 @@
    ]
   },
   {
-   "n": 17,
+   "n": 29,
    "slug": "pompon",
    "name": "Pompón",
    "style": "playful",
@@ -4364,7 +7364,7 @@
    ]
   },
   {
-   "n": 18,
+   "n": 30,
    "slug": "paleton",
    "name": "Paletón",
    "style": "playful",
@@ -4614,7 +7614,7 @@
    ]
   },
   {
-   "n": 19,
+   "n": 31,
    "slug": "la-navaja",
    "name": "La Navaja Barbería",
    "style": "retro",
@@ -4864,7 +7864,7 @@
    ]
   },
   {
-   "n": 20,
+   "n": 32,
    "slug": "paramo",
    "name": "Páramo Cervecería",
    "style": "retro",
@@ -5138,7 +8138,7 @@
    ]
   },
   {
-   "n": 21,
+   "n": 33,
    "slug": "el-tranvia",
    "name": "El Tranvía Café",
    "style": "retro",
@@ -5388,7 +8388,7 @@
    ]
   },
   {
-   "n": 22,
+   "n": 34,
    "slug": "orbita",
    "name": "Órbita Software",
    "style": "tech",
@@ -5638,7 +8638,7 @@
    ]
   },
   {
-   "n": 23,
+   "n": 35,
    "slug": "kambio",
    "name": "Kambio",
    "style": "tech",
@@ -5888,7 +8888,7 @@
    ]
   },
   {
-   "n": 24,
+   "n": 36,
    "slug": "rumbo",
    "name": "Rumbo Logística",
    "style": "tech",
@@ -6117,3006 +9117,6 @@
      "label": {
       "es": "Tarjetas de presentación",
       "en": "Business cards"
-     }
-    }
-   ],
-   "corporate": [
-    {
-     "key": "stationery",
-     "label": {
-      "es": "Papelería corporativa",
-      "en": "Corporate stationery"
-     }
-    },
-    {
-     "key": "digital",
-     "label": {
-      "es": "Firma de correo y presentación",
-      "en": "Email signature and slides"
-     }
-    }
-   ]
-  },
-  {
-   "n": 25,
-   "slug": "aurelia",
-   "name": "Aurelia Hotel & Spa",
-   "style": "luxe",
-   "sector": {
-    "es": "Hotel boutique y spa",
-    "en": "Boutique hotel and spa"
-   },
-   "concept": {
-    "es": "Una A clásica coronada por laureles y una estrella: descanso con categoría. Oro sobre verde esmeralda, con letras romanas de gran espacio.",
-    "en": "A classical A crowned with laurels and a star: rest with distinction. Gold on emerald green, with widely spaced Roman capitals."
-   },
-   "tagline": {
-    "es": "Donde el tiempo descansa",
-    "en": "Where time slows down"
-   },
-   "personality": {
-    "es": [
-     "Serena",
-     "Distinguida",
-     "Cálida"
-    ],
-    "en": [
-     "Serene",
-     "Distinguished",
-     "Warm"
-    ]
-   },
-   "logoKind": {
-    "es": "Emblema con monograma y laureles",
-    "en": "Monogram emblem with laurels"
-   },
-   "colors": [
-    {
-     "key": "dark",
-     "hex": "#0F3B32",
-     "rgb": [
-      15,
-      59,
-      50
-     ],
-     "cmyk": [
-      75,
-      0,
-      15,
-      77
-     ],
-     "name": {
-      "es": "Verde esmeralda",
-      "en": "Emerald green"
-     },
-     "use": {
-      "es": "Fondo principal",
-      "en": "Main background"
-     },
-     "text": "#FFFFFF"
-    },
-    {
-     "key": "gold",
-     "hex": "#C9A45C",
-     "rgb": [
-      201,
-      164,
-      92
-     ],
-     "cmyk": [
-      0,
-      18,
-      54,
-      21
-     ],
-     "name": {
-      "es": "Oro",
-      "en": "Gold"
-     },
-     "use": {
-      "es": "Logo y detalles",
-      "en": "Logo and details"
-     },
-     "text": "#111111"
-    },
-    {
-     "key": "soft",
-     "hex": "#F3EDE1",
-     "rgb": [
-      243,
-      237,
-      225
-     ],
-     "cmyk": [
-      0,
-      2,
-      7,
-      5
-     ],
-     "name": {
-      "es": "Marfil",
-      "en": "Ivory"
-     },
-     "use": {
-      "es": "Fondo claro",
-      "en": "Light background"
-     },
-     "text": "#111111"
-    },
-    {
-     "key": "sage",
-     "hex": "#8FA89A",
-     "rgb": [
-      143,
-      168,
-      154
-     ],
-     "cmyk": [
-      15,
-      0,
-      8,
-      34
-     ],
-     "name": {
-      "es": "Salvia",
-      "en": "Sage"
-     },
-     "use": {
-      "es": "Apoyo",
-      "en": "Support"
-     },
-     "text": "#111111"
-    }
-   ],
-   "fonts": [
-    {
-     "role": "display",
-     "family": "Cinzel",
-     "weight": 400,
-     "italic": false,
-     "license": "SIL Open Font License 1.1",
-     "url": "https://fonts.google.com/specimen/Cinzel",
-     "file": "tipo-titulos.svg"
-    },
-    {
-     "role": "body",
-     "family": "Montserrat",
-     "weight": 400,
-     "italic": false,
-     "license": "SIL Open Font License 1.1",
-     "url": "https://fonts.google.com/specimen/Montserrat",
-     "file": "tipo-textos.svg"
-    }
-   ],
-   "surfaces": {
-    "light": "#F3EDE1",
-    "strong": "#0F3B32",
-    "lightText": "#111111",
-    "strongText": "#FFFFFF"
-   },
-   "versions": [
-    {
-     "key": "horizontal",
-     "bg": "#0F3B32",
-     "ratio": 4.8657
-    },
-    {
-     "key": "vertical",
-     "bg": "#0F3B32",
-     "ratio": 1.5186
-    },
-    {
-     "key": "simbolo",
-     "bg": "#0F3B32",
-     "ratio": 1.0
-    },
-    {
-     "key": "inversa",
-     "bg": "#F3EDE1",
-     "ratio": 4.8657
-    },
-    {
-     "key": "negro",
-     "bg": "#FFFFFF",
-     "ratio": 4.8657
-    },
-    {
-     "key": "blanco",
-     "bg": "#111111",
-     "ratio": 4.8657
-    }
-   ],
-   "mockups": [
-    {
-     "key": "cards",
-     "label": {
-      "es": "Tarjetas de presentación",
-      "en": "Business cards"
-     }
-    },
-    {
-     "key": "bottles",
-     "label": {
-      "es": "Envases",
-      "en": "Bottles"
-     }
-    },
-    {
-     "key": "wallsign",
-     "label": {
-      "es": "Señalética interior",
-      "en": "Interior signage"
-     }
-    },
-    {
-     "key": "menu",
-     "label": {
-      "es": "Menú",
-      "en": "Menu"
-     }
-    },
-    {
-     "key": "bag",
-     "label": {
-      "es": "Bolsas de compra",
-      "en": "Shopping bags"
-     }
-    },
-    {
-     "key": "mug",
-     "label": {
-      "es": "Mugs",
-      "en": "Mugs"
-     }
-    }
-   ],
-   "corporate": [
-    {
-     "key": "stationery",
-     "label": {
-      "es": "Papelería corporativa",
-      "en": "Corporate stationery"
-     }
-    },
-    {
-     "key": "digital",
-     "label": {
-      "es": "Firma de correo y presentación",
-      "en": "Email signature and slides"
-     }
-    }
-   ]
-  },
-  {
-   "n": 26,
-   "slug": "maison-velour",
-   "name": "Maison Velour",
-   "style": "luxe",
-   "sector": {
-    "es": "Perfumería de autor",
-    "en": "Niche perfumery"
-   },
-   "concept": {
-    "es": "Una M y una V que se entrelazan como dos notas de un mismo perfume, dentro de un arco de boutique parisina. Burdeos y oro rosa.",
-    "en": "An M and a V woven together like two notes of one scent, inside a Parisian boutique arch. Burgundy and rose gold."
-   },
-   "tagline": {
-    "es": "Un aroma que te nombra",
-    "en": "A scent that speaks your name"
-   },
-   "personality": {
-    "es": [
-     "Sensual",
-     "Exclusiva",
-     "Íntima"
-    ],
-    "en": [
-     "Sensual",
-     "Exclusive",
-     "Intimate"
-    ]
-   },
-   "logoKind": {
-    "es": "Monograma entrelazado en arco",
-    "en": "Interlaced monogram in an arch"
-   },
-   "colors": [
-    {
-     "key": "dark",
-     "hex": "#5A1428",
-     "rgb": [
-      90,
-      20,
-      40
-     ],
-     "cmyk": [
-      0,
-      78,
-      56,
-      65
-     ],
-     "name": {
-      "es": "Burdeos",
-      "en": "Burgundy"
-     },
-     "use": {
-      "es": "Fondo principal",
-      "en": "Main background"
-     },
-     "text": "#FFFFFF"
-    },
-    {
-     "key": "gold",
-     "hex": "#D4A373",
-     "rgb": [
-      212,
-      163,
-      115
-     ],
-     "cmyk": [
-      0,
-      23,
-      46,
-      17
-     ],
-     "name": {
-      "es": "Oro rosa",
-      "en": "Rose gold"
-     },
-     "use": {
-      "es": "Logo y detalles",
-      "en": "Logo and details"
-     },
-     "text": "#111111"
-    },
-    {
-     "key": "soft",
-     "hex": "#F5EBE0",
-     "rgb": [
-      245,
-      235,
-      224
-     ],
-     "cmyk": [
-      0,
-      4,
-      9,
-      4
-     ],
-     "name": {
-      "es": "Crema",
-      "en": "Cream"
-     },
-     "use": {
-      "es": "Fondo claro",
-      "en": "Light background"
-     },
-     "text": "#111111"
-    },
-    {
-     "key": "mauve",
-     "hex": "#A26769",
-     "rgb": [
-      162,
-      103,
-      105
-     ],
-     "cmyk": [
-      0,
-      36,
-      35,
-      36
-     ],
-     "name": {
-      "es": "Malva",
-      "en": "Mauve"
-     },
-     "use": {
-      "es": "Apoyo",
-      "en": "Support"
-     },
-     "text": "#FFFFFF"
-    }
-   ],
-   "fonts": [
-    {
-     "role": "display",
-     "family": "Bodoni Moda",
-     "weight": 500,
-     "italic": false,
-     "license": "SIL Open Font License 1.1",
-     "url": "https://fonts.google.com/specimen/Bodoni+Moda",
-     "file": "tipo-titulos.svg"
-    },
-    {
-     "role": "body",
-     "family": "Montserrat",
-     "weight": 400,
-     "italic": false,
-     "license": "SIL Open Font License 1.1",
-     "url": "https://fonts.google.com/specimen/Montserrat",
-     "file": "tipo-textos.svg"
-    }
-   ],
-   "surfaces": {
-    "light": "#F5EBE0",
-    "strong": "#5A1428",
-    "lightText": "#111111",
-    "strongText": "#FFFFFF"
-   },
-   "versions": [
-    {
-     "key": "horizontal",
-     "bg": "#5A1428",
-     "ratio": 3.8829
-    },
-    {
-     "key": "vertical",
-     "bg": "#5A1428",
-     "ratio": 1.2686
-    },
-    {
-     "key": "simbolo",
-     "bg": "#5A1428",
-     "ratio": 0.75
-    },
-    {
-     "key": "inversa",
-     "bg": "#F5EBE0",
-     "ratio": 3.8829
-    },
-    {
-     "key": "negro",
-     "bg": "#FFFFFF",
-     "ratio": 3.8829
-    },
-    {
-     "key": "blanco",
-     "bg": "#111111",
-     "ratio": 3.8829
-    }
-   ],
-   "mockups": [
-    {
-     "key": "bottles",
-     "label": {
-      "es": "Envases",
-      "en": "Bottles"
-     }
-    },
-    {
-     "key": "box",
-     "label": {
-      "es": "Empaque",
-      "en": "Packaging"
-     }
-    },
-    {
-     "key": "bag",
-     "label": {
-      "es": "Bolsas de compra",
-      "en": "Shopping bags"
-     }
-    },
-    {
-     "key": "cards",
-     "label": {
-      "es": "Tarjetas de presentación",
-      "en": "Business cards"
-     }
-    },
-    {
-     "key": "phone",
-     "label": {
-      "es": "Perfil en redes sociales",
-      "en": "Social media profile"
-     }
-    },
-    {
-     "key": "poster",
-     "label": {
-      "es": "Afiche",
-      "en": "Poster"
-     }
-    }
-   ],
-   "corporate": [
-    {
-     "key": "stationery",
-     "label": {
-      "es": "Papelería corporativa",
-      "en": "Corporate stationery"
-     }
-    },
-    {
-     "key": "digital",
-     "label": {
-      "es": "Firma de correo y presentación",
-      "en": "Email signature and slides"
-     }
-    }
-   ]
-  },
-  {
-   "n": 27,
-   "slug": "ludovica",
-   "name": "Ludovica",
-   "style": "luxe",
-   "sector": {
-    "es": "Atelier de vestidos de novia",
-    "en": "Bridal gown atelier"
-   },
-   "concept": {
-    "es": "Una L caligráfica dentro de un medallón, con ramitas como de un ramo de novia y una firma escrita a mano. Ciruela suave y oro sobre rubor.",
-    "en": "A calligraphic L in a medallion, with sprigs like a bridal bouquet and a handwritten signature. Soft plum and gold on blush."
-   },
-   "tagline": {
-    "es": "Tu historia, a la medida",
-    "en": "Your story, made to measure"
-   },
-   "personality": {
-    "es": [
-     "Romántica",
-     "Delicada",
-     "Atemporal"
-    ],
-    "en": [
-     "Romantic",
-     "Delicate",
-     "Timeless"
-    ]
-   },
-   "logoKind": {
-    "es": "Medallón caligráfico + firma",
-    "en": "Calligraphic medallion + signature"
-   },
-   "colors": [
-    {
-     "key": "soft",
-     "hex": "#EAD7D1",
-     "rgb": [
-      234,
-      215,
-      209
-     ],
-     "cmyk": [
-      0,
-      8,
-      11,
-      8
-     ],
-     "name": {
-      "es": "Rubor",
-      "en": "Blush"
-     },
-     "use": {
-      "es": "Fondo principal",
-      "en": "Main background"
-     },
-     "text": "#111111"
-    },
-    {
-     "key": "dark",
-     "hex": "#6B4E5A",
-     "rgb": [
-      107,
-      78,
-      90
-     ],
-     "cmyk": [
-      0,
-      27,
-      16,
-      58
-     ],
-     "name": {
-      "es": "Ciruela suave",
-      "en": "Soft plum"
-     },
-     "use": {
-      "es": "Logo y textos",
-      "en": "Logo and text"
-     },
-     "text": "#FFFFFF"
-    },
-    {
-     "key": "gold",
-     "hex": "#9A7A45",
-     "rgb": [
-      154,
-      122,
-      69
-     ],
-     "cmyk": [
-      0,
-      21,
-      55,
-      40
-     ],
-     "name": {
-      "es": "Oro",
-      "en": "Gold"
-     },
-     "use": {
-      "es": "Detalles",
-      "en": "Details"
-     },
-     "text": "#111111"
-    },
-    {
-     "key": "pearl",
-     "hex": "#FBF7F4",
-     "rgb": [
-      251,
-      247,
-      244
-     ],
-     "cmyk": [
-      0,
-      2,
-      3,
-      2
-     ],
-     "name": {
-      "es": "Perla",
-      "en": "Pearl"
-     },
-     "use": {
-      "es": "Papelería",
-      "en": "Stationery"
-     },
-     "text": "#111111"
-    }
-   ],
-   "fonts": [
-    {
-     "role": "display",
-     "family": "Pinyon Script",
-     "weight": 400,
-     "italic": false,
-     "license": "SIL Open Font License 1.1",
-     "url": "https://fonts.google.com/specimen/Pinyon+Script",
-     "file": "tipo-titulos.svg"
-    },
-    {
-     "role": "body",
-     "family": "Cormorant Garamond",
-     "weight": 500,
-     "italic": false,
-     "license": "SIL Open Font License 1.1",
-     "url": "https://fonts.google.com/specimen/Cormorant+Garamond",
-     "file": "tipo-textos.svg"
-    }
-   ],
-   "surfaces": {
-    "light": "#EAD7D1",
-    "strong": "#6B4E5A",
-    "lightText": "#111111",
-    "strongText": "#FFFFFF"
-   },
-   "versions": [
-    {
-     "key": "horizontal",
-     "bg": "#EAD7D1",
-     "ratio": 3.727
-    },
-    {
-     "key": "vertical",
-     "bg": "#EAD7D1",
-     "ratio": 1.3407
-    },
-    {
-     "key": "simbolo",
-     "bg": "#EAD7D1",
-     "ratio": 0.6441
-    },
-    {
-     "key": "inversa",
-     "bg": "#6B4E5A",
-     "ratio": 3.727
-    },
-    {
-     "key": "negro",
-     "bg": "#FFFFFF",
-     "ratio": 3.727
-    },
-    {
-     "key": "blanco",
-     "bg": "#111111",
-     "ratio": 3.727
-    }
-   ],
-   "mockups": [
-    {
-     "key": "hangtag",
-     "label": {
-      "es": "Etiquetas",
-      "en": "Tags"
-     }
-    },
-    {
-     "key": "bag",
-     "label": {
-      "es": "Bolsas de compra",
-      "en": "Shopping bags"
-     }
-    },
-    {
-     "key": "box",
-     "label": {
-      "es": "Empaque",
-      "en": "Packaging"
-     }
-    },
-    {
-     "key": "cards",
-     "label": {
-      "es": "Tarjetas de presentación",
-      "en": "Business cards"
-     }
-    },
-    {
-     "key": "phone",
-     "label": {
-      "es": "Perfil en redes sociales",
-      "en": "Social media profile"
-     }
-    },
-    {
-     "key": "poster",
-     "label": {
-      "es": "Afiche",
-      "en": "Poster"
-     }
-    }
-   ],
-   "corporate": [
-    {
-     "key": "stationery",
-     "label": {
-      "es": "Papelería corporativa",
-      "en": "Corporate stationery"
-     }
-    },
-    {
-     "key": "digital",
-     "label": {
-      "es": "Firma de correo y presentación",
-      "en": "Email signature and slides"
-     }
-    }
-   ]
-  },
-  {
-   "n": 28,
-   "slug": "orvieto",
-   "name": "Orvieto",
-   "style": "luxe",
-   "sector": {
-    "es": "Vinoteca y cocina italiana",
-    "en": "Wine bar and Italian kitchen"
-   },
-   "concept": {
-    "es": "Un sol art déco que nace detrás de la O, dentro de un rombo de doble línea: noches largas, copas finas. Oro sobre negro con un toque vino.",
-    "en": "An art deco sun rising behind the O, inside a double-line diamond: long evenings, fine glasses. Gold on black with a touch of wine."
-   },
-   "tagline": {
-    "es": "Brindemos sin prisa",
-    "en": "A toast, unhurried"
-   },
-   "personality": {
-    "es": [
-     "Sofisticada",
-     "Nocturna",
-     "Generosa"
-    ],
-    "en": [
-     "Sophisticated",
-     "Nocturnal",
-     "Generous"
-    ]
-   },
-   "logoKind": {
-    "es": "Emblema art déco",
-    "en": "Art deco emblem"
-   },
-   "colors": [
-    {
-     "key": "dark",
-     "hex": "#141414",
-     "rgb": [
-      20,
-      20,
-      20
-     ],
-     "cmyk": [
-      0,
-      0,
-      0,
-      92
-     ],
-     "name": {
-      "es": "Negro",
-      "en": "Black"
-     },
-     "use": {
-      "es": "Fondo principal",
-      "en": "Main background"
-     },
-     "text": "#FFFFFF"
-    },
-    {
-     "key": "gold",
-     "hex": "#CDA349",
-     "rgb": [
-      205,
-      163,
-      73
-     ],
-     "cmyk": [
-      0,
-      20,
-      64,
-      20
-     ],
-     "name": {
-      "es": "Oro antiguo",
-      "en": "Antique gold"
-     },
-     "use": {
-      "es": "Logo y detalles",
-      "en": "Logo and details"
-     },
-     "text": "#111111"
-    },
-    {
-     "key": "wine",
-     "hex": "#6E1E2B",
-     "rgb": [
-      110,
-      30,
-      43
-     ],
-     "cmyk": [
-      0,
-      73,
-      61,
-      57
-     ],
-     "name": {
-      "es": "Vino",
-      "en": "Wine"
-     },
-     "use": {
-      "es": "Acento",
-      "en": "Accent"
-     },
-     "text": "#FFFFFF"
-    },
-    {
-     "key": "soft",
-     "hex": "#EFE6D2",
-     "rgb": [
-      239,
-      230,
-      210
-     ],
-     "cmyk": [
-      0,
-      4,
-      12,
-      6
-     ],
-     "name": {
-      "es": "Hueso",
-      "en": "Bone"
-     },
-     "use": {
-      "es": "Fondo claro",
-      "en": "Light background"
-     },
-     "text": "#111111"
-    }
-   ],
-   "fonts": [
-    {
-     "role": "display",
-     "family": "Cinzel",
-     "weight": 500,
-     "italic": false,
-     "license": "SIL Open Font License 1.1",
-     "url": "https://fonts.google.com/specimen/Cinzel",
-     "file": "tipo-titulos.svg"
-    },
-    {
-     "role": "body",
-     "family": "Montserrat",
-     "weight": 400,
-     "italic": false,
-     "license": "SIL Open Font License 1.1",
-     "url": "https://fonts.google.com/specimen/Montserrat",
-     "file": "tipo-textos.svg"
-    }
-   ],
-   "surfaces": {
-    "light": "#EFE6D2",
-    "strong": "#141414",
-    "lightText": "#111111",
-    "strongText": "#FFFFFF"
-   },
-   "versions": [
-    {
-     "key": "horizontal",
-     "bg": "#141414",
-     "ratio": 5.1199
-    },
-    {
-     "key": "vertical",
-     "bg": "#141414",
-     "ratio": 1.6272
-    },
-    {
-     "key": "simbolo",
-     "bg": "#141414",
-     "ratio": 1.0
-    },
-    {
-     "key": "inversa",
-     "bg": "#EFE6D2",
-     "ratio": 5.1199
-    },
-    {
-     "key": "negro",
-     "bg": "#FFFFFF",
-     "ratio": 5.1199
-    },
-    {
-     "key": "blanco",
-     "bg": "#111111",
-     "ratio": 5.1199
-    }
-   ],
-   "mockups": [
-    {
-     "key": "bottle",
-     "label": {
-      "es": "Botellas",
-      "en": "Bottles"
-     }
-    },
-    {
-     "key": "menu",
-     "label": {
-      "es": "Menú",
-      "en": "Menu"
-     }
-    },
-    {
-     "key": "storefront",
-     "label": {
-      "es": "Fachada y aviso",
-      "en": "Storefront and sign"
-     }
-    },
-    {
-     "key": "cards",
-     "label": {
-      "es": "Tarjetas de presentación",
-      "en": "Business cards"
-     }
-    },
-    {
-     "key": "wallsign",
-     "label": {
-      "es": "Señalética interior",
-      "en": "Interior signage"
-     }
-    },
-    {
-     "key": "bag",
-     "label": {
-      "es": "Bolsas de compra",
-      "en": "Shopping bags"
-     }
-    }
-   ],
-   "corporate": [
-    {
-     "key": "stationery",
-     "label": {
-      "es": "Papelería corporativa",
-      "en": "Corporate stationery"
-     }
-    },
-    {
-     "key": "digital",
-     "label": {
-      "es": "Firma de correo y presentación",
-      "en": "Email signature and slides"
-     }
-    }
-   ]
-  },
-  {
-   "n": 29,
-   "slug": "altamar",
-   "name": "Altamar Club Náutico",
-   "style": "luxe",
-   "sector": {
-    "es": "Club náutico y alquiler de veleros",
-    "en": "Yacht club and sailboat charters"
-   },
-   "concept": {
-    "es": "Un ancla de línea fina rodeada por un cordón de cuentas, como un sello marinero bordado. Oro sobre azul marino profundo.",
-    "en": "A fine-line anchor encircled by a beaded cord, like an embroidered sailor's crest. Gold on deep navy."
-   },
-   "tagline": {
-    "es": "El mar, a tu manera",
-    "en": "The sea, your way"
-   },
-   "personality": {
-    "es": [
-     "Clásica",
-     "Aventurera",
-     "Exclusiva"
-    ],
-    "en": [
-     "Classic",
-     "Adventurous",
-     "Exclusive"
-    ]
-   },
-   "logoKind": {
-    "es": "Emblema marinero",
-    "en": "Nautical crest"
-   },
-   "colors": [
-    {
-     "key": "dark",
-     "hex": "#0E2340",
-     "rgb": [
-      14,
-      35,
-      64
-     ],
-     "cmyk": [
-      78,
-      45,
-      0,
-      75
-     ],
-     "name": {
-      "es": "Azul marino",
-      "en": "Navy"
-     },
-     "use": {
-      "es": "Fondo principal",
-      "en": "Main background"
-     },
-     "text": "#FFFFFF"
-    },
-    {
-     "key": "gold",
-     "hex": "#C8A55F",
-     "rgb": [
-      200,
-      165,
-      95
-     ],
-     "cmyk": [
-      0,
-      17,
-      52,
-      22
-     ],
-     "name": {
-      "es": "Oro",
-      "en": "Gold"
-     },
-     "use": {
-      "es": "Logo y detalles",
-      "en": "Logo and details"
-     },
-     "text": "#111111"
-    },
-    {
-     "key": "soft",
-     "hex": "#F4EFE6",
-     "rgb": [
-      244,
-      239,
-      230
-     ],
-     "cmyk": [
-      0,
-      2,
-      6,
-      4
-     ],
-     "name": {
-      "es": "Arena blanca",
-      "en": "White sand"
-     },
-     "use": {
-      "es": "Fondo claro",
-      "en": "Light background"
-     },
-     "text": "#111111"
-    },
-    {
-     "key": "teal",
-     "hex": "#2E6F73",
-     "rgb": [
-      46,
-      111,
-      115
-     ],
-     "cmyk": [
-      60,
-      3,
-      0,
-      55
-     ],
-     "name": {
-      "es": "Verde mar",
-      "en": "Sea green"
-     },
-     "use": {
-      "es": "Apoyo",
-      "en": "Support"
-     },
-     "text": "#FFFFFF"
-    }
-   ],
-   "fonts": [
-    {
-     "role": "display",
-     "family": "Marcellus",
-     "weight": 400,
-     "italic": false,
-     "license": "SIL Open Font License 1.1",
-     "url": "https://fonts.google.com/specimen/Marcellus",
-     "file": "tipo-titulos.svg"
-    },
-    {
-     "role": "body",
-     "family": "Montserrat",
-     "weight": 400,
-     "italic": false,
-     "license": "SIL Open Font License 1.1",
-     "url": "https://fonts.google.com/specimen/Montserrat",
-     "file": "tipo-textos.svg"
-    }
-   ],
-   "surfaces": {
-    "light": "#F4EFE6",
-    "strong": "#0E2340",
-    "lightText": "#111111",
-    "strongText": "#FFFFFF"
-   },
-   "versions": [
-    {
-     "key": "horizontal",
-     "bg": "#0E2340",
-     "ratio": 5.3253
-    },
-    {
-     "key": "vertical",
-     "bg": "#0E2340",
-     "ratio": 1.7129
-    },
-    {
-     "key": "simbolo",
-     "bg": "#0E2340",
-     "ratio": 1.0
-    },
-    {
-     "key": "inversa",
-     "bg": "#F4EFE6",
-     "ratio": 5.3253
-    },
-    {
-     "key": "negro",
-     "bg": "#FFFFFF",
-     "ratio": 5.3253
-    },
-    {
-     "key": "blanco",
-     "bg": "#111111",
-     "ratio": 5.3253
-    }
-   ],
-   "mockups": [
-    {
-     "key": "cap",
-     "label": {
-      "es": "Gorra",
-      "en": "Cap"
-     }
-    },
-    {
-     "key": "tshirt",
-     "label": {
-      "es": "Camiseta",
-      "en": "T-shirt"
-     }
-    },
-    {
-     "key": "cards",
-     "label": {
-      "es": "Tarjetas de presentación",
-      "en": "Business cards"
-     }
-    },
-    {
-     "key": "wallsign",
-     "label": {
-      "es": "Señalética interior",
-      "en": "Interior signage"
-     }
-    },
-    {
-     "key": "tote",
-     "label": {
-      "es": "Bolsa de tela",
-      "en": "Tote bag"
-     }
-    },
-    {
-     "key": "phone",
-     "label": {
-      "es": "Perfil en redes sociales",
-      "en": "Social media profile"
-     }
-    }
-   ],
-   "corporate": [
-    {
-     "key": "stationery",
-     "label": {
-      "es": "Papelería corporativa",
-      "en": "Corporate stationery"
-     }
-    },
-    {
-     "key": "digital",
-     "label": {
-      "es": "Firma de correo y presentación",
-      "en": "Email signature and slides"
-     }
-    }
-   ]
-  },
-  {
-   "n": 30,
-   "slug": "sable-co",
-   "name": "Sable & Co.",
-   "style": "luxe",
-   "sector": {
-    "es": "Sastrería a la medida",
-    "en": "Bespoke tailoring"
-   },
-   "concept": {
-    "es": "Una S y una C de alto contraste que se entrelazan, atravesadas por una aguja con su hilo: el oficio a la vista. Carbón, hueso y oro viejo.",
-    "en": "A high-contrast S and C woven together, pierced by a threaded needle: craft in plain sight. Charcoal, bone and antique gold."
-   },
-   "tagline": {
-    "es": "Hecho para ti, a mano",
-    "en": "Made for you, by hand"
-   },
-   "personality": {
-    "es": [
-     "Precisa",
-     "Clásica",
-     "Masculina"
-    ],
-    "en": [
-     "Precise",
-     "Classic",
-     "Masculine"
-    ]
-   },
-   "logoKind": {
-    "es": "Monograma con aguja",
-    "en": "Monogram with needle"
-   },
-   "colors": [
-    {
-     "key": "dark",
-     "hex": "#1F1F22",
-     "rgb": [
-      31,
-      31,
-      34
-     ],
-     "cmyk": [
-      9,
-      9,
-      0,
-      87
-     ],
-     "name": {
-      "es": "Carbón",
-      "en": "Charcoal"
-     },
-     "use": {
-      "es": "Fondo principal",
-      "en": "Main background"
-     },
-     "text": "#FFFFFF"
-    },
-    {
-     "key": "gold",
-     "hex": "#B08D57",
-     "rgb": [
-      176,
-      141,
-      87
-     ],
-     "cmyk": [
-      0,
-      20,
-      51,
-      31
-     ],
-     "name": {
-      "es": "Oro viejo",
-      "en": "Antique gold"
-     },
-     "use": {
-      "es": "Logo y detalles",
-      "en": "Logo and details"
-     },
-     "text": "#111111"
-    },
-    {
-     "key": "soft",
-     "hex": "#EDE6DA",
-     "rgb": [
-      237,
-      230,
-      218
-     ],
-     "cmyk": [
-      0,
-      3,
-      8,
-      7
-     ],
-     "name": {
-      "es": "Hueso",
-      "en": "Bone"
-     },
-     "use": {
-      "es": "Fondo claro",
-      "en": "Light background"
-     },
-     "text": "#111111"
-    },
-    {
-     "key": "gray",
-     "hex": "#7A7A80",
-     "rgb": [
-      122,
-      122,
-      128
-     ],
-     "cmyk": [
-      5,
-      5,
-      0,
-      50
-     ],
-     "name": {
-      "es": "Gris paño",
-      "en": "Cloth gray"
-     },
-     "use": {
-      "es": "Apoyo",
-      "en": "Support"
-     },
-     "text": "#111111"
-    }
-   ],
-   "fonts": [
-    {
-     "role": "display",
-     "family": "Forum",
-     "weight": 400,
-     "italic": false,
-     "license": "SIL Open Font License 1.1",
-     "url": "https://fonts.google.com/specimen/Forum",
-     "file": "tipo-titulos.svg"
-    },
-    {
-     "role": "body",
-     "family": "Montserrat",
-     "weight": 400,
-     "italic": false,
-     "license": "SIL Open Font License 1.1",
-     "url": "https://fonts.google.com/specimen/Montserrat",
-     "file": "tipo-textos.svg"
-    }
-   ],
-   "surfaces": {
-    "light": "#EDE6DA",
-    "strong": "#1F1F22",
-    "lightText": "#111111",
-    "strongText": "#FFFFFF"
-   },
-   "versions": [
-    {
-     "key": "horizontal",
-     "bg": "#1F1F22",
-     "ratio": 6.0393
-    },
-    {
-     "key": "vertical",
-     "bg": "#1F1F22",
-     "ratio": 2.0711
-    },
-    {
-     "key": "simbolo",
-     "bg": "#1F1F22",
-     "ratio": 1.0616
-    },
-    {
-     "key": "inversa",
-     "bg": "#EDE6DA",
-     "ratio": 6.0393
-    },
-    {
-     "key": "negro",
-     "bg": "#FFFFFF",
-     "ratio": 6.0393
-    },
-    {
-     "key": "blanco",
-     "bg": "#111111",
-     "ratio": 6.0393
-    }
-   ],
-   "mockups": [
-    {
-     "key": "hangtag",
-     "label": {
-      "es": "Etiquetas",
-      "en": "Tags"
-     }
-    },
-    {
-     "key": "box",
-     "label": {
-      "es": "Empaque",
-      "en": "Packaging"
-     }
-    },
-    {
-     "key": "bag",
-     "label": {
-      "es": "Bolsas de compra",
-      "en": "Shopping bags"
-     }
-    },
-    {
-     "key": "cards",
-     "label": {
-      "es": "Tarjetas de presentación",
-      "en": "Business cards"
-     }
-    },
-    {
-     "key": "storefront",
-     "label": {
-      "es": "Fachada y aviso",
-      "en": "Storefront and sign"
-     }
-    },
-    {
-     "key": "phone",
-     "label": {
-      "es": "Perfil en redes sociales",
-      "en": "Social media profile"
-     }
-    }
-   ],
-   "corporate": [
-    {
-     "key": "stationery",
-     "label": {
-      "es": "Papelería corporativa",
-      "en": "Corporate stationery"
-     }
-    },
-    {
-     "key": "digital",
-     "label": {
-      "es": "Firma de correo y presentación",
-      "en": "Email signature and slides"
-     }
-    }
-   ]
-  },
-  {
-   "n": 31,
-   "slug": "villa-serena",
-   "name": "Villa Serena",
-   "style": "luxe",
-   "sector": {
-    "es": "Inmobiliaria de propiedades exclusivas",
-    "en": "Luxury real estate"
-   },
-   "concept": {
-    "es": "Una V y una S que forman una casa bajo un tejado de dos aguas: el monograma como hogar. Azul pizarra y bronce sobre arena.",
-    "en": "A V and an S that form a house under a gabled roof: the monogram as a home. Slate blue and bronze on sand."
-   },
-   "tagline": {
-    "es": "Vivir en otro nivel",
-    "en": "Living on another level"
-   },
-   "personality": {
-    "es": [
-     "Confiable",
-     "Exclusiva",
-     "Sobria"
-    ],
-    "en": [
-     "Trustworthy",
-     "Exclusive",
-     "Understated"
-    ]
-   },
-   "logoKind": {
-    "es": "Monograma arquitectónico",
-    "en": "Architectural monogram"
-   },
-   "colors": [
-    {
-     "key": "soft",
-     "hex": "#E9E2D6",
-     "rgb": [
-      233,
-      226,
-      214
-     ],
-     "cmyk": [
-      0,
-      3,
-      8,
-      9
-     ],
-     "name": {
-      "es": "Arena",
-      "en": "Sand"
-     },
-     "use": {
-      "es": "Fondo principal",
-      "en": "Main background"
-     },
-     "text": "#111111"
-    },
-    {
-     "key": "dark",
-     "hex": "#2F3E4E",
-     "rgb": [
-      47,
-      62,
-      78
-     ],
-     "cmyk": [
-      40,
-      21,
-      0,
-      69
-     ],
-     "name": {
-      "es": "Azul pizarra",
-      "en": "Slate blue"
-     },
-     "use": {
-      "es": "Logo y textos",
-      "en": "Logo and text"
-     },
-     "text": "#FFFFFF"
-    },
-    {
-     "key": "gold",
-     "hex": "#86683F",
-     "rgb": [
-      134,
-      104,
-      63
-     ],
-     "cmyk": [
-      0,
-      22,
-      53,
-      47
-     ],
-     "name": {
-      "es": "Bronce",
-      "en": "Bronze"
-     },
-     "use": {
-      "es": "Detalles",
-      "en": "Details"
-     },
-     "text": "#FFFFFF"
-    },
-    {
-     "key": "white",
-     "hex": "#FAF8F4",
-     "rgb": [
-      250,
-      248,
-      244
-     ],
-     "cmyk": [
-      0,
-      1,
-      2,
-      2
-     ],
-     "name": {
-      "es": "Blanco cal",
-      "en": "Lime white"
-     },
-     "use": {
-      "es": "Papelería",
-      "en": "Stationery"
-     },
-     "text": "#111111"
-    }
-   ],
-   "fonts": [
-    {
-     "role": "display",
-     "family": "Tenor Sans",
-     "weight": 400,
-     "italic": false,
-     "license": "SIL Open Font License 1.1",
-     "url": "https://fonts.google.com/specimen/Tenor+Sans",
-     "file": "tipo-titulos.svg"
-    },
-    {
-     "role": "body",
-     "family": "Montserrat",
-     "weight": 400,
-     "italic": false,
-     "license": "SIL Open Font License 1.1",
-     "url": "https://fonts.google.com/specimen/Montserrat",
-     "file": "tipo-textos.svg"
-    }
-   ],
-   "surfaces": {
-    "light": "#E9E2D6",
-    "strong": "#2F3E4E",
-    "lightText": "#111111",
-    "strongText": "#FFFFFF"
-   },
-   "versions": [
-    {
-     "key": "horizontal",
-     "bg": "#E9E2D6",
-     "ratio": 5.1531
-    },
-    {
-     "key": "vertical",
-     "bg": "#E9E2D6",
-     "ratio": 2.5872
-    },
-    {
-     "key": "simbolo",
-     "bg": "#E9E2D6",
-     "ratio": 0.7002
-    },
-    {
-     "key": "inversa",
-     "bg": "#2F3E4E",
-     "ratio": 5.1531
-    },
-    {
-     "key": "negro",
-     "bg": "#FFFFFF",
-     "ratio": 5.1531
-    },
-    {
-     "key": "blanco",
-     "bg": "#111111",
-     "ratio": 5.1531
-    }
-   ],
-   "mockups": [
-    {
-     "key": "cards",
-     "label": {
-      "es": "Tarjetas de presentación",
-      "en": "Business cards"
-     }
-    },
-    {
-     "key": "wallsign",
-     "label": {
-      "es": "Señalética interior",
-      "en": "Interior signage"
-     }
-    },
-    {
-     "key": "laptop",
-     "label": {
-      "es": "Sitio web",
-      "en": "Website"
-     }
-    },
-    {
-     "key": "poster",
-     "label": {
-      "es": "Afiche",
-      "en": "Poster"
-     }
-    },
-    {
-     "key": "idbadge",
-     "label": {
-      "es": "Carné y cinta",
-      "en": "ID badge and lanyard"
-     }
-    },
-    {
-     "key": "mug",
-     "label": {
-      "es": "Mugs",
-      "en": "Mugs"
-     }
-    }
-   ],
-   "corporate": [
-    {
-     "key": "stationery",
-     "label": {
-      "es": "Papelería corporativa",
-      "en": "Corporate stationery"
-     }
-    },
-    {
-     "key": "digital",
-     "label": {
-      "es": "Firma de correo y presentación",
-      "en": "Email signature and slides"
-     }
-    }
-   ]
-  },
-  {
-   "n": 32,
-   "slug": "alma-botanica",
-   "name": "Alma Botánica",
-   "style": "luxe",
-   "sector": {
-    "es": "Cuidado de la piel con ingredientes botánicos",
-    "en": "Botanical skincare"
-   },
-   "concept": {
-    "es": "Una rama dibujada con pulso fino dentro de un óvalo, y un nombre que combina caligrafía con mayúsculas espaciadas. Salvia profunda y oro.",
-    "en": "A finely drawn branch inside an oval, and a name that pairs calligraphy with spaced capitals. Deep sage and gold."
-   },
-   "tagline": {
-    "es": "Tu ritual, tu calma",
-    "en": "Your ritual, your calm"
-   },
-   "personality": {
-    "es": [
-     "Natural",
-     "Refinada",
-     "Serena"
-    ],
-    "en": [
-     "Natural",
-     "Refined",
-     "Serene"
-    ]
-   },
-   "logoKind": {
-    "es": "Emblema botánico + firma",
-    "en": "Botanical emblem + signature"
-   },
-   "colors": [
-    {
-     "key": "dark",
-     "hex": "#3E4F44",
-     "rgb": [
-      62,
-      79,
-      68
-     ],
-     "cmyk": [
-      22,
-      0,
-      14,
-      69
-     ],
-     "name": {
-      "es": "Salvia profunda",
-      "en": "Deep sage"
-     },
-     "use": {
-      "es": "Fondo principal",
-      "en": "Main background"
-     },
-     "text": "#FFFFFF"
-    },
-    {
-     "key": "gold",
-     "hex": "#C5A46D",
-     "rgb": [
-      197,
-      164,
-      109
-     ],
-     "cmyk": [
-      0,
-      17,
-      45,
-      23
-     ],
-     "name": {
-      "es": "Oro suave",
-      "en": "Soft gold"
-     },
-     "use": {
-      "es": "Logo y detalles",
-      "en": "Logo and details"
-     },
-     "text": "#111111"
-    },
-    {
-     "key": "soft",
-     "hex": "#F2EDE3",
-     "rgb": [
-      242,
-      237,
-      227
-     ],
-     "cmyk": [
-      0,
-      2,
-      6,
-      5
-     ],
-     "name": {
-      "es": "Crema",
-      "en": "Cream"
-     },
-     "use": {
-      "es": "Fondo claro",
-      "en": "Light background"
-     },
-     "text": "#111111"
-    },
-    {
-     "key": "clay",
-     "hex": "#C98B6B",
-     "rgb": [
-      201,
-      139,
-      107
-     ],
-     "cmyk": [
-      0,
-      31,
-      47,
-      21
-     ],
-     "name": {
-      "es": "Arcilla",
-      "en": "Clay"
-     },
-     "use": {
-      "es": "Acento",
-      "en": "Accent"
-     },
-     "text": "#111111"
-    }
-   ],
-   "fonts": [
-    {
-     "role": "display",
-     "family": "Parisienne",
-     "weight": 400,
-     "italic": false,
-     "license": "SIL Open Font License 1.1",
-     "url": "https://fonts.google.com/specimen/Parisienne",
-     "file": "tipo-titulos.svg"
-    },
-    {
-     "role": "body",
-     "family": "Tenor Sans",
-     "weight": 400,
-     "italic": false,
-     "license": "SIL Open Font License 1.1",
-     "url": "https://fonts.google.com/specimen/Tenor+Sans",
-     "file": "tipo-textos.svg"
-    }
-   ],
-   "surfaces": {
-    "light": "#F2EDE3",
-    "strong": "#3E4F44",
-    "lightText": "#111111",
-    "strongText": "#FFFFFF"
-   },
-   "versions": [
-    {
-     "key": "horizontal",
-     "bg": "#3E4F44",
-     "ratio": 2.6324
-    },
-    {
-     "key": "vertical",
-     "bg": "#3E4F44",
-     "ratio": 0.9053
-    },
-    {
-     "key": "simbolo",
-     "bg": "#3E4F44",
-     "ratio": 0.679
-    },
-    {
-     "key": "inversa",
-     "bg": "#F2EDE3",
-     "ratio": 2.6324
-    },
-    {
-     "key": "negro",
-     "bg": "#FFFFFF",
-     "ratio": 2.6324
-    },
-    {
-     "key": "blanco",
-     "bg": "#111111",
-     "ratio": 2.6324
-    }
-   ],
-   "mockups": [
-    {
-     "key": "bottles",
-     "label": {
-      "es": "Envases",
-      "en": "Bottles"
-     }
-    },
-    {
-     "key": "jar",
-     "label": {
-      "es": "Frascos",
-      "en": "Jars"
-     }
-    },
-    {
-     "key": "box",
-     "label": {
-      "es": "Empaque",
-      "en": "Packaging"
-     }
-    },
-    {
-     "key": "bag",
-     "label": {
-      "es": "Bolsas de compra",
-      "en": "Shopping bags"
-     }
-    },
-    {
-     "key": "cards",
-     "label": {
-      "es": "Tarjetas de presentación",
-      "en": "Business cards"
-     }
-    },
-    {
-     "key": "phone",
-     "label": {
-      "es": "Perfil en redes sociales",
-      "en": "Social media profile"
-     }
-    }
-   ],
-   "corporate": [
-    {
-     "key": "stationery",
-     "label": {
-      "es": "Papelería corporativa",
-      "en": "Corporate stationery"
-     }
-    },
-    {
-     "key": "digital",
-     "label": {
-      "es": "Firma de correo y presentación",
-      "en": "Email signature and slides"
-     }
-    }
-   ]
-  },
-  {
-   "n": 33,
-   "slug": "casa-duvall",
-   "name": "Casa Duvall",
-   "style": "luxe",
-   "sector": {
-    "es": "Bodega de vinos familiar",
-    "en": "Family winery"
-   },
-   "concept": {
-    "es": "Un escudo con corona y un monograma CD entrelazado, rematado por arabescos: tradición que se hereda. Oro sobre burdeos.",
-    "en": "A crowned shield with an interlaced CD monogram, finished with scrolls: tradition passed down. Gold on burgundy."
-   },
-   "tagline": {
-    "es": "Cosechas con historia",
-    "en": "Harvests with a history"
-   },
-   "personality": {
-    "es": [
-     "Tradicional",
-     "Noble",
-     "Cálida"
-    ],
-    "en": [
-     "Traditional",
-     "Noble",
-     "Warm"
-    ]
-   },
-   "logoKind": {
-    "es": "Escudo heráldico con monograma",
-    "en": "Heraldic crest with monogram"
-   },
-   "colors": [
-    {
-     "key": "dark",
-     "hex": "#4A0F1D",
-     "rgb": [
-      74,
-      15,
-      29
-     ],
-     "cmyk": [
-      0,
-      80,
-      61,
-      71
-     ],
-     "name": {
-      "es": "Burdeos",
-      "en": "Burgundy"
-     },
-     "use": {
-      "es": "Fondo principal",
-      "en": "Main background"
-     },
-     "text": "#FFFFFF"
-    },
-    {
-     "key": "gold",
-     "hex": "#C9A45C",
-     "rgb": [
-      201,
-      164,
-      92
-     ],
-     "cmyk": [
-      0,
-      18,
-      54,
-      21
-     ],
-     "name": {
-      "es": "Oro",
-      "en": "Gold"
-     },
-     "use": {
-      "es": "Logo y detalles",
-      "en": "Logo and details"
-     },
-     "text": "#111111"
-    },
-    {
-     "key": "soft",
-     "hex": "#F3EBDD",
-     "rgb": [
-      243,
-      235,
-      221
-     ],
-     "cmyk": [
-      0,
-      3,
-      9,
-      5
-     ],
-     "name": {
-      "es": "Crema",
-      "en": "Cream"
-     },
-     "use": {
-      "es": "Fondo claro",
-      "en": "Light background"
-     },
-     "text": "#111111"
-    },
-    {
-     "key": "olive",
-     "hex": "#59603A",
-     "rgb": [
-      89,
-      96,
-      58
-     ],
-     "cmyk": [
-      7,
-      0,
-      40,
-      62
-     ],
-     "name": {
-      "es": "Oliva",
-      "en": "Olive"
-     },
-     "use": {
-      "es": "Apoyo",
-      "en": "Support"
-     },
-     "text": "#FFFFFF"
-    }
-   ],
-   "fonts": [
-    {
-     "role": "display",
-     "family": "Cinzel",
-     "weight": 500,
-     "italic": false,
-     "license": "SIL Open Font License 1.1",
-     "url": "https://fonts.google.com/specimen/Cinzel",
-     "file": "tipo-titulos.svg"
-    },
-    {
-     "role": "body",
-     "family": "Montserrat",
-     "weight": 400,
-     "italic": false,
-     "license": "SIL Open Font License 1.1",
-     "url": "https://fonts.google.com/specimen/Montserrat",
-     "file": "tipo-textos.svg"
-    }
-   ],
-   "surfaces": {
-    "light": "#F3EBDD",
-    "strong": "#4A0F1D",
-    "lightText": "#111111",
-    "strongText": "#FFFFFF"
-   },
-   "versions": [
-    {
-     "key": "horizontal",
-     "bg": "#4A0F1D",
-     "ratio": 3.733
-    },
-    {
-     "key": "vertical",
-     "bg": "#4A0F1D",
-     "ratio": 1.2669
-    },
-    {
-     "key": "simbolo",
-     "bg": "#4A0F1D",
-     "ratio": 0.6554
-    },
-    {
-     "key": "inversa",
-     "bg": "#F3EBDD",
-     "ratio": 3.733
-    },
-    {
-     "key": "negro",
-     "bg": "#FFFFFF",
-     "ratio": 3.733
-    },
-    {
-     "key": "blanco",
-     "bg": "#111111",
-     "ratio": 3.733
-    }
-   ],
-   "mockups": [
-    {
-     "key": "bottle",
-     "label": {
-      "es": "Botellas",
-      "en": "Bottles"
-     }
-    },
-    {
-     "key": "box",
-     "label": {
-      "es": "Empaque",
-      "en": "Packaging"
-     }
-    },
-    {
-     "key": "menu",
-     "label": {
-      "es": "Menú",
-      "en": "Menu"
-     }
-    },
-    {
-     "key": "cards",
-     "label": {
-      "es": "Tarjetas de presentación",
-      "en": "Business cards"
-     }
-    },
-    {
-     "key": "bag",
-     "label": {
-      "es": "Bolsas de compra",
-      "en": "Shopping bags"
-     }
-    },
-    {
-     "key": "poster",
-     "label": {
-      "es": "Afiche",
-      "en": "Poster"
-     }
-    }
-   ],
-   "corporate": [
-    {
-     "key": "stationery",
-     "label": {
-      "es": "Papelería corporativa",
-      "en": "Corporate stationery"
-     }
-    },
-    {
-     "key": "digital",
-     "label": {
-      "es": "Firma de correo y presentación",
-      "en": "Email signature and slides"
-     }
-    }
-   ]
-  },
-  {
-   "n": 34,
-   "slug": "regalia",
-   "name": "Regalia",
-   "style": "luxe",
-   "sector": {
-    "es": "Planeación de bodas y eventos",
-    "en": "Wedding and event planning"
-   },
-   "concept": {
-    "es": "Una R caligráfica coronada dentro de un doble anillo: cada celebración tratada como realeza. Oro sobre ciruela con rosa empolvado.",
-    "en": "A crowned calligraphic R inside a double ring: every celebration treated like royalty. Gold on plum with dusty rose."
-   },
-   "tagline": {
-    "es": "Celebraciones dignas de recordar",
-    "en": "Celebrations worth remembering"
-   },
-   "personality": {
-    "es": [
-     "Festiva",
-     "Elegante",
-     "Detallista"
-    ],
-    "en": [
-     "Festive",
-     "Elegant",
-     "Meticulous"
-    ]
-   },
-   "logoKind": {
-    "es": "Monograma coronado",
-    "en": "Crowned monogram"
-   },
-   "colors": [
-    {
-     "key": "dark",
-     "hex": "#3B1E3F",
-     "rgb": [
-      59,
-      30,
-      63
-     ],
-     "cmyk": [
-      6,
-      52,
-      0,
-      75
-     ],
-     "name": {
-      "es": "Ciruela",
-      "en": "Plum"
-     },
-     "use": {
-      "es": "Fondo principal",
-      "en": "Main background"
-     },
-     "text": "#FFFFFF"
-    },
-    {
-     "key": "gold",
-     "hex": "#D1B06B",
-     "rgb": [
-      209,
-      176,
-      107
-     ],
-     "cmyk": [
-      0,
-      16,
-      49,
-      18
-     ],
-     "name": {
-      "es": "Oro",
-      "en": "Gold"
-     },
-     "use": {
-      "es": "Logo y detalles",
-      "en": "Logo and details"
-     },
-     "text": "#111111"
-    },
-    {
-     "key": "rose",
-     "hex": "#E6C9C3",
-     "rgb": [
-      230,
-      201,
-      195
-     ],
-     "cmyk": [
-      0,
-      13,
-      15,
-      10
-     ],
-     "name": {
-      "es": "Rosa empolvado",
-      "en": "Dusty rose"
-     },
-     "use": {
-      "es": "Acento",
-      "en": "Accent"
-     },
-     "text": "#111111"
-    },
-    {
-     "key": "soft",
-     "hex": "#F7F2EE",
-     "rgb": [
-      247,
-      242,
-      238
-     ],
-     "cmyk": [
-      0,
-      2,
-      4,
-      3
-     ],
-     "name": {
-      "es": "Perla",
-      "en": "Pearl"
-     },
-     "use": {
-      "es": "Fondo claro",
-      "en": "Light background"
-     },
-     "text": "#111111"
-    }
-   ],
-   "fonts": [
-    {
-     "role": "display",
-     "family": "Italiana",
-     "weight": 400,
-     "italic": false,
-     "license": "SIL Open Font License 1.1",
-     "url": "https://fonts.google.com/specimen/Italiana",
-     "file": "tipo-titulos.svg"
-    },
-    {
-     "role": "body",
-     "family": "Parisienne",
-     "weight": 400,
-     "italic": false,
-     "license": "SIL Open Font License 1.1",
-     "url": "https://fonts.google.com/specimen/Parisienne",
-     "file": "tipo-textos.svg"
-    }
-   ],
-   "surfaces": {
-    "light": "#F7F2EE",
-    "strong": "#3B1E3F",
-    "lightText": "#111111",
-    "strongText": "#FFFFFF"
-   },
-   "versions": [
-    {
-     "key": "horizontal",
-     "bg": "#3B1E3F",
-     "ratio": 3.8303
-    },
-    {
-     "key": "vertical",
-     "bg": "#3B1E3F",
-     "ratio": 1.3592
-    },
-    {
-     "key": "simbolo",
-     "bg": "#3B1E3F",
-     "ratio": 0.8209
-    },
-    {
-     "key": "inversa",
-     "bg": "#F7F2EE",
-     "ratio": 3.8303
-    },
-    {
-     "key": "negro",
-     "bg": "#FFFFFF",
-     "ratio": 3.8303
-    },
-    {
-     "key": "blanco",
-     "bg": "#111111",
-     "ratio": 3.8303
-    }
-   ],
-   "mockups": [
-    {
-     "key": "cards",
-     "label": {
-      "es": "Tarjetas de presentación",
-      "en": "Business cards"
-     }
-    },
-    {
-     "key": "box",
-     "label": {
-      "es": "Empaque",
-      "en": "Packaging"
-     }
-    },
-    {
-     "key": "phone",
-     "label": {
-      "es": "Perfil en redes sociales",
-      "en": "Social media profile"
-     }
-    },
-    {
-     "key": "poster",
-     "label": {
-      "es": "Afiche",
-      "en": "Poster"
-     }
-    },
-    {
-     "key": "bag",
-     "label": {
-      "es": "Bolsas de compra",
-      "en": "Shopping bags"
-     }
-    },
-    {
-     "key": "hangtag",
-     "label": {
-      "es": "Etiquetas",
-      "en": "Tags"
-     }
-    }
-   ],
-   "corporate": [
-    {
-     "key": "stationery",
-     "label": {
-      "es": "Papelería corporativa",
-      "en": "Corporate stationery"
-     }
-    },
-    {
-     "key": "digital",
-     "label": {
-      "es": "Firma de correo y presentación",
-      "en": "Email signature and slides"
-     }
-    }
-   ]
-  },
-  {
-   "n": 35,
-   "slug": "celeste",
-   "name": "Céleste",
-   "style": "luxe",
-   "sector": {
-    "es": "Relojería fina y accesorios",
-    "en": "Fine watches and accessories"
-   },
-   "concept": {
-    "es": "Una estrella polar sobre la esfera de un reloj, con marcas de minutos finísimas: precisión que guía. Champaña sobre azul noche.",
-    "en": "A north star over a watch dial with hairline minute marks: precision that guides. Champagne on midnight blue."
-   },
-   "tagline": {
-    "es": "El tiempo, en su mejor forma",
-    "en": "Time, at its finest"
-   },
-   "personality": {
-    "es": [
-     "Precisa",
-     "Celestial",
-     "Exclusiva"
-    ],
-    "en": [
-     "Precise",
-     "Celestial",
-     "Exclusive"
-    ]
-   },
-   "logoKind": {
-    "es": "Emblema de esfera y estrella",
-    "en": "Dial and star emblem"
-   },
-   "colors": [
-    {
-     "key": "dark",
-     "hex": "#101B33",
-     "rgb": [
-      16,
-      27,
-      51
-     ],
-     "cmyk": [
-      69,
-      47,
-      0,
-      80
-     ],
-     "name": {
-      "es": "Azul noche",
-      "en": "Midnight blue"
-     },
-     "use": {
-      "es": "Fondo principal",
-      "en": "Main background"
-     },
-     "text": "#FFFFFF"
-    },
-    {
-     "key": "gold",
-     "hex": "#D8C08A",
-     "rgb": [
-      216,
-      192,
-      138
-     ],
-     "cmyk": [
-      0,
-      11,
-      36,
-      15
-     ],
-     "name": {
-      "es": "Champaña",
-      "en": "Champagne"
-     },
-     "use": {
-      "es": "Logo y detalles",
-      "en": "Logo and details"
-     },
-     "text": "#111111"
-    },
-    {
-     "key": "silver",
-     "hex": "#C9CCD3",
-     "rgb": [
-      201,
-      204,
-      211
-     ],
-     "cmyk": [
-      5,
-      3,
-      0,
-      17
-     ],
-     "name": {
-      "es": "Plata",
-      "en": "Silver"
-     },
-     "use": {
-      "es": "Apoyo",
-      "en": "Support"
-     },
-     "text": "#111111"
-    },
-    {
-     "key": "soft",
-     "hex": "#F4F1EA",
-     "rgb": [
-      244,
-      241,
-      234
-     ],
-     "cmyk": [
-      0,
-      1,
-      4,
-      4
-     ],
-     "name": {
-      "es": "Marfil",
-      "en": "Ivory"
-     },
-     "use": {
-      "es": "Fondo claro",
-      "en": "Light background"
-     },
-     "text": "#111111"
-    }
-   ],
-   "fonts": [
-    {
-     "role": "display",
-     "family": "Italiana",
-     "weight": 400,
-     "italic": false,
-     "license": "SIL Open Font License 1.1",
-     "url": "https://fonts.google.com/specimen/Italiana",
-     "file": "tipo-titulos.svg"
-    },
-    {
-     "role": "body",
-     "family": "Montserrat",
-     "weight": 400,
-     "italic": false,
-     "license": "SIL Open Font License 1.1",
-     "url": "https://fonts.google.com/specimen/Montserrat",
-     "file": "tipo-textos.svg"
-    }
-   ],
-   "surfaces": {
-    "light": "#F4F1EA",
-    "strong": "#101B33",
-    "lightText": "#111111",
-    "strongText": "#FFFFFF"
-   },
-   "versions": [
-    {
-     "key": "horizontal",
-     "bg": "#101B33",
-     "ratio": 4.8834
-    },
-    {
-     "key": "vertical",
-     "bg": "#101B33",
-     "ratio": 1.5824
-    },
-    {
-     "key": "simbolo",
-     "bg": "#101B33",
-     "ratio": 1.0
-    },
-    {
-     "key": "inversa",
-     "bg": "#F4F1EA",
-     "ratio": 4.8834
-    },
-    {
-     "key": "negro",
-     "bg": "#FFFFFF",
-     "ratio": 4.8834
-    },
-    {
-     "key": "blanco",
-     "bg": "#111111",
-     "ratio": 4.8834
-    }
-   ],
-   "mockups": [
-    {
-     "key": "box",
-     "label": {
-      "es": "Empaque",
-      "en": "Packaging"
-     }
-    },
-    {
-     "key": "bag",
-     "label": {
-      "es": "Bolsas de compra",
-      "en": "Shopping bags"
-     }
-    },
-    {
-     "key": "cards",
-     "label": {
-      "es": "Tarjetas de presentación",
-      "en": "Business cards"
-     }
-    },
-    {
-     "key": "hangtag",
-     "label": {
-      "es": "Etiquetas",
-      "en": "Tags"
-     }
-    },
-    {
-     "key": "phone",
-     "label": {
-      "es": "Perfil en redes sociales",
-      "en": "Social media profile"
-     }
-    },
-    {
-     "key": "poster",
-     "label": {
-      "es": "Afiche",
-      "en": "Poster"
-     }
-    }
-   ],
-   "corporate": [
-    {
-     "key": "stationery",
-     "label": {
-      "es": "Papelería corporativa",
-      "en": "Corporate stationery"
-     }
-    },
-    {
-     "key": "digital",
-     "label": {
-      "es": "Firma de correo y presentación",
-      "en": "Email signature and slides"
-     }
-    }
-   ]
-  },
-  {
-   "n": 36,
-   "slug": "bramante",
-   "name": "Bramante Interiores",
-   "style": "luxe",
-   "sector": {
-    "es": "Estudio de diseño interior",
-    "en": "Interior design studio"
-   },
-   "concept": {
-    "es": "Una B construida con líneas de plano arquitectónico dentro de un círculo atravesado por el horizonte, firmada con caligrafía. Grafito, lino y oro.",
-    "en": "A B built from architectural drafting lines inside a circle crossed by the horizon, signed in calligraphy. Graphite, linen and gold."
-   },
-   "tagline": {
-    "es": "Espacios con alma",
-    "en": "Spaces with soul"
-   },
-   "personality": {
-    "es": [
-     "Moderna",
-     "Cálida",
-     "Refinada"
-    ],
-    "en": [
-     "Modern",
-     "Warm",
-     "Refined"
-    ]
-   },
-   "logoKind": {
-    "es": "Monograma lineal + firma",
-    "en": "Line monogram + signature"
-   },
-   "colors": [
-    {
-     "key": "dark",
-     "hex": "#1C1C1C",
-     "rgb": [
-      28,
-      28,
-      28
-     ],
-     "cmyk": [
-      0,
-      0,
-      0,
-      89
-     ],
-     "name": {
-      "es": "Grafito",
-      "en": "Graphite"
-     },
-     "use": {
-      "es": "Fondo principal",
-      "en": "Main background"
-     },
-     "text": "#FFFFFF"
-    },
-    {
-     "key": "gold",
-     "hex": "#BFA06A",
-     "rgb": [
-      191,
-      160,
-      106
-     ],
-     "cmyk": [
-      0,
-      16,
-      45,
-      25
-     ],
-     "name": {
-      "es": "Oro",
-      "en": "Gold"
-     },
-     "use": {
-      "es": "Logo y detalles",
-      "en": "Logo and details"
-     },
-     "text": "#111111"
-    },
-    {
-     "key": "soft",
-     "hex": "#E7E1D6",
-     "rgb": [
-      231,
-      225,
-      214
-     ],
-     "cmyk": [
-      0,
-      3,
-      7,
-      9
-     ],
-     "name": {
-      "es": "Lino",
-      "en": "Linen"
-     },
-     "use": {
-      "es": "Fondo claro",
-      "en": "Light background"
-     },
-     "text": "#111111"
-    },
-    {
-     "key": "taupe",
-     "hex": "#8C7F72",
-     "rgb": [
-      140,
-      127,
-      114
-     ],
-     "cmyk": [
-      0,
-      9,
-      19,
-      45
-     ],
-     "name": {
-      "es": "Taupe",
-      "en": "Taupe"
-     },
-     "use": {
-      "es": "Apoyo",
-      "en": "Support"
-     },
-     "text": "#111111"
-    }
-   ],
-   "fonts": [
-    {
-     "role": "display",
-     "family": "Tenor Sans",
-     "weight": 400,
-     "italic": false,
-     "license": "SIL Open Font License 1.1",
-     "url": "https://fonts.google.com/specimen/Tenor+Sans",
-     "file": "tipo-titulos.svg"
-    },
-    {
-     "role": "body",
-     "family": "Parisienne",
-     "weight": 400,
-     "italic": false,
-     "license": "SIL Open Font License 1.1",
-     "url": "https://fonts.google.com/specimen/Parisienne",
-     "file": "tipo-textos.svg"
-    }
-   ],
-   "surfaces": {
-    "light": "#E7E1D6",
-    "strong": "#1C1C1C",
-    "lightText": "#111111",
-    "strongText": "#FFFFFF"
-   },
-   "versions": [
-    {
-     "key": "horizontal",
-     "bg": "#1C1C1C",
-     "ratio": 5.2154
-    },
-    {
-     "key": "vertical",
-     "bg": "#1C1C1C",
-     "ratio": 2.303
-    },
-    {
-     "key": "simbolo",
-     "bg": "#1C1C1C",
-     "ratio": 1.2042
-    },
-    {
-     "key": "inversa",
-     "bg": "#E7E1D6",
-     "ratio": 5.2154
-    },
-    {
-     "key": "negro",
-     "bg": "#FFFFFF",
-     "ratio": 5.2154
-    },
-    {
-     "key": "blanco",
-     "bg": "#111111",
-     "ratio": 5.2154
-    }
-   ],
-   "mockups": [
-    {
-     "key": "cards",
-     "label": {
-      "es": "Tarjetas de presentación",
-      "en": "Business cards"
-     }
-    },
-    {
-     "key": "laptop",
-     "label": {
-      "es": "Sitio web",
-      "en": "Website"
-     }
-    },
-    {
-     "key": "wallsign",
-     "label": {
-      "es": "Señalética interior",
-      "en": "Interior signage"
-     }
-    },
-    {
-     "key": "tote",
-     "label": {
-      "es": "Bolsa de tela",
-      "en": "Tote bag"
-     }
-    },
-    {
-     "key": "mug",
-     "label": {
-      "es": "Mugs",
-      "en": "Mugs"
-     }
-    },
-    {
-     "key": "poster",
-     "label": {
-      "es": "Afiche",
-      "en": "Poster"
      }
     }
    ],
