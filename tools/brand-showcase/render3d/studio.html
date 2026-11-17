@@ -55,8 +55,8 @@ function sweepGeo(width, depth, rad, height) {
   const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.Float32BufferAttribute(v, 3)); g.setIndex(idx); g.computeVertexNormals(); return g;
 }
 let backdrop;
-function studio(color, wallZ = -3.5) {
-  backdrop = new THREE.Mesh(sweepGeo(80, 40, 6, 40), new THREE.MeshStandardMaterial({ color, roughness: .93, envMapIntensity: .2, side: THREE.DoubleSide }));
+function studio(color, wallZ = -3.5, rad = 6) {
+  backdrop = new THREE.Mesh(sweepGeo(80, 40, rad, 40), new THREE.MeshStandardMaterial({ color, roughness: .93, envMapIntensity: .2, side: THREE.DoubleSide }));
   backdrop.position.z = wallZ; backdrop.receiveShadow = true; scene.add(backdrop);
 }
 const lightBackdrop = () => mix(mix(lightC, '#c9c5bf', .55), '#000000', .06);
@@ -315,7 +315,7 @@ S.stationery = async () => {
 
 S.poster = async () => {
   const wall = lightBackdrop();
-  studio(wall, -2);
+  studio(wall, -2 + .5, .5);
   camera.position.set(0, 2.3, 8.5); camera.lookAt(0, 2.25, -2);
   key.position.set(-6, 9, 6);
   const art_ = grain(rasterArt(await logo('post-lanzamiento.svg'), 1080, 1350), 6);
@@ -324,8 +324,8 @@ S.poster = async () => {
   P.position.set(.3, 2.3, -2 + .02 - 6 + 6); P.castShadow = true; scene.add(P);
   const P2 = new THREE.Mesh(new THREE.PlaneGeometry(2.0, 2.5), paperMat(tex(grain(rasterArt(await logo('sticker-frase.svg'), 1200, 1200), 6)), .8));
   P2.position.set(-2.55, 2.0, -1.99); P2.rotation.z = .04; P2.castShadow = true; scene.add(P2);
-  const tape = new THREE.MeshStandardMaterial({ color: '#f1ece0', roughness: .9, transparent: true, opacity: .82 });
-  for (const [x, y, r] of [[-.75, 3.88, -.5], [1.35, 3.88, .45]]) { const t = new THREE.Mesh(new THREE.PlaneGeometry(.55, .17), tape); t.position.set(x, y, -1.96); t.rotation.z = r; scene.add(t); }
+  const tape = new THREE.MeshStandardMaterial({ color: '#e6e1d6', roughness: .6, transparent: true, opacity: .55 });
+  for (const [x, y, r] of [[-.82, 3.86, -.62], [1.42, 3.86, .62]]) { const t = new THREE.Mesh(new THREE.PlaneGeometry(.42, .13), tape); t.position.set(x, y, -1.96); t.rotation.z = r; scene.add(t); }
 };
 
 S.menu = async () => {
@@ -344,7 +344,7 @@ S.menu = async () => {
 };
 
 S.wallsign = async () => {
-  studio(lightBackdrop(), -2.5);
+  studio(lightBackdrop(), -2.5 + .7, .7);
   camera.position.set(.0, 2.9, 11.2); camera.lookAt(0, 2.15, -2.5);
   const { img, color } = await logoFor(lightBackdrop(), 'h');
   const L = await layer(img, 2400, 900, [1200, 450, 2300, 860], color, 1);
