@@ -629,47 +629,71 @@ S.tote = async () => {
   contactShadow(-1.45, .4, 3.4, 3.6, .22); contactShadow(1.45, -.4, 3.4, 3.6, .22);
 };
 
-// ---- baseball caps
+// ---- baseball caps (6-panel structured crown, pre-curved visor), modelled after studio product shots:
+// tall, almost vertical front panels; apex slightly forward; a wide visor curving down at the sides;
+// the cap rests tilted forward on the tip of the visor.
 async function cap(color, surface, x, z, yaw, s = 1) {
   const g = new THREE.Group();
-  const [cc, cg] = canvas(2048, 1024, null, 1); cg.drawImage(fabricCanvas(2048, 1024, color, { seed: 6, weave: 3, contrast: .09, wrinkles: 6 }), 0, 0);
-  cg.save(); cg.strokeStyle = mix(color, '#000', .35); cg.lineWidth = 3; cg.globalAlpha = .7;
-  for (let k = 0; k < 6; k++) { const u = (k / 6 + 1 / 12) * 2048; cg.beginPath(); cg.moveTo(u, 0); cg.lineTo(u, 1024); cg.stroke();
-    cg.setLineDash([6, 6]); cg.globalAlpha = .35; [-9, 9].forEach((o) => { cg.beginPath(); cg.moveTo(u + o, 60); cg.lineTo(u + o, 1024); cg.stroke(); }); cg.setLineDash([]); cg.globalAlpha = .7; }
-  for (let k = 0; k < 6; k++) { cg.fillStyle = mix(color, '#000', .4); cg.beginPath(); cg.arc((k / 6) * 2048, 380, 9, 0, 7); cg.fill(); }
-  cg.restore();
+  const NP = 120, NT = 48;                     // around (phi, 0 = front) x up (theta)
+  const RX = 1.0, RZ = 1.12;
+  const H = (ph) => .98 + .2 * Math.cos(ph);   // front panels taller than the back
+  const pos = [], uvs = [], idx = [];
+  for (let i = 0; i <= NP; i++) { const ph = (i / NP) * Math.PI * 2 - Math.PI;   // -pi..pi, 0 = front
+    for (let j = 0; j <= NT; j++) { const th = (j / NT) * Math.PI / 2;
+      const c = Math.cos(th) ** (.62 + .2 * (1 - Math.cos(ph)) / 2), sn = Math.sin(th);
+      const fwd = .14 * sn * sn;              // apex sits a little toward the front
+      pos.push(Math.sin(ph) * RX * c, (H(ph) + (1.08 - H(ph)) * sn ** 3) * sn, Math.cos(ph) * RZ * c + fwd); uvs.push(i / NP, j / NT);
+      if (i && j) { const q = i * (NT + 1) + j; idx.push(q - NT - 2, q - NT - 1, q - 1, q - NT - 1, q, q - 1); } } }
+  const cg2 = new THREE.BufferGeometry(); cg2.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3)); cg2.setAttribute('uv', new THREE.Float32BufferAttribute(uvs, 2)); cg2.setIndex(idx); cg2.computeVertexNormals();
+  // crown texture: u = around (front at .5), v = up. Six panels: seams every 60 deg with the centre front seam.
+  const TW = 2048, TH = 1024;
+  const [cc, cx2] = canvas(TW, TH, null, 1); cx2.drawImage(fabricCanvas(TW, TH, color, { seed: 6, weave: 3, contrast: .08, wrinkles: 5 }), 0, 0);
+  const seam = mix(color, '#000', .3);
+  for (let k = 0; k < 6; k++) { const u = (.5 + k / 6) % 1 * TW;
+    cx2.save(); cx2.strokeStyle = seam; cx2.globalAlpha = .55; cx2.lineWidth = 3; cx2.beginPath(); cx2.moveTo(u, TH); cx2.lineTo(u, 0); cx2.stroke();
+    cx2.globalAlpha = .35; cx2.lineWidth = 1.6; cx2.setLineDash([7, 6]); for (const o of [-10, 10]) { cx2.beginPath(); cx2.moveTo(u + o, TH); cx2.lineTo(u + o, 90); cx2.stroke(); } cx2.restore();
+    const ue = (u + TW / 12) % TW; cx2.fillStyle = mix(color, '#000', .35); cx2.beginPath(); cx2.ellipse(ue, TH * .3, 10, 12, 0, 0, 7); cx2.fill();
+    cx2.strokeStyle = mix(color, '#000', .15); cx2.lineWidth = 3; cx2.beginPath(); cx2.ellipse(ue, TH * .3, 14, 16, 0, 0, 7); cx2.stroke(); }
+  // sweatband / bottom tape
+  cx2.fillStyle = mix(color, '#000', .12); cx2.fillRect(0, TH - 26, TW, 26);
   const { img, color: ink } = await logoFor(color, 'm');
-  // embroidery: thick thread with a raised bump
-  const emb = ink ? tint(img, ink, 600, Math.round(600 * img.height / img.width)) : img;
-  const [ec, eg] = canvas(2048, 1024, null, 1); draw(eg, emb, 512, 610, 330, 250);
-  cg.drawImage(ec, 0, 0);
-  const bump = alphaOf(thicken(ec, 2)); const bg = bump.getContext('2d'); bg.globalAlpha = .55; bg.drawImage(wrinkleBump(2048, 1024, 9, 6), 0, 0);
-  const crownMat = fabricMat(tex(cc), tex(bump, false), .9); crownMat.bumpScale = 3;
-  const crown = new THREE.Mesh(new THREE.SphereGeometry(1, 96, 48, 0, Math.PI * 2, 0, Math.PI / 2), crownMat);
-  crown.scale.set(1, .86, 1.1); crown.castShadow = true; g.add(crown);
-  const btn = new THREE.Mesh(new THREE.SphereGeometry(.07, 24, 12), fabricMat(null, null, .8, { color: mix(color, '#000', .15) })); btn.scale.y = .45; btn.position.y = .86; g.add(btn);
-  // pre-curved brim: an annular sector in front of the crown, bent down at the sides
-  const pos = [], idx = [], uvs = []; const A0 = Math.PI * .2, A1 = Math.PI * .8, NA = 64, NR = 12;
-  for (let i = 0; i <= NA; i++) { const a = A0 + (A1 - A0) * i / NA; for (let j = 0; j <= NR; j++) { const t = j / NR;
-    const wv = Math.sin((a - A0) / (A1 - A0) * Math.PI) ** .6; const r = 1 + t * .82 * wv; const px = Math.cos(a) * r, pz = Math.sin(a) * 1.1 * r;
-    pos.push(px, .01 - .06 * t - .16 * px * px * t, pz); uvs.push(i / NA, t); if (i && j) { const q = i * (NR + 1) + j; idx.push(q - NR - 2, q - 1, q - NR - 1, q - NR - 1, q - 1, q); } } }
-  const bg2 = new THREE.BufferGeometry(); bg2.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3)); bg2.setAttribute('uv', new THREE.Float32BufferAttribute(uvs, 2)); bg2.setIndex(idx); bg2.computeVertexNormals();
-  const brimTex = fabricCanvas(1024, 256, color, { seed: 8, contrast: .09, wrinkles: 3 }); const btg = brimTex.getContext('2d');
-  btg.strokeStyle = mix(color, '#000', .4); btg.globalAlpha = .45; btg.setLineDash([7, 6]); btg.lineWidth = 2;
-  for (const yy of [190, 214, 236]) { btg.beginPath(); btg.moveTo(0, yy); btg.lineTo(1024, yy); btg.stroke(); }
-  const top = new THREE.Mesh(bg2, fabricMat(tex(brimTex), null, .9, { side: THREE.DoubleSide }));
-  const under = top.clone(); under.material = fabricMat(null, null, .9, { color: mix(color, '#000', .25), side: THREE.DoubleSide }); under.position.y = -.035;
-  top.castShadow = under.castShadow = true; g.add(top, under);
-  const sweat = new THREE.Mesh(new THREE.CylinderGeometry(1.002, 1.002, .06, 96, 1, true), fabricMat(null, null, .9, { color: mix(color, '#000', .3) })); sweat.scale.z = 1.1; sweat.position.y = .03; g.add(sweat);
-  g.position.set(x, .15 * s, z); g.rotation.set(-.12, yaw, 0, 'YXZ'); g.scale.setScalar(s); scene.add(g);
-  contactShadow(x, z + .3, 3.0 * s, 3.2 * s, .45);
+  const emb = ink ? tint(img, ink, 700, Math.round(700 * img.height / img.width)) : img;
+  const [ec, eg] = canvas(TW, TH, null, 1);
+  // canvas y = 0 is v = 1 (top): front panels' centre sits around v = .42
+  eg.save(); eg.translate(TW / 2, TH * .6); eg.scale(1, 1.18); draw(eg, emb, 0, 0, 300, 250); eg.restore();
+  cx2.drawImage(ec, 0, 0);
+  const bump = alphaOf(thicken(ec, 2)); const bgc = bump.getContext('2d'); bgc.globalAlpha = .5; bgc.drawImage(wrinkleBump(TW, TH, 9, 5), 0, 0);
+  const crownMat = fabricMat(tex(cc), tex(bump, false), .9, { side: THREE.DoubleSide }); crownMat.bumpScale = 3.2;
+  const crown = new THREE.Mesh(cg2, crownMat); crown.castShadow = crown.receiveShadow = true; g.add(crown);
+  const btn = new THREE.Mesh(new THREE.SphereGeometry(.075, 24, 12), fabricMat(null, null, .8, { color: mix(color, '#000', .12) })); btn.scale.y = .5; btn.position.set(0, 1.1, .14); g.add(btn);
+  // visor: from the front of the base ellipse, pointing forward and down, curving down toward its sides
+  const A = 1.25, NA = 72, NR = 14, vp = [], vu = [], vi = [];
+  for (let i = 0; i <= NA; i++) { const ph = -A + 2 * A * i / NA; const w = Math.cos((ph / A) * Math.PI / 2) ** .55;
+    const bx = Math.sin(ph) * RX, bz = Math.cos(ph) * RZ;
+    for (let j = 0; j <= NR; j++) { const t = j / NR, L = .82 * w * t;
+      const ox = bx + Math.sin(ph) * L * .55, oz = bz + Math.cos(ph) * L * 1.0 + .0 * t;
+      const oy = .02 - .2 * L - .55 * (Math.sin(ph) ** 2) * (.25 + t * .9) * w;
+      vp.push(ox, oy, oz); vu.push(i / NA, t);
+      if (i && j) { const q = i * (NR + 1) + j; vi.push(q - NR - 2, q - 1, q - NR - 1, q - NR - 1, q - 1, q); } } }
+  const vg = new THREE.BufferGeometry(); vg.setAttribute('position', new THREE.Float32BufferAttribute(vp, 3)); vg.setAttribute('uv', new THREE.Float32BufferAttribute(vu, 2)); vg.setIndex(vi); vg.computeVertexNormals();
+  const vt = fabricCanvas(1024, 256, color, { seed: 8, contrast: .08, wrinkles: 2 }); const vtx = vt.getContext('2d');
+  vtx.strokeStyle = mix(color, '#000', .4); vtx.globalAlpha = .45; vtx.setLineDash([7, 5]); vtx.lineWidth = 2;
+  for (const yy of [14, 34, 54, 74]) { vtx.beginPath(); vtx.moveTo(0, yy); vtx.lineTo(1024, yy); vtx.stroke(); }
+  const visorTop = new THREE.Mesh(vg, fabricMat(tex(vt), null, .88, { side: THREE.FrontSide }));
+  const under = new THREE.Mesh(vg, fabricMat(null, null, .9, { color: mix(color, '#000', .22), side: THREE.BackSide }));
+  const edge = new THREE.Mesh(vg.clone().translate(0, -.035, 0), fabricMat(null, null, .9, { color: mix(color, '#000', .1), side: THREE.DoubleSide }));
+  [visorTop, under, edge].forEach((m) => { m.castShadow = true; g.add(m); });
+  // pose: tip forward onto the visor, then drop it onto the floor
+  const holder = new THREE.Group(); holder.add(g); g.rotation.x = .14; holder.rotation.y = yaw; holder.scale.setScalar(s); holder.position.set(x, 0, z); scene.add(holder);
+  holder.updateMatrixWorld(true); const bb = new THREE.Box3().setFromObject(holder); holder.position.y -= bb.min.y - .005;
+  contactShadow(x, z + .25, 3.0 * s, 3.2 * s, .4);
 }
 S.cap = async () => {
   studio(lightBackdrop());
-  camera.position.set(.15, 4.2, 8.3); camera.lookAt(.1, .45, -.1);
+  camera.position.set(.15, 3.8, 9.2); camera.lookAt(.2, .7, -.15);
   const other = lum(strong) < .5 ? '#f1eee8' : '#232427';
-  await cap(strong, strong, -1.25, .45, .3, 1.05);
-  await cap(other, other, 1.35, -.95, 1.2, .95);
+  await cap(strong, strong, -1.05, .45, -.6, 1.02);
+  await cap(other, other, 1.5, -.75, .4, .95);
 };
 
 // ---- apron (flat lay with neck loop and ties)
@@ -838,7 +862,7 @@ S.storefront = async () => {
 // ---- delivery van with livery
 S.van = async () => {
   studio(lightBackdrop());
-  camera.position.set(5.8, 2.7, 8.6); camera.lookAt(.15, 1.25, 0);
+  camera.position.set(6.3, 2.9, 9.8); camera.lookAt(-.1, 1.2, 0);
   const paint = lum(strong) < .5 ? '#f3f4f2' : '#ffffff';
   const s = new THREE.Shape(); const y0 = -1.15;
   s.moveTo(-2.85, y0); s.lineTo(-2.85, 1.12); s.quadraticCurveTo(-2.85, 1.2, -2.75, 1.2); s.lineTo(1.25, 1.2); s.quadraticCurveTo(1.4, 1.2, 1.5, 1.08);
