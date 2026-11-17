@@ -316,16 +316,14 @@ S.stationery = async () => {
 S.poster = async () => {
   const wall = lightBackdrop();
   studio(wall, -2 + .5, .5);
-  camera.position.set(0, 2.3, 8.5); camera.lookAt(0, 2.25, -2);
+  camera.position.set(-.45, 2.4, 8.3); camera.lookAt(-.45, 2.2, -2);
   key.position.set(-6, 9, 6);
   const art_ = grain(rasterArt(await logo('post-lanzamiento.svg'), 1080, 1350), 6);
-  const P = new THREE.Mesh(new THREE.PlaneGeometry(2.6, 3.25, 24, 1), paperMat(tex(art_), .8));
-  const pos = P.geometry.attributes.position; for (let i = 0; i < pos.count; i++) pos.setZ(i, Math.sin((pos.getX(i) / 2.6 + .5) * Math.PI) * .03); P.geometry.computeVertexNormals();
-  P.position.set(.3, 2.3, -2 + .02 - 6 + 6); P.castShadow = true; scene.add(P);
-  const P2 = new THREE.Mesh(new THREE.PlaneGeometry(2.0, 2.5), paperMat(tex(grain(rasterArt(await logo('sticker-frase.svg'), 1200, 1200), 6)), .8));
-  P2.position.set(-2.55, 2.0, -1.99); P2.rotation.z = .04; P2.castShadow = true; scene.add(P2);
-  const tape = new THREE.MeshStandardMaterial({ color: '#e6e1d6', roughness: .6, transparent: true, opacity: .55 });
-  for (const [x, y, r] of [[-.82, 3.86, -.62], [1.42, 3.86, .62]]) { const t = new THREE.Mesh(new THREE.PlaneGeometry(.42, .13), tape); t.position.set(x, y, -1.96); t.rotation.z = r; scene.add(t); }
+  // posters mounted on foam board, standing off the wall so they cast a soft shadow
+  const board = (map, w, h, x, y, rz) => { const m = card(w, h, .05, paperMat(map, .8), paperMat(map, .8), 0xf2f0ea, .008);
+    m.rotation.set(Math.PI / 2, 0, rz, 'ZXY'); m.position.set(x, y, -2 + .14); scene.add(m); return m; };
+  board(tex(art_), 2.6, 3.25, .45, 2.35, 0);
+  board(tex(grain(rasterArt(await logo('sticker-frase.svg'), 1200, 1200), 6)), 2.1, 2.1, -2.35, 1.95, .035);
 };
 
 S.menu = async () => {
@@ -349,7 +347,11 @@ S.wallsign = async () => {
   const { img, color } = await logoFor(lightBackdrop(), 'h');
   const L = await layer(img, 2400, 900, [1200, 450, 2300, 860], color, 1);
   const letters = new THREE.Mesh(new THREE.PlaneGeometry(5.4, 2.03), new THREE.MeshPhysicalMaterial({ map: tex(L), transparent: true, alphaTest: .3, roughness: .35, metalness: GOLD ? .6 : 0, clearcoat: .6 }));
-  letters.position.set(0, 3.1, -2.5 + .12); letters.castShadow = true; scene.add(letters);
+  letters.position.set(0, 3.1, -2.5 + .12); scene.add(letters);
+  // raised letters: soft offset shadow drawn from the letter shapes (thin strokes vanish in the blurred shadow map)
+  const [shc, shg] = canvas(2400, 900, null, 1); shg.filter = 'blur(10px)'; shg.drawImage(tint(L, '#000', L.width, L.height), 0, 0, 2400, 900);
+  const sh = new THREE.Mesh(new THREE.PlaneGeometry(5.4, 2.03), new THREE.MeshBasicMaterial({ map: tex(shc, false), transparent: true, opacity: .2, depthWrite: false }));
+  sh.position.set(.07, 3.1 - .09, -2.5 + .005); scene.add(sh);
   const desk = new THREE.Mesh(new RoundedBoxGeometry(5.0, 1.6, 1.4, 4, .04), new THREE.MeshPhysicalMaterial({ color: strong, roughness: .4, clearcoat: .5 })); desk.position.set(0, .8, -.8); desk.castShadow = desk.receiveShadow = true; scene.add(desk);
   const top = new THREE.Mesh(new RoundedBoxGeometry(5.2, .08, 1.6, 3, .03), new THREE.MeshPhysicalMaterial({ color: mix(lightC, '#ffffff', .2), roughness: .3, clearcoat: .8 })); top.position.set(0, 1.64, -.8); top.castShadow = true; scene.add(top);
   const { img: si, color: sc } = await logoFor(strong, 'm');

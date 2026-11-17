@@ -20,7 +20,7 @@ const server = http.createServer((req, res) => {
   const jobs = [];
   for (const b of data.brands) for (const k of [...b.mockups.map((m) => m.key), 'stationery']) {
     if (!SCENES.has(k)) continue;
-    if (want.length && !want.includes(b.slug) && !want.includes(k)) continue;
+    if (want.length && !want.includes(b.slug) && !want.includes(k) && !want.includes(b.slug + '/' + k)) continue;
     const out = path.join(OUT, b.slug, k + '.png');
     if (!force && fs.existsSync(out)) continue;
     jobs.push([b.slug, k, out]);
