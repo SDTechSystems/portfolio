@@ -501,6 +501,211 @@ S.idbadge = async () => {
   hook.position.copy(Hp).sub(new THREE.Vector3(.03, .13, 0).applyQuaternion(hook.quaternion).multiplyScalar(sc)); scene.add(hook);
 };
 
+// ================================================================ fabric & textiles
+// Fabric = colour + fine weave + grain + soft wrinkles baked into the map, plus a wrinkle bump map so folds catch the light.
+function seeded(seed) { let r = seed; return () => (r = (r * 9301 + 49297) % 233280) / 233280; }
+function fabricCanvas(w, h, color, { weave = 3, contrast = .07, seed = 1, wrinkles = 14 } = {}) {
+  const [c, g] = canvas(w, h, color, 1);
+  g.save(); g.globalAlpha = contrast;
+  for (let y = 0; y < h; y += weave) { g.fillStyle = (y / weave) % 2 ? '#000' : '#fff'; g.fillRect(0, y, w, 1); }
+  g.globalAlpha = contrast * .7; for (let x = 0; x < w; x += weave) { g.fillStyle = (x / weave) % 2 ? '#000' : '#fff'; g.fillRect(x, 0, 1, h); }
+  g.restore();
+  const rnd = seeded(seed); g.save(); g.filter = `blur(${Math.round(w / 60)}px)`;
+  for (let i = 0; i < wrinkles; i++) { g.globalAlpha = .05 + rnd() * .07; g.strokeStyle = rnd() > .5 ? '#000' : '#fff'; g.lineWidth = w / 70 + rnd() * w / 40;
+    g.beginPath(); const x = rnd() * w, y = rnd() * h, a = rnd() * Math.PI, l = w * (.2 + rnd() * .4);
+    g.moveTo(x, y); g.quadraticCurveTo(x + Math.cos(a) * l * .5 + (rnd() - .5) * l * .3, y + Math.sin(a) * l * .5, x + Math.cos(a) * l, y + Math.sin(a) * l); g.stroke(); }
+  g.restore();
+  return grain(c, 10);
+}
+function wrinkleBump(w, h, seed = 3, n = 18) {
+  const [c, g] = canvas(w, h, '#808080', 1); const rnd = seeded(seed);
+  g.filter = `blur(${Math.round(w / 45)}px)`;
+  for (let i = 0; i < n; i++) { g.globalAlpha = .35 + rnd() * .3; g.strokeStyle = rnd() > .5 ? '#ffffff' : '#000000'; g.lineWidth = w / 50 + rnd() * w / 30;
+    g.beginPath(); const x = rnd() * w, y = rnd() * h, a = rnd() * Math.PI, l = w * (.15 + rnd() * .35);
+    g.moveTo(x, y); g.quadraticCurveTo(x + Math.cos(a) * l * .5 + (rnd() - .5) * l * .4, y + Math.sin(a) * l * .5, x + Math.cos(a) * l, y + Math.sin(a) * l); g.stroke(); }
+  g.filter = 'none'; g.globalAlpha = .5;
+  for (let y = 0; y < h; y += 2) { g.fillStyle = (y / 2) % 2 ? '#707070' : '#909090'; g.fillRect(0, y, w, 1); }
+  return c;
+}
+// screen print: the ink takes the fabric texture (multiply the weave through it) and is slightly worn
+function printOn(g, img, color, cx, cy, mw, mh, alpha = .94) {
+  const s = Math.min(mw / img.width, mh / img.height), w = img.width * s, h = img.height * s;
+  const ink = color ? tint(img, color, Math.round(w * 2), Math.round(h * 2)) : (() => { const [c, cg] = canvas(Math.round(w * 2), Math.round(h * 2), null, 1); cg.drawImage(img, 0, 0, c.width, c.height); return c; })();
+  const [c, cg] = canvas(ink.width, ink.height, null, 1); cg.drawImage(ink, 0, 0);
+  const d = cg.getImageData(0, 0, c.width, c.height);
+  for (let i = 3; i < d.data.length; i += 4) d.data[i] *= alpha * (.88 + Math.random() * .12);
+  cg.putImageData(d, 0, 0);
+  g.drawImage(c, cx - w / 2, cy - h / 2, w, h);
+}
+const fabricMat = (map, bump, rough = .92, extra = {}) => new THREE.MeshPhysicalMaterial({ map, bumpMap: bump, bumpScale: 2.2, roughness: rough, sheen: .5, sheenRoughness: .7, sheenColor: 0xffffff, envMapIntensity: .25, ...extra });
+// map shape coordinates (centred, w x h units) onto a canvas texture
+function shapeTex(c, w, h, srgb = true) { const t = tex(c, srgb); t.repeat.set(1 / w, 1 / h); t.offset.set(.5, .5); return t; }
+function flatTube(points, r, flat = .38, closed = false) {
+  const g = new THREE.TubeGeometry(new THREE.CatmullRomCurve3(points.map(([x, y, z = 0]) => new THREE.Vector3(x, y, z)), closed, 'centripetal'), 160, r, 14, closed);
+  g.scale(1, 1, flat); return g;
+}
+function flatLay(height = 11.5, z = 3.6, look = [0, 0, -.2]) {
+  studio(lightBackdrop()); camera.position.set(look[0], height, z); camera.lookAt(...look);
+}
+// soft-edged textile slab from a 2D outline, lying on the floor (built in the x-y plane, then laid down)
+function textile(shape, depth, mats, bevel = .05) {
+  const g = new THREE.ExtrudeGeometry(shape, { depth, bevelEnabled: true, bevelThickness: bevel, bevelSize: bevel, bevelSegments: 4, curveSegments: 48 });
+  const m = new THREE.Mesh(g, mats); m.castShadow = m.receiveShadow = true; return m;
+}
+const layDown = (o, x, z, rot, y = 0) => { const gr = new THREE.Group(); gr.add(o); gr.rotation.set(-Math.PI / 2, rot, 0, 'YXZ'); gr.position.set(x, y, z); scene.add(gr); return gr; };
+
+// ---- folded t-shirts
+async function tee(color, surface, x, z, rot, y = 0, seed = 1) {
+  const W = 2.7, Hh = 3.1, top = Hh / 2;
+  const s = new THREE.Shape();
+  s.moveTo(-W / 2, -Hh / 2); s.lineTo(W / 2, -Hh / 2); s.lineTo(W / 2, top - .38); s.lineTo(.48, top);
+  s.quadraticCurveTo(0, top - .62, -.48, top); s.lineTo(-W / 2, top - .38); s.closePath();
+  const PX = 380, cw = Math.round(W * PX), chh = Math.round(Hh * PX);
+  const fc = fabricCanvas(cw, chh, color, { seed, contrast: .06 });
+  const fg = fc.getContext('2d');
+  const { img, color: ink } = await logoFor(surface, 'v');
+  // canvas y grows downward, shape y grows upward: print centre at shape y = top - 1.15
+  printOn(fg, img, ink, cw / 2, (top - (top - 1.18)) * PX, W * .42 * PX, 1.0 * PX);
+  // folded-shirt cues: sleeves turned back along both sides, shoulder seams, a soft cross fold
+  const sx = (xx) => (xx + W / 2) * PX, sy = (yy) => (top - yy) * PX;
+  fg.save(); fg.filter = 'blur(6px)';
+  for (const side of [-1, 1]) { const ex = side * (W / 2 - .42);
+    const gr = fg.createLinearGradient(sx(ex - .12 * side), 0, sx(ex + .12 * side), 0); gr.addColorStop(0, 'rgba(0,0,0,0)'); gr.addColorStop(.6, 'rgba(0,0,0,.16)'); gr.addColorStop(1, 'rgba(255,255,255,.06)');
+    fg.fillStyle = gr; fg.fillRect(Math.min(sx(ex - .12 * side), sx(ex + .12 * side)), sy(top - .45), .24 * PX, sy(-Hh / 2) - sy(top - .45)); }
+  const fy = sy(-Hh / 2 + .95); const gh = fg.createLinearGradient(0, fy - 18, 0, fy + 18); gh.addColorStop(0, 'rgba(0,0,0,0)'); gh.addColorStop(.5, 'rgba(0,0,0,.13)'); gh.addColorStop(1, 'rgba(255,255,255,.05)');
+  fg.fillStyle = gh; fg.fillRect(0, fy - 18, cw, 36); fg.restore();
+  fg.save(); fg.strokeStyle = mix(color, '#000', .3); fg.globalAlpha = .55; fg.lineWidth = 2; fg.setLineDash([6, 5]);
+  for (const side of [-1, 1]) { fg.beginPath(); fg.moveTo(sx(side * .5), sy(top - .02)); fg.lineTo(sx(side * (W / 2 - .05)), sy(top - .4)); fg.stroke();
+    fg.beginPath(); fg.moveTo(sx(side * (W / 2 - .42)), sy(top - .44)); fg.lineTo(sx(side * (W / 2 - .42)), sy(-Hh / 2 + .05)); fg.stroke(); }
+  fg.restore();
+  const face = fabricMat(shapeTex(fc, W, Hh), shapeTex(wrinkleBump(cw, chh, seed + 7), W, Hh, false));
+  const side = fabricMat(null, null, .95, { color: mix(color, '#000', .08) });
+  const body = textile(s, .12, [face, side], .07);
+  const gr = new THREE.Group(); gr.add(body);
+  // inside back panel visible through the neckline, with a woven label
+  const b = new THREE.Shape(); b.moveTo(-.48, top); b.quadraticCurveTo(0, top - .62, .48, top); b.quadraticCurveTo(0, top - .16, -.48, top);
+  const [lc, lg] = canvas(400, 200, mix(color, '#000', .38), 1);
+  lg.fillStyle = '#f2efe8'; lg.fillRect(160, 40, 80, 46); grain(lc, 8);
+  const back = new THREE.Mesh(new THREE.ShapeGeometry(b, 32), new THREE.MeshStandardMaterial({ map: (() => { const t = tex(lc); t.repeat.set(1 / .96, 1 / .62); t.offset.set(.5, -(top - .62) / .62); return t; })(), roughness: .95 }));
+  back.position.z = .08; gr.add(back);
+  // ribbed collar along the front neckline and the back neckline
+  const rib = fabricMat(null, null, .9, { color: mix(color, '#000', .1) });
+  const front = []; const backC = [];
+  for (let i = 0; i <= 24; i++) { const t = i / 24, xx = -.48 + .96 * t; front.push([xx, top + (1 - 4 * (t - .5) ** 2) * -.31, .19]); backC.push([xx, top + (1 - 4 * (t - .5) ** 2) * -.08, .16]); }
+  [front, backC].forEach((pts) => { const m = new THREE.Mesh(flatTube(pts, .065, .6), rib); m.castShadow = true; gr.add(m); });
+  layDown(gr, x, z, rot, y);
+  return gr;
+}
+S.tshirt = async () => {
+  flatLay(11.8, 3.2, [0, 0, -.1]);
+  const other = lum(strong) < .5 ? '#f4f2ee' : '#1f2023';
+  await tee(other, other, -1.55, .3, .12, 0, 4);
+  await tee(strong, strong, 1.5, -.25, -.08, .16, 9);
+  contactShadow(-1.5, .3, 3.6, 4.1, .22); contactShadow(1.5, -.25, 3.6, 4.1, .22);
+};
+
+// ---- canvas tote bags
+async function tote(color, surface, x, z, rot, y = 0, seed = 2) {
+  const W = 2.5, Hh = 2.7;
+  const s = new THREE.Shape(); s.moveTo(-W / 2, -Hh / 2); s.lineTo(W / 2, -Hh / 2); s.lineTo(W / 2 + .03, Hh / 2); s.lineTo(-W / 2 - .03, Hh / 2); s.closePath();
+  const PX = 380, cw = Math.round(W * PX), chh = Math.round(Hh * PX);
+  const fc = fabricCanvas(cw, chh, color, { seed, weave: 4, contrast: .11 }); const fg = fc.getContext('2d');
+  fg.save(); fg.globalAlpha = .25; fg.strokeStyle = mix(color, '#000', .4); fg.setLineDash([10, 7]); fg.lineWidth = 2; fg.strokeRect(14, 14, cw - 28, 30); fg.restore();
+  const { img, color: ink } = await logoFor(surface, 'v');
+  printOn(fg, img, ink, cw / 2, chh * .56, W * .62 * PX, Hh * .5 * PX);
+  const face = fabricMat(shapeTex(fc, W, Hh), shapeTex(wrinkleBump(cw, chh, seed + 3, 12), W, Hh, false), .95);
+  const gr = new THREE.Group(); gr.add(textile(s, .06, [face, fabricMat(null, null, .95, { color: mix(color, '#000', .1) })], .03));
+  const strap = fabricMat(null, null, .9, { color: mix(color, '#000', .06) });
+  for (const [dx, h] of [[-.05, 1.25], [.1, 1.15]]) {
+    const pts = [[-.55 + dx, Hh / 2 - .15, .14], [-.62 + dx, Hh / 2 + .5, .14], [-.3 + dx, Hh / 2 + h, .14], [.3 + dx, Hh / 2 + h, .14], [.62 + dx, Hh / 2 + .5, .14], [.55 + dx, Hh / 2 - .15, .14]];
+    const m = new THREE.Mesh(flatTube(pts, .075, .17), strap); m.castShadow = true; gr.add(m);
+  }
+  layDown(gr, x, z, rot, y); return gr;
+}
+S.tote = async () => {
+  flatLay(12.2, 3.3, [0, 0, -.5]);
+  await tote('#e8dfcb', '#e8dfcb', -1.45, .35, .1, 0, 5);
+  await tote(strong, strong, 1.45, -.45, -.1, .1, 11);
+  contactShadow(-1.45, .4, 3.4, 3.6, .22); contactShadow(1.45, -.4, 3.4, 3.6, .22);
+};
+
+// ---- baseball caps
+async function cap(color, surface, x, z, yaw, s = 1) {
+  const g = new THREE.Group();
+  const [cc, cg] = canvas(2048, 1024, null, 1); cg.drawImage(fabricCanvas(2048, 1024, color, { seed: 6, weave: 3, contrast: .09, wrinkles: 6 }), 0, 0);
+  cg.save(); cg.strokeStyle = mix(color, '#000', .35); cg.lineWidth = 3; cg.globalAlpha = .7;
+  for (let k = 0; k < 6; k++) { const u = (k / 6 + 1 / 12) * 2048; cg.beginPath(); cg.moveTo(u, 0); cg.lineTo(u, 1024); cg.stroke();
+    cg.setLineDash([6, 6]); cg.globalAlpha = .35; [-9, 9].forEach((o) => { cg.beginPath(); cg.moveTo(u + o, 60); cg.lineTo(u + o, 1024); cg.stroke(); }); cg.setLineDash([]); cg.globalAlpha = .7; }
+  for (let k = 0; k < 6; k++) { cg.fillStyle = mix(color, '#000', .4); cg.beginPath(); cg.arc((k / 6) * 2048, 380, 9, 0, 7); cg.fill(); }
+  cg.restore();
+  const { img, color: ink } = await logoFor(color, 'm');
+  // embroidery: thick thread with a raised bump
+  const emb = ink ? tint(img, ink, 600, Math.round(600 * img.height / img.width)) : img;
+  const [ec, eg] = canvas(2048, 1024, null, 1); draw(eg, emb, 512, 610, 330, 250);
+  cg.drawImage(ec, 0, 0);
+  const bump = alphaOf(thicken(ec, 2)); const bg = bump.getContext('2d'); bg.globalAlpha = .55; bg.drawImage(wrinkleBump(2048, 1024, 9, 6), 0, 0);
+  const crownMat = fabricMat(tex(cc), tex(bump, false), .9); crownMat.bumpScale = 3;
+  const crown = new THREE.Mesh(new THREE.SphereGeometry(1, 96, 48, 0, Math.PI * 2, 0, Math.PI / 2), crownMat);
+  crown.scale.set(1, .86, 1.1); crown.castShadow = true; g.add(crown);
+  const btn = new THREE.Mesh(new THREE.SphereGeometry(.07, 24, 12), fabricMat(null, null, .8, { color: mix(color, '#000', .15) })); btn.scale.y = .45; btn.position.y = .86; g.add(btn);
+  // pre-curved brim: an annular sector in front of the crown, bent down at the sides
+  const pos = [], idx = [], uvs = []; const A0 = Math.PI * .2, A1 = Math.PI * .8, NA = 64, NR = 12;
+  for (let i = 0; i <= NA; i++) { const a = A0 + (A1 - A0) * i / NA; for (let j = 0; j <= NR; j++) { const t = j / NR;
+    const wv = Math.sin((a - A0) / (A1 - A0) * Math.PI) ** .6; const r = 1 + t * .82 * wv; const px = Math.cos(a) * r, pz = Math.sin(a) * 1.1 * r;
+    pos.push(px, .01 - .06 * t - .16 * px * px * t, pz); uvs.push(i / NA, t); if (i && j) { const q = i * (NR + 1) + j; idx.push(q - NR - 2, q - 1, q - NR - 1, q - NR - 1, q - 1, q); } } }
+  const bg2 = new THREE.BufferGeometry(); bg2.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3)); bg2.setAttribute('uv', new THREE.Float32BufferAttribute(uvs, 2)); bg2.setIndex(idx); bg2.computeVertexNormals();
+  const brimTex = fabricCanvas(1024, 256, color, { seed: 8, contrast: .09, wrinkles: 3 }); const btg = brimTex.getContext('2d');
+  btg.strokeStyle = mix(color, '#000', .4); btg.globalAlpha = .45; btg.setLineDash([7, 6]); btg.lineWidth = 2;
+  for (const yy of [190, 214, 236]) { btg.beginPath(); btg.moveTo(0, yy); btg.lineTo(1024, yy); btg.stroke(); }
+  const top = new THREE.Mesh(bg2, fabricMat(tex(brimTex), null, .9, { side: THREE.DoubleSide }));
+  const under = top.clone(); under.material = fabricMat(null, null, .9, { color: mix(color, '#000', .25), side: THREE.DoubleSide }); under.position.y = -.035;
+  top.castShadow = under.castShadow = true; g.add(top, under);
+  const sweat = new THREE.Mesh(new THREE.CylinderGeometry(1.002, 1.002, .06, 96, 1, true), fabricMat(null, null, .9, { color: mix(color, '#000', .3) })); sweat.scale.z = 1.1; sweat.position.y = .03; g.add(sweat);
+  g.position.set(x, .15 * s, z); g.rotation.set(-.12, yaw, 0, 'YXZ'); g.scale.setScalar(s); scene.add(g);
+  contactShadow(x, z + .3, 3.0 * s, 3.2 * s, .45);
+}
+S.cap = async () => {
+  studio(lightBackdrop());
+  camera.position.set(.15, 4.2, 8.3); camera.lookAt(.1, .45, -.1);
+  const other = lum(strong) < .5 ? '#f1eee8' : '#232427';
+  await cap(strong, strong, -1.25, .45, .3, 1.05);
+  await cap(other, other, 1.35, -.95, 1.2, .95);
+};
+
+// ---- apron (flat lay with neck loop and ties)
+async function apron(color, surface, x, z, rot) {
+  const s = new THREE.Shape();
+  s.moveTo(-.55, 2.2); s.lineTo(.55, 2.2); s.lineTo(.6, 1.55); s.quadraticCurveTo(.72, 1.0, 1.15, .82); s.lineTo(1.2, -2.3); s.quadraticCurveTo(0, -2.38, -1.2, -2.3);
+  s.lineTo(-1.15, .82); s.quadraticCurveTo(-.72, 1.0, -.6, 1.55); s.closePath();
+  const W = 2.5, Hh = 4.8, PX = 300, cw = W * PX, chh = Hh * PX;
+  const fc = fabricCanvas(cw, chh, color, { seed: 12, weave: 4, contrast: .1, wrinkles: 20 }); const fg = fc.getContext('2d');
+  const Y = (yy) => (Hh / 2 - yy) * PX, X = (xx) => (xx + W / 2) * PX;
+  const { img, color: ink } = await logoFor(surface, 'v');
+  printOn(fg, img, ink, X(0), Y(1.2), .95 * PX, .85 * PX);
+  fg.save(); fg.strokeStyle = mix(color, '#000', .35); fg.globalAlpha = .5; fg.lineWidth = 2.4; fg.setLineDash([9, 6]);
+  fg.strokeRect(X(-.85), Y(-.4), 1.7 * PX, .95 * PX); fg.beginPath(); fg.moveTo(X(0), Y(-.4)); fg.lineTo(X(0), Y(-1.35)); fg.stroke();
+  fg.fillStyle = '#000'; fg.globalAlpha = .06; fg.fillRect(X(-.85), Y(-.4), 1.7 * PX, 10); fg.restore();
+  const face = fabricMat(shapeTex(fc, W, Hh), shapeTex(wrinkleBump(cw, chh, 14, 22), W, Hh, false));
+  const gr = new THREE.Group(); gr.add(textile(s, .05, [face, fabricMat(null, null, .95, { color: mix(color, '#000', .12) })], .03));
+  const tape = fabricMat(null, null, .9, { color: mix(color, '#000', .08) });
+  const neck = new THREE.Mesh(flatTube([[-.5, 2.15, .1], [-.62, 2.7, .1], [-.3, 3.15, .1], [.3, 3.15, .1], [.62, 2.7, .1], [.5, 2.15, .1]], .055, .25), tape);
+  const tieL = new THREE.Mesh(flatTube([[-1.12, .78, .1], [-1.7, .7, .1], [-2.0, .25, .1], [-1.75, -.45, .1], [-1.9, -1.1, .1]], .055, .25), tape);
+  const tieR = new THREE.Mesh(flatTube([[1.12, .78, .1], [1.75, .85, .1], [2.15, .5, .1], [2.0, -.2, .1], [2.25, -.8, .1]], .055, .25), tape);
+  [neck, tieL, tieR].forEach((m) => { m.castShadow = true; gr.add(m); });
+  layDown(gr, x, z, rot);
+}
+S.apron = async () => {
+  flatLay(12.8, 3.4, [0, 0, -.35]);
+  await apron(strong, strong, -.15, -.15, .06);
+  // a folded kitchen towel and a wooden spoon as props
+  const tw = fabricCanvas(600, 600, '#f3efe6', { seed: 3, contrast: .08 }); const tg = tw.getContext('2d'); tg.fillStyle = SEC; tg.globalAlpha = .8; tg.fillRect(0, 60, 600, 26); tg.fillRect(0, 100, 600, 8);
+  const towel = new THREE.Mesh(new RoundedBoxGeometry(1.5, .12, 1.5, 4, .05), fabricMat(tex(tw), null)); towel.position.set(2.7, .06, 1.0); towel.rotation.y = -.25; towel.castShadow = towel.receiveShadow = true; scene.add(towel);
+  const wood = new THREE.MeshStandardMaterial({ color: '#b98a5a', roughness: .6 });
+  const spoon = new THREE.Group(); const h = new THREE.Mesh(new THREE.CylinderGeometry(.05, .06, 2.0, 24), wood); h.rotation.z = Math.PI / 2; spoon.add(h);
+  const bowl = new THREE.Mesh(new THREE.SphereGeometry(.22, 32, 16), wood); bowl.scale.set(1.3, .35, 1); bowl.position.x = 1.15; spoon.add(bowl);
+  spoon.position.set(-2.75, .07, 1.3); spoon.rotation.y = 1.2; spoon.traverse((o) => { if (o.isMesh) o.castShadow = true; }); scene.add(spoon);
+};
+
 try {
   await S[SCENE]();
   renderer.render(scene, camera);

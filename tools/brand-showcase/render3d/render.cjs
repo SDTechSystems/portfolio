@@ -4,7 +4,7 @@ const http = require('http'), fs = require('fs'), path = require('path');
 const ROOT = path.resolve(__dirname, '../../..');
 const OUT = path.resolve(__dirname, '../.cache/renders');
 const { chromium } = require(path.join(ROOT, 'node_modules/playwright'));
-const SCENES = new Set(['cards', 'mug', 'box', 'bag', 'cup', 'can', 'jar', 'bottles', 'stationery', 'poster', 'menu', 'wallsign', 'phone', 'app', 'laptop', 'hangtag', 'paycard', 'idbadge']);
+const SCENES = new Set(['cards', 'mug', 'box', 'bag', 'cup', 'can', 'jar', 'bottles', 'stationery', 'poster', 'menu', 'wallsign', 'phone', 'app', 'laptop', 'hangtag', 'paycard', 'idbadge', 'tshirt', 'tote', 'cap', 'apron']);
 const TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.json': 'application/json', '.svg': 'image/svg+xml', '.png': 'image/png', '.woff2': 'font/woff2' };
 const server = http.createServer((req, res) => {
   const p = path.join(ROOT, decodeURIComponent(new URL(req.url, 'http://x').pathname));

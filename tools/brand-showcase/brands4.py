@@ -117,7 +117,7 @@ def sprig(cx, cy, color, flip=1):
 
 def ludovica_sym(c, mono):
     g = c["g"]
-    Lg = glyph("great-vibes", 400, "L", 128)
+    Lg = glyph("great-vibes", 400, "L", 96)
     m = ellipse_line(100, 100, 56, 76, g, 1.8) + ellipse_line(100, 100, 50.5, 70.5, g, 0.8)
     m += letter(Lg, at(Lg, 102, 100), g)
     m += sprig(100, 182, g, 1) + sprig(100, 182, g, -1) + sparkle(100, 14, 6, g)
@@ -211,11 +211,10 @@ def sable_sym(c, mono):
     S = glyph("bodoni-moda", 500, "S", 96)
     Cc = glyph("bodoni-moda", 500, "C", 96)
     letters = pair(S, Cc, 104, 104, 6, g, g)
-    needle_d = "M32 172 L166 38"
-    needle = line(needle_d, g, 1.8) + f'<ellipse cx="160" cy="44" rx="5.5" ry="2.2" fill="none" stroke="{g}" stroke-width="1.2" transform="rotate(-45 160 44)"/>'
-    thread = line("M160 44 C186 66 182 112 150 122 C120 132 116 160 140 178", g, 1.1)
-    body = knock(letters, line(needle_d, "#000", 7))
-    return Box(body + needle + thread, Rect(31, 33, 186, 179))
+    # the needle lies under the letters like a tailor's rule, its thread curling back: nothing crosses the monogram
+    needle = line("M40 158 L168 158", g, 1.8) + f'<ellipse cx="162" cy="158" rx="5.5" ry="2.2" fill="none" stroke="{g}" stroke-width="1.2"/>'
+    thread = line("M162 158 C184 158 188 176 166 180 C140 184 112 172 92 178", g, 1.1)
+    return Box(letters + needle + thread, Rect(38, 50, 186, 182))
 
 
 def sable_wm(c, mono, al="start"):
@@ -226,8 +225,8 @@ def sable_wm(c, mono, al="start"):
 
 sable = lux(
     "sable-co", "Sable & Co.", L("Sastrería a la medida", "Bespoke tailoring"),
-    L("Una S y una C de alto contraste que se entrelazan, atravesadas por una aguja con su hilo: el oficio a la vista. Carbón, hueso y oro viejo.",
-      "A high-contrast S and C woven together, pierced by a threaded needle: craft in plain sight. Charcoal, bone and antique gold."),
+    L("Una S y una C de alto contraste que se entrelazan, subrayadas por una aguja con su hilo: el oficio a la vista. Carbón, hueso y oro viejo.",
+      "A high-contrast S and C woven together, underlined by a threaded needle: craft in plain sight. Charcoal, bone and antique gold."),
     L("Hecho para ti, a mano", "Made for you, by hand"), L(["Precisa", "Clásica", "Masculina"], ["Precise", "Classic", "Masculine"]),
     [("dark", "#1F1F22", "Carbón", "Charcoal", "Fondo principal", "Main background"),
      ("gold", "#B08D57", "Oro viejo", "Antique gold", "Logo y detalles", "Logo and details"),
@@ -241,10 +240,10 @@ sable = lux(
 def villa_sym(c, mono):
     g, s = c["g"], c["s"]
     V = glyph("cormorant-garamond", 500, "V", 150)
-    S = glyph("cormorant-garamond", 500, "S", 66, italic=True)
-    tv, ts = at(V, 100, 112), at(S, 101, 92)
+    S = glyph("cormorant-garamond", 500, "S", 46, italic=True)
+    tv, ts = at(V, 100, 112), at(S, 101, 82)
     roof = line("M54 44 L100 16 L146 44", g, 2.2) + line("M128 33 V22 H136 V38", g, 2)
-    body = over(V, tv, S, ts, 6, g, s)
+    body = letter(V, tv, g) + letter(S, ts, s)
     r = gb(V, 100, 112).union(Rect(53, 15, 147, 45))
     return Box(roof + body, r)
 
@@ -334,7 +333,7 @@ duvall = lux(
 # 34 · REGALIA · weddings & events --------------------------------------------------
 def regalia_sym(c, mono):
     g = c["g"]
-    R = glyph("great-vibes", 400, "R", 112)
+    R = glyph("great-vibes", 400, "R", 86)
     m = ring(100, 114, 62, 1.8, g) + ring(100, 114, 56.5, 0.8, g) + crown(100, 40, 58, g, 2.2)
     m += letter(R, at(R, 103, 116), g) + C_(32, 114, 2.6, g) + C_(168, 114, 2.6, g)
     return Box(m, Rect(29.4, 5, 170.6, 177))

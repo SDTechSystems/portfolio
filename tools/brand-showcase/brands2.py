@@ -250,7 +250,7 @@ def miel_sym(c, mono):
 
 def miel_wm(c, mono, al="start"):
     main = text("young-serif", 400, "Miel de Monte", 100, c["k"], tracking=-0.01)
-    sub = justify("mulish", 700, "MIEL PURA DE ABEJAS", 18, main.ink.w * (1 if al == "start" else 0.8), c["p"])
+    sub = text("mulish", 700, "MIEL PURA DE ABEJAS", 19, c["p"], tracking=0.32)
     return word_block(main, sub, 0.3, align="start" if al == "start" else "center")
 
 

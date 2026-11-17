@@ -1356,8 +1356,8 @@
     "en": "Bespoke tailoring"
    },
    "concept": {
-    "es": "Una S y una C de alto contraste que se entrelazan, atravesadas por una aguja con su hilo: el oficio a la vista. Carbón, hueso y oro viejo.",
-    "en": "A high-contrast S and C woven together, pierced by a threaded needle: craft in plain sight. Charcoal, bone and antique gold."
+    "es": "Una S y una C de alto contraste que se entrelazan, subrayadas por una aguja con su hilo: el oficio a la vista. Carbón, hueso y oro viejo.",
+    "en": "A high-contrast S and C woven together, underlined by a threaded needle: craft in plain sight. Charcoal, bone and antique gold."
    },
    "tagline": {
     "es": "Hecho para ti, a mano",
@@ -1507,7 +1507,7 @@
     {
      "key": "horizontal",
      "bg": "#1F1F22",
-     "ratio": 6.0393
+     "ratio": 6.0997
     },
     {
      "key": "vertical",
@@ -1517,22 +1517,22 @@
     {
      "key": "simbolo",
      "bg": "#1F1F22",
-     "ratio": 1.0616
+     "ratio": 1.1212
     },
     {
      "key": "inversa",
      "bg": "#EDE6DA",
-     "ratio": 6.0393
+     "ratio": 6.0997
     },
     {
      "key": "negro",
      "bg": "#FFFFFF",
-     "ratio": 6.0393
+     "ratio": 6.0997
     },
     {
      "key": "blanco",
      "bg": "#111111",
-     "ratio": 6.0393
+     "ratio": 6.0997
     }
    ],
    "mockups": [
@@ -6655,12 +6655,12 @@
     {
      "key": "horizontal",
      "bg": "#FFF5DA",
-     "ratio": 5.348
+     "ratio": 5.3194
     },
     {
      "key": "vertical",
      "bg": "#FFF5DA",
-     "ratio": 2.5265
+     "ratio": 2.5096
     },
     {
      "key": "simbolo",
@@ -6670,17 +6670,17 @@
     {
      "key": "inversa",
      "bg": "#2E5A3A",
-     "ratio": 5.348
+     "ratio": 5.3194
     },
     {
      "key": "negro",
      "bg": "#FFFFFF",
-     "ratio": 5.348
+     "ratio": 5.3194
     },
     {
      "key": "blanco",
      "bg": "#111111",
-     "ratio": 5.348
+     "ratio": 5.3194
     }
    ],
    "mockups": [
