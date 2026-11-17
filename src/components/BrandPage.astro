@@ -3,7 +3,7 @@ import SiteLayout from './SiteLayout.astro';
 import LanguageSwitch from './LanguageSwitch.astro';
 import Brand from './Brand.astro';
 import WhatsAppIcon from './WhatsAppIcon.astro';
-import { brands, brandAsset, styleLabel, versionLabels, kitPieces, misuses, packageItems, corporateItems, zipTree } from '../data/brands';
+import { brands, brandAsset, styleLabel, versionLabels, kitPieces, misuses, packageItems, corporateItems, zipTree, mockFile } from '../data/brands';
 import { waLink, waMessages, type Locale } from '../data/catalog';
 import '../styles/brands.css';
 const { locale, slug } = Astro.props as { locale: Locale; slug: string };
@@ -77,13 +77,13 @@ const num = (n: number) => String(n).padStart(2, '0');
     <section id="s5" class="wrap bp-section" aria-labelledby="h-s5">
       <p class="eyebrow">05 / {sections[4].toUpperCase()}</p><h2 id="h-s5" class="bp-title">{es ? 'Así se ve en sus productos' : 'How it looks on its products'}<span>.</span></h2>
       <p class="section-intro">{es ? 'Visualizaciones de referencia para imaginar la marca en uso. El diseño de empaques, etiquetas o avisos se cotiza aparte.' : 'Reference visuals to picture the brand in use. Packaging, label or sign design is quoted separately.'}</p>
-      <div class="mockup-grid">{b.mockups.map(m => <figure class="mock"><button type="button" data-zoom={asset(`mockup-${m.key}.svg`)} data-caption={m.label[locale]}><img src={asset(`mockup-${m.key}.svg`)} alt={alt(m.label[locale])} width="1200" height="900" loading="lazy" /></button><figcaption>{m.label[locale]}<span>{es ? 'Ampliar' : 'Enlarge'} ↗</span></figcaption></figure>)}</div>
+      <div class="mockup-grid">{b.mockups.map(m => <figure class="mock"><button type="button" data-zoom={asset(mockFile(m))} data-caption={m.label[locale]}><img src={asset(mockFile(m))} alt={alt(m.label[locale])} width="1200" height="900" loading="lazy" decoding="async" /></button><figcaption>{m.label[locale]}<span>{es ? 'Ampliar' : 'Enlarge'} ↗</span></figcaption></figure>)}</div>
     </section>
 
     <section id="s6" class="wrap bp-section" aria-labelledby="h-s6">
       <p class="eyebrow">06 / {sections[5].toUpperCase()}</p><h2 id="h-s6" class="bp-title">{es ? 'La marca en cada contacto' : 'The brand at every touchpoint'}<span>.</span></h2>
       <p class="section-intro">{es ? 'La imagen corporativa lleva la identidad a la papelería, el correo, las presentaciones, los uniformes y los avisos, para que el negocio se vea igual de profesional en todas partes.' : 'Corporate identity carries the brand into stationery, email, presentations, uniforms and signs, so the business looks equally professional everywhere.'}</p>
-      <div class="mockup-grid">{b.corporate.map(m => <figure class="mock"><button type="button" data-zoom={asset(`mockup-${m.key}.svg`)} data-caption={m.label[locale]}><img src={asset(`mockup-${m.key}.svg`)} alt={alt(m.label[locale])} width="1200" height="900" loading="lazy" /></button><figcaption>{m.label[locale]}<span>{es ? 'Ampliar' : 'Enlarge'} ↗</span></figcaption></figure>)}</div>
+      <div class="mockup-grid">{b.corporate.map(m => <figure class="mock"><button type="button" data-zoom={asset(mockFile(m))} data-caption={m.label[locale]}><img src={asset(mockFile(m))} alt={alt(m.label[locale])} width="1200" height="900" loading="lazy" decoding="async" /></button><figcaption>{m.label[locale]}<span>{es ? 'Ampliar' : 'Enlarge'} ↗</span></figcaption></figure>)}</div>
       <ul class="corp-list">{corporateItems[locale].map(t => <li>{t}</li>)}</ul>
     </section>
 

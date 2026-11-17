@@ -81,6 +81,14 @@ STYLES = [
 LICENSES = {"OFL-1.1": "SIL Open Font License 1.1", "Apache-2.0": "Apache License 2.0"}
 
 
+def mock(b, k, templates):
+    """Mockup entry; `photo` points at the 3D render (render3d/) when one has been published."""
+    m = {"key": k, "label": templates[k][1]}
+    if (OUT / b.slug / f"foto-{k}.webp").exists():
+        m["photo"] = f"foto-{k}.webp"
+    return m
+
+
 def export(brands):
     from fonts import FONTS, license_of
     from lib import contrast, on
@@ -112,8 +120,8 @@ def export(brands):
             "logoKind": b.logo_kind, "colors": cols, "fonts": fonts,
             "surfaces": {"light": lbg, "strong": sbg, "lightText": on(lbg, "#FFFFFF", "#111111"), "strongText": on(sbg, "#FFFFFF", "#111111")},
             "versions": [{"key": name, "bg": b.bg(v), "ratio": ratios[name]} for name, v in VERSIONS],
-            "mockups": [{"key": k, "label": TEMPLATES[k][1]} for k in b.mockups],
-            "corporate": [{"key": k, "label": TEMPLATES[k][1]} for k in CORPORATE],
+            "mockups": [mock(b, k, TEMPLATES) for k in b.mockups],
+            "corporate": [mock(b, k, TEMPLATES) for k in CORPORATE],
         })
     DATA.write_text(json.dumps(data, ensure_ascii=False, indent=1), encoding="utf-8")
     print(f"wrote {DATA.relative_to(ROOT)} ({len(brands)} brands)")

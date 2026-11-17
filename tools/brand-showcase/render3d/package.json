@@ -1,0 +1,6 @@
+{
+  "name": "brand-showcase-render3d",
+  "private": true,
+  "description": "Offline 3D product renders for the brand showcase (Three.js in headless Chromium).",
+  "dependencies": { "three": "0.169.0" }
+}

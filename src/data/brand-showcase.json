@@ -260,42 +260,48 @@
      "label": {
       "es": "Tarjetas de presentación",
       "en": "Business cards"
-     }
+     },
+     "photo": "foto-cards.webp"
     },
     {
      "key": "bottles",
      "label": {
       "es": "Envases",
       "en": "Bottles"
-     }
+     },
+     "photo": "foto-bottles.webp"
     },
     {
      "key": "wallsign",
      "label": {
       "es": "Señalética interior",
       "en": "Interior signage"
-     }
+     },
+     "photo": "foto-wallsign.webp"
     },
     {
      "key": "menu",
      "label": {
       "es": "Menú",
       "en": "Menu"
-     }
+     },
+     "photo": "foto-menu.webp"
     },
     {
      "key": "bag",
      "label": {
       "es": "Bolsas de compra",
       "en": "Shopping bags"
-     }
+     },
+     "photo": "foto-bag.webp"
     },
     {
      "key": "mug",
      "label": {
       "es": "Mugs",
       "en": "Mugs"
-     }
+     },
+     "photo": "foto-mug.webp"
     }
    ],
    "corporate": [
@@ -304,7 +310,8 @@
      "label": {
       "es": "Papelería corporativa",
       "en": "Corporate stationery"
-     }
+     },
+     "photo": "foto-stationery.webp"
     },
     {
      "key": "digital",
@@ -510,42 +517,48 @@
      "label": {
       "es": "Envases",
       "en": "Bottles"
-     }
+     },
+     "photo": "foto-bottles.webp"
     },
     {
      "key": "box",
      "label": {
       "es": "Empaque",
       "en": "Packaging"
-     }
+     },
+     "photo": "foto-box.webp"
     },
     {
      "key": "bag",
      "label": {
       "es": "Bolsas de compra",
       "en": "Shopping bags"
-     }
+     },
+     "photo": "foto-bag.webp"
     },
     {
      "key": "cards",
      "label": {
       "es": "Tarjetas de presentación",
       "en": "Business cards"
-     }
+     },
+     "photo": "foto-cards.webp"
     },
     {
      "key": "phone",
      "label": {
       "es": "Perfil en redes sociales",
       "en": "Social media profile"
-     }
+     },
+     "photo": "foto-phone.webp"
     },
     {
      "key": "poster",
      "label": {
       "es": "Afiche",
       "en": "Poster"
-     }
+     },
+     "photo": "foto-poster.webp"
     }
    ],
    "corporate": [
@@ -554,7 +567,8 @@
      "label": {
       "es": "Papelería corporativa",
       "en": "Corporate stationery"
-     }
+     },
+     "photo": "foto-stationery.webp"
     },
     {
      "key": "digital",
@@ -760,42 +774,48 @@
      "label": {
       "es": "Etiquetas",
       "en": "Tags"
-     }
+     },
+     "photo": "foto-hangtag.webp"
     },
     {
      "key": "bag",
      "label": {
       "es": "Bolsas de compra",
       "en": "Shopping bags"
-     }
+     },
+     "photo": "foto-bag.webp"
     },
     {
      "key": "box",
      "label": {
       "es": "Empaque",
       "en": "Packaging"
-     }
+     },
+     "photo": "foto-box.webp"
     },
     {
      "key": "cards",
      "label": {
       "es": "Tarjetas de presentación",
       "en": "Business cards"
-     }
+     },
+     "photo": "foto-cards.webp"
     },
     {
      "key": "phone",
      "label": {
       "es": "Perfil en redes sociales",
       "en": "Social media profile"
-     }
+     },
+     "photo": "foto-phone.webp"
     },
     {
      "key": "poster",
      "label": {
       "es": "Afiche",
       "en": "Poster"
-     }
+     },
+     "photo": "foto-poster.webp"
     }
    ],
    "corporate": [
@@ -804,7 +824,8 @@
      "label": {
       "es": "Papelería corporativa",
       "en": "Corporate stationery"
-     }
+     },
+     "photo": "foto-stationery.webp"
     },
     {
      "key": "digital",
@@ -1010,14 +1031,16 @@
      "label": {
       "es": "Botellas",
       "en": "Bottles"
-     }
+     },
+     "photo": "foto-bottle.webp"
     },
     {
      "key": "menu",
      "label": {
       "es": "Menú",
       "en": "Menu"
-     }
+     },
+     "photo": "foto-menu.webp"
     },
     {
      "key": "storefront",
@@ -1031,21 +1054,24 @@
      "label": {
       "es": "Tarjetas de presentación",
       "en": "Business cards"
-     }
+     },
+     "photo": "foto-cards.webp"
     },
     {
      "key": "wallsign",
      "label": {
       "es": "Señalética interior",
       "en": "Interior signage"
-     }
+     },
+     "photo": "foto-wallsign.webp"
     },
     {
      "key": "bag",
      "label": {
       "es": "Bolsas de compra",
       "en": "Shopping bags"
-     }
+     },
+     "photo": "foto-bag.webp"
     }
    ],
    "corporate": [
@@ -1054,7 +1080,8 @@
      "label": {
       "es": "Papelería corporativa",
       "en": "Corporate stationery"
-     }
+     },
+     "photo": "foto-stationery.webp"
     },
     {
      "key": "digital",
@@ -1274,14 +1301,16 @@
      "label": {
       "es": "Tarjetas de presentación",
       "en": "Business cards"
-     }
+     },
+     "photo": "foto-cards.webp"
     },
     {
      "key": "wallsign",
      "label": {
       "es": "Señalética interior",
       "en": "Interior signage"
-     }
+     },
+     "photo": "foto-wallsign.webp"
     },
     {
      "key": "tote",
@@ -1295,7 +1324,8 @@
      "label": {
       "es": "Perfil en redes sociales",
       "en": "Social media profile"
-     }
+     },
+     "photo": "foto-phone.webp"
     }
    ],
    "corporate": [
@@ -1304,7 +1334,8 @@
      "label": {
       "es": "Papelería corporativa",
       "en": "Corporate stationery"
-     }
+     },
+     "photo": "foto-stationery.webp"
     },
     {
      "key": "digital",
@@ -1510,28 +1541,32 @@
      "label": {
       "es": "Etiquetas",
       "en": "Tags"
-     }
+     },
+     "photo": "foto-hangtag.webp"
     },
     {
      "key": "box",
      "label": {
       "es": "Empaque",
       "en": "Packaging"
-     }
+     },
+     "photo": "foto-box.webp"
     },
     {
      "key": "bag",
      "label": {
       "es": "Bolsas de compra",
       "en": "Shopping bags"
-     }
+     },
+     "photo": "foto-bag.webp"
     },
     {
      "key": "cards",
      "label": {
       "es": "Tarjetas de presentación",
       "en": "Business cards"
-     }
+     },
+     "photo": "foto-cards.webp"
     },
     {
      "key": "storefront",
@@ -1545,7 +1580,8 @@
      "label": {
       "es": "Perfil en redes sociales",
       "en": "Social media profile"
-     }
+     },
+     "photo": "foto-phone.webp"
     }
    ],
    "corporate": [
@@ -1554,7 +1590,8 @@
      "label": {
       "es": "Papelería corporativa",
       "en": "Corporate stationery"
-     }
+     },
+     "photo": "foto-stationery.webp"
     },
     {
      "key": "digital",
@@ -1760,42 +1797,48 @@
      "label": {
       "es": "Tarjetas de presentación",
       "en": "Business cards"
-     }
+     },
+     "photo": "foto-cards.webp"
     },
     {
      "key": "wallsign",
      "label": {
       "es": "Señalética interior",
       "en": "Interior signage"
-     }
+     },
+     "photo": "foto-wallsign.webp"
     },
     {
      "key": "laptop",
      "label": {
       "es": "Sitio web",
       "en": "Website"
-     }
+     },
+     "photo": "foto-laptop.webp"
     },
     {
      "key": "poster",
      "label": {
       "es": "Afiche",
       "en": "Poster"
-     }
+     },
+     "photo": "foto-poster.webp"
     },
     {
      "key": "idbadge",
      "label": {
       "es": "Carné y cinta",
       "en": "ID badge and lanyard"
-     }
+     },
+     "photo": "foto-idbadge.webp"
     },
     {
      "key": "mug",
      "label": {
       "es": "Mugs",
       "en": "Mugs"
-     }
+     },
+     "photo": "foto-mug.webp"
     }
    ],
    "corporate": [
@@ -1804,7 +1847,8 @@
      "label": {
       "es": "Papelería corporativa",
       "en": "Corporate stationery"
-     }
+     },
+     "photo": "foto-stationery.webp"
     },
     {
      "key": "digital",
@@ -2010,42 +2054,48 @@
      "label": {
       "es": "Envases",
       "en": "Bottles"
-     }
+     },
+     "photo": "foto-bottles.webp"
     },
     {
      "key": "jar",
      "label": {
       "es": "Frascos",
       "en": "Jars"
-     }
+     },
+     "photo": "foto-jar.webp"
     },
     {
      "key": "box",
      "label": {
       "es": "Empaque",
       "en": "Packaging"
-     }
+     },
+     "photo": "foto-box.webp"
     },
     {
      "key": "bag",
      "label": {
       "es": "Bolsas de compra",
       "en": "Shopping bags"
-     }
+     },
+     "photo": "foto-bag.webp"
     },
     {
      "key": "cards",
      "label": {
       "es": "Tarjetas de presentación",
       "en": "Business cards"
-     }
+     },
+     "photo": "foto-cards.webp"
     },
     {
      "key": "phone",
      "label": {
       "es": "Perfil en redes sociales",
       "en": "Social media profile"
-     }
+     },
+     "photo": "foto-phone.webp"
     }
    ],
    "corporate": [
@@ -2054,7 +2104,8 @@
      "label": {
       "es": "Papelería corporativa",
       "en": "Corporate stationery"
-     }
+     },
+     "photo": "foto-stationery.webp"
     },
     {
      "key": "digital",
@@ -2260,42 +2311,48 @@
      "label": {
       "es": "Botellas",
       "en": "Bottles"
-     }
+     },
+     "photo": "foto-bottle.webp"
     },
     {
      "key": "box",
      "label": {
       "es": "Empaque",
       "en": "Packaging"
-     }
+     },
+     "photo": "foto-box.webp"
     },
     {
      "key": "menu",
      "label": {
       "es": "Menú",
       "en": "Menu"
-     }
+     },
+     "photo": "foto-menu.webp"
     },
     {
      "key": "cards",
      "label": {
       "es": "Tarjetas de presentación",
       "en": "Business cards"
-     }
+     },
+     "photo": "foto-cards.webp"
     },
     {
      "key": "bag",
      "label": {
       "es": "Bolsas de compra",
       "en": "Shopping bags"
-     }
+     },
+     "photo": "foto-bag.webp"
     },
     {
      "key": "poster",
      "label": {
       "es": "Afiche",
       "en": "Poster"
-     }
+     },
+     "photo": "foto-poster.webp"
     }
    ],
    "corporate": [
@@ -2304,7 +2361,8 @@
      "label": {
       "es": "Papelería corporativa",
       "en": "Corporate stationery"
-     }
+     },
+     "photo": "foto-stationery.webp"
     },
     {
      "key": "digital",
@@ -2510,42 +2568,48 @@
      "label": {
       "es": "Tarjetas de presentación",
       "en": "Business cards"
-     }
+     },
+     "photo": "foto-cards.webp"
     },
     {
      "key": "box",
      "label": {
       "es": "Empaque",
       "en": "Packaging"
-     }
+     },
+     "photo": "foto-box.webp"
     },
     {
      "key": "phone",
      "label": {
       "es": "Perfil en redes sociales",
       "en": "Social media profile"
-     }
+     },
+     "photo": "foto-phone.webp"
     },
     {
      "key": "poster",
      "label": {
       "es": "Afiche",
       "en": "Poster"
-     }
+     },
+     "photo": "foto-poster.webp"
     },
     {
      "key": "bag",
      "label": {
       "es": "Bolsas de compra",
       "en": "Shopping bags"
-     }
+     },
+     "photo": "foto-bag.webp"
     },
     {
      "key": "hangtag",
      "label": {
       "es": "Etiquetas",
       "en": "Tags"
-     }
+     },
+     "photo": "foto-hangtag.webp"
     }
    ],
    "corporate": [
@@ -2554,7 +2618,8 @@
      "label": {
       "es": "Papelería corporativa",
       "en": "Corporate stationery"
-     }
+     },
+     "photo": "foto-stationery.webp"
     },
     {
      "key": "digital",
@@ -2760,42 +2825,48 @@
      "label": {
       "es": "Empaque",
       "en": "Packaging"
-     }
+     },
+     "photo": "foto-box.webp"
     },
     {
      "key": "bag",
      "label": {
       "es": "Bolsas de compra",
       "en": "Shopping bags"
-     }
+     },
+     "photo": "foto-bag.webp"
     },
     {
      "key": "cards",
      "label": {
       "es": "Tarjetas de presentación",
       "en": "Business cards"
-     }
+     },
+     "photo": "foto-cards.webp"
     },
     {
      "key": "hangtag",
      "label": {
       "es": "Etiquetas",
       "en": "Tags"
-     }
+     },
+     "photo": "foto-hangtag.webp"
     },
     {
      "key": "phone",
      "label": {
       "es": "Perfil en redes sociales",
       "en": "Social media profile"
-     }
+     },
+     "photo": "foto-phone.webp"
     },
     {
      "key": "poster",
      "label": {
       "es": "Afiche",
       "en": "Poster"
-     }
+     },
+     "photo": "foto-poster.webp"
     }
    ],
    "corporate": [
@@ -2804,7 +2875,8 @@
      "label": {
       "es": "Papelería corporativa",
       "en": "Corporate stationery"
-     }
+     },
+     "photo": "foto-stationery.webp"
     },
     {
      "key": "digital",
@@ -3010,21 +3082,24 @@
      "label": {
       "es": "Tarjetas de presentación",
       "en": "Business cards"
-     }
+     },
+     "photo": "foto-cards.webp"
     },
     {
      "key": "laptop",
      "label": {
       "es": "Sitio web",
       "en": "Website"
-     }
+     },
+     "photo": "foto-laptop.webp"
     },
     {
      "key": "wallsign",
      "label": {
       "es": "Señalética interior",
       "en": "Interior signage"
-     }
+     },
+     "photo": "foto-wallsign.webp"
     },
     {
      "key": "tote",
@@ -3038,14 +3113,16 @@
      "label": {
       "es": "Mugs",
       "en": "Mugs"
-     }
+     },
+     "photo": "foto-mug.webp"
     },
     {
      "key": "poster",
      "label": {
       "es": "Afiche",
       "en": "Poster"
-     }
+     },
+     "photo": "foto-poster.webp"
     }
    ],
    "corporate": [
@@ -3054,7 +3131,8 @@
      "label": {
       "es": "Papelería corporativa",
       "en": "Corporate stationery"
-     }
+     },
+     "photo": "foto-stationery.webp"
     },
     {
      "key": "digital",
@@ -3260,21 +3338,24 @@
      "label": {
       "es": "Envases",
       "en": "Bottles"
-     }
+     },
+     "photo": "foto-bottles.webp"
     },
     {
      "key": "box",
      "label": {
       "es": "Empaque",
       "en": "Packaging"
-     }
+     },
+     "photo": "foto-box.webp"
     },
     {
      "key": "jar",
      "label": {
       "es": "Frascos",
       "en": "Jars"
-     }
+     },
+     "photo": "foto-jar.webp"
     },
     {
      "key": "tote",
@@ -3288,14 +3369,16 @@
      "label": {
       "es": "Perfil en redes sociales",
       "en": "Social media profile"
-     }
+     },
+     "photo": "foto-phone.webp"
     },
     {
      "key": "cards",
      "label": {
       "es": "Tarjetas de presentación",
       "en": "Business cards"
-     }
+     },
+     "photo": "foto-cards.webp"
     }
    ],
    "corporate": [
@@ -3304,7 +3387,8 @@
      "label": {
       "es": "Papelería corporativa",
       "en": "Corporate stationery"
-     }
+     },
+     "photo": "foto-stationery.webp"
     },
     {
      "key": "digital",
@@ -3510,21 +3594,24 @@
      "label": {
       "es": "Tarjetas de presentación",
       "en": "Business cards"
-     }
+     },
+     "photo": "foto-cards.webp"
     },
     {
      "key": "laptop",
      "label": {
       "es": "Sitio web",
       "en": "Website"
-     }
+     },
+     "photo": "foto-laptop.webp"
     },
     {
      "key": "wallsign",
      "label": {
       "es": "Señalética interior",
       "en": "Interior signage"
-     }
+     },
+     "photo": "foto-wallsign.webp"
     },
     {
      "key": "tote",
@@ -3538,14 +3625,16 @@
      "label": {
       "es": "Afiche",
       "en": "Poster"
-     }
+     },
+     "photo": "foto-poster.webp"
     },
     {
      "key": "mug",
      "label": {
       "es": "Mugs",
       "en": "Mugs"
-     }
+     },
+     "photo": "foto-mug.webp"
     }
    ],
    "corporate": [
@@ -3554,7 +3643,8 @@
      "label": {
       "es": "Papelería corporativa",
       "en": "Corporate stationery"
-     }
+     },
+     "photo": "foto-stationery.webp"
     },
     {
      "key": "digital",
@@ -3760,42 +3850,48 @@
      "label": {
       "es": "Frascos",
       "en": "Jars"
-     }
+     },
+     "photo": "foto-jar.webp"
     },
     {
      "key": "box",
      "label": {
       "es": "Empaque",
       "en": "Packaging"
-     }
+     },
+     "photo": "foto-box.webp"
     },
     {
      "key": "hangtag",
      "label": {
       "es": "Etiquetas",
       "en": "Tags"
-     }
+     },
+     "photo": "foto-hangtag.webp"
     },
     {
      "key": "bag",
      "label": {
       "es": "Bolsas de compra",
       "en": "Shopping bags"
-     }
+     },
+     "photo": "foto-bag.webp"
     },
     {
      "key": "phone",
      "label": {
       "es": "Perfil en redes sociales",
       "en": "Social media profile"
-     }
+     },
+     "photo": "foto-phone.webp"
     },
     {
      "key": "cards",
      "label": {
       "es": "Tarjetas de presentación",
       "en": "Business cards"
-     }
+     },
+     "photo": "foto-cards.webp"
     }
    ],
    "corporate": [
@@ -3804,7 +3900,8 @@
      "label": {
       "es": "Papelería corporativa",
       "en": "Corporate stationery"
-     }
+     },
+     "photo": "foto-stationery.webp"
     },
     {
      "key": "digital",
@@ -4010,42 +4107,48 @@
      "label": {
       "es": "Tarjetas de presentación",
       "en": "Business cards"
-     }
+     },
+     "photo": "foto-cards.webp"
     },
     {
      "key": "wallsign",
      "label": {
       "es": "Señalética interior",
       "en": "Interior signage"
-     }
+     },
+     "photo": "foto-wallsign.webp"
     },
     {
      "key": "laptop",
      "label": {
       "es": "Sitio web",
       "en": "Website"
-     }
+     },
+     "photo": "foto-laptop.webp"
     },
     {
      "key": "idbadge",
      "label": {
       "es": "Carné y cinta",
       "en": "ID badge and lanyard"
-     }
+     },
+     "photo": "foto-idbadge.webp"
     },
     {
      "key": "mug",
      "label": {
       "es": "Mugs",
       "en": "Mugs"
-     }
+     },
+     "photo": "foto-mug.webp"
     },
     {
      "key": "phone",
      "label": {
       "es": "Perfil en redes sociales",
       "en": "Social media profile"
-     }
+     },
+     "photo": "foto-phone.webp"
     }
    ],
    "corporate": [
@@ -4054,7 +4157,8 @@
      "label": {
       "es": "Papelería corporativa",
       "en": "Corporate stationery"
-     }
+     },
+     "photo": "foto-stationery.webp"
     },
     {
      "key": "digital",
@@ -4260,42 +4364,48 @@
      "label": {
       "es": "Tarjetas de presentación",
       "en": "Business cards"
-     }
+     },
+     "photo": "foto-cards.webp"
     },
     {
      "key": "laptop",
      "label": {
       "es": "Sitio web",
       "en": "Website"
-     }
+     },
+     "photo": "foto-laptop.webp"
     },
     {
      "key": "idbadge",
      "label": {
       "es": "Carné y cinta",
       "en": "ID badge and lanyard"
-     }
+     },
+     "photo": "foto-idbadge.webp"
     },
     {
      "key": "wallsign",
      "label": {
       "es": "Señalética interior",
       "en": "Interior signage"
-     }
+     },
+     "photo": "foto-wallsign.webp"
     },
     {
      "key": "mug",
      "label": {
       "es": "Mugs",
       "en": "Mugs"
-     }
+     },
+     "photo": "foto-mug.webp"
     },
     {
      "key": "app",
      "label": {
       "es": "App e ícono",
       "en": "App and icon"
-     }
+     },
+     "photo": "foto-app.webp"
     }
    ],
    "corporate": [
@@ -4304,7 +4414,8 @@
      "label": {
       "es": "Papelería corporativa",
       "en": "Corporate stationery"
-     }
+     },
+     "photo": "foto-stationery.webp"
     },
     {
      "key": "digital",
@@ -4510,7 +4621,8 @@
      "label": {
       "es": "Tarjetas de presentación",
       "en": "Business cards"
-     }
+     },
+     "photo": "foto-cards.webp"
     },
     {
      "key": "tshirt",
@@ -4524,28 +4636,32 @@
      "label": {
       "es": "Señalética interior",
       "en": "Interior signage"
-     }
+     },
+     "photo": "foto-wallsign.webp"
     },
     {
      "key": "app",
      "label": {
       "es": "App e ícono",
       "en": "App and icon"
-     }
+     },
+     "photo": "foto-app.webp"
     },
     {
      "key": "idbadge",
      "label": {
       "es": "Carné y cinta",
       "en": "ID badge and lanyard"
-     }
+     },
+     "photo": "foto-idbadge.webp"
     },
     {
      "key": "mug",
      "label": {
       "es": "Mugs",
       "en": "Mugs"
-     }
+     },
+     "photo": "foto-mug.webp"
     }
    ],
    "corporate": [
@@ -4554,7 +4670,8 @@
      "label": {
       "es": "Papelería corporativa",
       "en": "Corporate stationery"
-     }
+     },
+     "photo": "foto-stationery.webp"
     },
     {
      "key": "digital",
@@ -4784,21 +4901,24 @@
      "label": {
       "es": "Empaque",
       "en": "Packaging"
-     }
+     },
+     "photo": "foto-box.webp"
     },
     {
      "key": "bag",
      "label": {
       "es": "Bolsas de compra",
       "en": "Shopping bags"
-     }
+     },
+     "photo": "foto-bag.webp"
     },
     {
      "key": "cup",
      "label": {
       "es": "Vasos para llevar",
       "en": "Takeaway cups"
-     }
+     },
+     "photo": "foto-cup.webp"
     },
     {
      "key": "apron",
@@ -4828,7 +4948,8 @@
      "label": {
       "es": "Papelería corporativa",
       "en": "Corporate stationery"
-     }
+     },
+     "photo": "foto-stationery.webp"
     },
     {
      "key": "digital",
@@ -5034,14 +5155,16 @@
      "label": {
       "es": "Latas",
       "en": "Cans"
-     }
+     },
+     "photo": "foto-can.webp"
     },
     {
      "key": "poster",
      "label": {
       "es": "Afiche",
       "en": "Poster"
-     }
+     },
+     "photo": "foto-poster.webp"
     },
     {
      "key": "tshirt",
@@ -5062,7 +5185,8 @@
      "label": {
       "es": "Perfil en redes sociales",
       "en": "Social media profile"
-     }
+     },
+     "photo": "foto-phone.webp"
     },
     {
      "key": "tote",
@@ -5078,7 +5202,8 @@
      "label": {
       "es": "Papelería corporativa",
       "en": "Corporate stationery"
-     }
+     },
+     "photo": "foto-stationery.webp"
     },
     {
      "key": "digital",
@@ -5284,21 +5409,24 @@
      "label": {
       "es": "Vasos para llevar",
       "en": "Takeaway cups"
-     }
+     },
+     "photo": "foto-cup.webp"
     },
     {
      "key": "bottle",
      "label": {
       "es": "Botellas",
       "en": "Bottles"
-     }
+     },
+     "photo": "foto-bottle.webp"
     },
     {
      "key": "bag",
      "label": {
       "es": "Bolsas de compra",
       "en": "Shopping bags"
-     }
+     },
+     "photo": "foto-bag.webp"
     },
     {
      "key": "storefront",
@@ -5312,7 +5440,8 @@
      "label": {
       "es": "Menú",
       "en": "Menu"
-     }
+     },
+     "photo": "foto-menu.webp"
     },
     {
      "key": "tshirt",
@@ -5328,7 +5457,8 @@
      "label": {
       "es": "Papelería corporativa",
       "en": "Corporate stationery"
-     }
+     },
+     "photo": "foto-stationery.webp"
     },
     {
      "key": "digital",
@@ -5534,42 +5664,48 @@
      "label": {
       "es": "Empaque",
       "en": "Packaging"
-     }
+     },
+     "photo": "foto-box.webp"
     },
     {
      "key": "bag",
      "label": {
       "es": "Bolsas de compra",
       "en": "Shopping bags"
-     }
+     },
+     "photo": "foto-bag.webp"
     },
     {
      "key": "cards",
      "label": {
       "es": "Tarjetas de presentación",
       "en": "Business cards"
-     }
+     },
+     "photo": "foto-cards.webp"
     },
     {
      "key": "hangtag",
      "label": {
       "es": "Etiquetas",
       "en": "Tags"
-     }
+     },
+     "photo": "foto-hangtag.webp"
     },
     {
      "key": "phone",
      "label": {
       "es": "Perfil en redes sociales",
       "en": "Social media profile"
-     }
+     },
+     "photo": "foto-phone.webp"
     },
     {
      "key": "poster",
      "label": {
       "es": "Afiche",
       "en": "Poster"
-     }
+     },
+     "photo": "foto-poster.webp"
     }
    ],
    "corporate": [
@@ -5578,7 +5714,8 @@
      "label": {
       "es": "Papelería corporativa",
       "en": "Corporate stationery"
-     }
+     },
+     "photo": "foto-stationery.webp"
     },
     {
      "key": "digital",
@@ -5784,42 +5921,48 @@
      "label": {
       "es": "Tarjetas de presentación",
       "en": "Business cards"
-     }
+     },
+     "photo": "foto-cards.webp"
     },
     {
      "key": "menu",
      "label": {
       "es": "Menú",
       "en": "Menu"
-     }
+     },
+     "photo": "foto-menu.webp"
     },
     {
      "key": "bottles",
      "label": {
       "es": "Envases",
       "en": "Bottles"
-     }
+     },
+     "photo": "foto-bottles.webp"
     },
     {
      "key": "wallsign",
      "label": {
       "es": "Señalética interior",
       "en": "Interior signage"
-     }
+     },
+     "photo": "foto-wallsign.webp"
     },
     {
      "key": "mug",
      "label": {
       "es": "Mugs",
       "en": "Mugs"
-     }
+     },
+     "photo": "foto-mug.webp"
     },
     {
      "key": "bag",
      "label": {
       "es": "Bolsas de compra",
       "en": "Shopping bags"
-     }
+     },
+     "photo": "foto-bag.webp"
     }
    ],
    "corporate": [
@@ -5828,7 +5971,8 @@
      "label": {
       "es": "Papelería corporativa",
       "en": "Corporate stationery"
-     }
+     },
+     "photo": "foto-stationery.webp"
     },
     {
      "key": "digital",
@@ -6041,35 +6185,40 @@
      "label": {
       "es": "Empaque",
       "en": "Packaging"
-     }
+     },
+     "photo": "foto-box.webp"
     },
     {
      "key": "bag",
      "label": {
       "es": "Bolsas de compra",
       "en": "Shopping bags"
-     }
+     },
+     "photo": "foto-bag.webp"
     },
     {
      "key": "cards",
      "label": {
       "es": "Tarjetas de presentación",
       "en": "Business cards"
-     }
+     },
+     "photo": "foto-cards.webp"
     },
     {
      "key": "phone",
      "label": {
       "es": "Perfil en redes sociales",
       "en": "Social media profile"
-     }
+     },
+     "photo": "foto-phone.webp"
     },
     {
      "key": "poster",
      "label": {
       "es": "Afiche",
       "en": "Poster"
-     }
+     },
+     "photo": "foto-poster.webp"
     }
    ],
    "corporate": [
@@ -6078,7 +6227,8 @@
      "label": {
       "es": "Papelería corporativa",
       "en": "Corporate stationery"
-     }
+     },
+     "photo": "foto-stationery.webp"
     },
     {
      "key": "digital",
@@ -6284,14 +6434,16 @@
      "label": {
       "es": "Bolsas de compra",
       "en": "Shopping bags"
-     }
+     },
+     "photo": "foto-bag.webp"
     },
     {
      "key": "box",
      "label": {
       "es": "Empaque",
       "en": "Packaging"
-     }
+     },
+     "photo": "foto-box.webp"
     },
     {
      "key": "apron",
@@ -6305,7 +6457,8 @@
      "label": {
       "es": "Vasos para llevar",
       "en": "Takeaway cups"
-     }
+     },
+     "photo": "foto-cup.webp"
     },
     {
      "key": "storefront",
@@ -6319,7 +6472,8 @@
      "label": {
       "es": "Tarjetas de presentación",
       "en": "Business cards"
-     }
+     },
+     "photo": "foto-cards.webp"
     }
    ],
    "corporate": [
@@ -6328,7 +6482,8 @@
      "label": {
       "es": "Papelería corporativa",
       "en": "Corporate stationery"
-     }
+     },
+     "photo": "foto-stationery.webp"
     },
     {
      "key": "digital",
@@ -6534,14 +6689,16 @@
      "label": {
       "es": "Frascos",
       "en": "Jars"
-     }
+     },
+     "photo": "foto-jar.webp"
     },
     {
      "key": "box",
      "label": {
       "es": "Empaque",
       "en": "Packaging"
-     }
+     },
+     "photo": "foto-box.webp"
     },
     {
      "key": "tote",
@@ -6562,14 +6719,16 @@
      "label": {
       "es": "Tarjetas de presentación",
       "en": "Business cards"
-     }
+     },
+     "photo": "foto-cards.webp"
     },
     {
      "key": "phone",
      "label": {
       "es": "Perfil en redes sociales",
       "en": "Social media profile"
-     }
+     },
+     "photo": "foto-phone.webp"
     }
    ],
    "corporate": [
@@ -6578,7 +6737,8 @@
      "label": {
       "es": "Papelería corporativa",
       "en": "Corporate stationery"
-     }
+     },
+     "photo": "foto-stationery.webp"
     },
     {
      "key": "digital",
@@ -6791,7 +6951,8 @@
      "label": {
       "es": "Empaque",
       "en": "Packaging"
-     }
+     },
+     "photo": "foto-box.webp"
     },
     {
      "key": "van",
@@ -6819,7 +6980,8 @@
      "label": {
       "es": "Perfil en redes sociales",
       "en": "Social media profile"
-     }
+     },
+     "photo": "foto-phone.webp"
     }
    ],
    "corporate": [
@@ -6828,7 +6990,8 @@
      "label": {
       "es": "Papelería corporativa",
       "en": "Corporate stationery"
-     }
+     },
+     "photo": "foto-stationery.webp"
     },
     {
      "key": "digital",
@@ -7055,21 +7218,24 @@
      "label": {
       "es": "Bolsas de compra",
       "en": "Shopping bags"
-     }
+     },
+     "photo": "foto-bag.webp"
     },
     {
      "key": "cards",
      "label": {
       "es": "Tarjetas de presentación",
       "en": "Business cards"
-     }
+     },
+     "photo": "foto-cards.webp"
     },
     {
      "key": "mug",
      "label": {
       "es": "Mugs",
       "en": "Mugs"
-     }
+     },
+     "photo": "foto-mug.webp"
     }
    ],
    "corporate": [
@@ -7078,7 +7244,8 @@
      "label": {
       "es": "Papelería corporativa",
       "en": "Corporate stationery"
-     }
+     },
+     "photo": "foto-stationery.webp"
     },
     {
      "key": "digital",
@@ -7315,35 +7482,40 @@
      "label": {
       "es": "Etiquetas",
       "en": "Tags"
-     }
+     },
+     "photo": "foto-hangtag.webp"
     },
     {
      "key": "box",
      "label": {
       "es": "Empaque",
       "en": "Packaging"
-     }
+     },
+     "photo": "foto-box.webp"
     },
     {
      "key": "bag",
      "label": {
       "es": "Bolsas de compra",
       "en": "Shopping bags"
-     }
+     },
+     "photo": "foto-bag.webp"
     },
     {
      "key": "phone",
      "label": {
       "es": "Perfil en redes sociales",
       "en": "Social media profile"
-     }
+     },
+     "photo": "foto-phone.webp"
     },
     {
      "key": "cards",
      "label": {
       "es": "Tarjetas de presentación",
       "en": "Business cards"
-     }
+     },
+     "photo": "foto-cards.webp"
     }
    ],
    "corporate": [
@@ -7352,7 +7524,8 @@
      "label": {
       "es": "Papelería corporativa",
       "en": "Corporate stationery"
-     }
+     },
+     "photo": "foto-stationery.webp"
     },
     {
      "key": "digital",
@@ -7565,7 +7738,8 @@
      "label": {
       "es": "Vasos para llevar",
       "en": "Takeaway cups"
-     }
+     },
+     "photo": "foto-cup.webp"
     },
     {
      "key": "storefront",
@@ -7579,7 +7753,8 @@
      "label": {
       "es": "Afiche",
       "en": "Poster"
-     }
+     },
+     "photo": "foto-poster.webp"
     },
     {
      "key": "tshirt",
@@ -7602,7 +7777,8 @@
      "label": {
       "es": "Papelería corporativa",
       "en": "Corporate stationery"
-     }
+     },
+     "photo": "foto-stationery.webp"
     },
     {
      "key": "digital",
@@ -7815,7 +7991,8 @@
      "label": {
       "es": "Frascos",
       "en": "Jars"
-     }
+     },
+     "photo": "foto-jar.webp"
     },
     {
      "key": "apron",
@@ -7829,7 +8006,8 @@
      "label": {
       "es": "Tarjetas de presentación",
       "en": "Business cards"
-     }
+     },
+     "photo": "foto-cards.webp"
     },
     {
      "key": "tshirt",
@@ -7843,7 +8021,8 @@
      "label": {
       "es": "Perfil en redes sociales",
       "en": "Social media profile"
-     }
+     },
+     "photo": "foto-phone.webp"
     }
    ],
    "corporate": [
@@ -7852,7 +8031,8 @@
      "label": {
       "es": "Papelería corporativa",
       "en": "Corporate stationery"
-     }
+     },
+     "photo": "foto-stationery.webp"
     },
     {
      "key": "digital",
@@ -8082,14 +8262,16 @@
      "label": {
       "es": "Botellas",
       "en": "Bottles"
-     }
+     },
+     "photo": "foto-bottle.webp"
     },
     {
      "key": "can",
      "label": {
       "es": "Latas",
       "en": "Cans"
-     }
+     },
+     "photo": "foto-can.webp"
     },
     {
      "key": "tshirt",
@@ -8110,7 +8292,8 @@
      "label": {
       "es": "Afiche",
       "en": "Poster"
-     }
+     },
+     "photo": "foto-poster.webp"
     },
     {
      "key": "tote",
@@ -8126,7 +8309,8 @@
      "label": {
       "es": "Papelería corporativa",
       "en": "Corporate stationery"
-     }
+     },
+     "photo": "foto-stationery.webp"
     },
     {
      "key": "digital",
@@ -8332,14 +8516,16 @@
      "label": {
       "es": "Vasos para llevar",
       "en": "Takeaway cups"
-     }
+     },
+     "photo": "foto-cup.webp"
     },
     {
      "key": "mug",
      "label": {
       "es": "Mugs",
       "en": "Mugs"
-     }
+     },
+     "photo": "foto-mug.webp"
     },
     {
      "key": "pouch",
@@ -8360,7 +8546,8 @@
      "label": {
       "es": "Menú",
       "en": "Menu"
-     }
+     },
+     "photo": "foto-menu.webp"
     },
     {
      "key": "apron",
@@ -8376,7 +8563,8 @@
      "label": {
       "es": "Papelería corporativa",
       "en": "Corporate stationery"
-     }
+     },
+     "photo": "foto-stationery.webp"
     },
     {
      "key": "digital",
@@ -8582,21 +8770,24 @@
      "label": {
       "es": "Sitio web",
       "en": "Website"
-     }
+     },
+     "photo": "foto-laptop.webp"
     },
     {
      "key": "app",
      "label": {
       "es": "App e ícono",
       "en": "App and icon"
-     }
+     },
+     "photo": "foto-app.webp"
     },
     {
      "key": "cards",
      "label": {
       "es": "Tarjetas de presentación",
       "en": "Business cards"
-     }
+     },
+     "photo": "foto-cards.webp"
     },
     {
      "key": "tshirt",
@@ -8610,14 +8801,16 @@
      "label": {
       "es": "Carné y cinta",
       "en": "ID badge and lanyard"
-     }
+     },
+     "photo": "foto-idbadge.webp"
     },
     {
      "key": "poster",
      "label": {
       "es": "Afiche",
       "en": "Poster"
-     }
+     },
+     "photo": "foto-poster.webp"
     }
    ],
    "corporate": [
@@ -8626,7 +8819,8 @@
      "label": {
       "es": "Papelería corporativa",
       "en": "Corporate stationery"
-     }
+     },
+     "photo": "foto-stationery.webp"
     },
     {
      "key": "digital",
@@ -8832,35 +9026,40 @@
      "label": {
       "es": "App e ícono",
       "en": "App and icon"
-     }
+     },
+     "photo": "foto-app.webp"
     },
     {
      "key": "paycard",
      "label": {
       "es": "Tarjetas de pago",
       "en": "Payment cards"
-     }
+     },
+     "photo": "foto-paycard.webp"
     },
     {
      "key": "laptop",
      "label": {
       "es": "Sitio web",
       "en": "Website"
-     }
+     },
+     "photo": "foto-laptop.webp"
     },
     {
      "key": "cards",
      "label": {
       "es": "Tarjetas de presentación",
       "en": "Business cards"
-     }
+     },
+     "photo": "foto-cards.webp"
     },
     {
      "key": "poster",
      "label": {
       "es": "Afiche",
       "en": "Poster"
-     }
+     },
+     "photo": "foto-poster.webp"
     },
     {
      "key": "tote",
@@ -8876,7 +9075,8 @@
      "label": {
       "es": "Papelería corporativa",
       "en": "Corporate stationery"
-     }
+     },
+     "photo": "foto-stationery.webp"
     },
     {
      "key": "digital",
@@ -9089,7 +9289,8 @@
      "label": {
       "es": "Empaque",
       "en": "Packaging"
-     }
+     },
+     "photo": "foto-box.webp"
     },
     {
      "key": "cap",
@@ -9110,14 +9311,16 @@
      "label": {
       "es": "App e ícono",
       "en": "App and icon"
-     }
+     },
+     "photo": "foto-app.webp"
     },
     {
      "key": "cards",
      "label": {
       "es": "Tarjetas de presentación",
       "en": "Business cards"
-     }
+     },
+     "photo": "foto-cards.webp"
     }
    ],
    "corporate": [
@@ -9126,7 +9329,8 @@
      "label": {
       "es": "Papelería corporativa",
       "en": "Corporate stationery"
-     }
+     },
+     "photo": "foto-stationery.webp"
     },
     {
      "key": "digital",
