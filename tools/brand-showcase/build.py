@@ -28,6 +28,8 @@ def all_brands():
         out += b3
     except ImportError:
         pass
+    from brands4 import BRANDS as b4
+    out += b4
     from notes import NOTES
     for b in out:
         b.notes = {**NOTES.get(b.slug, {}), **(b.notes or {})}
@@ -75,6 +77,7 @@ STYLES = [
     ("minimal", "Minimalista", "Minimal"), ("corporate", "Sobria y profesional", "Professional"),
     ("bold", "Llamativa", "Bold"), ("elegant", "Elegante", "Elegant"), ("organic", "Orgánica y artesanal", "Organic"),
     ("playful", "Divertida", "Playful"), ("retro", "Retro", "Retro"), ("tech", "Tecnológica", "Tech"),
+    ("luxe", "Lujo y monogramas", "Luxury and monograms"),
 ]
 LICENSES = {"OFL-1.1": "SIL Open Font License 1.1", "Apache-2.0": "Apache License 2.0"}
 

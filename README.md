@@ -12,7 +12,7 @@ Cada proyecto incluye su propósito, funciones, tecnologías y estado de desarro
 
 Las demostraciones permiten recorrer una caja, administrar inventario de ejemplo, explorar asistentes locales, navegar un catálogo de televisión y conocer el concepto de TaskTone. La muestra de invitación incluye una web completa con historia, eventos y confirmación de asistencia simulada.
 
-La sección [Marcas](https://sdtechsystems.dev/es/marcas/) reúne 24 identidades de ejemplo en ocho estilos (minimalista, sobria, llamativa, elegante, artesanal, divertida, retro y tecnológica). Cada una muestra el logo y sus versiones, la paleta con HEX, RGB y CMYK, las tipografías, las piezas para redes y stickers, la imagen corporativa, la guía de uso y su aplicación en productos, con un botón de WhatsApp que indica el diseño que le interesó al cliente. Son marcas ficticias; el generador está en [tools/brand-showcase](tools/brand-showcase/README.md).
+La sección [Marcas](https://sdtechsystems.dev/es/marcas/) reúne 36 identidades de ejemplo en nueve estilos (minimalista, sobria, llamativa, elegante, artesanal, divertida, retro, tecnológica y lujo con monogramas). Cada una muestra el logo y sus versiones, la paleta con HEX, RGB y CMYK, las tipografías, las piezas para redes y stickers, la imagen corporativa, la guía de uso y su aplicación en productos, con un botón de WhatsApp que indica el diseño que le interesó al cliente. Son marcas ficticias; el generador está en [tools/brand-showcase](tools/brand-showcase/README.md).
 
 Las demos usan datos ficticios y conservan los cambios en memoria. No procesan pagos, ejecutan modelos de IA ni envían confirmaciones reales. Sus funciones ilustran el producto; cada ficha indica el alcance de la aplicación correspondiente.
 

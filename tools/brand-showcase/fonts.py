@@ -60,6 +60,14 @@ FONTS = {
     "figtree": ("figtree", "Figtree", [400, 500, 700]),
     "archivo-black": ("archivo-black", "Archivo Black", [400]),
     "archivo": ("archivo", "Archivo", [400, 500, 700]),
+    "cinzel": ("cinzel", "Cinzel", [400, 500, 600]),
+    "italiana": ("italiana", "Italiana", [400]),
+    "pinyon-script": ("pinyon-script", "Pinyon Script", [400]),
+    "great-vibes": ("great-vibes", "Great Vibes", [400]),
+    "tenor-sans": ("tenor-sans", "Tenor Sans", [400]),
+    "forum": ("forum", "Forum", [400]),
+    "marcellus": ("marcellus", "Marcellus", [400]),
+    "parisienne": ("parisienne", "Parisienne", [400]),
 }
 
 
@@ -105,4 +113,4 @@ def fetch(keys=None, italics=()):
 
 
 if __name__ == "__main__":
-    fetch(italics=[("playfair-display", 700), ("playfair-display", 600), ("fraunces", 600), ("cormorant-garamond", 500), ("cormorant-garamond", 600), ("instrument-serif", 400), ("bodoni-moda", 400)])
+    fetch(italics=[("playfair-display", 700), ("playfair-display", 600), ("fraunces", 600), ("cormorant-garamond", 500), ("cormorant-garamond", 600), ("instrument-serif", 400), ("bodoni-moda", 400), ("cormorant-garamond", 400)])

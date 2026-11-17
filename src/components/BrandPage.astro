@@ -40,7 +40,7 @@ const num = (n: number) => String(n).padStart(2, '0');
   <main id="contenido" class="brand-page" style={`--brand-strong:${s.strong};--brand-strong-text:${s.strongText};--brand-light:${s.light};--brand-light-text:${s.lightText}`}>
     <section class="wrap bp-hero" aria-labelledby="marca-titulo">
       <div>
-        <p class="eyebrow">{es ? 'EJEMPLO' : 'SAMPLE'} {num(b.n)} / 24 · {style.toUpperCase()}</p>
+        <p class="eyebrow">{es ? 'EJEMPLO' : 'SAMPLE'} {num(b.n)} / {brands.length} · {style.toUpperCase()}</p>
         <h1 id="marca-titulo">{b.name}<span class="accent">.</span></h1>
         <p class="bp-concept">{b.concept[locale]}</p>
         <div class="bp-meta"><span class="chip">{b.sector[locale]}</span><span class="chip">{b.logoKind[locale]}</span>{b.personality[locale].map(p => <span class="chip">{p}</span>)}</div>
@@ -109,7 +109,7 @@ const num = (n: number) => String(n).padStart(2, '0');
       <div class="brand-actions"><a class="brand-btn wa" href={wa} target="_blank" rel="noopener noreferrer"><WhatsAppIcon />{es ? 'Me interesa este diseño' : 'I’m interested in this design'}</a><a class="brand-btn" href={form}>{es ? 'Llenar el brief' : 'Fill in the brief'}{!es && <small> · ES</small>} ↗</a></div>
     </section>
 
-    <nav class="wrap bp-pager" aria-label={es ? 'Otras marcas' : 'Other brands'}><a href={`${base}${locale}/marcas/${prev.slug}/`}><span>← {es ? 'ANTERIOR' : 'PREVIOUS'}</span>{prev.name}</a><a href={`${base}${locale}/marcas/`} class="bp-all">{es ? 'Ver las 24' : 'See all 24'}</a><a href={`${base}${locale}/marcas/${next.slug}/`}><span>{es ? 'SIGUIENTE' : 'NEXT'} →</span>{next.name}</a></nav>
+    <nav class="wrap bp-pager" aria-label={es ? 'Otras marcas' : 'Other brands'}><a href={`${base}${locale}/marcas/${prev.slug}/`}><span>← {es ? 'ANTERIOR' : 'PREVIOUS'}</span>{prev.name}</a><a href={`${base}${locale}/marcas/`} class="bp-all">{es ? `Ver las ${brands.length}` : `See all ${brands.length}`}</a><a href={`${base}${locale}/marcas/${next.slug}/`}><span>{es ? 'SIGUIENTE' : 'NEXT'} →</span>{next.name}</a></nav>
   </main>
   <dialog id="brand-zoom" class="brand-zoom" aria-label={es ? 'Imagen ampliada' : 'Enlarged image'}><button type="button" class="zoom-close" aria-label={es ? 'Cerrar' : 'Close'}>✕</button><img alt="" /><p></p></dialog>
 <script>

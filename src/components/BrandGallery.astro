@@ -13,19 +13,19 @@ const form = `${base}es/formularios/diseno-de-marca/`;
 const wa = waLink(waMessages.brands[locale]);
 const title = es ? 'Diseño de marca e imagen corporativa' : 'Brand design and corporate identity';
 const description = es
-  ? '24 marcas de ejemplo con logos, paletas, tipografías, piezas para redes, papelería y aplicaciones en productos.'
-  : '24 sample brands with logos, palettes, typefaces, social media pieces, stationery and product applications.';
+  ? `${brands.length} marcas de ejemplo con logos, paletas, tipografías, piezas para redes, papelería y aplicaciones en productos.`
+  : `${brands.length} sample brands with logos, palettes, typefaces, social media pieces, stationery and product applications.`;
 ---
 <SiteLayout locale={locale} title={`${title} — SD Tech Systems`} description={description} path="marcas/">
   <nav class="wrap detail-nav" aria-label={es ? 'Navegación' : 'Navigation'}><a href={`${base}${locale}/`}>← {es ? 'Inicio' : 'Home'}</a><Brand href={`${base}${locale}/`} /><LanguageSwitch locale={locale} path="marcas/" /></nav>
   <main id="contenido">
     <section class="wrap brands-hero" aria-labelledby="marcas-titulo">
-      <p class="eyebrow">{es ? 'PORTAFOLIO DE DISEÑO · 24 MARCAS' : 'DESIGN PORTFOLIO · 24 BRANDS'}</p>
+      <p class="eyebrow">{es ? `PORTAFOLIO DE DISEÑO · ${brands.length} MARCAS` : `DESIGN PORTFOLIO · ${brands.length} BRANDS`}</p>
       <h1 id="marcas-titulo">{es ? <>Marcas que se ven <span>y se recuerdan.</span></> : <>Brands people see <span>and remember.</span></>}</h1>
       <div class="brands-lead">
         <p>{es
-          ? 'Explora 24 identidades completas: minimalistas, sobrias, llamativas, elegantes, artesanales, divertidas, retro y tecnológicas. Cada una muestra el logo y sus versiones, la paleta, las tipografías, las piezas para redes, la imagen corporativa y cómo se ve en sus productos.'
-          : 'Explore 24 complete identities: minimal, professional, bold, elegant, organic, playful, retro and tech. Each one shows the logo and its versions, palette, typefaces, social media pieces, corporate identity and how it looks on products.'}</p>
+          ? `Explora ${brands.length} identidades completas: minimalistas, sobrias, llamativas, elegantes, artesanales, divertidas, retro, tecnológicas y de lujo con monogramas. Cada una muestra el logo y sus versiones, la paleta, las tipografías, las piezas para redes, la imagen corporativa y cómo se ve en sus productos.`
+          : `Explore ${brands.length} complete identities: minimal, professional, bold, elegant, organic, playful, retro, tech and luxury monograms. Each one shows the logo and its versions, palette, typefaces, social media pieces, corporate identity and how it looks on products.`}</p>
         <div class="brand-actions"><a class="brand-btn wa" href={wa} target="_blank" rel="noopener noreferrer"><WhatsAppIcon />{es ? 'Cotizar por WhatsApp' : 'Get a quote on WhatsApp'}</a><a class="brand-btn" href={form}>{es ? 'Llenar el brief de marca' : 'Fill in the brand brief'}{!es && <small> · ES</small>} ↗</a></div>
       </div>
       <p class="brands-note">{es

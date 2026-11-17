@@ -9,7 +9,7 @@ export const brandStyles = showcase.styles;
 export const styleLabel = (id: string, locale: Locale) => brandStyles.find(s => s.id === id)?.label[locale] ?? id;
 
 // One of each direction for the home page teaser.
-export const featuredBrands = ['brasa-brava', 'ebano', 'sereno', 'paramo', 'orbita', 'miel-de-monte']
+export const featuredBrands = ['aurelia', 'brasa-brava', 'maison-velour', 'sereno', 'orvieto', 'paramo']
   .map(slug => brands.find(b => b.slug === slug)!);
 
 export const brandAsset = (base: string, slug: string, file: string) => `${base}marcas/${slug}/${file}`;
