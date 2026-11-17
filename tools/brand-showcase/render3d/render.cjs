@@ -4,7 +4,7 @@ const http = require('http'), fs = require('fs'), path = require('path');
 const ROOT = path.resolve(__dirname, '../../..');
 const OUT = path.resolve(__dirname, '../.cache/renders');
 const { chromium } = require(path.join(ROOT, 'node_modules/playwright'));
-const SCENES = new Set(['cards', 'mug', 'box', 'bag', 'cup', 'can', 'jar', 'bottles', 'stationery', 'poster', 'menu', 'wallsign', 'phone', 'app', 'laptop', 'hangtag', 'paycard', 'idbadge']);
+const SCENES = new Set(['cards', 'mug', 'box', 'bag', 'cup', 'can', 'jar', 'bottles', 'stationery', 'poster', 'menu', 'wallsign', 'phone', 'app', 'laptop', 'hangtag', 'paycard', 'idbadge', 'tshirt', 'tote', 'cap', 'apron', 'pouch', 'bar', 'popsicle', 'storefront', 'van', 'digital']);
 const TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.json': 'application/json', '.svg': 'image/svg+xml', '.png': 'image/png', '.woff2': 'font/woff2' };
 const server = http.createServer((req, res) => {
   const p = path.join(ROOT, decodeURIComponent(new URL(req.url, 'http://x').pathname));
@@ -18,7 +18,7 @@ const server = http.createServer((req, res) => {
   const args = process.argv.slice(2), force = args.includes('--force');
   const want = args.filter((a) => !a.startsWith('--'));
   const jobs = [];
-  for (const b of data.brands) for (const k of [...b.mockups.map((m) => m.key), 'stationery']) {
+  for (const b of data.brands) for (const k of [...b.mockups.map((m) => m.key), 'stationery', 'digital']) {
     if (!SCENES.has(k)) continue;
     if (want.length && !want.includes(b.slug) && !want.includes(k) && !want.includes(b.slug + '/' + k)) continue;
     const out = path.join(OUT, b.slug, k + '.png');

@@ -74,13 +74,13 @@ def label(b, p, w=1400, h=1000, frame=True):
     o = rr(0, 0, w, h, 0, paper)
     if frame:
         ink = best_ink(b, paper)
-        o += f'<rect x="{w * .26}" y="40" width="{w * .48}" height="{h - 80}" fill="none" stroke="{ink}" stroke-width="5" opacity=".75"/>'
-        o += f'<rect x="{w * .26 + 16}" y="56" width="{w * .48 - 32}" height="{h - 112}" fill="none" stroke="{ink}" stroke-width="2" opacity=".6"/>'
-    o += logo_on(b, paper, "v").fit(w * .31, h * .14, w * .38, h * .58).markup
+        o += f'<rect x="{w * .22}" y="40" width="{w * .56}" height="{h - 80}" fill="none" stroke="{ink}" stroke-width="5" opacity=".75"/>'
+        o += f'<rect x="{w * .22 + 16}" y="56" width="{w * .56 - 32}" height="{h - 112}" fill="none" stroke="{ink}" stroke-width="2" opacity=".6"/>'
+    o += logo_on(b, paper, "v").fit(w * .26, h * .1, w * .48, h * .66).markup
     sub = B(b, b.sector["es"].upper(), 26, best_ink(b, paper), bold(b), tracking=.16)
-    if sub.ink.w > w * .4:
-        sub = sub.scale(w * .4 / sub.ink.w)
-    o += sub.at((w - sub.w) / 2, h * .8).markup
+    if sub.ink.w > w * .48:
+        sub = sub.scale(w * .48 / sub.ink.w)
+    o += sub.at((w - sub.w) / 2, h * .82).markup
     return canvas(w, h, o)
 
 
@@ -196,6 +196,45 @@ def bottle_label(b, p, foil_only=False):
     return canvas(W, H, o)
 
 
+KRAFT = "#C6A479"
+
+
+def pouch_front(b, p, kraft=False):
+    """Stand-up pouch print: brand colour (or kraft paper) with a label panel, logo and net weight."""
+    W, H = 900, 1300
+    base = KRAFT if kraft else p.sbg
+    panel = p.lbg
+    o = rr(0, 0, W, H, 0, base)
+    if not kraft:
+        o += pattern_tile(b, "blanco" if p.sbg < "#888888" else "negro", 0, 0, W, H, 110, 34, .08)
+    o += rr(110, 330, W - 220, 700, 34, panel)
+    o += logo_on(b, panel, "v").fit(170, 390, W - 340, 420).markup
+    w0 = (b.notes.get("pouch") or ["250 g", "500 g"])
+    t = B(b, w0[0] if kraft else w0[-1], 46, best_ink(b, panel), bold(b), tracking=.12)
+    o += t.at((W - t.w) / 2, 880).markup
+    o += rr(0, 70, W, 6, 0, best_ink(b, base), ' opacity=".25"') + rr(0, 92, W, 6, 0, best_ink(b, base), ' opacity=".25"')
+    return canvas(W, H, o)
+
+
+def bar_wrap(b, p):
+    """Chocolate bar sleeve (top face)."""
+    W, H = 1600, 800
+    o = rr(0, 0, W, H, 0, p.sbg) + pattern_tile(b, "blanco" if p.sbg < "#888888" else "negro", 0, 0, W, H, 120, 36, .07)
+    o += rr(0, 0, 360, H, 0, p.sec)
+    o += b.horizontal(p.sv).fit(470, 230, 1000, 260).markup
+    t = B(b, "70% CACAO", 40, best_ink(b, p.sbg), bold(b), tracking=.3)
+    o += t.at(470 + (1000 - t.w) / 2, 560).markup
+    return canvas(W, H, o)
+
+
+def pop_wrap(b, p):
+    """Ice-pop wrapper (front)."""
+    W, H = 1400, 700
+    o = rr(0, 0, W, H, 0, p.sbg) + rr(0, 0, 90, H, 0, p.sec) + rr(W - 90, 0, 90, H, 0, p.sec)
+    o += b.horizontal(p.sv).fit(220, 170, 960, 300).markup
+    return canvas(W, H, o)
+
+
 ARTS = {"card-front": card_front, "card-back": card_back, "letterhead": letterhead, "envelope": envelope,
         "label": label, "can": can_wrap, "tag-front": tag_front, "tag-back": tag_back, "paycard": paycard, "menu": menu}
 
@@ -207,6 +246,14 @@ def build(b):
     for name, fn in ARTS.items():
         (d / f"{name}.svg").write_text(fn(b, p), encoding="utf-8")
     (d / "card-back-plain.svg").write_text(card_back(b, p, False), encoding="utf-8")
+    keys = set(b.mockups)
+    if "pouch" in keys:
+        (d / "pouch-front.svg").write_text(pouch_front(b, p), encoding="utf-8")
+        (d / "pouch-kraft.svg").write_text(pouch_front(b, p, True), encoding="utf-8")
+    if "bar" in keys:
+        (d / "bar.svg").write_text(bar_wrap(b, p), encoding="utf-8")
+    if "popsicle" in keys:
+        (d / "pop.svg").write_text(pop_wrap(b, p), encoding="utf-8")
     if b.slug in BOTTLE:
         (d / "bottle-label.svg").write_text(bottle_label(b, p), encoding="utf-8")
         (d / "bottle-foil.svg").write_text(bottle_label(b, p, True), encoding="utf-8")

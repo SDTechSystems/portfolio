@@ -318,7 +318,8 @@
      "label": {
       "es": "Firma de correo y presentación",
       "en": "Email signature and slides"
-     }
+     },
+     "photo": "foto-digital.webp"
     }
    ]
   },
@@ -575,7 +576,8 @@
      "label": {
       "es": "Firma de correo y presentación",
       "en": "Email signature and slides"
-     }
+     },
+     "photo": "foto-digital.webp"
     }
    ]
   },
@@ -832,7 +834,8 @@
      "label": {
       "es": "Firma de correo y presentación",
       "en": "Email signature and slides"
-     }
+     },
+     "photo": "foto-digital.webp"
     }
    ]
   },
@@ -1047,7 +1050,8 @@
      "label": {
       "es": "Fachada y aviso",
       "en": "Storefront and sign"
-     }
+     },
+     "photo": "foto-storefront.webp"
     },
     {
      "key": "cards",
@@ -1088,7 +1092,8 @@
      "label": {
       "es": "Firma de correo y presentación",
       "en": "Email signature and slides"
-     }
+     },
+     "photo": "foto-digital.webp"
     }
    ]
   },
@@ -1287,14 +1292,16 @@
      "label": {
       "es": "Gorra",
       "en": "Cap"
-     }
+     },
+     "photo": "foto-cap.webp"
     },
     {
      "key": "tshirt",
      "label": {
       "es": "Camiseta",
       "en": "T-shirt"
-     }
+     },
+     "photo": "foto-tshirt.webp"
     },
     {
      "key": "cards",
@@ -1317,7 +1324,8 @@
      "label": {
       "es": "Bolsa de tela",
       "en": "Tote bag"
-     }
+     },
+     "photo": "foto-tote.webp"
     },
     {
      "key": "phone",
@@ -1342,7 +1350,8 @@
      "label": {
       "es": "Firma de correo y presentación",
       "en": "Email signature and slides"
-     }
+     },
+     "photo": "foto-digital.webp"
     }
    ]
   },
@@ -1356,8 +1365,8 @@
     "en": "Bespoke tailoring"
    },
    "concept": {
-    "es": "Una S y una C de alto contraste que se entrelazan, atravesadas por una aguja con su hilo: el oficio a la vista. Carbón, hueso y oro viejo.",
-    "en": "A high-contrast S and C woven together, pierced by a threaded needle: craft in plain sight. Charcoal, bone and antique gold."
+    "es": "Una S y una C de alto contraste que se entrelazan, subrayadas por una aguja con su hilo: el oficio a la vista. Carbón, hueso y oro viejo.",
+    "en": "A high-contrast S and C woven together, underlined by a threaded needle: craft in plain sight. Charcoal, bone and antique gold."
    },
    "tagline": {
     "es": "Hecho para ti, a mano",
@@ -1507,7 +1516,7 @@
     {
      "key": "horizontal",
      "bg": "#1F1F22",
-     "ratio": 6.0393
+     "ratio": 6.0997
     },
     {
      "key": "vertical",
@@ -1517,22 +1526,22 @@
     {
      "key": "simbolo",
      "bg": "#1F1F22",
-     "ratio": 1.0616
+     "ratio": 1.1212
     },
     {
      "key": "inversa",
      "bg": "#EDE6DA",
-     "ratio": 6.0393
+     "ratio": 6.0997
     },
     {
      "key": "negro",
      "bg": "#FFFFFF",
-     "ratio": 6.0393
+     "ratio": 6.0997
     },
     {
      "key": "blanco",
      "bg": "#111111",
-     "ratio": 6.0393
+     "ratio": 6.0997
     }
    ],
    "mockups": [
@@ -1573,7 +1582,8 @@
      "label": {
       "es": "Fachada y aviso",
       "en": "Storefront and sign"
-     }
+     },
+     "photo": "foto-storefront.webp"
     },
     {
      "key": "phone",
@@ -1598,7 +1608,8 @@
      "label": {
       "es": "Firma de correo y presentación",
       "en": "Email signature and slides"
-     }
+     },
+     "photo": "foto-digital.webp"
     }
    ]
   },
@@ -1855,7 +1866,8 @@
      "label": {
       "es": "Firma de correo y presentación",
       "en": "Email signature and slides"
-     }
+     },
+     "photo": "foto-digital.webp"
     }
    ]
   },
@@ -2112,7 +2124,8 @@
      "label": {
       "es": "Firma de correo y presentación",
       "en": "Email signature and slides"
-     }
+     },
+     "photo": "foto-digital.webp"
     }
    ]
   },
@@ -2369,7 +2382,8 @@
      "label": {
       "es": "Firma de correo y presentación",
       "en": "Email signature and slides"
-     }
+     },
+     "photo": "foto-digital.webp"
     }
    ]
   },
@@ -2626,7 +2640,8 @@
      "label": {
       "es": "Firma de correo y presentación",
       "en": "Email signature and slides"
-     }
+     },
+     "photo": "foto-digital.webp"
     }
    ]
   },
@@ -2883,7 +2898,8 @@
      "label": {
       "es": "Firma de correo y presentación",
       "en": "Email signature and slides"
-     }
+     },
+     "photo": "foto-digital.webp"
     }
    ]
   },
@@ -3106,7 +3122,8 @@
      "label": {
       "es": "Bolsa de tela",
       "en": "Tote bag"
-     }
+     },
+     "photo": "foto-tote.webp"
     },
     {
      "key": "mug",
@@ -3139,7 +3156,8 @@
      "label": {
       "es": "Firma de correo y presentación",
       "en": "Email signature and slides"
-     }
+     },
+     "photo": "foto-digital.webp"
     }
    ]
   },
@@ -3362,7 +3380,8 @@
      "label": {
       "es": "Bolsa de tela",
       "en": "Tote bag"
-     }
+     },
+     "photo": "foto-tote.webp"
     },
     {
      "key": "phone",
@@ -3395,7 +3414,8 @@
      "label": {
       "es": "Firma de correo y presentación",
       "en": "Email signature and slides"
-     }
+     },
+     "photo": "foto-digital.webp"
     }
    ]
   },
@@ -3618,7 +3638,8 @@
      "label": {
       "es": "Bolsa de tela",
       "en": "Tote bag"
-     }
+     },
+     "photo": "foto-tote.webp"
     },
     {
      "key": "poster",
@@ -3651,7 +3672,8 @@
      "label": {
       "es": "Firma de correo y presentación",
       "en": "Email signature and slides"
-     }
+     },
+     "photo": "foto-digital.webp"
     }
    ]
   },
@@ -3908,7 +3930,8 @@
      "label": {
       "es": "Firma de correo y presentación",
       "en": "Email signature and slides"
-     }
+     },
+     "photo": "foto-digital.webp"
     }
    ]
   },
@@ -4165,7 +4188,8 @@
      "label": {
       "es": "Firma de correo y presentación",
       "en": "Email signature and slides"
-     }
+     },
+     "photo": "foto-digital.webp"
     }
    ]
   },
@@ -4422,7 +4446,8 @@
      "label": {
       "es": "Firma de correo y presentación",
       "en": "Email signature and slides"
-     }
+     },
+     "photo": "foto-digital.webp"
     }
    ]
   },
@@ -4629,7 +4654,8 @@
      "label": {
       "es": "Camiseta",
       "en": "T-shirt"
-     }
+     },
+     "photo": "foto-tshirt.webp"
     },
     {
      "key": "wallsign",
@@ -4678,7 +4704,8 @@
      "label": {
       "es": "Firma de correo y presentación",
       "en": "Email signature and slides"
-     }
+     },
+     "photo": "foto-digital.webp"
     }
    ]
   },
@@ -4925,21 +4952,24 @@
      "label": {
       "es": "Delantal",
       "en": "Apron"
-     }
+     },
+     "photo": "foto-apron.webp"
     },
     {
      "key": "storefront",
      "label": {
       "es": "Fachada y aviso",
       "en": "Storefront and sign"
-     }
+     },
+     "photo": "foto-storefront.webp"
     },
     {
      "key": "tshirt",
      "label": {
       "es": "Camiseta",
       "en": "T-shirt"
-     }
+     },
+     "photo": "foto-tshirt.webp"
     }
    ],
    "corporate": [
@@ -4956,7 +4986,8 @@
      "label": {
       "es": "Firma de correo y presentación",
       "en": "Email signature and slides"
-     }
+     },
+     "photo": "foto-digital.webp"
     }
    ]
   },
@@ -5171,14 +5202,16 @@
      "label": {
       "es": "Camiseta",
       "en": "T-shirt"
-     }
+     },
+     "photo": "foto-tshirt.webp"
     },
     {
      "key": "cap",
      "label": {
       "es": "Gorra",
       "en": "Cap"
-     }
+     },
+     "photo": "foto-cap.webp"
     },
     {
      "key": "phone",
@@ -5193,7 +5226,8 @@
      "label": {
       "es": "Bolsa de tela",
       "en": "Tote bag"
-     }
+     },
+     "photo": "foto-tote.webp"
     }
    ],
    "corporate": [
@@ -5210,7 +5244,8 @@
      "label": {
       "es": "Firma de correo y presentación",
       "en": "Email signature and slides"
-     }
+     },
+     "photo": "foto-digital.webp"
     }
    ]
   },
@@ -5433,7 +5468,8 @@
      "label": {
       "es": "Fachada y aviso",
       "en": "Storefront and sign"
-     }
+     },
+     "photo": "foto-storefront.webp"
     },
     {
      "key": "menu",
@@ -5448,7 +5484,8 @@
      "label": {
       "es": "Camiseta",
       "en": "T-shirt"
-     }
+     },
+     "photo": "foto-tshirt.webp"
     }
    ],
    "corporate": [
@@ -5465,7 +5502,8 @@
      "label": {
       "es": "Firma de correo y presentación",
       "en": "Email signature and slides"
-     }
+     },
+     "photo": "foto-digital.webp"
     }
    ]
   },
@@ -5722,7 +5760,8 @@
      "label": {
       "es": "Firma de correo y presentación",
       "en": "Email signature and slides"
-     }
+     },
+     "photo": "foto-digital.webp"
     }
    ]
   },
@@ -5979,7 +6018,8 @@
      "label": {
       "es": "Firma de correo y presentación",
       "en": "Email signature and slides"
-     }
+     },
+     "photo": "foto-digital.webp"
     }
    ]
   },
@@ -6178,7 +6218,8 @@
      "label": {
       "es": "Empaque de chocolate",
       "en": "Chocolate packaging"
-     }
+     },
+     "photo": "foto-bar.webp"
     },
     {
      "key": "box",
@@ -6235,7 +6276,8 @@
      "label": {
       "es": "Firma de correo y presentación",
       "en": "Email signature and slides"
-     }
+     },
+     "photo": "foto-digital.webp"
     }
    ]
   },
@@ -6450,7 +6492,8 @@
      "label": {
       "es": "Delantal",
       "en": "Apron"
-     }
+     },
+     "photo": "foto-apron.webp"
     },
     {
      "key": "cup",
@@ -6465,7 +6508,8 @@
      "label": {
       "es": "Fachada y aviso",
       "en": "Storefront and sign"
-     }
+     },
+     "photo": "foto-storefront.webp"
     },
     {
      "key": "cards",
@@ -6490,7 +6534,8 @@
      "label": {
       "es": "Firma de correo y presentación",
       "en": "Email signature and slides"
-     }
+     },
+     "photo": "foto-digital.webp"
     }
    ]
   },
@@ -6655,12 +6700,12 @@
     {
      "key": "horizontal",
      "bg": "#FFF5DA",
-     "ratio": 5.348
+     "ratio": 5.3194
     },
     {
      "key": "vertical",
      "bg": "#FFF5DA",
-     "ratio": 2.5265
+     "ratio": 2.5096
     },
     {
      "key": "simbolo",
@@ -6670,17 +6715,17 @@
     {
      "key": "inversa",
      "bg": "#2E5A3A",
-     "ratio": 5.348
+     "ratio": 5.3194
     },
     {
      "key": "negro",
      "bg": "#FFFFFF",
-     "ratio": 5.348
+     "ratio": 5.3194
     },
     {
      "key": "blanco",
      "bg": "#111111",
-     "ratio": 5.348
+     "ratio": 5.3194
     }
    ],
    "mockups": [
@@ -6705,14 +6750,16 @@
      "label": {
       "es": "Bolsa de tela",
       "en": "Tote bag"
-     }
+     },
+     "photo": "foto-tote.webp"
     },
     {
      "key": "pouch",
      "label": {
       "es": "Bolsas de producto",
       "en": "Product pouches"
-     }
+     },
+     "photo": "foto-pouch.webp"
     },
     {
      "key": "cards",
@@ -6745,7 +6792,8 @@
      "label": {
       "es": "Firma de correo y presentación",
       "en": "Email signature and slides"
-     }
+     },
+     "photo": "foto-digital.webp"
     }
    ]
   },
@@ -6944,7 +6992,8 @@
      "label": {
       "es": "Bolsa de tela",
       "en": "Tote bag"
-     }
+     },
+     "photo": "foto-tote.webp"
     },
     {
      "key": "box",
@@ -6959,21 +7008,24 @@
      "label": {
       "es": "Vehículo",
       "en": "Vehicle"
-     }
+     },
+     "photo": "foto-van.webp"
     },
     {
      "key": "apron",
      "label": {
       "es": "Delantal",
       "en": "Apron"
-     }
+     },
+     "photo": "foto-apron.webp"
     },
     {
      "key": "pouch",
      "label": {
       "es": "Bolsas de producto",
       "en": "Product pouches"
-     }
+     },
+     "photo": "foto-pouch.webp"
     },
     {
      "key": "phone",
@@ -6998,7 +7050,8 @@
      "label": {
       "es": "Firma de correo y presentación",
       "en": "Email signature and slides"
-     }
+     },
+     "photo": "foto-digital.webp"
     }
    ]
   },
@@ -7197,21 +7250,24 @@
      "label": {
       "es": "Bolsas de producto",
       "en": "Product pouches"
-     }
+     },
+     "photo": "foto-pouch.webp"
     },
     {
      "key": "storefront",
      "label": {
       "es": "Fachada y aviso",
       "en": "Storefront and sign"
-     }
+     },
+     "photo": "foto-storefront.webp"
     },
     {
      "key": "tshirt",
      "label": {
       "es": "Camiseta",
       "en": "T-shirt"
-     }
+     },
+     "photo": "foto-tshirt.webp"
     },
     {
      "key": "bag",
@@ -7252,7 +7308,8 @@
      "label": {
       "es": "Firma de correo y presentación",
       "en": "Email signature and slides"
-     }
+     },
+     "photo": "foto-digital.webp"
     }
    ]
   },
@@ -7475,7 +7532,8 @@
      "label": {
       "es": "Camiseta",
       "en": "T-shirt"
-     }
+     },
+     "photo": "foto-tshirt.webp"
     },
     {
      "key": "hangtag",
@@ -7532,7 +7590,8 @@
      "label": {
       "es": "Firma de correo y presentación",
       "en": "Email signature and slides"
-     }
+     },
+     "photo": "foto-digital.webp"
     }
    ]
   },
@@ -7731,7 +7790,8 @@
      "label": {
       "es": "Producto y empaque",
       "en": "Product and wrapper"
-     }
+     },
+     "photo": "foto-popsicle.webp"
     },
     {
      "key": "cup",
@@ -7746,7 +7806,8 @@
      "label": {
       "es": "Fachada y aviso",
       "en": "Storefront and sign"
-     }
+     },
+     "photo": "foto-storefront.webp"
     },
     {
      "key": "poster",
@@ -7761,14 +7822,16 @@
      "label": {
       "es": "Camiseta",
       "en": "T-shirt"
-     }
+     },
+     "photo": "foto-tshirt.webp"
     },
     {
      "key": "cap",
      "label": {
       "es": "Gorra",
       "en": "Cap"
-     }
+     },
+     "photo": "foto-cap.webp"
     }
    ],
    "corporate": [
@@ -7785,7 +7848,8 @@
      "label": {
       "es": "Firma de correo y presentación",
       "en": "Email signature and slides"
-     }
+     },
+     "photo": "foto-digital.webp"
     }
    ]
   },
@@ -7984,7 +8048,8 @@
      "label": {
       "es": "Fachada y aviso",
       "en": "Storefront and sign"
-     }
+     },
+     "photo": "foto-storefront.webp"
     },
     {
      "key": "jar",
@@ -7999,7 +8064,8 @@
      "label": {
       "es": "Delantal",
       "en": "Apron"
-     }
+     },
+     "photo": "foto-apron.webp"
     },
     {
      "key": "cards",
@@ -8014,7 +8080,8 @@
      "label": {
       "es": "Camiseta",
       "en": "T-shirt"
-     }
+     },
+     "photo": "foto-tshirt.webp"
     },
     {
      "key": "phone",
@@ -8039,7 +8106,8 @@
      "label": {
       "es": "Firma de correo y presentación",
       "en": "Email signature and slides"
-     }
+     },
+     "photo": "foto-digital.webp"
     }
    ]
   },
@@ -8278,14 +8346,16 @@
      "label": {
       "es": "Camiseta",
       "en": "T-shirt"
-     }
+     },
+     "photo": "foto-tshirt.webp"
     },
     {
      "key": "cap",
      "label": {
       "es": "Gorra",
       "en": "Cap"
-     }
+     },
+     "photo": "foto-cap.webp"
     },
     {
      "key": "poster",
@@ -8300,7 +8370,8 @@
      "label": {
       "es": "Bolsa de tela",
       "en": "Tote bag"
-     }
+     },
+     "photo": "foto-tote.webp"
     }
    ],
    "corporate": [
@@ -8317,7 +8388,8 @@
      "label": {
       "es": "Firma de correo y presentación",
       "en": "Email signature and slides"
-     }
+     },
+     "photo": "foto-digital.webp"
     }
    ]
   },
@@ -8532,14 +8604,16 @@
      "label": {
       "es": "Bolsas de producto",
       "en": "Product pouches"
-     }
+     },
+     "photo": "foto-pouch.webp"
     },
     {
      "key": "storefront",
      "label": {
       "es": "Fachada y aviso",
       "en": "Storefront and sign"
-     }
+     },
+     "photo": "foto-storefront.webp"
     },
     {
      "key": "menu",
@@ -8554,7 +8628,8 @@
      "label": {
       "es": "Delantal",
       "en": "Apron"
-     }
+     },
+     "photo": "foto-apron.webp"
     }
    ],
    "corporate": [
@@ -8571,7 +8646,8 @@
      "label": {
       "es": "Firma de correo y presentación",
       "en": "Email signature and slides"
-     }
+     },
+     "photo": "foto-digital.webp"
     }
    ]
   },
@@ -8794,7 +8870,8 @@
      "label": {
       "es": "Camiseta",
       "en": "T-shirt"
-     }
+     },
+     "photo": "foto-tshirt.webp"
     },
     {
      "key": "idbadge",
@@ -8827,7 +8904,8 @@
      "label": {
       "es": "Firma de correo y presentación",
       "en": "Email signature and slides"
-     }
+     },
+     "photo": "foto-digital.webp"
     }
    ]
   },
@@ -9066,7 +9144,8 @@
      "label": {
       "es": "Bolsa de tela",
       "en": "Tote bag"
-     }
+     },
+     "photo": "foto-tote.webp"
     }
    ],
    "corporate": [
@@ -9083,7 +9162,8 @@
      "label": {
       "es": "Firma de correo y presentación",
       "en": "Email signature and slides"
-     }
+     },
+     "photo": "foto-digital.webp"
     }
    ]
   },
@@ -9282,7 +9362,8 @@
      "label": {
       "es": "Vehículo",
       "en": "Vehicle"
-     }
+     },
+     "photo": "foto-van.webp"
     },
     {
      "key": "box",
@@ -9297,14 +9378,16 @@
      "label": {
       "es": "Gorra",
       "en": "Cap"
-     }
+     },
+     "photo": "foto-cap.webp"
     },
     {
      "key": "tshirt",
      "label": {
       "es": "Camiseta",
       "en": "T-shirt"
-     }
+     },
+     "photo": "foto-tshirt.webp"
     },
     {
      "key": "app",
@@ -9337,7 +9420,8 @@
      "label": {
       "es": "Firma de correo y presentación",
       "en": "Email signature and slides"
-     }
+     },
+     "photo": "foto-digital.webp"
     }
    ]
   }
