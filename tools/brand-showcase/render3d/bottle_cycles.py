@@ -11,7 +11,8 @@ import bpy
 
 KIND, LABEL, FOIL, OUT, GLASS, BACK, CAP = sys.argv[1:8]
 SAMPLES = int(sys.argv[8]) if len(sys.argv) > 8 else 128
-LIQUID = sys.argv[9] if len(sys.argv) > 9 else None
+LIQUID = sys.argv[9] if len(sys.argv) > 9 and sys.argv[9] != "-" else None
+CONTENT = sys.argv[10] if len(sys.argv) > 10 else "cream"   # jars: cream (opaque) or honey (clear amber)
 
 
 def lin(h):
@@ -149,6 +150,10 @@ elif KIND == "beer":
              (0.115, 2.25), (0.112, 2.62), (0.125, 2.65), (0.125, 2.7)]
     LAB = (0.32, 1.12, 2.6)
     FILL = 2.15
+elif KIND == "jar":
+    OUTER = [(0, 0.02), (0.62, 0), (0.68, 0.03), (0.7, 0.1), (0.7, 1.12), (0.67, 1.2), (0.58, 1.25), (0.57, 1.4)]
+    LAB = (0.26, 1.0, 2.7)
+    FILL = 1.08
 else:  # juice
     OUTER = [(0, 0.02), (0.31, 0), (0.35, 0.02), (0.36, 0.1), (0.36, 1.45), (0.35, 1.6), (0.28, 1.75), (0.2, 1.85),
              (0.19, 1.95), (0.19, 2.05)]
@@ -175,14 +180,14 @@ def liquid(outer, level):
     return pts
 
 
-glass = glass_mat("glass", GLASS, {"wine": 9.0, "beer": 1.5, "juice": 0.4}[KIND])
-liq_hex = LIQUID or {"wine": "#2a0308", "beer": "#c77412", "juice": "#ff6f8c"}[KIND]
+glass = glass_mat("glass", GLASS, {"wine": 9.0, "beer": 1.5, "juice": 0.4, "jar": 0.3}[KIND])
+liq_hex = LIQUID or {"wine": "#2a0308", "beer": "#c77412", "juice": "#ff6f8c", "jar": "#efe6d6"}[KIND]
 liq = bpy.data.materials.new("liquid")
 liq.use_nodes = True
 lb = liq.node_tree.nodes["Principled BSDF"]
 lb.inputs["Base Color"].default_value = lin(liq_hex)
 lb.inputs["Roughness"].default_value = 0.05
-if KIND == "juice":   # cloudy fruit juice: mostly diffuse with a bit of subsurface glow
+if KIND == "juice" or (KIND == "jar" and CONTENT != "honey"):   # cloudy juice, creams and wax: mostly diffuse with a bit of subsurface glow
     lb.inputs["Subsurface Weight"].default_value = 0.6
     lb.inputs["Subsurface Radius"].default_value = (0.4, 0.15, 0.1)
     lb.inputs["Subsurface Scale"].default_value = 0.05
@@ -190,7 +195,7 @@ else:
     lb.inputs["Transmission Weight"].default_value = 1.0
     vol = liq.node_tree.nodes.new("ShaderNodeVolumeAbsorption")
     vol.inputs["Color"].default_value = lin(liq_hex)
-    vol.inputs["Density"].default_value = 30 if KIND == "wine" else 1.6
+    vol.inputs["Density"].default_value = 30 if KIND == "wine" else 1.4 if KIND == "jar" else 1.6
     liq.node_tree.links.new(vol.outputs["Volume"], liq.node_tree.nodes["Material Output"].inputs["Volume"])
 
 paper = image_mat("paper", LABEL, 0.75 if KIND != "juice" else 0.45)
@@ -199,7 +204,7 @@ capm = principled("cap", **{"Base Color": lin(CAP), "Roughness": 0.3, "Metallic"
 gold = principled("gold", **{"Base Color": (0.86, 0.62, 0.26, 1), "Metallic": 1.0, "Roughness": 0.2})
 steel = principled("steel", **{"Base Color": lin(CAP), "Metallic": 0.9, "Roughness": 0.28})
 
-PLACES = ((-0.5, 0.25, 0.86, 14), (0.42, -0.15, 1.0, -8))
+PLACES = ((-0.95, 0.3, 0.78, 12), (0.75, -0.25, 1.0, -6)) if KIND == "jar" else ((-0.5, 0.25, 0.86, 14), (0.42, -0.15, 1.0, -8))
 for x, y, s, rot in PLACES:
     parts = []
     b = lathe("bottle", shell(OUTER))
@@ -226,6 +231,11 @@ for x, y, s, rot in PLACES:
     elif KIND == "beer":
         c = lathe("crown", [(0, tz + 0.06), (0.135, tz + 0.055), (0.145, tz + 0.02), (0.14, tz - 0.06), (0.13, tz - 0.06)], 21)
         c.data.materials.append(steel)
+        parts.append(c)
+    elif KIND == "jar":
+        lidm = principled("lid", **{"Base Color": lin(CAP), "Metallic": 0.9, "Roughness": 0.25})
+        c = lathe("lid", [(0, 1.66), (0.6, 1.66), (0.64, 1.63), (0.645, 1.36), (0.61, 1.34)])
+        c.data.materials.append(lidm)
         parts.append(c)
     else:
         c = lathe("cap", [(0, tz + 0.2), (0.2, tz + 0.2), (0.21, tz + 0.18), (0.21, tz - 0.06), (0.195, tz - 0.07)])
@@ -265,13 +275,13 @@ cam.dof.use_dof = True
 cam.dof.aperture_fstop = 2.4
 co = bpy.data.objects.new("cam", cam)
 sc.collection.objects.link(co)
-dist_ = {"wine": 3.2, "beer": 3.4, "juice": 4.1}[KIND] * top
+dist_ = {"wine": 3.2, "beer": 3.4, "juice": 4.1, "jar": 6.6}[KIND] * top
 co.location = (-0.05, -dist_, top * 0.6)
 co.rotation_euler = (math.radians(88), 0, 0)
 sc.camera = co
 focus = bpy.data.objects.new("focus", None)
 sc.collection.objects.link(focus)
-focus.location = (0.42, -0.15, top * 0.4)
+focus.location = (0.75 if KIND == "jar" else 0.42, -0.15, top * 0.4)
 cam.dof.focus_object = focus
 sc.render.filepath = OUT
 bpy.ops.render.render(write_still=True)

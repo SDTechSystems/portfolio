@@ -18,10 +18,10 @@ Mostrar a clientes potenciales un portafolio de **36 marcas de ejemplo**, todas 
 | Acceso desde la portada y el menú, filtros por estilo, página por marca | Publicado |
 | Imagen corporativa (papelería, firma de correo, presentación) | Publicado |
 | Botón de WhatsApp por marca | Publicado |
-| Fotos 3D realistas: 204 de 288 mockups | Publicado (PR #6) |
-| Monogramas sin letras superpuestas ni líneas divisorias (Maison Velour, Sable & Co., Casa Duvall) | Publicado (PR #7) |
+| Fotos 3D realistas: todos los mockups de producto e imagen corporativa | Publicado |
+| Logos sin superposiciones ni líneas divisorias (Maison Velour, Sable & Co., Casa Duvall, Ludovica, Regalia, Villa Serena) y subtítulo de Miel de Monte | Publicado |
 
-Los 84 mockups que siguen como ilustración vectorial son camisetas, fachadas, tote bags, gorras, delantales, empaques flexibles, vans, paleta, barra de chocolate y la pieza "digital" de imagen corporativa. Son los que el cliente dijo que **se ven menos naturales**.
+Todas las piezas tienen foto 3D: camisetas, tote bags, gorras y delantales (tela con textura y pliegues), fachadas, vans, empaques flexibles, chocolate, paleta y la pieza digital (presentación en portátil y firma de correo en tableta). Los frascos son de vidrio real en Blender.
 
 ## Cómo está construido
 
@@ -41,9 +41,9 @@ Su `README.md` tiene el detalle. En resumen:
 
 ### Fotos 3D (sin servicios de IA): `tools/brand-showcase/render3d/`
 - `art.py`: arte de impresión con las tipografías de cada marca (tarjetas, hoja membretada, etiquetas, latas, menús…).
-- `studio.html`: 18 escenas en Three.js 0.169: tarjetas, taza, caja, bolsa, vaso, lata, frasco, envases cosméticos, papelería, afiche, menú, aviso de pared, celular, app, portátil, etiqueta colgante, tarjeta de pago y carnet con lanyard.
+- `studio.html`: 28 escenas en Three.js 0.169: tarjetas, taza, caja, bolsa, vaso, lata, frasco, envases cosméticos, papelería, afiche, menú, aviso de pared, celular, app, portátil, etiqueta colgante, tarjeta de pago, carnet con lanyard, camiseta, tote, gorra, delantal, empaque flexible, chocolate, paleta, fachada, van y pieza digital.
 - `render.cjs`: render por lotes en Chromium sin ventana con supersampling 2×. Uso: `node render.cjs [slug | escena | slug/escena] [--force]`.
-- `bottle_cycles.py` y `bottles.sh`: botellas de vino, cerveza y jugo en **Blender Cycles** (módulo `bpy`) para Orvieto, Casa Duvall, Páramo y Guayaba Club.
+- `bottle_cycles.py` y `bottles.sh`: botellas de vino, cerveza y jugo (Orvieto, Casa Duvall, Páramo, Guayaba Club) y frascos de vidrio con crema, cera o miel (Alma Botánica, Sereno, Lino, Miel de Monte, La Navaja) en **Blender Cycles** (módulo `bpy`). `BOTTLES=0` o `JARS=0` omite un grupo.
 - `publish.py`: convierte los PNG a WebP en `public/marcas/` y regenera el JSON.
 - `sheet.py`: hoja de contactos para revisar los renders.
 - Requisitos: Node.js, Python 3.11+, Pillow, Chromium/Playwright; `bpy` solo para las botellas. Un render tarda unos 10 a 50 s; una botella en Blender, 1 a 3 min.
@@ -72,12 +72,9 @@ El workflow `.github/workflows/` corre lo mismo antes de publicar en Pages.
 
 ## Próximos pasos sugeridos
 
-1. Llevar a 3D las piezas que siguen como ilustración, empezando por camiseta y fachada como muestra para aprobación:
-   - ropa y textiles en Blender, con tela, pliegues y el logo siguiendo la tela;
-   - fachadas y vans como escenas con materiales y luz exterior.
-2. Pasar los frascos a vidrio real en Blender; hoy parecen cerámica pintada.
-3. Revisar logo por logo las 36 marcas buscando superposiciones o detalles poco profesionales.
-4. En algunas etiquetas de frascos y botellas, agrandar el logo.
+1. Generación de imágenes con IA: queda pendiente; el cliente buscará otra opción. Si se retoma, usarla solo para mockups (el logo real como referencia), nunca para los logos.
+2. Si se agregan marcas, revisar sus logos con la hoja de contactos (sin letras superpuestas) y renderizar sus mockups con `render.cjs <slug>`.
+3. Posibles mejoras de las escenas 3D: ropa colgada en gancho (hoy es plegada), van con más detalle de carrocería y fachadas con variantes de material (ladrillo, madera).
 
 ## Convenciones del repositorio
 
