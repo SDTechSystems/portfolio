@@ -6,6 +6,8 @@ import type { Locale } from './catalog';
 export type Brand = (typeof showcase.brands)[number];
 export const brands: Brand[] = showcase.brands;
 export const brandStyles = showcase.styles;
+/** Image for a mockup: the 3D studio photo when it exists, otherwise the flat illustration. */
+export const mockFile = (m: { key: string; photo?: string }) => m.photo ?? `mockup-${m.key}.svg`;
 export const styleLabel = (id: string, locale: Locale) => brandStyles.find(s => s.id === id)?.label[locale] ?? id;
 
 // One of each direction for the home page teaser.

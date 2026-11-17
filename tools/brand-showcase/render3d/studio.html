@@ -137,11 +137,11 @@ S.mug = async () => {
   async function mug(x, z, rot, s, body, surface) {
     const g = new THREE.Group(); const R = .78, Hh = 1.9, t = .06;
     const ceramic = new THREE.MeshPhysicalMaterial({ color: body, roughness: .2, clearcoat: 1, clearcoatRoughness: .08, envMapIntensity: .9 });
-    g.add(lathe([[0, 0], [R - .1, 0], [R - .02, .03], [R, .12], [R, Hh - .02], [R - .02, Hh], [R - t, Hh], [R - t, .14], [0, .14]], ceramic));
+    g.add(lathe([[0, 0], [R - .1, 0], [R - .02, .03], [R, .12], [R, Hh - .04], [R - .006, Hh - .01], [R - .02, Hh], [R - t + .02, Hh], [R - t + .004, Hh - .012], [R - t, Hh - .04], [R - t, .14], [0, .14]], ceramic, 192));
     const coffee = new THREE.Mesh(new THREE.CircleGeometry(R - t - .005, 64), new THREE.MeshPhysicalMaterial({ color: 0x2b170c, roughness: .15, clearcoat: 1 }));
     coffee.rotation.x = -Math.PI / 2; coffee.position.y = Hh - .22; g.add(coffee);
-    const handle = new THREE.Mesh(new THREE.TorusGeometry(.42, .085, 24, 64, Math.PI * 1.15), ceramic);
-    handle.rotation.z = -Math.PI * .575; handle.position.set(R + .16, Hh * .52, 0); handle.scale.set(1, 1.25, 1); handle.castShadow = true; g.add(handle);
+    const hc = new THREE.CatmullRomCurve3([[R - .04, 1.52], [R + .2, 1.56], [R + .44, 1.42], [R + .5, 1.05], [R + .4, .66], [R + .18, .5], [R - .04, .5]].map(([x, y]) => new THREE.Vector3(x, y, 0)));
+    const handle = new THREE.Mesh(new THREE.TubeGeometry(hc, 96, .075, 24), ceramic); handle.scale.z = 1.25; handle.castShadow = true; g.add(handle);
     const { img, color } = await logoFor(surface, 'v');
     const L = 1.9, Lh = 1.35;
     const print = band(R + .002, Lh, L, new THREE.MeshPhysicalMaterial({ map: tex(await layer(img, 1400, 1000, [700, 500, 760, 760], color)), transparent: true, roughness: .25, clearcoat: 1 }));
@@ -155,7 +155,7 @@ S.mug = async () => {
 
 S.box = async () => {
   studio(lightBackdrop());
-  camera.position.set(3.9, 3.4, 6.0); camera.lookAt(-.35, .75, .2);
+  camera.position.set(3.7, 3.6, 6.7); camera.lookAt(-.62, .68, .35);
   const Sx = 2048;
   const mkFace = async (kind) => { const [c, g] = canvas(Sx, Sx, strong); if (kind === 'front' && !GOLD) { const { img, color } = await logoFor(strong, 'v'); put(g, await layer(img, Sx, Sx, [Sx / 2, Sx / 2, 1150, 1150], color)); } return grain(c, 8); };
   const sideC = await (async () => { const [c, g] = canvas(Sx, Sx, mix(strong, '#000', .05)); const sym = await logo('logo-simbolo.svg'); const t = tint(sym, onDark ? (GOLD || '#fff') : '#fff', 400, 400);
@@ -166,19 +166,18 @@ S.box = async () => {
   m.position.y = .75; m.rotation.y = .5; m.castShadow = m.receiveShadow = true; scene.add(m);
   if (GOLD) {
     const fa = tex(alphaOf(await layer(await logo('logo-horizontal.svg'), Sx, 1280, [Sx / 2, 640, 1500, 560], '#fff', 1)), false);
-    const f = new THREE.Mesh(new THREE.PlaneGeometry(2.4, 1.5), goldMat(fa)); f.position.z = 1.2011; m.add(f);
+    const fm = goldMat(fa); Object.assign(fm, { color: new THREE.Color(0xe6c06a), metalness: .78, roughness: .3, envMapIntensity: 2.2 }); const f = new THREE.Mesh(new THREE.PlaneGeometry(2.4, 1.5), fm); f.position.z = 1.2011; m.add(f);
     const ta = tex(alphaOf(await layer(await logo('logo-simbolo.svg'), Sx, Sx, [Sx / 2, Sx / 2, 900, 900], '#fff', 1)), false);
     const t = new THREE.Mesh(new THREE.PlaneGeometry(2.4, 2.4), goldMat(ta)); t.rotation.x = -Math.PI / 2; t.position.y = .7511; m.add(t);
   }
   const seam = new THREE.Mesh(new THREE.BoxGeometry(2.42, .012, 2.42), new THREE.MeshStandardMaterial({ color: mix(strong, '#000', .5), roughness: .8 })); seam.position.y = .25; m.add(seam);
-  const rib = new THREE.Mesh(new THREE.BoxGeometry(.18, 1.505, 2.405), new THREE.MeshPhysicalMaterial({ color: SEC, roughness: .35, sheen: 1, sheenColor: 0xffffff }));
-  rib.rotation.y = Math.PI / 2; rib.position.z = -.62; m.add(rib);
   const lightFace = (() => { const [c] = canvas(Sx, Sx, lightC); return grain(c, 8); })();
   const { img, color } = await logoFor(lightC, 'h');
   const lf = (() => { const [c, g] = canvas(Sx, Sx, lightC); return [c, g]; })(); put(lf[1], await layer(img, Sx, Sx, [Sx / 2, Sx / 2, 1500, 700], color));
-  const m2 = new THREE.Mesh(new RoundedBoxGeometry(1.3, .7, 1.3, 6, .03), [mat(lightFace), mat(lightFace), mat(grain(lf[0], 8)), mat(lightFace), mat(lightFace), mat(lightFace)]);
-  m2.position.set(-2.1, .35, 1.1); m2.rotation.y = -.35; m2.castShadow = m2.receiveShadow = true; scene.add(m2);
-  contactShadow(.1, .1, 4.2, 4.2, .45); contactShadow(-2.05, 1.15, 2.4, 2.4, .45);
+  const topT = tex(grain(lf[0], 8)); topT.center.set(.5, .5); topT.rotation = 0;
+  const m2 = new THREE.Mesh(new RoundedBoxGeometry(1.4, .62, 1.4, 6, .03), [mat(lightFace), mat(lightFace), paperMat(topT, .6), mat(lightFace), mat(lightFace), mat(lightFace)]);
+  m2.position.set(-1.75, .31, 1.55); m2.rotation.y = .18; m2.castShadow = m2.receiveShadow = true; scene.add(m2);
+  contactShadow(.1, .1, 4.2, 4.2, .45); contactShadow(-1.72, 1.6, 2.4, 2.4, .45);
 };
 
 S.bag = async () => {

@@ -11,7 +11,7 @@ sys.path.insert(0, str(HERE.parent))
 
 from build import all_brands  # noqa: E402
 from lib import canvas, contrast, mix  # noqa: E402
-from mockups import B, bars, bold, headline, logo_on, pal, pattern_tile, rr, stack_lines  # noqa: E402
+from mockups import B, bars, bold, dist, headline, logo_on, pal, pattern_tile, rr, stack_lines  # noqa: E402
 from pieces import best_ink  # noqa: E402
 
 OUT = HERE.parent / ".cache" / "art"
@@ -148,6 +148,54 @@ def menu(b, p):
     return canvas(W, H, o)
 
 
+BOTTLE = {  # kind, label lines
+    "orvieto": ("wine", "ROSSO DELLA CASA", "Selezione Orvieto"),
+    "casa-duvall": ("wine", "RESERVA · TINTO", "Cosecha seleccionada"),
+    "paramo": ("beer", "IPA DE ALTURA", "Cerveza artesanal · 330 ml"),
+    "guayaba-club": ("juice", "GUAYABA + MANDARINA", "Jugo natural · 350 ml"),
+}
+
+
+def bottle_label(b, p, foil_only=False):
+    """Wrap-around label (front panel centred). Gold brands get the symbol as a separate foil layer."""
+    kind, l1, l2 = BOTTLE[b.slug]
+    W, H = 1400, 1100
+    gold = gold_of(b)
+    if kind == "wine":
+        paper = mix(p.lbg, "#E9DFCC", .5)
+    elif kind == "beer":
+        paper = p.sbg
+    else:
+        paper = "#FFFFFF"
+    ink = best_ink(b, paper)
+    if foil_only:
+        return canvas(W, H, b.sym("negro").fit(W / 2 - 190, 110, 380, 400).markup.replace("#111111", "#FFFFFF"))
+    o = rr(0, 0, W, H, 0, paper)
+    if kind == "wine":
+        o += f'<rect x="330" y="40" width="740" height="{H - 80}" fill="none" stroke="{gold or ink}" stroke-width="4"/>'
+        o += f'<rect x="346" y="56" width="708" height="{H - 112}" fill="none" stroke="{gold or ink}" stroke-width="1.5"/>'
+        if not gold:
+            o += logo_on(b, paper, "s").fit(W / 2 - 190, 110, 380, 400).markup
+        word = b.word("negro", "center")
+        word.markup = word.markup.replace("#111111", ink)
+        o += word.fit(390, 600, 620, 170).markup
+        t1 = B(b, l1, 34, ink, bold(b), tracking=.18)
+        o += t1.at((W - t1.w) / 2, 840).markup
+        t2 = B(b, l2, 28, ink)
+        o += t2.at((W - t2.w) / 2, 905).markup
+    else:
+        o += logo_on(b, paper, "v").fit(W / 2 - 300, 120, 600, 560).markup
+        band = p.sec if dist(p.sec, paper) > 60 else ink
+        o += rr(0, 760, W, 110, 0, band)
+        t1 = B(b, l1, 46, best_ink(b, band), bold(b), tracking=.16)
+        if t1.ink.w > W * .7:
+            t1 = t1.scale(W * .7 / t1.ink.w)
+        o += t1.at((W - t1.w) / 2, 788).markup
+        t2 = B(b, l2, 30, ink)
+        o += t2.at((W - t2.w) / 2, 930).markup
+    return canvas(W, H, o)
+
+
 ARTS = {"card-front": card_front, "card-back": card_back, "letterhead": letterhead, "envelope": envelope,
         "label": label, "can": can_wrap, "tag-front": tag_front, "tag-back": tag_back, "paycard": paycard, "menu": menu}
 
@@ -159,6 +207,9 @@ def build(b):
     for name, fn in ARTS.items():
         (d / f"{name}.svg").write_text(fn(b, p), encoding="utf-8")
     (d / "card-back-plain.svg").write_text(card_back(b, p, False), encoding="utf-8")
+    if b.slug in BOTTLE:
+        (d / "bottle-label.svg").write_text(bottle_label(b, p), encoding="utf-8")
+        (d / "bottle-foil.svg").write_text(bottle_label(b, p, True), encoding="utf-8")
 
 
 if __name__ == "__main__":
