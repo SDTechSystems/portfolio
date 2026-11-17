@@ -574,7 +574,7 @@ async function testIntakeForms() {
 // Brand design showcase: gallery filters, brand pages, WhatsApp hand-off, zoom, assets and accessibility.
 async function testBrandShowcase() {
   const data = JSON.parse(fs.readFileSync(path.join(__dirname, "../src/data/brand-showcase.json"), "utf8"));
-  assert.equal(data.brands.length, 24, "24 sample brands");
+  assert.equal(data.brands.length, 36, "36 sample brands");
   for (const lang of ["es", "en"]) {
     const context = await browser.newContext({ reducedMotion: "reduce" });
     const page = await context.newPage();
@@ -588,7 +588,7 @@ async function testBrandShowcase() {
     assert.equal(await page.locator("#marcas .brand-card").count(), 6, `${lang}: home teaser shows 6 brands`);
     await nav.click();
     await page.waitForURL(`**/${lang}/marcas/`);
-    assert.equal(await page.locator(".brand-card").count(), 24, `${lang}: gallery lists 24 brands`);
+    assert.equal(await page.locator(".brand-card").count(), data.brands.length, `${lang}: gallery lists every brand`);
     for (const style of data.styles) {
       await page.locator(`[data-brand-filter="${style.id}"]`).click();
       const visible = await page.locator(".brand-card:not([hidden])").count();
@@ -597,7 +597,7 @@ async function testBrandShowcase() {
     await page.locator('[data-brand-filter="all"]').click();
     const axe = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa"]).analyze();
     assert.deepEqual(axe.violations.map((v) => v.id), [], `${lang}: gallery accessibility`);
-    for (const slug of ["sereno", "voltio", "la-navaja"]) {
+    for (const slug of ["sereno", "voltio", "la-navaja", "maison-velour", "villa-serena"]) {
       const brand = data.brands.find((b) => b.slug === slug);
       await page.goto(`${base}${lang}/marcas/${slug}/`);
       await page.evaluate(async () => { for (let y = 0; y < document.body.scrollHeight; y += 700) { window.scrollTo(0, y); await new Promise((r) => setTimeout(r, 30)); } });
@@ -624,7 +624,7 @@ async function testBrandShowcase() {
     }
     assert.deepEqual(errors, [], `${lang}: browser errors`);
     assert.deepEqual(failed, [], `${lang}: failed requests`);
-    console.log(`PASS ${lang}/marcas: menu, filters, 3 brand pages, WhatsApp hand-off, zoom, images, accessibility and reflow`);
+    console.log(`PASS ${lang}/marcas: menu, filters, 5 brand pages, WhatsApp hand-off, zoom, images, accessibility and reflow`);
     await context.close();
   }
 }

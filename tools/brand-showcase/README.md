@@ -1,6 +1,6 @@
 # Portafolio de diseño de marca
 
-Genera las 24 marcas de ejemplo que se muestran en `/es/marcas/` y `/en/marcas/`: logos y versiones, piezas del paquete, guía de uso, mockups de productos e imagen corporativa. Todo sale como SVG con el texto convertido a trazos, así que se ve igual en cualquier navegador sin cargar fuentes.
+Genera las 36 marcas de ejemplo que se muestran en `/es/marcas/` y `/en/marcas/`: logos y versiones, piezas del paquete, guía de uso, mockups de productos e imagen corporativa. Todo sale como SVG con el texto convertido a trazos, así que se ve igual en cualquier navegador sin cargar fuentes.
 
 Las marcas son ficticias y así se indica en el sitio. Las tipografías son de Google Fonts con licencia SIL Open Font License 1.1 o Apache 2.0, ambas libres para uso comercial.
 
@@ -22,7 +22,7 @@ python3 build.py sereno   # o solo algunas
 
 | Archivo | Contenido |
 |---|---|
-| `brands1.py`, `brands2.py`, `brands3.py` | Cada marca: nombre, sector, concepto, eslogan, paleta, tipografías, símbolo, logotipo y productos (es/en). |
+| `brands1.py` a `brands4.py` (`brands4.py`: colección de lujo; `ornaments.py`: monogramas y ornamentos) | Cada marca: nombre, sector, concepto, eslogan, paleta, tipografías, símbolo, logotipo y productos (es/en). |
 | `model.py` | Versiones del logo (principal, vertical, símbolo, inversa, una tinta) y ayudas de dibujo. |
 | `pieces.py` | Perfil, portada, publicación, stickers, muestras tipográficas, área de protección, usos incorrectos y portada de galería. |
 | `mockups.py` | Plantillas de productos y de imagen corporativa (papelería, firma de correo y presentación). |

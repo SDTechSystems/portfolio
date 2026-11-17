@@ -9,4 +9,7 @@ NOTES = {
     "el-tranvia": {"pouch": ["250 g", "500 g"], "kraft": True, "menu": ["Cafés", "Postres", "Antojos"]},
     "hacienda-magnolia": {"menu": ["Desayuno", "Almuerzo", "Cena"]},
     "ambar": {"bars": ["70% CACAO", "55% CACAO"]},
+    "orvieto": {"glass": "#3B0F18", "menu": ["Antipasti", "Pastas", "Vinos"]},
+    "casa-duvall": {"glass": "#2E0A12", "menu": ["Tintos", "Blancos", "Maridajes"]},
+    "aurelia": {"menu": ["Desayunos", "Rituales de spa", "Cena"]},
 }

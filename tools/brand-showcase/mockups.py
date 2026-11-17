@@ -996,7 +996,8 @@ CORPORATE = ["stationery", "digital"]
 
 def render(b, key):
     fn, label = TEMPLATES[key]
-    return canvas(W, H, fn(b), f"{b.name} · {label['es']}", DEFS)
+    from lib import foil
+    return foil(canvas(W, H, fn(b), f"{b.name} · {label['es']}", DEFS), b.notes.get("foil"))
 
 
 def build(b, out):

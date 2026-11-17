@@ -290,7 +290,7 @@ def build(b, out):
         "perfil.svg": profile(b), "banner-portada.svg": cover_banner(b), "post-lanzamiento.svg": launch_post(b),
         "sticker-logo.svg": sticker_round(b), "sticker-simbolo.svg": sticker_symbol(b), "sticker-frase.svg": sticker_phrase(b),
         "tipo-titulos.svg": specimen(b, "display"), "tipo-textos.svg": specimen(b, "body"),
-        "guia-area.svg": clear_space(b), "portada.svg": cover(b),
+        "guia-area.svg": clear_space(b), "portada.svg": __import__("lib").foil(cover(b), b.notes.get("foil")),
     }
     for k in ("deformar", "rotar", "colores", "contraste"):
         files[f"no-{k}.svg"] = misuse(b, k)

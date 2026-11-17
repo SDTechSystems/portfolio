@@ -345,3 +345,16 @@ def pbounds(*items):
 
 def rot(deg, cx, cy):
     return Transform().translate(cx, cy).rotate(math.radians(deg)).translate(-cx, -cy)
+
+
+def foil(svg, gold):
+    """Presentation-only gold foil: swap a flat gold for a metallic gradient."""
+    if not gold:
+        return svg
+    import re as _re
+    grad = (f'<linearGradient id="foil" x1="0" y1="0" x2="1" y2="1">'
+            f'<stop offset="0" stop-color="{mix(gold, "#FFFFFF", 0.38)}"/><stop offset=".32" stop-color="{gold}"/>'
+            f'<stop offset=".55" stop-color="{mix(gold, "#000000", 0.28)}"/><stop offset=".78" stop-color="{mix(gold, "#FFFFFF", 0.3)}"/>'
+            f'<stop offset="1" stop-color="{mix(gold, "#000000", 0.12)}"/></linearGradient>')
+    svg = _re.sub(rf'fill="{gold}"', 'fill="url(#foil)"', svg, flags=_re.I)
+    return svg.replace(">", ">" + "<defs>" + grad + "</defs>", 1) if "<svg" in svg[:5] else svg
