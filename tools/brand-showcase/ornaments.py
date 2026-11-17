@@ -27,13 +27,23 @@ def outline(g, tr, gap):
 
 
 def weave(a, ta, b, tb, gap, fa, fb, split_y):
-    """Two interlaced letters: b over a above split_y, a over b below it."""
+    """Two interlaced letters: b passes over a above split_y and under it below.
+
+    Each letter is drawn whole (no clipped halves, so no seam); only the gap cuts are limited to their half."""
     top, bot = uid("w"), uid("w")
-    up = knock(letter(a, ta, fa), outline(b, tb, gap)) + letter(b, tb, fb)
-    down = knock(letter(b, tb, fb), outline(a, ta, gap)) + letter(a, ta, fa)
-    return (f'<clipPath id="{top}"><rect x="-500" y="-500" width="1400" height="{n(split_y + 500)}"/></clipPath>'
-            f'<clipPath id="{bot}"><rect x="-500" y="{n(split_y)}" width="1400" height="1400"/></clipPath>'
-            f'<g clip-path="url(#{top})">{up}</g><g clip-path="url(#{bot})">{down}</g>')
+    clips = (f'<clipPath id="{top}"><rect x="-500" y="-500" width="1400" height="{n(split_y + 500)}"/></clipPath>'
+             f'<clipPath id="{bot}"><rect x="-500" y="{n(split_y)}" width="1400" height="1400"/></clipPath>')
+    a_cut = knock(letter(a, ta, fa), f'<g clip-path="url(#{top})">{outline(b, tb, gap)}</g>')
+    b_cut = knock(letter(b, tb, fb), f'<g clip-path="url(#{bot})">{outline(a, ta, gap)}</g>')
+    return clips + a_cut + b_cut
+
+
+def pair(a, b, cx, cy, gap, fa, fb, dy=0.0, sb=1.0):
+    """Two letters side by side, centred on (cx, cy) with a clean gap: a monogram that never overlaps."""
+    wa = a[1].x1 - a[1].x0
+    wb = (b[1].x1 - b[1].x0) * sb
+    left = cx - (wa + gap + wb) / 2
+    return letter(a, at(a, left + wa / 2, cy), fa) + letter(b, at(b, left + wa + gap + wb / 2, cy + dy, sb), fb)
 
 
 def over(a, ta, b, tb, gap, fa, fb):

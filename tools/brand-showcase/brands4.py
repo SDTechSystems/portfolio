@@ -1,7 +1,7 @@
 """Brands 25–36: luxury collection — interlaced monograms, fine-line emblems and script signatures."""
 from lib import Rect, n
 from model import Box, Brand, ruled, text, vstack
-from ornaments import (at, crown, dot_ring, flourish, glyph, laurel, leaf, letter, line, mirror, outline, over, rays,
+from ornaments import (at, pair, crown, dot_ring, flourish, glyph, laurel, leaf, letter, line, mirror, outline, over, rays,
                        ring, sparkle, ticks, weave)
 from model import knock
 
@@ -79,9 +79,9 @@ aurelia = lux(
 # 26 · MAISON VELOUR · perfumery ---------------------------------------------------
 def velour_sym(c, mono):
     g = c["g"]
-    M = glyph("bodoni-moda", 500, "M", 72)
-    V = glyph("bodoni-moda", 500, "V", 72)
-    mono_ = weave(M, at(M, 86, 112), V, at(V, 118, 126), 6, g, g, 120)
+    M = glyph("bodoni-moda", 500, "M", 50)
+    V = glyph("bodoni-moda", 500, "V", 50)
+    mono_ = pair(M, V, 100, 118, 4, g, g)
     arch = line("M44 182 V88 A56 56 0 0 1 156 88 V182 Z", g, 2) + line("M51 175 V89 A49 49 0 0 1 149 89 V175 Z", g, 0.8)
     return Box(arch + mono_ + sparkle(100, 52, 7, g), Rect(43, 31, 157, 183))
 
@@ -208,10 +208,9 @@ altamar = lux(
 # 30 · SABLE & CO. · tailoring -----------------------------------------------------
 def sable_sym(c, mono):
     g = c["g"]
-    S = glyph("bodoni-moda", 500, "S", 118)
-    Cc = glyph("bodoni-moda", 500, "C", 118)
-    ts, tc = at(S, 84, 102), at(Cc, 120, 102)
-    letters = weave(S, ts, Cc, tc, 7, g, g, 102)
+    S = glyph("bodoni-moda", 500, "S", 96)
+    Cc = glyph("bodoni-moda", 500, "C", 96)
+    letters = pair(S, Cc, 104, 104, 6, g, g)
     needle_d = "M32 172 L166 38"
     needle = line(needle_d, g, 1.8) + f'<ellipse cx="160" cy="44" rx="5.5" ry="2.2" fill="none" stroke="{g}" stroke-width="1.2" transform="rotate(-45 160 44)"/>'
     thread = line("M160 44 C186 66 182 112 150 122 C120 132 116 160 140 178", g, 1.1)
@@ -304,10 +303,10 @@ alma = lux(
 # 33 · CASA DUVALL · family winery -------------------------------------------------
 def duvall_sym(c, mono):
     g = c["g"]
-    Cg = glyph("cinzel", 500, "C", 62)
-    Dg = glyph("cinzel", 500, "D", 62)
+    Cg = glyph("cinzel", 500, "C", 44)
+    Dg = glyph("cinzel", 500, "D", 44)
     shield = line("M58 64 H142 V112 Q142 150 100 172 Q58 150 58 112 Z", g, 2) + line("M64 70 H136 V112 Q136 145 100 165 Q64 145 64 112 Z", g, 0.8)
-    mono_ = weave(Cg, at(Cg, 88, 112), Dg, at(Dg, 112, 112), 5, g, g, 112)
+    mono_ = pair(Cg, Dg, 100, 110, 3, g, g)
     return Box(shield + mono_ + crown(100, 54, 52, g, 2) + flourish(100, 184, 112, g), Rect(42, 21, 158, 198))
 
 
