@@ -810,8 +810,9 @@ S.storefront = async () => {
   win(2.45, 1.7, 1.5, 3.2);
   const handle = new THREE.Mesh(new THREE.CylinderGeometry(.035, .035, .9, 16), brass()); handle.position.set(1.95, 1.7, -1.8); scene.add(handle);
   // vinyl logo on the shop window
-  const { img: vm } = await logoFor('#1e1e1e', 'm');
-  const vin = new THREE.Mesh(new THREE.PlaneGeometry(1.2, 1.2), new THREE.MeshStandardMaterial({ map: tex(await layer(vm, 600, 600, [300, 300, 560, 560], '#ffffff', 0)), transparent: true, roughness: .4 })); vin.position.set(-1.7, 2.0, -1.915); scene.add(vin);
+  // round window sticker in full colour (the brand's die-cut logo sticker)
+  const stk = rasterArt(await logo('sticker-logo.svg'), 900, 900);
+  const vin = new THREE.Mesh(new THREE.PlaneGeometry(1.25, 1.25), new THREE.MeshStandardMaterial({ map: tex(stk), transparent: true, alphaTest: .05, roughness: .35 })); vin.position.set(-1.7, 2.0, -1.915); scene.add(vin);
   // sign box with raised logo
   const signC = strong;
   const sign = new THREE.Mesh(new RoundedBoxGeometry(7.6, 1.05, .28, 4, .05), plain(signC, .45, { clearcoat: .4 })); sign.position.set(.2, 4.35, -1.85); sign.castShadow = true; scene.add(sign);
