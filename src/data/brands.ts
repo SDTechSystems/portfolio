@@ -5,7 +5,7 @@ import type { Locale } from './catalog';
 
 export type Brand = (typeof showcase.brands)[number] & {
   editorial?: { file: string; small: string; label: Record<Locale, string> };
-  mascot?: { name: string; description: Record<Locale, string> };
+  mascot?: { name: string; description: Record<Locale, string>; file: string };
 };
 export const brands: Brand[] = showcase.brands;
 export const brandStyles = showcase.styles;

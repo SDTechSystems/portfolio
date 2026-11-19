@@ -95,7 +95,7 @@ const num = (n: number) => String(n).padStart(2, '0');
           <h2 id="h-mascota" class="bp-title">{mascot.name}</h2>
           <p class="mascot-description">{mascot.description[locale]}</p>
         </div>
-        <BrandImage src={asset('mascota.svg')} alt={alt(mascot.name)} width={240} height={240} />
+        <BrandImage src={asset(mascot.file)} alt={alt(mascot.name)} width={720} height={720} />
       </div>
     </section>}
 

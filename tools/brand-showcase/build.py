@@ -133,7 +133,8 @@ def export(brands):
                 "label": TEMPLATES[lead][1],
             }
         if b.slug in MASCOTS:
-            entry["mascot"] = MASCOTS[b.slug]
+            file = "mascota.webp" if (OUT / b.slug / "mascota.webp").exists() else "mascota.svg"
+            entry["mascot"] = {**MASCOTS[b.slug], "file": file}
         data["brands"].append(entry)
     DATA.write_text(json.dumps(data, ensure_ascii=False, indent=1), encoding="utf-8")
     print(f"wrote {DATA.relative_to(ROOT)} ({len(brands)} brands)")

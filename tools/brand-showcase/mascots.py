@@ -7,8 +7,8 @@ from pieces import accent_on, light, strong
 
 MASCOTS = {
     "nimbo": {"name": "Trueno", "description": L(
-        "Una nube inquieta que anuncia cada sabor. Funciona como ilustración en latas, stickers y lanzamientos.",
-        "A restless cloud announces each flavor. Use it on cans, stickers and product launches.")},
+        "Una nube chispeante que abraza su rayo. Su silueta funciona en latas, stickers y lanzamientos de nuevos sabores.",
+        "A bubbly cloud hugs its lightning bolt. Its silhouette works on cans, stickers and new flavor launches.")},
     "fosforo": {"name": "Chispa", "description": L(
         "La llama del horno cobra vida. Saluda desde las cajas, los delantales y las piezas para llevar.",
         "The oven flame comes to life on boxes, aprons and takeaway pieces.")},
@@ -22,8 +22,8 @@ MASCOTS = {
         "El gato curioso y el perro entusiasta acompañan las etiquetas, las bolsas y las guías para nuevos cuidadores.",
         "A curious cat and an enthusiastic dog appear on labels, bags and guides for new pet owners.")},
     "brasa-brava": {"name": "La Bravita", "description": L(
-        "Una brasa con guantes de parrillero para los empaques para llevar y las piezas de promociones.",
-        "An ember with barbecue mitts for takeaway packaging and promotional pieces.")},
+        "La flama de la parrilla saluda con su delantal y sus guantes. Está pensada para empaques para llevar y promociones.",
+        "The grill flame waves in its apron and mitts. Designed for takeaway packaging and promotions.")},
     "miel-de-monte": {"name": "Zumba", "description": L(
         "Una abeja curiosa que señala los sabores y cuenta el origen de la miel en etiquetas y publicaciones.",
         "A curious bee points out flavors and tells the honey’s story on labels and social posts.")},
