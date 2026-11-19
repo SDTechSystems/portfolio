@@ -579,9 +579,10 @@
    "mascot": {
     "name": "Trueno",
     "description": {
-     "es": "Una nube inquieta que anuncia cada sabor. Funciona como ilustración en latas, stickers y lanzamientos.",
-     "en": "A restless cloud announces each flavor. Use it on cans, stickers and product launches."
-    }
+     "es": "Una nube chispeante que abraza su rayo. Su silueta funciona en latas, stickers y lanzamientos de nuevos sabores.",
+     "en": "A bubbly cloud hugs its lightning bolt. Its silhouette works on cans, stickers and new flavor launches."
+    },
+    "file": "mascota.webp"
    }
   },
   {
@@ -1612,7 +1613,8 @@
     "description": {
      "es": "La llama del horno cobra vida. Saluda desde las cajas, los delantales y las piezas para llevar.",
      "en": "The oven flame comes to life on boxes, aprons and takeaway pieces."
-    }
+    },
+    "file": "mascota.webp"
    }
   },
   {
@@ -6695,9 +6697,10 @@
    "mascot": {
     "name": "La Bravita",
     "description": {
-     "es": "Una brasa con guantes de parrillero para los empaques para llevar y las piezas de promociones.",
-     "en": "An ember with barbecue mitts for takeaway packaging and promotional pieces."
-    }
+     "es": "La flama de la parrilla saluda con su delantal y sus guantes. Está pensada para empaques para llevar y promociones.",
+     "en": "The grill flame waves in its apron and mitts. Designed for takeaway packaging and promotions."
+    },
+    "file": "mascota.webp"
    }
   },
   {
@@ -8566,7 +8569,8 @@
     "description": {
      "es": "Una abeja curiosa que señala los sabores y cuenta el origen de la miel en etiquetas y publicaciones.",
      "en": "A curious bee points out flavors and tells the honey’s story on labels and social posts."
-    }
+    },
+    "file": "mascota.webp"
    }
   },
   {
@@ -9105,7 +9109,8 @@
     "description": {
      "es": "El gato curioso y el perro entusiasta acompañan las etiquetas, las bolsas y las guías para nuevos cuidadores.",
      "en": "A curious cat and an enthusiastic dog appear on labels, bags and guides for new pet owners."
-    }
+    },
+    "file": "mascota.webp"
    }
   },
   {
@@ -9402,7 +9407,8 @@
     "description": {
      "es": "El pompón del logo se vuelve un personaje para etiquetas, parches y estampados infantiles.",
      "en": "The pompom in the logo becomes a character for tags, patches and children’s prints."
-    }
+    },
+    "file": "mascota.webp"
    }
   },
   {
@@ -9675,7 +9681,8 @@
     "description": {
      "es": "La paleta mordida sale del logo para acompañar sabores, envoltorios y carteles de temporada.",
      "en": "The bitten ice pop steps out of the logo to introduce flavors, wrappers and seasonal posters."
-    }
+    },
+    "file": "mascota.webp"
    }
   },
   {

@@ -1,6 +1,6 @@
 # Portafolio de diseño de marca
 
-Genera las 42 marcas de ejemplo que se muestran en `/es/marcas/` y `/en/marcas/`. Los logotipos, las mascotas, las piezas del paquete y las guías se guardan como SVG con el texto convertido a trazos. Las fotos WebP de producto se preparan fuera del sitio.
+Genera las 42 marcas de ejemplo que se muestran en `/es/marcas/` y `/en/marcas/`. Los logotipos, las piezas del paquete y las guías se guardan en SVG con el texto convertido a trazos. Las fotos de producto y las ilustraciones de mascotas se preparan fuera del sitio y se publican como WebP.
 
 Las marcas son ficticias y así se indica en el sitio. Las tipografías son de Google Fonts con licencia SIL Open Font License 1.1 o Apache 2.0, ambas libres para uso comercial.
 
@@ -31,7 +31,7 @@ El script guarda cada fotografía como WebP de 640 y 1200 píxeles de ancho. La 
 | Archivo | Contenido |
 |---|---|
 | `brands1.py` a `brands5.py` | Las identidades y sus datos bilingües. `brands4.py` contiene la colección de lujo y `brands5.py` las seis marcas de apertura. |
-| `mascots.py` | Ilustraciones y fichas bilingües de los personajes. |
+| `mascots.py` | Fichas bilingües de los personajes. El generador usa `mascota.webp` dentro de la carpeta de cada marca cuando está disponible, con `mascota.svg` como respaldo. |
 | `model.py` | Versiones del logo (principal, vertical, símbolo, inversa, una tinta) y ayudas de dibujo. |
 | `pieces.py` | Perfil, portada, publicación, stickers, muestras tipográficas, área de protección, usos incorrectos y portada de galería. |
 | `mockups.py` | Plantillas de productos y de imagen corporativa (papelería, firma de correo y presentación). |

@@ -609,7 +609,10 @@ async function testBrandShowcase() {
       assert.match(await page.locator(".bp-cover img").getAttribute("srcset"), /foto-editorial-640\.webp 640w/);
       const mascot = page.locator("#mascota");
       assert.equal(await mascot.count(), Number(Boolean(brand.mascot)), `${lang}/${slug}: optional mascot`);
-      if (brand.mascot) assert.equal(await mascot.locator("h2").textContent(), brand.mascot.name);
+      if (brand.mascot) {
+        assert.equal(await mascot.locator("h2").textContent(), brand.mascot.name);
+        assert.ok((await mascot.locator("img").getAttribute("src")).endsWith(`/${brand.mascot.file}`));
+      }
       const wa = await page.locator(".bp-hero a.brand-btn.wa").getAttribute("href");
       assert.ok(wa.startsWith("https://wa.me/573058147293?text="), `${lang}/${slug}: WhatsApp number`);
       const text = decodeURIComponent(wa.split("text=")[1]);
