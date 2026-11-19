@@ -18,7 +18,8 @@ DATA = ROOT / "src" / "data" / "brand-showcase.json"
 def all_brands():
     from brands1 import BRANDS as b1
     from brands4 import BRANDS as b4
-    out = list(b4) + list(b1)
+    from brands5 import BRANDS as b5
+    out = list(b5) + list(b4) + list(b1)
     try:
         from brands2 import BRANDS as b2
         out += b2
@@ -94,6 +95,7 @@ def export(brands):
     from lib import contrast, on
     from mockups import CORPORATE, TEMPLATES
     from pieces import light, strong
+    from mascots import MASCOTS
     data = {"styles": [{"id": i, "label": {"es": es, "en": en}} for i, es, en in STYLES], "brands": []}
     for i, b in enumerate(brands):
         cols = color_data(b)
@@ -110,11 +112,11 @@ def export(brands):
         sv, sbg = strong(b)
         ratios = {}
         for name, _v in VERSIONS:
-            svg = (OUT / b.slug / f"logo-{name}.svg").read_text()
+            svg = (OUT / b.slug / f"logo-{name}.svg").read_text(encoding="utf-8")
             import re
             m = re.search(r'width="([\d.]+)" height="([\d.]+)"', svg)
             ratios[name] = round(float(m.group(1)) / float(m.group(2)), 4)
-        data["brands"].append({
+        entry = {
             "n": i + 1, "slug": b.slug, "name": b.name, "style": b.style,
             "sector": b.sector, "concept": b.concept, "tagline": b.tagline, "personality": b.personality,
             "logoKind": b.logo_kind, "colors": cols, "fonts": fonts,
@@ -122,7 +124,17 @@ def export(brands):
             "versions": [{"key": name, "bg": b.bg(v), "ratio": ratios[name]} for name, v in VERSIONS],
             "mockups": [mock(b, k, TEMPLATES) for k in b.mockups],
             "corporate": [mock(b, k, TEMPLATES) for k in CORPORATE],
-        })
+        }
+        if all((OUT / b.slug / file).exists() for file in ("foto-editorial.webp", "foto-editorial-640.webp")):
+            lead = {"orvieto": "menu", "casa-duvall": "box"}.get(b.slug, b.mockups[0])
+            entry["editorial"] = {
+                "file": "foto-editorial.webp",
+                "small": "foto-editorial-640.webp",
+                "label": TEMPLATES[lead][1],
+            }
+        if b.slug in MASCOTS:
+            entry["mascot"] = MASCOTS[b.slug]
+        data["brands"].append(entry)
     DATA.write_text(json.dumps(data, ensure_ascii=False, indent=1), encoding="utf-8")
     print(f"wrote {DATA.relative_to(ROOT)} ({len(brands)} brands)")
 
@@ -135,8 +147,10 @@ def main(only=()):
         print(f"{b.slug:16} logos {sum(v for k, v in sizes.items() if not k.endswith('_ratio')) / 1024:.0f} KB")
         import mockups
         import pieces
+        from mascots import write_mascot
         pieces.build(b, OUT / b.slug)
         mockups.build(b, OUT / b.slug)
+        write_mascot(b, OUT / b.slug)
     export(brands)
 
 

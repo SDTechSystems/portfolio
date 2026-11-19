@@ -3,16 +3,15 @@
 import showcase from './brand-showcase.json';
 import type { Locale } from './catalog';
 
-export type Brand = (typeof showcase.brands)[number];
+export type Brand = (typeof showcase.brands)[number] & {
+  editorial?: { file: string; small: string; label: Record<Locale, string> };
+  mascot?: { name: string; description: Record<Locale, string> };
+};
 export const brands: Brand[] = showcase.brands;
 export const brandStyles = showcase.styles;
-/** Image for a mockup: the 3D studio photo when it exists, otherwise the flat illustration. */
-export const mockFile = (m: { key: string; photo?: string }) => m.photo ?? `mockup-${m.key}.svg`;
 export const styleLabel = (id: string, locale: Locale) => brandStyles.find(s => s.id === id)?.label[locale] ?? id;
 
-// One of each direction for the home page teaser.
-export const featuredBrands = ['aurelia', 'brasa-brava', 'maison-velour', 'sereno', 'orvieto', 'paramo']
-  .map(slug => brands.find(b => b.slug === slug)!);
+export const featuredBrands = brands.slice(0, 6);
 
 export const brandAsset = (base: string, slug: string, file: string) => `${base}marcas/${slug}/${file}`;
 

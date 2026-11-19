@@ -1,6 +1,6 @@
 <script>
   // Keep content visible if JavaScript or animation APIs are unavailable.
-  const targets = document.querySelectorAll<HTMLElement>('.section-heading, .project-card, .brand-card, .about-grid, .contact-heading, .quote-card');
+  const targets = document.querySelectorAll<HTMLElement>('.section-heading, .project-card, .about-grid, .contact-heading, .quote-card');
   if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches && !document.documentElement.hasAttribute('data-motion')) {
     const observer = new IntersectionObserver(entries => entries.forEach(entry => {
       if (entry.isIntersecting) { entry.target.classList.add('reveal-in'); observer.unobserve(entry.target); }
