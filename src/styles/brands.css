@@ -16,12 +16,8 @@
 /* Cards */
 .brand-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:46px 26px;margin-top:32px}
 .brand-card[hidden]{display:none}
-.brand-cover{position:relative;display:block;aspect-ratio:4/3;overflow:hidden;border-radius:18px;background:#0c203a;box-shadow:0 18px 40px #0007;isolation:isolate}
-.brand-cover img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:opacity .5s ease,transform .9s cubic-bezier(.16,1,.3,1)}
-.brand-cover .brand-peek{opacity:0}
-.brand-cover:hover .brand-peek,.brand-cover:focus-visible .brand-peek{opacity:1}
-.brand-cover:hover img,.brand-cover:focus-visible img{transform:scale(1.035)}
-.brand-num{position:absolute;top:12px;left:12px;z-index:2;padding:5px 10px;border-radius:20px;background:#07111Fd9;color:var(--sd-white);font:.625rem "SD Mono",monospace;letter-spacing:.5px}
+.brand-cover{display:block;aspect-ratio:4/3;overflow:hidden;border-radius:18px;background:var(--cover-color,#0c203a);box-shadow:0 18px 40px #0007}
+.brand-cover img{display:block;width:100%;height:100%;object-fit:cover}
 .brand-card-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-top:18px}
 .brand-card-head :is(h2,h3){margin:0;font-size:1.3rem;letter-spacing:-.5px;line-height:1.2}
 .brand-style{flex-shrink:0;color:var(--sd-cyan);font:.625rem "SD Mono",monospace;letter-spacing:.6px;text-transform:uppercase}
@@ -56,8 +52,10 @@
 .chip{padding:7px 12px;border:1px solid #2f4664;border-radius:20px;color:#cfe0f0;font:.6875rem "SD Mono",monospace}
 .bp-tagline{margin-bottom:24px;color:var(--muted)}
 .bp-tagline strong{color:var(--sd-white)}
-.bp-cover{margin:0;overflow:hidden;border-radius:22px;box-shadow:0 30px 60px #0009}
-.bp-cover img{width:100%;height:auto}
+.bp-cover{margin:0;overflow:hidden;aspect-ratio:4/3;background:var(--brand-light);border-radius:22px;box-shadow:0 30px 60px #0009}
+.bp-cover button{display:block;width:100%;padding:0;border:0;background:transparent;cursor:zoom-in}
+.bp-cover button:focus-visible{outline-offset:-4px}
+.bp-cover img{display:block;width:100%;height:auto}
 .bp-index{display:flex;flex-wrap:wrap;gap:8px;padding-top:24px;padding-bottom:24px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 .bp-index a{display:inline-flex;gap:8px;padding:8px 12px;border:1px solid transparent;border-radius:20px;color:#cfe0f0;font-size:.8125rem}
 .bp-index a span{color:var(--sd-cyan);font:.6875rem "SD Mono",monospace;line-height:1.6}
@@ -103,8 +101,14 @@
 .kit-item figcaption span,.mock figcaption span{color:var(--muted);font:.625rem "SD Mono",monospace;line-height:1.9}
 .kit-3 button,.kit-4 button,.kit-5 button{background:repeating-conic-gradient(#0f2440 0 25%,#0b1b31 0 50%) 0 0/24px 24px}
 
+.bp-mascot{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.9fr);align-items:center;gap:28px;padding:clamp(24px,5vw,64px);border-radius:20px;background:var(--brand-light);color:var(--brand-light-text)}
+.bp-mascot .bp-title{margin-top:10px}
+.mascot-label{font-weight:700;font-size:.875rem}
+.mascot-description{max-width:43ch;margin-top:16px;line-height:1.65}
+.bp-mascot img{width:min(100%,360px);height:auto;justify-self:center}
 .mockup-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px 18px;margin-top:30px}
 .mock{margin:0}
+.mock button{aspect-ratio:4/3}
 .corp-list{grid-template-columns:repeat(3,minmax(0,1fr));margin-top:26px}
 
 .guide{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:30px;align-items:center;margin-top:30px}
@@ -139,7 +143,7 @@
   .corp-list{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 @media(max-width:700px){
-  .brand-grid,.mockup-grid,.type-grid,.package,.guide,.logo-grid{grid-template-columns:minmax(0,1fr)}
+  .brand-grid,.mockup-grid,.type-grid,.package,.guide,.logo-grid,.bp-mascot{grid-template-columns:minmax(0,1fr)}
   .kit-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
   .kit-1{grid-column:1/-1}
   .kit-2{grid-row:auto}
@@ -154,3 +158,8 @@
   .brand-cover img,.kit-item img,.mock img,.brand-btn{transition:none}
 }
 :root[data-motion] .brand-cover img,:root[data-motion] .kit-item img,:root[data-motion] .mock img{transition:none}
+@media(prefers-reduced-motion:no-preference){
+  :root:not([data-motion]) img[data-brand-image]{transition:opacity .52s ease-out}
+  :root:not([data-motion]) .mock img[data-brand-image]{transition:opacity .52s ease-out,transform .7s cubic-bezier(.16,1,.3,1)}
+  :root:not([data-motion]) img[data-brand-image][data-pending]{opacity:0}
+}

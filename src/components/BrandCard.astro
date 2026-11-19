@@ -1,6 +1,7 @@
 ---
 import WhatsAppIcon from './WhatsAppIcon.astro';
-import { brandAsset, mockFile, styleLabel, type Brand } from '../data/brands';
+import BrandImage from './BrandImage.astro';
+import { brandAsset, styleLabel, type Brand } from '../data/brands';
 import { waLink, waMessages, type Locale } from '../data/catalog';
 const { brand: b, locale, eager = false, heading = 'h3' } = Astro.props as { brand: Brand; locale: Locale; eager?: boolean; heading?: 'h2' | 'h3' };
 const base = import.meta.env.BASE_URL, es = locale === 'es';
@@ -8,12 +9,15 @@ const href = `${base}${locale}/marcas/${b.slug}/`;
 const style = styleLabel(b.style, locale);
 const wa = waLink(waMessages.brand(b.name, style, new URL(href, Astro.site).href, locale));
 const H = heading;
+const asset = (file: string) => brandAsset(base, b.slug, file);
+const photo = b.editorial;
 ---
 <article class="brand-card" data-style={b.style}>
-  <a class="brand-cover" href={href} aria-label={`${es ? 'Ver la marca' : 'View the brand'} ${b.name}`}>
-    <img src={brandAsset(base, b.slug, 'portada.svg')} alt="" width="1200" height="900" loading={eager ? 'eager' : 'lazy'} decoding="async" />
-    <img class="brand-peek" src={brandAsset(base, b.slug, mockFile(b.mockups[0]))} alt="" width="1200" height="900" loading="lazy" decoding="async" />
-    <span class="brand-num" aria-hidden="true">{String(b.n).padStart(2, '0')}</span>
+  <a class="brand-cover" href={href} style={`--cover-color:${b.surfaces.light}`} aria-label={`${es ? 'Ver la marca' : 'View the brand'} ${b.name}`}>
+    <BrandImage src={asset(photo?.file ?? 'portada.svg')}
+      srcset={photo && `${asset(photo.small)} 640w, ${asset(photo.file)} 1200w`}
+      sizes="(max-width: 700px) 88vw, (max-width: 1000px) 43vw, (max-width: 1440px) 28vw, 405px"
+      alt="" {eager} />
   </a>
   <div class="brand-card-head"><H><a href={href}>{b.name}</a></H><span class="brand-style">{style}</span></div>
   <p class="brand-sector">{b.sector[locale]}</p>

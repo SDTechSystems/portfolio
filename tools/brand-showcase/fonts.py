@@ -4,6 +4,7 @@ Only the Latin subset is used (covers Spanish: á é í ó ú ñ ü ¿ ¡). Font
 .cache/fonts (git-ignored); the published SVGs carry outlines, never font files.
 """
 import json
+import os
 import subprocess
 import tarfile
 from pathlib import Path
@@ -91,7 +92,8 @@ def fetch(keys=None, italics=()):
         if all(p.exists() for p in wanted):
             continue
         dest.mkdir(parents=True, exist_ok=True)
-        out = subprocess.run(["npm", "pack", f"@fontsource/{pkg}", "--pack-destination", str(dest), "--silent"],
+        npm = "npm.cmd" if os.name == "nt" else "npm"
+        out = subprocess.run([npm, "pack", f"@fontsource/{pkg}", "--pack-destination", str(dest), "--silent"],
                              capture_output=True, text=True, check=True).stdout.strip().splitlines()[-1]
         tgz = dest / out
         with tarfile.open(tgz) as tar:

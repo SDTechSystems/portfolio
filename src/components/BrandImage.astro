@@ -1,0 +1,24 @@
+---
+interface Props {
+  src: string;
+  srcset?: string;
+  sizes?: string;
+  alt: string;
+  width?: number;
+  height?: number;
+  eager?: boolean;
+}
+const { width = 1200, height = 900, eager = false, ...image } = Astro.props;
+---
+<img {...image} {width} {height} loading={eager ? 'eager' : 'lazy'} fetchpriority={eager ? 'high' : undefined} decoding="async" data-brand-image={!eager || undefined} />
+
+<script>
+  for (const img of document.querySelectorAll<HTMLImageElement>('img[data-brand-image]')) {
+    if (img.complete) continue;
+    img.dataset.pending = '';
+    const show = () => { delete img.dataset.pending; };
+    img.addEventListener('load', show, { once: true });
+    img.addEventListener('error', show, { once: true });
+    if (img.complete) show();
+  }
+</script>

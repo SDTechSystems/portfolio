@@ -2,8 +2,9 @@
 import SiteLayout from './SiteLayout.astro';
 import LanguageSwitch from './LanguageSwitch.astro';
 import Brand from './Brand.astro';
+import BrandImage from './BrandImage.astro';
 import WhatsAppIcon from './WhatsAppIcon.astro';
-import { brands, brandAsset, styleLabel, versionLabels, kitPieces, misuses, packageItems, corporateItems, zipTree, mockFile } from '../data/brands';
+import { brands, brandAsset, styleLabel, versionLabels, kitPieces, misuses, packageItems, corporateItems, zipTree } from '../data/brands';
 import { waLink, waMessages, type Locale } from '../data/catalog';
 import '../styles/brands.css';
 const { locale, slug } = Astro.props as { locale: Locale; slug: string };
@@ -17,8 +18,12 @@ const wa = waLink(waMessages.brand(b.name, style, new URL(`${base}${locale}/${pa
 const form = `${base}es/formularios/diseno-de-marca/`;
 const tile = (bg: string) => ({ bg });
 const s = b.surfaces;
+const photo = b.editorial;
+const mascot = b.mascot;
+const mascotTitle = es ? 'Mascota de marca' : 'Brand mascot';
 const display = b.fonts[0], textFont = b.fonts[1];
 const alt = (what: string) => `${b.name}: ${what}`;
+const coverLabel = alt(photo ? photo.label[locale] : es ? 'logo, símbolo y paleta' : 'logo, symbol and palette');
 const rules = es ? [
   `Deja alrededor del logo un margen libre al menos igual a la mitad de la altura del símbolo.`,
   `Tamaño mínimo: 25 mm de ancho impreso o 120 px en pantalla; el símbolo solo, 10 mm o 32 px.`,
@@ -47,10 +52,19 @@ const num = (n: number) => String(n).padStart(2, '0');
         <p class="bp-tagline">{es ? 'Eslogan' : 'Tagline'}: <strong>«{b.tagline.es}»</strong>{!es && <> ({b.tagline.en})</>}</p>
         <div class="brand-actions"><a class="brand-btn wa" href={wa} target="_blank" rel="noopener noreferrer"><WhatsAppIcon />{es ? 'Quiero un diseño así' : 'I want a design like this'}</a><a class="brand-btn" href={form}>{es ? 'Llenar el brief' : 'Fill in the brief'}{!es && <small> · ES</small>} ↗</a></div>
       </div>
-      <figure class="bp-cover"><img src={asset('portada.svg')} alt={alt(es ? 'logo, símbolo y paleta' : 'logo, symbol and palette')} width="1200" height="900" /></figure>
+      <figure class="bp-cover">
+        {photo ? <button type="button" data-zoom={asset(photo.file)} data-caption={photo.label[locale]}
+          aria-label={`${es ? 'Ampliar' : 'Enlarge'}: ${coverLabel}`}>
+          <BrandImage src={asset(photo.file)} srcset={`${asset(photo.small)} 640w, ${asset(photo.file)} 1200w`}
+            sizes="(max-width: 1000px) 88vw, (max-width: 1440px) 44vw, 630px" alt={coverLabel} eager />
+        </button> : <BrandImage src={asset('portada.svg')} alt={coverLabel} eager />}
+      </figure>
     </section>
 
-    <nav class="wrap bp-index" aria-label={es ? 'Secciones de la marca' : 'Brand sections'}>{sections.map((t, k) => <a href={`#s${k + 1}`}><span>{num(k + 1)}</span>{t}</a>)}</nav>
+    <nav class="wrap bp-index" aria-label={es ? 'Secciones de la marca' : 'Brand sections'}>
+      {sections.map((t, k) => <><a href={`#s${k + 1}`}><span>{num(k + 1)}</span>{t}</a>
+        {k === 3 && mascot && <a href="#mascota">{mascotTitle}</a>}</>)}
+    </nav>
 
     <section id="s1" class="wrap bp-section" aria-labelledby="h-s1">
       <p class="eyebrow">01 / {sections[0].toUpperCase()}</p><h2 id="h-s1" class="bp-title">{es ? 'Un logo, seis formas de usarlo' : 'One logo, six ways to use it'}<span>.</span></h2>
@@ -74,16 +88,33 @@ const num = (n: number) => String(n).padStart(2, '0');
       <div class="kit-grid">{kitPieces.map((p, k) => <figure class={`kit-item kit-${k}`}><button type="button" data-zoom={asset(p.file)} data-caption={`${p.label[locale]} · ${p.w} × ${p.h} px`}><img src={asset(p.file)} alt={alt(p.label[locale])} width={p.w} height={p.h} loading="lazy" /></button><figcaption>{p.label[locale]}<span>{p.w} × {p.h} px</span></figcaption></figure>)}</div>
     </section>
 
+    {mascot && <section id="mascota" class="wrap bp-section" aria-labelledby="h-mascota">
+      <div class="bp-mascot">
+        <div>
+          <p class="mascot-label">{mascotTitle}</p>
+          <h2 id="h-mascota" class="bp-title">{mascot.name}</h2>
+          <p class="mascot-description">{mascot.description[locale]}</p>
+        </div>
+        <BrandImage src={asset('mascota.svg')} alt={alt(mascot.name)} width={240} height={240} />
+      </div>
+    </section>}
+
     <section id="s5" class="wrap bp-section" aria-labelledby="h-s5">
-      <p class="eyebrow">05 / {sections[4].toUpperCase()}</p><h2 id="h-s5" class="bp-title">{es ? 'Así se ve en sus productos' : 'How it looks on its products'}<span>.</span></h2>
+      <p class="eyebrow">05 / {sections[4].toUpperCase()}</p><h2 id="h-s5" class="bp-title">{es ? 'Piezas ilustradas de producto' : 'Illustrated product designs'}<span>.</span></h2>
       <p class="section-intro">{es ? 'Visualizaciones de referencia para imaginar la marca en uso. El diseño de empaques, etiquetas o avisos se cotiza aparte.' : 'Reference visuals to picture the brand in use. Packaging, label or sign design is quoted separately.'}</p>
-      <div class="mockup-grid">{b.mockups.map(m => <figure class="mock"><button type="button" data-zoom={asset(mockFile(m))} data-caption={m.label[locale]}><img src={asset(mockFile(m))} alt={alt(m.label[locale])} width="1200" height="900" loading="lazy" decoding="async" /></button><figcaption>{m.label[locale]}<span>{es ? 'Ampliar' : 'Enlarge'} ↗</span></figcaption></figure>)}</div>
+      <div class="mockup-grid">{b.mockups.map(m => {
+        const file = asset(`mockup-${m.key}.svg`);
+        return <figure class="mock"><button type="button" data-zoom={file} data-caption={m.label[locale]}><BrandImage src={file} alt={alt(m.label[locale])} /></button><figcaption>{m.label[locale]}<span>{es ? 'Ampliar' : 'Enlarge'} ↗</span></figcaption></figure>;
+      })}</div>
     </section>
 
     <section id="s6" class="wrap bp-section" aria-labelledby="h-s6">
       <p class="eyebrow">06 / {sections[5].toUpperCase()}</p><h2 id="h-s6" class="bp-title">{es ? 'La marca en cada contacto' : 'The brand at every touchpoint'}<span>.</span></h2>
       <p class="section-intro">{es ? 'La imagen corporativa lleva la identidad a la papelería, el correo, las presentaciones, los uniformes y los avisos, para que el negocio se vea igual de profesional en todas partes.' : 'Corporate identity carries the brand into stationery, email, presentations, uniforms and signs, so the business looks equally professional everywhere.'}</p>
-      <div class="mockup-grid">{b.corporate.map(m => <figure class="mock"><button type="button" data-zoom={asset(mockFile(m))} data-caption={m.label[locale]}><img src={asset(mockFile(m))} alt={alt(m.label[locale])} width="1200" height="900" loading="lazy" decoding="async" /></button><figcaption>{m.label[locale]}<span>{es ? 'Ampliar' : 'Enlarge'} ↗</span></figcaption></figure>)}</div>
+      <div class="mockup-grid">{b.corporate.map(m => {
+        const file = asset(`mockup-${m.key}.svg`);
+        return <figure class="mock"><button type="button" data-zoom={file} data-caption={m.label[locale]}><BrandImage src={file} alt={alt(m.label[locale])} /></button><figcaption>{m.label[locale]}<span>{es ? 'Ampliar' : 'Enlarge'} ↗</span></figcaption></figure>;
+      })}</div>
       <ul class="corp-list">{corporateItems[locale].map(t => <li>{t}</li>)}</ul>
     </section>
 

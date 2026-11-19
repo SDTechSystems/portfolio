@@ -67,6 +67,1556 @@
  "brands": [
   {
    "n": 1,
+   "slug": "tinta-marea",
+   "name": "Tinta Marea",
+   "style": "elegant",
+   "sector": {
+    "es": "Tintas y escritura",
+    "en": "Ink and writing"
+   },
+   "concept": {
+    "es": "Una tinta de autor inspirada en el Pacífico. El símbolo corta una gota con el trazo de una ola.",
+    "en": "A signature ink inspired by the Pacific. A wave cuts through the silhouette of a droplet."
+   },
+   "tagline": {
+    "es": "Escribe a tu ritmo",
+    "en": "Write to your own rhythm"
+   },
+   "personality": {
+    "es": [
+     "Serena",
+     "Precisa"
+    ],
+    "en": [
+     "Quiet",
+     "Precise"
+    ]
+   },
+   "logoKind": {
+    "es": "Símbolo y logotipo",
+    "en": "Symbol and wordmark"
+   },
+   "colors": [
+    {
+     "key": "ink",
+     "hex": "#132F37",
+     "rgb": [
+      19,
+      47,
+      55
+     ],
+     "cmyk": [
+      65,
+      15,
+      0,
+      78
+     ],
+     "name": {
+      "es": "Petróleo",
+      "en": "Petrol"
+     },
+     "use": {
+      "es": "Logotipo",
+      "en": "Wordmark"
+     },
+     "text": "#FFFFFF"
+    },
+    {
+     "key": "light",
+     "hex": "#EAE1CC",
+     "rgb": [
+      234,
+      225,
+      204
+     ],
+     "cmyk": [
+      0,
+      4,
+      13,
+      8
+     ],
+     "name": {
+      "es": "Papel",
+      "en": "Paper"
+     },
+     "use": {
+      "es": "Fondo",
+      "en": "Background"
+     },
+     "text": "#111111"
+    },
+    {
+     "key": "signal",
+     "hex": "#247C75",
+     "rgb": [
+      36,
+      124,
+      117
+     ],
+     "cmyk": [
+      71,
+      0,
+      6,
+      51
+     ],
+     "name": {
+      "es": "Marea",
+      "en": "Tide"
+     },
+     "use": {
+      "es": "Símbolo y detalle",
+      "en": "Symbol and detail"
+     },
+     "text": "#FFFFFF"
+    },
+    {
+     "key": "extra",
+     "hex": "#B6D8C4",
+     "rgb": [
+      182,
+      216,
+      196
+     ],
+     "cmyk": [
+      16,
+      0,
+      9,
+      15
+     ],
+     "name": {
+      "es": "Espuma",
+      "en": "Sea foam"
+     },
+     "use": {
+      "es": "Contraste",
+      "en": "Contrast"
+     },
+     "text": "#111111"
+    }
+   ],
+   "fonts": [
+    {
+     "role": "display",
+     "family": "Instrument Serif",
+     "weight": 400,
+     "italic": false,
+     "license": "SIL Open Font License 1.1",
+     "url": "https://fonts.google.com/specimen/Instrument+Serif",
+     "file": "tipo-titulos.svg"
+    },
+    {
+     "role": "body",
+     "family": "DM Sans",
+     "weight": 500,
+     "italic": false,
+     "license": "SIL Open Font License 1.1",
+     "url": "https://fonts.google.com/specimen/DM+Sans",
+     "file": "tipo-textos.svg"
+    }
+   ],
+   "surfaces": {
+    "light": "#EAE1CC",
+    "strong": "#132F37",
+    "lightText": "#111111",
+    "strongText": "#FFFFFF"
+   },
+   "versions": [
+    {
+     "key": "horizontal",
+     "bg": "#EAE1CC",
+     "ratio": 6.4449
+    },
+    {
+     "key": "vertical",
+     "bg": "#EAE1CC",
+     "ratio": 1.9476
+    },
+    {
+     "key": "simbolo",
+     "bg": "#EAE1CC",
+     "ratio": 1.0
+    },
+    {
+     "key": "inversa",
+     "bg": "#132F37",
+     "ratio": 6.4449
+    },
+    {
+     "key": "negro",
+     "bg": "#FFFFFF",
+     "ratio": 6.4449
+    },
+    {
+     "key": "blanco",
+     "bg": "#111111",
+     "ratio": 6.4449
+    }
+   ],
+   "mockups": [
+    {
+     "key": "bottles",
+     "label": {
+      "es": "Envases",
+      "en": "Bottles"
+     }
+    },
+    {
+     "key": "box",
+     "label": {
+      "es": "Empaque",
+      "en": "Packaging"
+     }
+    },
+    {
+     "key": "cards",
+     "label": {
+      "es": "Tarjetas de presentación",
+      "en": "Business cards"
+     }
+    },
+    {
+     "key": "bag",
+     "label": {
+      "es": "Bolsas de compra",
+      "en": "Shopping bags"
+     }
+    },
+    {
+     "key": "poster",
+     "label": {
+      "es": "Afiche",
+      "en": "Poster"
+     }
+    },
+    {
+     "key": "tote",
+     "label": {
+      "es": "Bolsa de tela",
+      "en": "Tote bag"
+     }
+    }
+   ],
+   "corporate": [
+    {
+     "key": "stationery",
+     "label": {
+      "es": "Papelería corporativa",
+      "en": "Corporate stationery"
+     }
+    },
+    {
+     "key": "digital",
+     "label": {
+      "es": "Firma de correo y presentación",
+      "en": "Email signature and slides"
+     }
+    }
+   ],
+   "editorial": {
+    "file": "foto-editorial.webp",
+    "small": "foto-editorial-640.webp",
+    "label": {
+     "es": "Envases",
+     "en": "Bottles"
+    }
+   }
+  },
+  {
+   "n": 2,
+   "slug": "nimbo",
+   "name": "Nimbo",
+   "style": "bold",
+   "sector": {
+    "es": "Sodas cítricas",
+    "en": "Citrus sodas"
+   },
+   "concept": {
+    "es": "Una soda ácida y chispeante con azul cobalto, mandarina y una nube que descarga un rayo.",
+    "en": "A bright, tart soda in cobalt and tangerine, with a cloud that strikes like lightning."
+   },
+   "tagline": {
+    "es": "Destapa el trueno",
+    "en": "Crack open the thunder"
+   },
+   "personality": {
+    "es": [
+     "Chispeante",
+     "Enérgica"
+    ],
+    "en": [
+     "Fizzy",
+     "Energetic"
+    ]
+   },
+   "logoKind": {
+    "es": "Símbolo y logotipo",
+    "en": "Symbol and wordmark"
+   },
+   "colors": [
+    {
+     "key": "ink",
+     "hex": "#2027A9",
+     "rgb": [
+      32,
+      39,
+      169
+     ],
+     "cmyk": [
+      81,
+      77,
+      0,
+      34
+     ],
+     "name": {
+      "es": "Cobalto",
+      "en": "Cobalt"
+     },
+     "use": {
+      "es": "Logotipo",
+      "en": "Wordmark"
+     },
+     "text": "#FFFFFF"
+    },
+    {
+     "key": "light",
+     "hex": "#FFF2CE",
+     "rgb": [
+      255,
+      242,
+      206
+     ],
+     "cmyk": [
+      0,
+      5,
+      19,
+      0
+     ],
+     "name": {
+      "es": "Lima clara",
+      "en": "Pale lime"
+     },
+     "use": {
+      "es": "Fondo",
+      "en": "Background"
+     },
+     "text": "#111111"
+    },
+    {
+     "key": "signal",
+     "hex": "#EB511D",
+     "rgb": [
+      235,
+      81,
+      29
+     ],
+     "cmyk": [
+      0,
+      66,
+      88,
+      8
+     ],
+     "name": {
+      "es": "Mandarina",
+      "en": "Tangerine"
+     },
+     "use": {
+      "es": "Símbolo y detalle",
+      "en": "Symbol and detail"
+     },
+     "text": "#111111"
+    },
+    {
+     "key": "extra",
+     "hex": "#FFD26F",
+     "rgb": [
+      255,
+      210,
+      111
+     ],
+     "cmyk": [
+      0,
+      18,
+      56,
+      0
+     ],
+     "name": {
+      "es": "Rayo",
+      "en": "Lightning"
+     },
+     "use": {
+      "es": "Contraste",
+      "en": "Contrast"
+     },
+     "text": "#111111"
+    }
+   ],
+   "fonts": [
+    {
+     "role": "display",
+     "family": "Archivo Black",
+     "weight": 400,
+     "italic": false,
+     "license": "SIL Open Font License 1.1",
+     "url": "https://fonts.google.com/specimen/Archivo+Black",
+     "file": "tipo-titulos.svg"
+    },
+    {
+     "role": "body",
+     "family": "DM Sans",
+     "weight": 500,
+     "italic": false,
+     "license": "SIL Open Font License 1.1",
+     "url": "https://fonts.google.com/specimen/DM+Sans",
+     "file": "tipo-textos.svg"
+    }
+   ],
+   "surfaces": {
+    "light": "#FFF2CE",
+    "strong": "#2027A9",
+    "lightText": "#111111",
+    "strongText": "#FFFFFF"
+   },
+   "versions": [
+    {
+     "key": "horizontal",
+     "bg": "#FFF2CE",
+     "ratio": 5.6499
+    },
+    {
+     "key": "vertical",
+     "bg": "#FFF2CE",
+     "ratio": 1.7267
+    },
+    {
+     "key": "simbolo",
+     "bg": "#FFF2CE",
+     "ratio": 1.0
+    },
+    {
+     "key": "inversa",
+     "bg": "#2027A9",
+     "ratio": 5.6499
+    },
+    {
+     "key": "negro",
+     "bg": "#FFFFFF",
+     "ratio": 5.6499
+    },
+    {
+     "key": "blanco",
+     "bg": "#111111",
+     "ratio": 5.6499
+    }
+   ],
+   "mockups": [
+    {
+     "key": "can",
+     "label": {
+      "es": "Latas",
+      "en": "Cans"
+     }
+    },
+    {
+     "key": "cup",
+     "label": {
+      "es": "Vasos para llevar",
+      "en": "Takeaway cups"
+     }
+    },
+    {
+     "key": "poster",
+     "label": {
+      "es": "Afiche",
+      "en": "Poster"
+     }
+    },
+    {
+     "key": "tshirt",
+     "label": {
+      "es": "Camiseta",
+      "en": "T-shirt"
+     }
+    },
+    {
+     "key": "cap",
+     "label": {
+      "es": "Gorra",
+      "en": "Cap"
+     }
+    },
+    {
+     "key": "tote",
+     "label": {
+      "es": "Bolsa de tela",
+      "en": "Tote bag"
+     }
+    }
+   ],
+   "corporate": [
+    {
+     "key": "stationery",
+     "label": {
+      "es": "Papelería corporativa",
+      "en": "Corporate stationery"
+     }
+    },
+    {
+     "key": "digital",
+     "label": {
+      "es": "Firma de correo y presentación",
+      "en": "Email signature and slides"
+     }
+    }
+   ],
+   "editorial": {
+    "file": "foto-editorial.webp",
+    "small": "foto-editorial-640.webp",
+    "label": {
+     "es": "Latas",
+     "en": "Cans"
+    }
+   },
+   "mascot": {
+    "name": "Trueno",
+    "description": {
+     "es": "Una nube inquieta que anuncia cada sabor. Funciona como ilustración en latas, stickers y lanzamientos.",
+     "en": "A restless cloud announces each flavor. Use it on cans, stickers and product launches."
+    }
+   }
+  },
+  {
+   "n": 3,
+   "slug": "senda-mineral",
+   "name": "Senda Mineral",
+   "style": "minimal",
+   "sector": {
+    "es": "Cuidado corporal",
+    "en": "Body care"
+   },
+   "concept": {
+    "es": "Capas de piedra y verdes apagados para una línea de cuidado corporal inspirada en los páramos.",
+    "en": "Stone strata and muted greens for a body-care line inspired by the Andean highlands."
+   },
+   "tagline": {
+    "es": "Vuelve a lo esencial",
+    "en": "Return to essentials"
+   },
+   "personality": {
+    "es": [
+     "Mineral",
+     "Sensorial"
+    ],
+    "en": [
+     "Mineral",
+     "Tactile"
+    ]
+   },
+   "logoKind": {
+    "es": "Símbolo y logotipo",
+    "en": "Symbol and wordmark"
+   },
+   "colors": [
+    {
+     "key": "ink",
+     "hex": "#25362E",
+     "rgb": [
+      37,
+      54,
+      46
+     ],
+     "cmyk": [
+      31,
+      0,
+      15,
+      79
+     ],
+     "name": {
+      "es": "Pizarra",
+      "en": "Slate"
+     },
+     "use": {
+      "es": "Logotipo",
+      "en": "Wordmark"
+     },
+     "text": "#FFFFFF"
+    },
+    {
+     "key": "light",
+     "hex": "#E7E5D7",
+     "rgb": [
+      231,
+      229,
+      215
+     ],
+     "cmyk": [
+      0,
+      1,
+      7,
+      9
+     ],
+     "name": {
+      "es": "Caliza",
+      "en": "Limestone"
+     },
+     "use": {
+      "es": "Fondo",
+      "en": "Background"
+     },
+     "text": "#111111"
+    },
+    {
+     "key": "signal",
+     "hex": "#637851",
+     "rgb": [
+      99,
+      120,
+      81
+     ],
+     "cmyk": [
+      18,
+      0,
+      32,
+      53
+     ],
+     "name": {
+      "es": "Musgo",
+      "en": "Moss"
+     },
+     "use": {
+      "es": "Símbolo y detalle",
+      "en": "Symbol and detail"
+     },
+     "text": "#FFFFFF"
+    },
+    {
+     "key": "extra",
+     "hex": "#BDCE9B",
+     "rgb": [
+      189,
+      206,
+      155
+     ],
+     "cmyk": [
+      8,
+      0,
+      25,
+      19
+     ],
+     "name": {
+      "es": "Liquen",
+      "en": "Lichen"
+     },
+     "use": {
+      "es": "Contraste",
+      "en": "Contrast"
+     },
+     "text": "#111111"
+    }
+   ],
+   "fonts": [
+    {
+     "role": "display",
+     "family": "Manrope",
+     "weight": 700,
+     "italic": false,
+     "license": "SIL Open Font License 1.1",
+     "url": "https://fonts.google.com/specimen/Manrope",
+     "file": "tipo-titulos.svg"
+    },
+    {
+     "role": "body",
+     "family": "DM Sans",
+     "weight": 500,
+     "italic": false,
+     "license": "SIL Open Font License 1.1",
+     "url": "https://fonts.google.com/specimen/DM+Sans",
+     "file": "tipo-textos.svg"
+    }
+   ],
+   "surfaces": {
+    "light": "#E7E5D7",
+    "strong": "#25362E",
+    "lightText": "#111111",
+    "strongText": "#FFFFFF"
+   },
+   "versions": [
+    {
+     "key": "horizontal",
+     "bg": "#E7E5D7",
+     "ratio": 9.8493
+    },
+    {
+     "key": "vertical",
+     "bg": "#E7E5D7",
+     "ratio": 3.2325
+    },
+    {
+     "key": "simbolo",
+     "bg": "#E7E5D7",
+     "ratio": 1.0
+    },
+    {
+     "key": "inversa",
+     "bg": "#25362E",
+     "ratio": 9.8493
+    },
+    {
+     "key": "negro",
+     "bg": "#FFFFFF",
+     "ratio": 9.8493
+    },
+    {
+     "key": "blanco",
+     "bg": "#111111",
+     "ratio": 9.8493
+    }
+   ],
+   "mockups": [
+    {
+     "key": "jar",
+     "label": {
+      "es": "Frascos",
+      "en": "Jars"
+     }
+    },
+    {
+     "key": "bottles",
+     "label": {
+      "es": "Envases",
+      "en": "Bottles"
+     }
+    },
+    {
+     "key": "box",
+     "label": {
+      "es": "Empaque",
+      "en": "Packaging"
+     }
+    },
+    {
+     "key": "bag",
+     "label": {
+      "es": "Bolsas de compra",
+      "en": "Shopping bags"
+     }
+    },
+    {
+     "key": "cards",
+     "label": {
+      "es": "Tarjetas de presentación",
+      "en": "Business cards"
+     }
+    },
+    {
+     "key": "tote",
+     "label": {
+      "es": "Bolsa de tela",
+      "en": "Tote bag"
+     }
+    }
+   ],
+   "corporate": [
+    {
+     "key": "stationery",
+     "label": {
+      "es": "Papelería corporativa",
+      "en": "Corporate stationery"
+     }
+    },
+    {
+     "key": "digital",
+     "label": {
+      "es": "Firma de correo y presentación",
+      "en": "Email signature and slides"
+     }
+    }
+   ],
+   "editorial": {
+    "file": "foto-editorial.webp",
+    "small": "foto-editorial-640.webp",
+    "label": {
+     "es": "Frascos",
+     "en": "Jars"
+    }
+   }
+  },
+  {
+   "n": 4,
+   "slug": "canto-cacao",
+   "name": "Canto Cacao",
+   "style": "organic",
+   "sector": {
+    "es": "Chocolate de origen",
+    "en": "Single-origin chocolate"
+   },
+   "concept": {
+    "es": "Una mazorca dibujada a partir de sus surcos y una paleta de cacao, guayaba y pulpa fresca.",
+    "en": "A cacao pod shaped by its grooves, with colors drawn from cacao, guava, and fresh pulp."
+   },
+   "tagline": {
+    "es": "La tierra también canta",
+    "en": "The land has a voice"
+   },
+   "personality": {
+    "es": [
+     "Cálida",
+     "Artesanal"
+    ],
+    "en": [
+     "Warm",
+     "Handcrafted"
+    ]
+   },
+   "logoKind": {
+    "es": "Símbolo y logotipo",
+    "en": "Symbol and wordmark"
+   },
+   "colors": [
+    {
+     "key": "ink",
+     "hex": "#44221E",
+     "rgb": [
+      68,
+      34,
+      30
+     ],
+     "cmyk": [
+      0,
+      50,
+      56,
+      73
+     ],
+     "name": {
+      "es": "Cacao",
+      "en": "Cacao"
+     },
+     "use": {
+      "es": "Logotipo",
+      "en": "Wordmark"
+     },
+     "text": "#FFFFFF"
+    },
+    {
+     "key": "light",
+     "hex": "#F6E6CF",
+     "rgb": [
+      246,
+      230,
+      207
+     ],
+     "cmyk": [
+      0,
+      7,
+      16,
+      4
+     ],
+     "name": {
+      "es": "Pulpa",
+      "en": "Pulp"
+     },
+     "use": {
+      "es": "Fondo",
+      "en": "Background"
+     },
+     "text": "#111111"
+    },
+    {
+     "key": "signal",
+     "hex": "#A73451",
+     "rgb": [
+      167,
+      52,
+      81
+     ],
+     "cmyk": [
+      0,
+      69,
+      51,
+      35
+     ],
+     "name": {
+      "es": "Guayaba",
+      "en": "Guava"
+     },
+     "use": {
+      "es": "Símbolo y detalle",
+      "en": "Symbol and detail"
+     },
+     "text": "#FFFFFF"
+    },
+    {
+     "key": "extra",
+     "hex": "#F7A6A5",
+     "rgb": [
+      247,
+      166,
+      165
+     ],
+     "cmyk": [
+      0,
+      33,
+      33,
+      3
+     ],
+     "name": {
+      "es": "Flor",
+      "en": "Blossom"
+     },
+     "use": {
+      "es": "Contraste",
+      "en": "Contrast"
+     },
+     "text": "#111111"
+    }
+   ],
+   "fonts": [
+    {
+     "role": "display",
+     "family": "Fraunces",
+     "weight": 700,
+     "italic": false,
+     "license": "SIL Open Font License 1.1",
+     "url": "https://fonts.google.com/specimen/Fraunces",
+     "file": "tipo-titulos.svg"
+    },
+    {
+     "role": "body",
+     "family": "DM Sans",
+     "weight": 500,
+     "italic": false,
+     "license": "SIL Open Font License 1.1",
+     "url": "https://fonts.google.com/specimen/DM+Sans",
+     "file": "tipo-textos.svg"
+    }
+   ],
+   "surfaces": {
+    "light": "#F6E6CF",
+    "strong": "#44221E",
+    "lightText": "#111111",
+    "strongText": "#FFFFFF"
+   },
+   "versions": [
+    {
+     "key": "horizontal",
+     "bg": "#F6E6CF",
+     "ratio": 9.2249
+    },
+    {
+     "key": "vertical",
+     "bg": "#F6E6CF",
+     "ratio": 3.0337
+    },
+    {
+     "key": "simbolo",
+     "bg": "#F6E6CF",
+     "ratio": 1.0
+    },
+    {
+     "key": "inversa",
+     "bg": "#44221E",
+     "ratio": 9.2249
+    },
+    {
+     "key": "negro",
+     "bg": "#FFFFFF",
+     "ratio": 9.2249
+    },
+    {
+     "key": "blanco",
+     "bg": "#111111",
+     "ratio": 9.2249
+    }
+   ],
+   "mockups": [
+    {
+     "key": "bar",
+     "label": {
+      "es": "Empaque de chocolate",
+      "en": "Chocolate packaging"
+     }
+    },
+    {
+     "key": "pouch",
+     "label": {
+      "es": "Bolsas de producto",
+      "en": "Product pouches"
+     }
+    },
+    {
+     "key": "box",
+     "label": {
+      "es": "Empaque",
+      "en": "Packaging"
+     }
+    },
+    {
+     "key": "bag",
+     "label": {
+      "es": "Bolsas de compra",
+      "en": "Shopping bags"
+     }
+    },
+    {
+     "key": "cards",
+     "label": {
+      "es": "Tarjetas de presentación",
+      "en": "Business cards"
+     }
+    },
+    {
+     "key": "poster",
+     "label": {
+      "es": "Afiche",
+      "en": "Poster"
+     }
+    }
+   ],
+   "corporate": [
+    {
+     "key": "stationery",
+     "label": {
+      "es": "Papelería corporativa",
+      "en": "Corporate stationery"
+     }
+    },
+    {
+     "key": "digital",
+     "label": {
+      "es": "Firma de correo y presentación",
+      "en": "Email signature and slides"
+     }
+    }
+   ],
+   "editorial": {
+    "file": "foto-editorial.webp",
+    "small": "foto-editorial-640.webp",
+    "label": {
+     "es": "Empaque de chocolate",
+     "en": "Chocolate packaging"
+    }
+   }
+  },
+  {
+   "n": 5,
+   "slug": "giro-sur",
+   "name": "Giro Sur",
+   "style": "tech",
+   "sector": {
+    "es": "Ciclismo urbano",
+    "en": "Urban cycling"
+   },
+   "concept": {
+    "es": "Dos curvas encadenadas dibujan un cambio de carril. La identidad lleva el amarillo de señalización a la ropa y los accesorios.",
+    "en": "Two linked turns trace a lane change. The identity brings traffic-sign yellow to apparel and accessories."
+   },
+   "tagline": {
+    "es": "La calle es tu ruta",
+    "en": "The streets are your route"
+   },
+   "personality": {
+    "es": [
+     "Ágil",
+     "Urbana"
+    ],
+    "en": [
+     "Agile",
+     "Urban"
+    ]
+   },
+   "logoKind": {
+    "es": "Símbolo y logotipo",
+    "en": "Symbol and wordmark"
+   },
+   "colors": [
+    {
+     "key": "ink",
+     "hex": "#22233D",
+     "rgb": [
+      34,
+      35,
+      61
+     ],
+     "cmyk": [
+      44,
+      43,
+      0,
+      76
+     ],
+     "name": {
+      "es": "Asfalto",
+      "en": "Asphalt"
+     },
+     "use": {
+      "es": "Logotipo",
+      "en": "Wordmark"
+     },
+     "text": "#FFFFFF"
+    },
+    {
+     "key": "light",
+     "hex": "#F3EFDF",
+     "rgb": [
+      243,
+      239,
+      223
+     ],
+     "cmyk": [
+      0,
+      2,
+      8,
+      5
+     ],
+     "name": {
+      "es": "Tiza",
+      "en": "Chalk"
+     },
+     "use": {
+      "es": "Fondo",
+      "en": "Background"
+     },
+     "text": "#111111"
+    },
+    {
+     "key": "signal",
+     "hex": "#7168B2",
+     "rgb": [
+      113,
+      104,
+      178
+     ],
+     "cmyk": [
+      37,
+      42,
+      0,
+      30
+     ],
+     "name": {
+      "es": "Violeta",
+      "en": "Violet"
+     },
+     "use": {
+      "es": "Símbolo y detalle",
+      "en": "Symbol and detail"
+     },
+     "text": "#FFFFFF"
+    },
+    {
+     "key": "extra",
+     "hex": "#E8F47C",
+     "rgb": [
+      232,
+      244,
+      124
+     ],
+     "cmyk": [
+      5,
+      0,
+      49,
+      4
+     ],
+     "name": {
+      "es": "Señal",
+      "en": "Signal"
+     },
+     "use": {
+      "es": "Contraste",
+      "en": "Contrast"
+     },
+     "text": "#111111"
+    }
+   ],
+   "fonts": [
+    {
+     "role": "display",
+     "family": "Space Grotesk",
+     "weight": 700,
+     "italic": false,
+     "license": "SIL Open Font License 1.1",
+     "url": "https://fonts.google.com/specimen/Space+Grotesk",
+     "file": "tipo-titulos.svg"
+    },
+    {
+     "role": "body",
+     "family": "DM Sans",
+     "weight": 500,
+     "italic": false,
+     "license": "SIL Open Font License 1.1",
+     "url": "https://fonts.google.com/specimen/DM+Sans",
+     "file": "tipo-textos.svg"
+    }
+   ],
+   "surfaces": {
+    "light": "#F3EFDF",
+    "strong": "#22233D",
+    "lightText": "#111111",
+    "strongText": "#FFFFFF"
+   },
+   "versions": [
+    {
+     "key": "horizontal",
+     "bg": "#F3EFDF",
+     "ratio": 6.1003
+    },
+    {
+     "key": "vertical",
+     "bg": "#F3EFDF",
+     "ratio": 1.8299
+    },
+    {
+     "key": "simbolo",
+     "bg": "#F3EFDF",
+     "ratio": 1.0
+    },
+    {
+     "key": "inversa",
+     "bg": "#22233D",
+     "ratio": 6.1003
+    },
+    {
+     "key": "negro",
+     "bg": "#FFFFFF",
+     "ratio": 6.1003
+    },
+    {
+     "key": "blanco",
+     "bg": "#111111",
+     "ratio": 6.1003
+    }
+   ],
+   "mockups": [
+    {
+     "key": "cap",
+     "label": {
+      "es": "Gorra",
+      "en": "Cap"
+     }
+    },
+    {
+     "key": "tshirt",
+     "label": {
+      "es": "Camiseta",
+      "en": "T-shirt"
+     }
+    },
+    {
+     "key": "tote",
+     "label": {
+      "es": "Bolsa de tela",
+      "en": "Tote bag"
+     }
+    },
+    {
+     "key": "hangtag",
+     "label": {
+      "es": "Etiquetas",
+      "en": "Tags"
+     }
+    },
+    {
+     "key": "poster",
+     "label": {
+      "es": "Afiche",
+      "en": "Poster"
+     }
+    },
+    {
+     "key": "cards",
+     "label": {
+      "es": "Tarjetas de presentación",
+      "en": "Business cards"
+     }
+    }
+   ],
+   "corporate": [
+    {
+     "key": "stationery",
+     "label": {
+      "es": "Papelería corporativa",
+      "en": "Corporate stationery"
+     }
+    },
+    {
+     "key": "digital",
+     "label": {
+      "es": "Firma de correo y presentación",
+      "en": "Email signature and slides"
+     }
+    }
+   ],
+   "editorial": {
+    "file": "foto-editorial.webp",
+    "small": "foto-editorial-640.webp",
+    "label": {
+     "es": "Gorra",
+     "en": "Cap"
+    }
+   }
+  },
+  {
+   "n": 6,
+   "slug": "fosforo",
+   "name": "Fósforo",
+   "style": "playful",
+   "sector": {
+    "es": "Pizzería de horno",
+    "en": "Wood-fired pizzeria"
+   },
+   "concept": {
+    "es": "Una llama compacta y letras carnosas. La identidad cruza el color del horno con papel crema y tinta berenjena.",
+    "en": "A compact flame and chunky lettering pair the warmth of the oven with cream paper and aubergine ink."
+   },
+   "tagline": {
+    "es": "Que prenda el hambre",
+    "en": "Fire up your appetite"
+   },
+   "personality": {
+    "es": [
+     "Traviesa",
+     "Cálida"
+    ],
+    "en": [
+     "Mischievous",
+     "Warm"
+    ]
+   },
+   "logoKind": {
+    "es": "Símbolo y logotipo",
+    "en": "Symbol and wordmark"
+   },
+   "colors": [
+    {
+     "key": "ink",
+     "hex": "#4A203D",
+     "rgb": [
+      74,
+      32,
+      61
+     ],
+     "cmyk": [
+      0,
+      57,
+      18,
+      71
+     ],
+     "name": {
+      "es": "Berenjena",
+      "en": "Aubergine"
+     },
+     "use": {
+      "es": "Logotipo",
+      "en": "Wordmark"
+     },
+     "text": "#FFFFFF"
+    },
+    {
+     "key": "light",
+     "hex": "#FFEDCA",
+     "rgb": [
+      255,
+      237,
+      202
+     ],
+     "cmyk": [
+      0,
+      7,
+      21,
+      0
+     ],
+     "name": {
+      "es": "Masa",
+      "en": "Dough"
+     },
+     "use": {
+      "es": "Fondo",
+      "en": "Background"
+     },
+     "text": "#111111"
+    },
+    {
+     "key": "signal",
+     "hex": "#DE452A",
+     "rgb": [
+      222,
+      69,
+      42
+     ],
+     "cmyk": [
+      0,
+      69,
+      81,
+      13
+     ],
+     "name": {
+      "es": "Brasa",
+      "en": "Ember"
+     },
+     "use": {
+      "es": "Símbolo y detalle",
+      "en": "Symbol and detail"
+     },
+     "text": "#111111"
+    },
+    {
+     "key": "extra",
+     "hex": "#FFAA55",
+     "rgb": [
+      255,
+      170,
+      85
+     ],
+     "cmyk": [
+      0,
+      33,
+      67,
+      0
+     ],
+     "name": {
+      "es": "Horno",
+      "en": "Oven"
+     },
+     "use": {
+      "es": "Contraste",
+      "en": "Contrast"
+     },
+     "text": "#111111"
+    }
+   ],
+   "fonts": [
+    {
+     "role": "display",
+     "family": "Baloo 2",
+     "weight": 800,
+     "italic": false,
+     "license": "SIL Open Font License 1.1",
+     "url": "https://fonts.google.com/specimen/Baloo+2",
+     "file": "tipo-titulos.svg"
+    },
+    {
+     "role": "body",
+     "family": "DM Sans",
+     "weight": 500,
+     "italic": false,
+     "license": "SIL Open Font License 1.1",
+     "url": "https://fonts.google.com/specimen/DM+Sans",
+     "file": "tipo-textos.svg"
+    }
+   ],
+   "surfaces": {
+    "light": "#FFEDCA",
+    "strong": "#4A203D",
+    "lightText": "#111111",
+    "strongText": "#FFFFFF"
+   },
+   "versions": [
+    {
+     "key": "horizontal",
+     "bg": "#FFEDCA",
+     "ratio": 5.3186
+    },
+    {
+     "key": "vertical",
+     "bg": "#FFEDCA",
+     "ratio": 1.9852
+    },
+    {
+     "key": "simbolo",
+     "bg": "#FFEDCA",
+     "ratio": 1.0
+    },
+    {
+     "key": "inversa",
+     "bg": "#4A203D",
+     "ratio": 5.3186
+    },
+    {
+     "key": "negro",
+     "bg": "#FFFFFF",
+     "ratio": 5.3186
+    },
+    {
+     "key": "blanco",
+     "bg": "#111111",
+     "ratio": 5.3186
+    }
+   ],
+   "mockups": [
+    {
+     "key": "box",
+     "label": {
+      "es": "Empaque",
+      "en": "Packaging"
+     }
+    },
+    {
+     "key": "cup",
+     "label": {
+      "es": "Vasos para llevar",
+      "en": "Takeaway cups"
+     }
+    },
+    {
+     "key": "apron",
+     "label": {
+      "es": "Delantal",
+      "en": "Apron"
+     }
+    },
+    {
+     "key": "bag",
+     "label": {
+      "es": "Bolsas de compra",
+      "en": "Shopping bags"
+     }
+    },
+    {
+     "key": "menu",
+     "label": {
+      "es": "Menú",
+      "en": "Menu"
+     }
+    },
+    {
+     "key": "storefront",
+     "label": {
+      "es": "Fachada y aviso",
+      "en": "Storefront and sign"
+     }
+    }
+   ],
+   "corporate": [
+    {
+     "key": "stationery",
+     "label": {
+      "es": "Papelería corporativa",
+      "en": "Corporate stationery"
+     }
+    },
+    {
+     "key": "digital",
+     "label": {
+      "es": "Firma de correo y presentación",
+      "en": "Email signature and slides"
+     }
+    }
+   ],
+   "editorial": {
+    "file": "foto-editorial.webp",
+    "small": "foto-editorial-640.webp",
+    "label": {
+     "es": "Empaque",
+     "en": "Packaging"
+    }
+   },
+   "mascot": {
+    "name": "Chispa",
+    "description": {
+     "es": "La llama del horno cobra vida. Saluda desde las cajas, los delantales y las piezas para llevar.",
+     "en": "The oven flame comes to life on boxes, aprons and takeaway pieces."
+    }
+   }
+  },
+  {
+   "n": 7,
    "slug": "aurelia",
    "name": "Aurelia Hotel & Spa",
    "style": "luxe",
@@ -321,10 +1871,18 @@
      },
      "photo": "foto-digital.webp"
     }
-   ]
+   ],
+   "editorial": {
+    "file": "foto-editorial.webp",
+    "small": "foto-editorial-640.webp",
+    "label": {
+     "es": "Tarjetas de presentación",
+     "en": "Business cards"
+    }
+   }
   },
   {
-   "n": 2,
+   "n": 8,
    "slug": "maison-velour",
    "name": "Maison Velour",
    "style": "luxe",
@@ -579,10 +2137,18 @@
      },
      "photo": "foto-digital.webp"
     }
-   ]
+   ],
+   "editorial": {
+    "file": "foto-editorial.webp",
+    "small": "foto-editorial-640.webp",
+    "label": {
+     "es": "Envases",
+     "en": "Bottles"
+    }
+   }
   },
   {
-   "n": 3,
+   "n": 9,
    "slug": "ludovica",
    "name": "Ludovica",
    "style": "luxe",
@@ -837,10 +2403,18 @@
      },
      "photo": "foto-digital.webp"
     }
-   ]
+   ],
+   "editorial": {
+    "file": "foto-editorial.webp",
+    "small": "foto-editorial-640.webp",
+    "label": {
+     "es": "Etiquetas",
+     "en": "Tags"
+    }
+   }
   },
   {
-   "n": 4,
+   "n": 10,
    "slug": "orvieto",
    "name": "Orvieto",
    "style": "luxe",
@@ -1095,10 +2669,18 @@
      },
      "photo": "foto-digital.webp"
     }
-   ]
+   ],
+   "editorial": {
+    "file": "foto-editorial.webp",
+    "small": "foto-editorial-640.webp",
+    "label": {
+     "es": "Menú",
+     "en": "Menu"
+    }
+   }
   },
   {
-   "n": 5,
+   "n": 11,
    "slug": "altamar",
    "name": "Altamar Club Náutico",
    "style": "luxe",
@@ -1353,10 +2935,18 @@
      },
      "photo": "foto-digital.webp"
     }
-   ]
+   ],
+   "editorial": {
+    "file": "foto-editorial.webp",
+    "small": "foto-editorial-640.webp",
+    "label": {
+     "es": "Gorra",
+     "en": "Cap"
+    }
+   }
   },
   {
-   "n": 6,
+   "n": 12,
    "slug": "sable-co",
    "name": "Sable & Co.",
    "style": "luxe",
@@ -1611,10 +3201,18 @@
      },
      "photo": "foto-digital.webp"
     }
-   ]
+   ],
+   "editorial": {
+    "file": "foto-editorial.webp",
+    "small": "foto-editorial-640.webp",
+    "label": {
+     "es": "Etiquetas",
+     "en": "Tags"
+    }
+   }
   },
   {
-   "n": 7,
+   "n": 13,
    "slug": "villa-serena",
    "name": "Villa Serena",
    "style": "luxe",
@@ -1869,10 +3467,18 @@
      },
      "photo": "foto-digital.webp"
     }
-   ]
+   ],
+   "editorial": {
+    "file": "foto-editorial.webp",
+    "small": "foto-editorial-640.webp",
+    "label": {
+     "es": "Tarjetas de presentación",
+     "en": "Business cards"
+    }
+   }
   },
   {
-   "n": 8,
+   "n": 14,
    "slug": "alma-botanica",
    "name": "Alma Botánica",
    "style": "luxe",
@@ -2127,10 +3733,18 @@
      },
      "photo": "foto-digital.webp"
     }
-   ]
+   ],
+   "editorial": {
+    "file": "foto-editorial.webp",
+    "small": "foto-editorial-640.webp",
+    "label": {
+     "es": "Envases",
+     "en": "Bottles"
+    }
+   }
   },
   {
-   "n": 9,
+   "n": 15,
    "slug": "casa-duvall",
    "name": "Casa Duvall",
    "style": "luxe",
@@ -2385,10 +3999,18 @@
      },
      "photo": "foto-digital.webp"
     }
-   ]
+   ],
+   "editorial": {
+    "file": "foto-editorial.webp",
+    "small": "foto-editorial-640.webp",
+    "label": {
+     "es": "Empaque",
+     "en": "Packaging"
+    }
+   }
   },
   {
-   "n": 10,
+   "n": 16,
    "slug": "regalia",
    "name": "Regalia",
    "style": "luxe",
@@ -2643,10 +4265,18 @@
      },
      "photo": "foto-digital.webp"
     }
-   ]
+   ],
+   "editorial": {
+    "file": "foto-editorial.webp",
+    "small": "foto-editorial-640.webp",
+    "label": {
+     "es": "Tarjetas de presentación",
+     "en": "Business cards"
+    }
+   }
   },
   {
-   "n": 11,
+   "n": 17,
    "slug": "celeste",
    "name": "Céleste",
    "style": "luxe",
@@ -2901,10 +4531,18 @@
      },
      "photo": "foto-digital.webp"
     }
-   ]
+   ],
+   "editorial": {
+    "file": "foto-editorial.webp",
+    "small": "foto-editorial-640.webp",
+    "label": {
+     "es": "Empaque",
+     "en": "Packaging"
+    }
+   }
   },
   {
-   "n": 12,
+   "n": 18,
    "slug": "bramante",
    "name": "Bramante Interiores",
    "style": "luxe",
@@ -3159,10 +4797,18 @@
      },
      "photo": "foto-digital.webp"
     }
-   ]
+   ],
+   "editorial": {
+    "file": "foto-editorial.webp",
+    "small": "foto-editorial-640.webp",
+    "label": {
+     "es": "Tarjetas de presentación",
+     "en": "Business cards"
+    }
+   }
   },
   {
-   "n": 13,
+   "n": 19,
    "slug": "sereno",
    "name": "Sereno",
    "style": "minimal",
@@ -3417,10 +5063,18 @@
      },
      "photo": "foto-digital.webp"
     }
-   ]
+   ],
+   "editorial": {
+    "file": "foto-editorial.webp",
+    "small": "foto-editorial-640.webp",
+    "label": {
+     "es": "Envases",
+     "en": "Bottles"
+    }
+   }
   },
   {
-   "n": 14,
+   "n": 20,
    "slug": "nido",
    "name": "Nido Arquitectura",
    "style": "minimal",
@@ -3675,10 +5329,18 @@
      },
      "photo": "foto-digital.webp"
     }
-   ]
+   ],
+   "editorial": {
+    "file": "foto-editorial.webp",
+    "small": "foto-editorial-640.webp",
+    "label": {
+     "es": "Tarjetas de presentación",
+     "en": "Business cards"
+    }
+   }
   },
   {
-   "n": 15,
+   "n": 21,
    "slug": "lino",
    "name": "Lino",
    "style": "minimal",
@@ -3933,10 +5595,18 @@
      },
      "photo": "foto-digital.webp"
     }
-   ]
+   ],
+   "editorial": {
+    "file": "foto-editorial.webp",
+    "small": "foto-editorial-640.webp",
+    "label": {
+     "es": "Frascos",
+     "en": "Jars"
+    }
+   }
   },
   {
-   "n": 16,
+   "n": 22,
    "slug": "castelar",
    "name": "Castelar Abogados",
    "style": "corporate",
@@ -4191,10 +5861,18 @@
      },
      "photo": "foto-digital.webp"
     }
-   ]
+   ],
+   "editorial": {
+    "file": "foto-editorial.webp",
+    "small": "foto-editorial-640.webp",
+    "label": {
+     "es": "Tarjetas de presentación",
+     "en": "Business cards"
+    }
+   }
   },
   {
-   "n": 17,
+   "n": 23,
    "slug": "balance",
    "name": "Balance",
    "style": "corporate",
@@ -4449,10 +6127,18 @@
      },
      "photo": "foto-digital.webp"
     }
-   ]
+   ],
+   "editorial": {
+    "file": "foto-editorial.webp",
+    "small": "foto-editorial-640.webp",
+    "label": {
+     "es": "Tarjetas de presentación",
+     "en": "Business cards"
+    }
+   }
   },
   {
-   "n": 18,
+   "n": 24,
    "slug": "arco",
    "name": "Arco Odontología",
    "style": "corporate",
@@ -4707,10 +6393,18 @@
      },
      "photo": "foto-digital.webp"
     }
-   ]
+   ],
+   "editorial": {
+    "file": "foto-editorial.webp",
+    "small": "foto-editorial-640.webp",
+    "label": {
+     "es": "Tarjetas de presentación",
+     "en": "Business cards"
+    }
+   }
   },
   {
-   "n": 19,
+   "n": 25,
    "slug": "brasa-brava",
    "name": "Brasa Brava",
    "style": "bold",
@@ -4989,10 +6683,25 @@
      },
      "photo": "foto-digital.webp"
     }
-   ]
+   ],
+   "editorial": {
+    "file": "foto-editorial.webp",
+    "small": "foto-editorial-640.webp",
+    "label": {
+     "es": "Empaque",
+     "en": "Packaging"
+    }
+   },
+   "mascot": {
+    "name": "La Bravita",
+    "description": {
+     "es": "Una brasa con guantes de parrillero para los empaques para llevar y las piezas de promociones.",
+     "en": "An ember with barbecue mitts for takeaway packaging and promotional pieces."
+    }
+   }
   },
   {
-   "n": 20,
+   "n": 26,
    "slug": "voltio",
    "name": "Voltio",
    "style": "bold",
@@ -5247,10 +6956,18 @@
      },
      "photo": "foto-digital.webp"
     }
-   ]
+   ],
+   "editorial": {
+    "file": "foto-editorial.webp",
+    "small": "foto-editorial-640.webp",
+    "label": {
+     "es": "Latas",
+     "en": "Cans"
+    }
+   }
   },
   {
-   "n": 21,
+   "n": 27,
    "slug": "guayaba-club",
    "name": "Guayaba Club",
    "style": "bold",
@@ -5505,10 +7222,18 @@
      },
      "photo": "foto-digital.webp"
     }
-   ]
+   ],
+   "editorial": {
+    "file": "foto-editorial.webp",
+    "small": "foto-editorial-640.webp",
+    "label": {
+     "es": "Vasos para llevar",
+     "en": "Takeaway cups"
+    }
+   }
   },
   {
-   "n": 22,
+   "n": 28,
    "slug": "ebano",
    "name": "Ébano Joyería",
    "style": "elegant",
@@ -5763,10 +7488,18 @@
      },
      "photo": "foto-digital.webp"
     }
-   ]
+   ],
+   "editorial": {
+    "file": "foto-editorial.webp",
+    "small": "foto-editorial-640.webp",
+    "label": {
+     "es": "Empaque",
+     "en": "Packaging"
+    }
+   }
   },
   {
-   "n": 23,
+   "n": 29,
    "slug": "hacienda-magnolia",
    "name": "Hacienda Magnolia",
    "style": "elegant",
@@ -6021,10 +7754,18 @@
      },
      "photo": "foto-digital.webp"
     }
-   ]
+   ],
+   "editorial": {
+    "file": "foto-editorial.webp",
+    "small": "foto-editorial-640.webp",
+    "label": {
+     "es": "Tarjetas de presentación",
+     "en": "Business cards"
+    }
+   }
   },
   {
-   "n": 24,
+   "n": 30,
    "slug": "ambar",
    "name": "Ámbar Chocolatería",
    "style": "elegant",
@@ -6279,10 +8020,18 @@
      },
      "photo": "foto-digital.webp"
     }
-   ]
+   ],
+   "editorial": {
+    "file": "foto-editorial.webp",
+    "small": "foto-editorial-640.webp",
+    "label": {
+     "es": "Empaque de chocolate",
+     "en": "Chocolate packaging"
+    }
+   }
   },
   {
-   "n": 25,
+   "n": 31,
    "slug": "masa-madre",
    "name": "Masa Madre",
    "style": "organic",
@@ -6537,10 +8286,18 @@
      },
      "photo": "foto-digital.webp"
     }
-   ]
+   ],
+   "editorial": {
+    "file": "foto-editorial.webp",
+    "small": "foto-editorial-640.webp",
+    "label": {
+     "es": "Bolsas de compra",
+     "en": "Shopping bags"
+    }
+   }
   },
   {
-   "n": 26,
+   "n": 32,
    "slug": "miel-de-monte",
    "name": "Miel de Monte",
    "style": "organic",
@@ -6795,10 +8552,25 @@
      },
      "photo": "foto-digital.webp"
     }
-   ]
+   ],
+   "editorial": {
+    "file": "foto-editorial.webp",
+    "small": "foto-editorial-640.webp",
+    "label": {
+     "es": "Frascos",
+     "en": "Jars"
+    }
+   },
+   "mascot": {
+    "name": "Zumba",
+    "description": {
+     "es": "Una abeja curiosa que señala los sabores y cuenta el origen de la miel en etiquetas y publicaciones.",
+     "en": "A curious bee points out flavors and tells the honey’s story on labels and social posts."
+    }
+   }
   },
   {
-   "n": 27,
+   "n": 33,
    "slug": "raiz",
    "name": "Raíz Huerta Orgánica",
    "style": "organic",
@@ -7053,10 +8825,18 @@
      },
      "photo": "foto-digital.webp"
     }
-   ]
+   ],
+   "editorial": {
+    "file": "foto-editorial.webp",
+    "small": "foto-editorial-640.webp",
+    "label": {
+     "es": "Bolsa de tela",
+     "en": "Tote bag"
+    }
+   }
   },
   {
-   "n": 28,
+   "n": 34,
    "slug": "michi-firulais",
    "name": "Michi & Firulais",
    "style": "playful",
@@ -7311,10 +9091,25 @@
      },
      "photo": "foto-digital.webp"
     }
-   ]
+   ],
+   "editorial": {
+    "file": "foto-editorial.webp",
+    "small": "foto-editorial-640.webp",
+    "label": {
+     "es": "Bolsas de producto",
+     "en": "Product pouches"
+    }
+   },
+   "mascot": {
+    "name": "Michi y Firulais",
+    "description": {
+     "es": "El gato curioso y el perro entusiasta acompañan las etiquetas, las bolsas y las guías para nuevos cuidadores.",
+     "en": "A curious cat and an enthusiastic dog appear on labels, bags and guides for new pet owners."
+    }
+   }
   },
   {
-   "n": 29,
+   "n": 35,
    "slug": "pompon",
    "name": "Pompón",
    "style": "playful",
@@ -7593,10 +9388,25 @@
      },
      "photo": "foto-digital.webp"
     }
-   ]
+   ],
+   "editorial": {
+    "file": "foto-editorial.webp",
+    "small": "foto-editorial-640.webp",
+    "label": {
+     "es": "Camiseta",
+     "en": "T-shirt"
+    }
+   },
+   "mascot": {
+    "name": "Pompón",
+    "description": {
+     "es": "El pompón del logo se vuelve un personaje para etiquetas, parches y estampados infantiles.",
+     "en": "The pompom in the logo becomes a character for tags, patches and children’s prints."
+    }
+   }
   },
   {
-   "n": 30,
+   "n": 36,
    "slug": "paleton",
    "name": "Paletón",
    "style": "playful",
@@ -7851,10 +9661,25 @@
      },
      "photo": "foto-digital.webp"
     }
-   ]
+   ],
+   "editorial": {
+    "file": "foto-editorial.webp",
+    "small": "foto-editorial-640.webp",
+    "label": {
+     "es": "Producto y empaque",
+     "en": "Product and wrapper"
+    }
+   },
+   "mascot": {
+    "name": "Paletón",
+    "description": {
+     "es": "La paleta mordida sale del logo para acompañar sabores, envoltorios y carteles de temporada.",
+     "en": "The bitten ice pop steps out of the logo to introduce flavors, wrappers and seasonal posters."
+    }
+   }
   },
   {
-   "n": 31,
+   "n": 37,
    "slug": "la-navaja",
    "name": "La Navaja Barbería",
    "style": "retro",
@@ -8109,10 +9934,18 @@
      },
      "photo": "foto-digital.webp"
     }
-   ]
+   ],
+   "editorial": {
+    "file": "foto-editorial.webp",
+    "small": "foto-editorial-640.webp",
+    "label": {
+     "es": "Fachada y aviso",
+     "en": "Storefront and sign"
+    }
+   }
   },
   {
-   "n": 32,
+   "n": 38,
    "slug": "paramo",
    "name": "Páramo Cervecería",
    "style": "retro",
@@ -8391,10 +10224,18 @@
      },
      "photo": "foto-digital.webp"
     }
-   ]
+   ],
+   "editorial": {
+    "file": "foto-editorial.webp",
+    "small": "foto-editorial-640.webp",
+    "label": {
+     "es": "Botellas",
+     "en": "Bottles"
+    }
+   }
   },
   {
-   "n": 33,
+   "n": 39,
    "slug": "el-tranvia",
    "name": "El Tranvía Café",
    "style": "retro",
@@ -8649,10 +10490,18 @@
      },
      "photo": "foto-digital.webp"
     }
-   ]
+   ],
+   "editorial": {
+    "file": "foto-editorial.webp",
+    "small": "foto-editorial-640.webp",
+    "label": {
+     "es": "Vasos para llevar",
+     "en": "Takeaway cups"
+    }
+   }
   },
   {
-   "n": 34,
+   "n": 40,
    "slug": "orbita",
    "name": "Órbita Software",
    "style": "tech",
@@ -8907,10 +10756,18 @@
      },
      "photo": "foto-digital.webp"
     }
-   ]
+   ],
+   "editorial": {
+    "file": "foto-editorial.webp",
+    "small": "foto-editorial-640.webp",
+    "label": {
+     "es": "Sitio web",
+     "en": "Website"
+    }
+   }
   },
   {
-   "n": 35,
+   "n": 41,
    "slug": "kambio",
    "name": "Kambio",
    "style": "tech",
@@ -9165,10 +11022,18 @@
      },
      "photo": "foto-digital.webp"
     }
-   ]
+   ],
+   "editorial": {
+    "file": "foto-editorial.webp",
+    "small": "foto-editorial-640.webp",
+    "label": {
+     "es": "App e ícono",
+     "en": "App and icon"
+    }
+   }
   },
   {
-   "n": 36,
+   "n": 42,
    "slug": "rumbo",
    "name": "Rumbo Logística",
    "style": "tech",
@@ -9423,7 +11288,15 @@
      },
      "photo": "foto-digital.webp"
     }
-   ]
+   ],
+   "editorial": {
+    "file": "foto-editorial.webp",
+    "small": "foto-editorial-640.webp",
+    "label": {
+     "es": "Vehículo",
+     "en": "Vehicle"
+    }
+   }
   }
  ]
 }

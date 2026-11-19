@@ -35,7 +35,7 @@ const description = es
 
     <section class="wrap" aria-label={es ? 'Galería de marcas' : 'Brand gallery'}>
       <div class="filter-bar"><div class="filters" role="group" aria-label={es ? 'Filtrar por estilo' : 'Filter by style'}><button data-brand-filter="all" aria-pressed="true">{es ? 'Todas' : 'All'} <span>{brands.length}</span></button>{brandStyles.map(s => <button data-brand-filter={s.id} aria-pressed="false">{s.label[locale]} <span>{brands.filter(b => b.style === s.id).length}</span></button>)}</div><span class="filter-count" role="status" aria-live="polite" data-plural={es ? 'marcas' : 'brands'} data-singular={es ? 'marca' : 'brand'}>{brands.length} {es ? 'marcas' : 'brands'}</span></div>
-      <div class="brand-grid">{brands.map((b, i) => <BrandCard brand={b} locale={locale} eager={i < 3} heading="h2" />)}</div>
+      <div class="brand-grid">{brands.map((b, i) => <BrandCard brand={b} locale={locale} eager={i === 0} heading="h2" />)}</div>
     </section>
 
     <section class="wrap bp-section" aria-labelledby="paquete-titulo">

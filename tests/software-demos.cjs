@@ -574,7 +574,9 @@ async function testIntakeForms() {
 // Brand design showcase: gallery filters, brand pages, WhatsApp hand-off, zoom, assets and accessibility.
 async function testBrandShowcase() {
   const data = JSON.parse(fs.readFileSync(path.join(__dirname, "../src/data/brand-showcase.json"), "utf8"));
-  assert.equal(data.brands.length, 36, "36 sample brands");
+  const opening = ["Tinta Marea", "Nimbo", "Senda Mineral", "Canto Cacao", "Giro Sur", "Fósforo"];
+  assert.equal(data.brands.length, 42, "42 sample brands");
+  assert.ok(data.brands.every(b => b.editorial?.file && b.editorial?.small), "every brand has two photo sizes");
   for (const lang of ["es", "en"]) {
     const context = await browser.newContext({ reducedMotion: "reduce" });
     const page = await context.newPage();
@@ -585,10 +587,11 @@ async function testBrandShowcase() {
     await page.goto(`${base}${lang}/`);
     const nav = page.locator(`.main-navigation a[href$="/${lang}/marcas/"]`);
     assert.equal(await nav.count(), 1, `${lang}: brands link in the main menu`);
-    assert.equal(await page.locator("#marcas .brand-card").count(), 6, `${lang}: home teaser shows 6 brands`);
+    assert.deepEqual(await page.locator("#marcas .brand-card h3").allTextContents(), opening, `${lang}: home teaser features the new brands`);
     await nav.click();
     await page.waitForURL(`**/${lang}/marcas/`);
     assert.equal(await page.locator(".brand-card").count(), data.brands.length, `${lang}: gallery lists every brand`);
+    assert.deepEqual((await page.locator(".brand-card h2").allTextContents()).slice(0, 6), opening, `${lang}: the new designs open the gallery`);
     for (const style of data.styles) {
       await page.locator(`[data-brand-filter="${style.id}"]`).click();
       const visible = await page.locator(".brand-card:not([hidden])").count();
@@ -597,12 +600,16 @@ async function testBrandShowcase() {
     await page.locator('[data-brand-filter="all"]').click();
     const axe = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa"]).analyze();
     assert.deepEqual(axe.violations.map((v) => v.id), [], `${lang}: gallery accessibility`);
-    for (const slug of ["sereno", "voltio", "la-navaja", "maison-velour", "villa-serena"]) {
+    for (const slug of ["sereno", "voltio", "la-navaja", "maison-velour", "villa-serena", "nimbo"]) {
       const brand = data.brands.find((b) => b.slug === slug);
       await page.goto(`${base}${lang}/marcas/${slug}/`);
       await page.evaluate(async () => { for (let y = 0; y < document.body.scrollHeight; y += 700) { window.scrollTo(0, y); await new Promise((r) => setTimeout(r, 30)); } });
       const broken = await page.evaluate(() => [...document.images].filter((i) => i.getAttribute("src") && i.complete && i.naturalWidth === 0).map((i) => i.src));
       assert.deepEqual(broken, [], `${lang}/${slug}: images load`);
+      assert.match(await page.locator(".bp-cover img").getAttribute("srcset"), /foto-editorial-640\.webp 640w/);
+      const mascot = page.locator("#mascota");
+      assert.equal(await mascot.count(), Number(Boolean(brand.mascot)), `${lang}/${slug}: optional mascot`);
+      if (brand.mascot) assert.equal(await mascot.locator("h2").textContent(), brand.mascot.name);
       const wa = await page.locator(".bp-hero a.brand-btn.wa").getAttribute("href");
       assert.ok(wa.startsWith("https://wa.me/573058147293?text="), `${lang}/${slug}: WhatsApp number`);
       const text = decodeURIComponent(wa.split("text=")[1]);
@@ -624,7 +631,7 @@ async function testBrandShowcase() {
     }
     assert.deepEqual(errors, [], `${lang}: browser errors`);
     assert.deepEqual(failed, [], `${lang}: failed requests`);
-    console.log(`PASS ${lang}/marcas: menu, filters, 5 brand pages, WhatsApp hand-off, zoom, images, accessibility and reflow`);
+    console.log(`PASS ${lang}/marcas: menu, filters, brand pages, mascots, WhatsApp hand-off, zoom, images, accessibility and reflow`);
     await context.close();
   }
 }
