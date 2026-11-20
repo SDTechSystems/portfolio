@@ -1,0 +1,62 @@
+---
+// Sticky top bar shared by the portfolio pages. On screens up to 960px the links fold into a menu button.
+import Brand from './Brand.astro';
+import LanguageSwitch from './LanguageSwitch.astro';
+import WhatsAppIcon from './WhatsAppIcon.astro';
+import { waLink, waMessages, softwareProjectIds, type Locale } from '../data/catalog';
+import { forms } from '../data/forms';
+import { brands } from '../data/brands';
+import { sites } from '../data/sites';
+import { words } from '../i18n';
+type Section = 'home' | 'paginas' | 'marcas' | 'proyecto';
+const { locale, section = 'home', path, projectId } = Astro.props as { locale: Locale; section?: Section; path?: string; projectId?: string };
+const t = words[locale], base = import.meta.env.BASE_URL, es = locale === 'es';
+const home = `${base}${locale}/`;
+// On the home page the section links scroll; elsewhere they go back to the home page section.
+const anchor = (id: string) => section === 'home' ? `#${id}` : `${home}#${id}`;
+const formsEn: Record<string, string> = { 'diseno-de-marca': 'Brand design', 'pagina-web': 'Website', 'software-a-medida': 'Custom software' };
+const pad = (n: number) => String(n).padStart(2, '0');
+---
+<header class="topbar" data-topbar>
+  <div class="site-header wrap">
+    <Brand href={home} />
+    <nav class="main-navigation" id="main-menu" aria-label={es ? 'Navegación principal' : 'Main navigation'}>
+      <a href={anchor('software')}>Software <span>{pad(softwareProjectIds.length)}</span></a>
+      <a href={`${home}paginas/`} aria-current={section === 'paginas' ? 'page' : undefined}>{es ? 'Páginas web' : 'Websites'} <span>{pad(sites.length)}</span></a>
+      <a href={`${home}marcas/`} aria-current={section === 'marcas' ? 'page' : undefined}>{es ? 'Marcas' : 'Brands'} <span>{brands.length}</span></a>
+      <details class="nav-quotes"><summary>{es ? 'Cotizar' : 'Get a quote'} <span aria-hidden="true">▾</span></summary><div class="nav-quotes-menu"><p>{es ? 'Formularios de cotización' : 'Quote forms'}{!es && <small> · in Spanish</small>}</p>{forms.map((f, i) => <a href={`${base}es/formularios/${f.slug}/`} style={`--i:${i}`}><span class="nav-quotes-num">{pad(i + 1)}</span><span>{es ? f.name : formsEn[f.slug]}<small>≈ {f.minutes} min</small></span><span aria-hidden="true">↗</span></a>)}<a class="nav-quotes-wa" href={waLink(waMessages.quotes[locale])} target="_blank" rel="noopener noreferrer" style="--i:3"><WhatsAppIcon /><span>{es ? 'Prefiero escribir por WhatsApp' : 'I’d rather use WhatsApp'}</span></a></div></details>
+      <a href={anchor('sobre-mi')}>{t.about}</a>
+      <a class="nav-contact" href={anchor('contacto')}>{t.contact} ↗</a>
+    </nav>
+    <LanguageSwitch locale={locale} path={path} projectId={projectId} />
+    <span class="a11y-slot" data-a11y-slot></span>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-menu"><span class="menu-icon" aria-hidden="true"><i></i><i></i><i></i></span><span class="menu-label">{es ? 'Menú' : 'Menu'}</span></button>
+  </div>
+</header>
+<script>
+  const bar = document.querySelector<HTMLElement>('[data-topbar]');
+  const toggle = bar?.querySelector<HTMLButtonElement>('.menu-toggle');
+  const quotes = bar?.querySelector<HTMLDetailsElement>('.nav-quotes');
+  if (bar && toggle) {
+    const setOpen = (open: boolean) => {
+      toggle.setAttribute('aria-expanded', String(open));
+      bar.toggleAttribute('data-open', open);
+      if (!open && quotes) quotes.open = false;
+    };
+    toggle.addEventListener('click', () => setOpen(toggle.getAttribute('aria-expanded') !== 'true'));
+    // Following a link closes the menu (the page scrolls to the section underneath).
+    bar.querySelectorAll('.main-navigation a').forEach(a => a.addEventListener('click', () => setOpen(false)));
+    document.addEventListener('click', e => {
+      if (!bar.contains(e.target as Node)) { setOpen(false); if (quotes) quotes.open = false; }
+    });
+    document.addEventListener('keydown', e => {
+      if (e.key !== 'Escape') return;
+      if (quotes?.open) { quotes.open = false; quotes.querySelector('summary')?.focus(); return; }
+      if (bar.hasAttribute('data-open')) { setOpen(false); toggle.focus(); }
+    });
+    matchMedia('(min-width: 961px)').addEventListener('change', e => { if (e.matches) setOpen(false); });
+    const onScroll = () => bar.classList.toggle('is-scrolled', scrollY > 8);
+    addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+</script>

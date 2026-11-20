@@ -29,6 +29,9 @@ const a=locale==='en'?{
   const options = ['contrast', 'spacing', 'links', 'motion'] as const;
   const inputs = Object.fromEntries(options.map(key => [key, document.querySelector<HTMLInputElement>(`#accessibility-${key}`)!])) as Record<typeof options[number], HTMLInputElement>;
   const storageKey = 'sd-tech-accessibility-v1';
+  // Pages with the top bar host the button there instead of floating over the content.
+  const slot = document.querySelector('[data-a11y-slot]');
+  if (slot) { slot.append(launcher); launcher.classList.add('in-header'); panel.classList.add('from-header'); }
   function apply(announce = false) {
     document.documentElement.style.setProperty('--text-scale', size.value);
     options.forEach(key => document.documentElement.toggleAttribute(`data-${key}`, inputs[key].checked));

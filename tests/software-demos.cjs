@@ -506,6 +506,82 @@ async function run() {
   console.log("PASS: all five bilingual demos and no-JavaScript form safety");
   await testIntakeForms();
   await testBrandShowcase();
+  await testSampleSites();
+}
+
+// Sample websites: /paginas/ gallery, the 8 sample sites, the top bar menu and the store carts.
+async function testSampleSites() {
+  const samples = ["brasa-brava", "sereno", "aurelia", "orbita", "arco", "la-navaja", "michi-firulais", "ebano"];
+  for (const lang of ["es", "en"]) {
+    const context = await browser.newContext({ reducedMotion: "reduce" });
+    const page = await context.newPage();
+    const errors = [];
+    page.on("pageerror", (e) => errors.push(e.message));
+    await page.goto(`${base}${lang}/paginas/`);
+    assert.equal(await page.locator(".site-card").count(), 9, `${lang}: gallery lists 9 websites`);
+    for (const [kind, n] of [["landing", 6], ["store", 2], ["custom", 1]]) {
+      await page.locator(`[data-site-filter="${kind}"]`).click();
+      assert.equal(await page.locator(".site-card:not([hidden])").count(), n, `${lang}: filter ${kind}`);
+    }
+    await page.locator('[data-site-filter="all"]').click();
+    const axe = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa"]).analyze();
+    assert.deepEqual(axe.violations.map((v) => `${v.id}: ${v.nodes.map((n) => n.target).join(" ")}`), [], `${lang}/paginas: accessibility`);
+    // Phone: the menu folds into a button that opens and closes.
+    await page.setViewportSize({ width: 390, height: 844 });
+    assert.ok(!(await page.locator(".main-navigation").isVisible()), `${lang}: menu folded on phones`);
+    await page.locator(".menu-toggle").click();
+    assert.ok(await page.locator('.main-navigation a[href$="/marcas/"]').isVisible(), `${lang}: hamburger opens the menu`);
+    await page.keyboard.press("Escape");
+    assert.equal(await page.locator(".menu-toggle").getAttribute("aria-expanded"), "false");
+    assert.deepEqual(errors, [], `${lang}/paginas: browser errors`);
+    await context.close();
+    console.log(`PASS ${lang}/paginas: gallery, filters, accessibility and phone menu`);
+  }
+  for (const slug of samples) {
+    const context = await browser.newContext({ reducedMotion: "reduce" });
+    const page = await context.newPage();
+    const errors = [], requests = [];
+    page.on("pageerror", (e) => errors.push(e.message));
+    page.on("request", (r) => requests.push(r.url()));
+    page.on("response", (r) => { if (r.status() >= 400) errors.push(`${r.status()} ${r.url()}`); });
+    const response = await page.goto(`${base}muestras/${slug}/`, { waitUntil: "networkidle" });
+    assert.equal(response.status(), 200);
+    assert.equal(await page.locator("html").getAttribute("lang"), "es");
+    const axe = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa"]).analyze();
+    assert.deepEqual(axe.violations.map((v) => `${v.id}: ${v.nodes.map((n) => n.target).join(" ")}`), [], `${slug}: accessibility`);
+    for (const width of [360, 390, 768, 1440]) {
+      await page.setViewportSize({ width, height: 900 });
+      assert.ok(!(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth)), `${slug}: no horizontal scroll at ${width}px`);
+    }
+    if (slug === "michi-firulais") {
+      await page.locator('[data-add="pelota"]').click();
+      await page.locator('[data-add="pelota"]').click();
+      assert.equal(await page.locator("[data-cart-count]").first().innerText(), "2");
+      await page.locator('[data-filter-group="pet"][data-value="gato"]').click();
+      assert.equal(await page.locator("[data-product]:not([hidden])").count(), 4);
+      await page.locator("[data-search]").fill("zzz");
+      assert.ok(await page.locator("[data-empty-state]").isVisible());
+      await page.locator("[data-cart-open]").click();
+      await page.locator("[data-checkout]").click();
+    } else if (slug === "ebano") {
+      await page.locator('[data-view="anillo-solitario"]').click();
+      await page.locator("[data-p-metal]").selectOption("Plata 950");
+      await page.locator("[data-p-add]").click();
+      assert.equal(await page.locator("[data-cart-count]").first().innerText(), "1");
+      await page.locator("[data-checkout]").click();
+    } else {
+      const trigger = page.locator("[data-order]:visible, form button[type=submit]").first();
+      await trigger.click();
+    }
+    if (["michi-firulais", "ebano", "brasa-brava", "aurelia", "la-navaja"].includes(slug)) {
+      assert.ok(await page.locator("#sd-order").evaluate((d) => d.open), `${slug}: order preview opens`);
+      assert.ok((await page.locator("#sd-order-text").innerText()).length > 20, `${slug}: order message`);
+    }
+    assert.ok(requests.every((u) => u.startsWith(new URL(base).origin) || u.startsWith("data:")), `${slug}: external request`);
+    assert.deepEqual(errors, [], `${slug}: browser errors`);
+    await context.close();
+    console.log(`PASS muestras/${slug}: loads, accessibility, reflow, order flow and no external requests`);
+  }
 }
 
 // Quote forms: answer on a phone, reload mid-way, resume, send and see the WhatsApp hand-off.

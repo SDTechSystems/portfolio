@@ -1,0 +1,69 @@
+---
+import SiteLayout from './SiteLayout.astro';
+import SiteHeader from './SiteHeader.astro';
+import TerminalTitle from './TerminalTitle.astro';
+import SiteCard from './SiteCard.astro';
+import WhatsAppIcon from './WhatsAppIcon.astro';
+import { sites, siteKinds } from '../data/sites';
+import { waLink, waMessages, type Locale } from '../data/catalog';
+import '../styles/brands.css';
+import '../styles/sites.css';
+const { locale } = Astro.props as { locale: Locale };
+const base = import.meta.env.BASE_URL, es = locale === 'es';
+const form = `${base}es/formularios/pagina-web/`;
+const wa = waLink(waMessages.sites[locale]);
+const title = es ? 'Páginas web, landing pages y tiendas online' : 'Websites, landing pages and online stores';
+const description = es
+  ? `${sites.length} páginas de ejemplo: landing pages, tiendas online y sitios a medida, listas para recorrer desde el celular.`
+  : `${sites.length} sample websites: landing pages, online stores and custom sites, ready to explore on your phone.`;
+const included = {
+  es: ['Diseño a la medida de tu marca', 'Adaptada a celulares y computadores', 'Botón y pedidos por WhatsApp', 'Textos y fotos optimizados para cargar rápido', 'Dominio, publicación y certificado de seguridad', 'Capacitación para actualizar contenidos'],
+  en: ['Design tailored to your brand', 'Works on phones and computers', 'WhatsApp button and orders', 'Copy and photos optimized to load fast', 'Domain, publishing and security certificate', 'Training to update content'],
+};
+---
+<SiteLayout locale={locale} title={`${title} — SD Tech Systems`} description={description} path="paginas/">
+  <SiteHeader locale={locale} section="paginas" path="paginas/" />
+  <main id="contenido">
+    <section class="wrap brands-hero sites-hero" aria-labelledby="paginas-titulo">
+      <p class="eyebrow">{es ? `DESARROLLO WEB · ${sites.length} PÁGINAS DE EJEMPLO` : `WEB DEVELOPMENT · ${sites.length} SAMPLE WEBSITES`}</p>
+      <TerminalTitle id="paginas-titulo" first={es ? 'Páginas que venden' : 'Websites that sell'} second={es ? 'desde el celular.' : 'from the phone.'} />
+      <div class="brands-lead">
+        <p>{es
+          ? 'Landing pages llamativas, minimalistas, de lujo, tecnológicas, sobrias y retro, dos tiendas online con carrito y una web a medida ya entregada. Ábrelas, navégalas y elige el estilo que más se parezca a tu negocio.'
+          : 'Bold, minimal, luxury, tech, professional and retro landing pages, two online stores with a cart and a delivered custom website. Open them, explore them and pick the style closest to your business.'}</p>
+        <div class="brand-actions"><a class="brand-btn" href={wa} target="_blank" rel="noopener noreferrer"><WhatsAppIcon />{es ? 'Cotizar por WhatsApp' : 'Get a quote on WhatsApp'}</a><a class="brand-btn" href={form}>{es ? 'Llenar el brief de página web' : 'Fill in the website brief'}{!es && <small> · ES</small>} ↗</a></div>
+      </div>
+      <p class="brands-note">{es
+        ? 'Los negocios de las muestras son ficticios y usan las marcas de ejemplo de la sección Marcas. Productos, precios y datos son ilustrativos; los formularios no envían información.'
+        : 'The businesses in the samples are fictional and use the sample brands from the Brands section. Products, prices and details are illustrative; forms do not send any data. Sample content is in Spanish.'}</p>
+    </section>
+
+    <section class="wrap" aria-label={es ? 'Galería de páginas web' : 'Website gallery'}>
+      <div class="filter-bar"><div class="filters" role="group" aria-label={es ? 'Filtrar por tipo' : 'Filter by type'}><button data-site-filter="all" aria-pressed="true">{es ? 'Todas' : 'All'} <span>{sites.length}</span></button>{siteKinds.map(k => <button data-site-filter={k.id} aria-pressed="false">{k.label[locale]} <span>{sites.filter(s => s.kind === k.id).length}</span></button>)}</div><span class="filter-count" role="status" aria-live="polite" data-plural={es ? 'páginas' : 'websites'} data-singular={es ? 'página' : 'website'}>{sites.length} {es ? 'páginas' : 'websites'}</span></div>
+      <div class="site-grid">{sites.map((s, i) => <SiteCard site={s} locale={locale} index={i} eager={i < 2} heading="h2" />)}</div>
+    </section>
+
+    <section class="wrap bp-section" aria-labelledby="incluye-titulo">
+      <p class="eyebrow">{es ? 'QUÉ INCLUYE' : 'WHAT’S INCLUDED'}</p>
+      <h2 id="incluye-titulo" class="bp-title">{es ? 'Tu página, lista para recibir clientes' : 'Your website, ready for customers'}<span>.</span></h2>
+      <div class="package">
+        <div class="package-card"><p class="package-tag">{es ? 'LANDING PAGE O TIENDA' : 'LANDING PAGE OR STORE'}</p><h3>{es ? 'Todo en una entrega' : 'All in one delivery'}</h3><ul>{included[locale].map(i => <li>{i}</li>)}</ul></div>
+        <div class="package-card alt"><p class="package-tag">{es ? '¿YA TIENES MARCA?' : 'ALREADY HAVE A BRAND?'}</p><h3>{es ? 'Página + marca' : 'Website + brand'}</h3><p class="package-copy">{es ? 'Cada muestra usa una identidad de la sección Marcas. Si aún no tienes logo y paleta, diseñamos la marca y la página juntas para que todo combine.' : 'Each sample uses an identity from the Brands section. If you don’t have a logo and palette yet, we design the brand and the website together so everything matches.'}</p><ul><li><a href={`${base}${locale}/marcas/`}>{es ? 'Ver las marcas de ejemplo →' : 'See the sample brands →'}</a></li></ul></div>
+      </div>
+      <div class="brand-actions brands-end"><a class="brand-btn" href={wa} target="_blank" rel="noopener noreferrer"><WhatsAppIcon />{es ? 'Hablemos por WhatsApp' : 'Chat on WhatsApp'}</a><a class="brand-btn" href={form}>{es ? 'Empezar con el brief' : 'Start with the brief'}{!es && <small> · ES</small>} ↗</a></div>
+    </section>
+  </main>
+<script>
+  const buttons = document.querySelectorAll<HTMLButtonElement>('[data-site-filter]');
+  buttons.forEach(button => button.addEventListener('click', () => {
+    buttons.forEach(b => b.setAttribute('aria-pressed', String(b === button)));
+    let count = 0;
+    document.querySelectorAll<HTMLElement>('.site-card').forEach(card => {
+      card.hidden = button.dataset.siteFilter !== 'all' && card.dataset.kind !== button.dataset.siteFilter;
+      if (!card.hidden) count++;
+    });
+    const label = document.querySelector<HTMLElement>('.filter-count');
+    if (label) label.textContent = `${count} ${count === 1 ? label.dataset.singular : label.dataset.plural}`;
+  }));
+</script>
+</SiteLayout>

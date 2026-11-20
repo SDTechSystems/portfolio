@@ -8,3 +8,6 @@ test-results/
 
 tools/brand-showcase/.cache/
 __pycache__/
+
+# Original photos for the sample websites (published as WebP in public/muestras/)
+tools/sample-sites/images-src/

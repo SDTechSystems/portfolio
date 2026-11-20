@@ -1,7 +1,7 @@
 ---
 import SiteLayout from './SiteLayout.astro';
-import LanguageSwitch from './LanguageSwitch.astro';
-import Brand from './Brand.astro';
+import SiteHeader from './SiteHeader.astro';
+import TerminalTitle from './TerminalTitle.astro';
 import BrandCard from './BrandCard.astro';
 import WhatsAppIcon from './WhatsAppIcon.astro';
 import { brands, brandStyles, packageItems, corporateItems } from '../data/brands';
@@ -17,11 +17,11 @@ const description = es
   : `${brands.length} sample brands with logos, palettes, typefaces, social media pieces, stationery and product applications.`;
 ---
 <SiteLayout locale={locale} title={`${title} — SD Tech Systems`} description={description} path="marcas/">
-  <nav class="wrap detail-nav" aria-label={es ? 'Navegación' : 'Navigation'}><a href={`${base}${locale}/`}>← {es ? 'Inicio' : 'Home'}</a><Brand href={`${base}${locale}/`} /><LanguageSwitch locale={locale} path="marcas/" /></nav>
+  <SiteHeader locale={locale} section="marcas" path="marcas/" />
   <main id="contenido">
     <section class="wrap brands-hero" aria-labelledby="marcas-titulo">
       <p class="eyebrow">{es ? `PORTAFOLIO DE DISEÑO · ${brands.length} MARCAS` : `DESIGN PORTFOLIO · ${brands.length} BRANDS`}</p>
-      <h1 id="marcas-titulo">{es ? <>Marcas que se ven <span>y se recuerdan.</span></> : <>Brands people see <span>and remember.</span></>}</h1>
+      <TerminalTitle id="marcas-titulo" first={es ? 'Marcas que se ven' : 'Brands people see'} second={es ? 'y se recuerdan.' : 'and remember.'} />
       <div class="brands-lead">
         <p>{es
           ? `Explora ${brands.length} identidades completas: minimalistas, sobrias, llamativas, elegantes, artesanales, divertidas, retro, tecnológicas y de lujo con monogramas. Cada una muestra el logo y sus versiones, la paleta, las tipografías, las piezas para redes, la imagen corporativa y cómo se ve en sus productos.`

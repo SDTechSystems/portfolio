@@ -1,0 +1,242 @@
+---
+import SampleLayout from '../../components/samples/SampleLayout.astro';
+import Photo from '../../components/samples/Photo.astro';
+import Logo from '../../components/samples/Logo.astro';
+const S = 'ebano';
+const products = [
+  { id: 'anillo-solitario', n: 'Solitario Noche', c: 'anillos', p: 2890000, d: 'Ónix negro de talla esmeralda sobre aro fino. Una pieza para decir lo importante sin levantar la voz.', ring: true },
+  { id: 'collar-gema', n: 'Collar Selva', c: 'collares', p: 3450000, d: 'Esmeralda colombiana de 0,8 quilates en un engaste de cuatro garras y cadena veneciana.' },
+  { id: 'aretes-gota', n: 'Aretes Gota de Perla', c: 'aretes', p: 1290000, d: 'Perlas de agua dulce que cuelgan de una línea de oro pulido. Ligeros para todo el día.' },
+  { id: 'pulsera', n: 'Brazalete Línea', c: 'pulseras', p: 4190000, d: 'Brazalete rígido con una hilera de diamantes de laboratorio de 1,2 quilates en total.' },
+  { id: 'argollas', n: 'Argollas Promesa', c: 'anillos', p: 2380000, d: 'Par de argollas de matrimonio de 3 mm con interior confort. Grabado incluido.', ring: true },
+  { id: 'argolla-sello', n: 'Sello Heredado', c: 'anillos', p: 1950000, d: 'Anillo de sello oval listo para grabar iniciales o un escudo familiar.', ring: true },
+  { id: 'aretes-aro', n: 'Aros Escultura', c: 'aretes', p: 980000, d: 'Aros de volumen orgánico, huecos por dentro para que no pesen.' },
+  { id: 'dije-luna', n: 'Dije Media Luna', c: 'collares', p: 760000, d: 'Una luna creciente en oro martillado, con cadena de 45 cm ajustable.' },
+];
+const metals = [['Oro amarillo 18 k', 0], ['Oro rosa 18 k', 0], ['Oro blanco 18 k', 120000], ['Plata 950', -0.55]] as [string, number][];
+const cop = (n: number) => '$' + n.toLocaleString('es-CO');
+---
+<SampleLayout slug={S} title="Ébano Joyería — Piezas que permanecen" description="Joyería de autor hecha a mano en Bogotá: anillos, collares, aretes y pulseras en oro de 18 k." theme="#121212"
+  fonts={[{ family: 'Bodoni Moda', file: 'bodoni-moda-latin-400-normal.woff2', weight: 400 }, { family: 'Raleway', file: 'raleway-latin-400-normal.woff2', weight: 400 }, { family: 'Bodoni Moda', file: 'bodoni-moda-latin-500-normal.woff2', weight: 500 }, { family: 'Bodoni Moda', file: 'bodoni-moda-latin-400-italic.woff2', weight: 400, style: 'italic' }, { family: 'Raleway', file: 'raleway-latin-300-normal.woff2', weight: 300 }, { family: 'Raleway', file: 'raleway-latin-500-normal.woff2', weight: 500 }]}>
+  <div class="eb">
+    <header class="eb-head">
+      <nav aria-label="Secciones"><a href="#coleccion">Colección</a><a href="#taller">Taller</a></nav>
+      <a href="#inicio" class="eb-logo" aria-label="Ébano Joyería, inicio"><Logo brand={S} variant="logo-inversa" height={38} /></a>
+      <button class="eb-bag" type="button" data-cart-open>Bolsa <span data-cart-count>0</span></button>
+    </header>
+    <main id="inicio">
+      <section class="eb-hero">
+        <Photo site={S} slot="hero" ratio="16/9" eager alt="Mujer con un collar de oro y piedra oscura sobre fondo negro" class="eb-hero-img" sizes="100vw" />
+        <div class="eb-hero-copy">
+          <p class="eb-over">Colección Medianoche · 2026</p>
+          <h1>Piezas que<br /><em>permanecen</em></h1>
+          <a class="eb-btn eb-btn-light" href="#coleccion">Descubrir la colección</a>
+        </div>
+      </section>
+
+      <section class="eb-shop" id="coleccion" aria-labelledby="col-t">
+        <div class="eb-shop-head">
+          <h2 id="col-t">La colección</h2>
+          <div class="eb-tools">
+            <div class="eb-tabs" role="group" aria-label="Categoría">{[['all', 'Todo'], ['anillos', 'Anillos'], ['aretes', 'Aretes'], ['collares', 'Collares'], ['pulseras', 'Pulseras']].map(([v, l], i) => <button type="button" data-filter-group="c" data-value={v} aria-pressed={i === 0 ? 'true' : 'false'}>{l}</button>)}</div>
+            <label class="eb-sort">Ordenar<select data-sort><option value="feat">Destacados</option><option value="asc">Precio: menor a mayor</option><option value="desc">Precio: mayor a menor</option></select></label>
+          </div>
+        </div>
+        <div class="eb-grid">
+          {products.map(p => (
+            <article class="eb-card" data-product={p.id} data-name={p.n} data-price={p.p} data-tags={p.c} data-desc={p.d} data-ring={p.ring ? '1' : undefined}>
+              <button class="eb-card-open" type="button" data-view={p.id} aria-label={`Ver ${p.n}`}><Photo site={S} slot={p.id} ratio="1/1" alt={p.n} sizes="(max-width: 700px) 50vw, 25vw" /></button>
+              <h3>{p.n}</h3>
+              <p>{cop(p.p)}</p>
+            </article>
+          ))}
+        </div>
+        <p class="eb-empty" data-empty-state hidden>No hay piezas en esta categoría.</p>
+      </section>
+
+      <section class="eb-taller" id="taller">
+        <Photo site={S} slot="taller" ratio="3/2" alt="Manos de un joyero engastando una piedra en un anillo" class="eb-taller-img" sizes="(max-width: 860px) 100vw, 55vw" />
+        <div data-reveal>
+          <p class="eb-over">El taller</p>
+          <h2>Hechas a mano,<br /><em>una por una</em></h2>
+          <p>Cada pieza pasa por las manos de un solo orfebre en nuestro taller de La Candelaria. Usamos oro reciclado certificado y esmeraldas de minas con trazabilidad.</p>
+        </div>
+      </section>
+
+      <section class="eb-services" aria-label="Servicios">
+        <div data-reveal><h3>Grabado sin costo</h3><p>Iniciales, fechas o coordenadas en el interior de tu pieza.</p></div>
+        <div data-reveal><h3>Garantía de por vida</h3><p>Limpieza, pulido y ajuste de engastes para siempre.</p></div>
+        <div data-reveal><h3>Envío asegurado</h3><p>Llega en estuche de madera, asegurado y con firma de recibido.</p></div>
+      </section>
+    </main>
+    <footer class="eb-foot"><Logo brand={S} variant="logo-inversa" height={44} /><p>Calle 11 # 3-45, La Candelaria · Bogotá · Citas privadas con cita previa</p></footer>
+
+    <dialog class="eb-product" id="eb-product" aria-labelledby="eb-p-name">
+      <button class="eb-x" type="button" data-close-product aria-label="Cerrar">✕</button>
+      <div class="eb-product-img" data-p-img></div>
+      <div class="eb-product-info">
+        <p class="eb-over">Ébano · Hecho a mano</p>
+        <h2 id="eb-p-name" data-p-name></h2>
+        <p class="eb-product-price" data-p-price></p>
+        <p class="eb-product-desc" data-p-desc></p>
+        <label>Metal<select data-p-metal>{metals.map(([m, d]) => <option value={m} data-delta={d}>{m}</option>)}</select></label>
+        <label data-p-size-wrap>Talla<select data-p-size>{[5, 6, 7, 8, 9, 10, 11, 12].map(n => <option selected={n === 7}>{n}</option>)}</select></label>
+        <button class="eb-btn" type="button" data-p-add>Agregar a la bolsa</button>
+        <p class="eb-fine">Entrega en 10 días hábiles · Cambio de talla gratis</p>
+      </div>
+    </dialog>
+
+    <dialog class="eb-drawer" data-cart-drawer aria-labelledby="bag-t">
+      <div class="eb-drawer-head"><h2 id="bag-t">Tu bolsa</h2><button type="button" data-cart-close aria-label="Cerrar bolsa">✕</button></div>
+      <ul class="eb-lines" data-cart-lines></ul>
+      <div class="eb-sum">
+        <label class="eb-gift"><input type="checkbox" data-gift /> Empaque de regalo con nota escrita a mano (+$25.000)</label>
+        <p><span>Subtotal</span><b data-cart-subtotal>$0</b></p>
+        <p class="eb-total"><span>Total</span><b data-cart-total>$0</b></p>
+        <button class="eb-btn" type="button" data-checkout>Finalizar con un asesor</button>
+        <p class="eb-fine">Un asesor confirma disponibilidad, talla y forma de pago contigo.</p>
+      </div>
+    </dialog>
+    <p class="eb-sr" data-cart-live aria-live="polite"></p>
+  </div>
+</SampleLayout>
+
+<script>
+  import { createStore, createFilters } from '../../scripts/sample-store';
+  const store = createStore({ greeting: 'Buenas tardes, Ébano. Me gustaría adquirir:', gift: 25000 });
+  createFilters();
+  const cop = (n: number) => '$' + n.toLocaleString('es-CO');
+  const dialog = document.querySelector<HTMLDialogElement>('#eb-product')!;
+  const q = <T extends HTMLElement>(s: string) => dialog.querySelector<T>(s)!;
+  const metal = q<HTMLSelectElement>('[data-p-metal]'), size = q<HTMLSelectElement>('[data-p-size]');
+  let current: HTMLElement | null = null;
+  const price = () => {
+    const base = Number(current!.dataset.price), delta = Number(metal.selectedOptions[0].dataset.delta);
+    return Math.round((delta < 0 ? base * (1 + delta) : base + delta) / 1000) * 1000;
+  };
+  const update = () => { q('[data-p-price]').textContent = cop(price()); };
+  document.addEventListener('click', e => {
+    const b = (e.target as Element).closest<HTMLElement>('[data-view]');
+    if (!b) return;
+    current = document.querySelector<HTMLElement>(`[data-product="${b.dataset.view}"]`);
+    q('[data-p-name]').textContent = current!.dataset.name!;
+    q('[data-p-desc]').textContent = current!.dataset.desc!;
+    q('[data-p-img]').innerHTML = current!.querySelector('.eb-card-open')!.innerHTML;
+    q('[data-p-size-wrap]').hidden = !current!.dataset.ring;
+    metal.selectedIndex = 0; update(); dialog.showModal();
+  });
+  metal.addEventListener('change', update);
+  q('[data-p-add]').addEventListener('click', () => {
+    const variant = [metal.value, current!.dataset.ring ? `talla ${size.value}` : ''].filter(Boolean).join(' · ');
+    store.add(current!.dataset.product!, variant, price());
+    dialog.close();
+    document.querySelector<HTMLDialogElement>('[data-cart-drawer]')!.showModal();
+  });
+  q('[data-close-product]').addEventListener('click', () => dialog.close());
+  dialog.addEventListener('click', e => { if (e.target === dialog) dialog.close(); });
+</script>
+
+<style is:global>
+  .eb{--ebony:#121212;--champ:#C9A96E;--champ-d:#8a6d3b;--ivory:#F4EEE4;--pearl:#BDB7AE;background:var(--ivory);color:var(--ebony);font:400 16px/1.7 Raleway,system-ui,sans-serif}
+  .eb *{box-sizing:border-box}
+  .eb h1,.eb h2,.eb h3{margin:0;font-family:"Bodoni Moda",Didot,serif;font-weight:400;line-height:1.05}
+  .eb em{font-style:italic}
+  .eb p{margin:0}
+  .eb a{color:inherit}
+  .eb :focus-visible{outline:1px solid var(--champ-d);outline-offset:4px}
+  .eb-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+  .eb-over{font:500 11px/1 Raleway,sans-serif;letter-spacing:.34em;text-transform:uppercase;color:var(--champ-d)}
+  .eb-head{position:sticky;top:0;z-index:50;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:16px clamp(16px,5vw,70px);background:#121212f2;backdrop-filter:blur(8px);color:var(--ivory)}
+  .eb-head nav{display:flex;gap:30px;font-size:12px;letter-spacing:.26em;text-transform:uppercase}
+  .eb-head nav a{text-decoration:none}.eb-head nav a:hover{color:var(--champ)}
+  .eb-logo img{display:block;height:38px;width:auto}
+  .eb-bag{justify-self:end;display:inline-flex;align-items:center;gap:10px;min-height:44px;padding:8px 4px;border:0;background:transparent;color:var(--ivory);font:500 12px Raleway,sans-serif;letter-spacing:.26em;text-transform:uppercase;cursor:pointer}
+  .eb-bag span{display:grid;place-items:center;min-width:24px;height:24px;border:1px solid var(--champ);border-radius:50%;letter-spacing:0}
+  .eb-bag.bump span{animation:eb-pulse .6s}
+  @keyframes eb-pulse{50%{background:var(--champ);color:var(--ebony)}}
+  .eb-btn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:12px 32px;border:1px solid var(--ebony);background:var(--ebony);color:var(--ivory)!important;font:500 12px Raleway,sans-serif;letter-spacing:.3em;text-transform:uppercase;text-decoration:none;cursor:pointer;transition:background .4s,color .4s}
+  .eb-btn:hover{background:transparent;color:var(--ebony)!important}
+  .eb-btn:disabled{opacity:.4;cursor:not-allowed}
+  .eb-btn-light{border-color:var(--ivory);background:transparent;color:var(--ivory)!important}
+  .eb-btn-light:hover{background:var(--ivory);color:var(--ebony)!important}
+  .eb-hero{position:relative;display:flex;align-items:center;min-height:min(86vh,820px);background:var(--ebony);color:var(--ivory);overflow:hidden}
+  .eb-hero-img{position:absolute;inset:0;height:100%!important;aspect-ratio:auto!important}
+  .eb-hero::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#121212ee 20%,#12121200 70%)}
+  .eb-hero-copy{position:relative;z-index:1;display:flex;flex-direction:column;align-items:flex-start;gap:26px;padding:60px clamp(16px,6vw,100px)}
+  .eb-hero .eb-over{color:var(--champ)}
+  .eb-hero h1{font-size:clamp(3.2rem,8vw,7rem)}
+  .eb-hero em{color:var(--champ)}
+  .eb-shop{padding:clamp(70px,9vw,130px) clamp(16px,5vw,70px)}
+  .eb-shop-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:44px}
+  .eb-shop h2{font-size:clamp(2.4rem,5vw,4rem)}
+  .eb-tools{display:flex;flex-wrap:wrap;align-items:center;gap:16px 30px}
+  .eb-tabs{display:flex;flex-wrap:wrap;gap:4px 18px}
+  .eb-tabs button{min-height:44px;padding:6px 0;border:0;border-bottom:1px solid transparent;background:none;color:#6a655d;font:500 12px Raleway,sans-serif;letter-spacing:.24em;text-transform:uppercase;cursor:pointer}
+  .eb-tabs button[aria-pressed=true]{border-color:var(--ebony);color:var(--ebony)}
+  .eb-sort{display:flex;align-items:center;gap:10px;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:#6a655d}
+  .eb-sort select{min-height:44px;padding:6px 10px;border:1px solid #12121233;background:transparent;font:400 14px Raleway,sans-serif;letter-spacing:0;text-transform:none;color:var(--ebony)}
+  .eb-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:48px 24px}
+  .eb-card{text-align:center}
+  .eb-card[hidden]{display:none}
+  .eb-card-open{display:block;width:100%;padding:0;border:0;background:#ebe3d6;cursor:pointer;overflow:hidden}
+  .eb-card-open .ph-img{transition:transform 1.2s cubic-bezier(.16,1,.3,1)}
+  .eb-card-open:hover .ph-img{transform:scale(1.06)}
+  .eb-card h3{margin-top:18px;font-size:1.3rem}
+  .eb-card p{margin-top:4px;font-size:14px;letter-spacing:.12em;color:#5a554e}
+  .eb-empty{text-align:center;color:#6a655d}
+  .eb-taller{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(30px,6vw,100px);align-items:center;padding:clamp(70px,9vw,130px) clamp(16px,5vw,70px);background:var(--ebony);color:var(--ivory)}
+  .eb-taller .eb-over{color:var(--champ)}
+  .eb-taller h2{margin:18px 0 22px;font-size:clamp(2.2rem,4.6vw,3.8rem)}
+  .eb-taller em{color:var(--champ)}
+  .eb-taller p:not(.eb-over){color:#cfc8bc;max-width:46ch}
+  .eb-services{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#12121222;border-block:1px solid #12121222}
+  .eb-services div{padding:clamp(30px,4vw,56px);background:var(--ivory);text-align:center}
+  .eb-services h3{font-size:1.5rem;margin-bottom:10px}
+  .eb-services p{color:#5a554e}
+  .eb-foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;padding:36px clamp(16px,5vw,70px);background:var(--ebony);color:#cfc8bc;font-size:13px;letter-spacing:.06em}
+  .eb-foot img{height:44px;width:auto}
+  .eb-product{width:min(980px,calc(100vw - 24px));max-height:calc(100dvh - 24px);padding:0;border:0;background:var(--ivory);color:var(--ebony);display:none;grid-template-columns:1fr 1fr;overflow:auto}
+  .eb-product[open]{display:grid}
+  .eb-product::backdrop,.eb-drawer::backdrop{background:#121212b3}
+  .eb-product-img{background:#ebe3d6;min-height:280px}
+  .eb-product-info{display:flex;flex-direction:column;gap:16px;padding:clamp(24px,4vw,48px)}
+  .eb-product h2{font-size:clamp(2rem,4vw,2.8rem)}
+  .eb-product-price{font:400 1.4rem "Bodoni Moda",serif}
+  .eb-product-desc{color:#5a554e}
+  .eb-product label{display:flex;flex-direction:column;gap:6px;font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:#6a655d}
+  .eb-product label[hidden]{display:none}
+  .eb-product select{min-height:48px;padding:8px 10px;border:1px solid #12121244;background:transparent;font:400 15px Raleway,sans-serif;letter-spacing:0;text-transform:none;color:var(--ebony)}
+  .eb-x{position:absolute;top:10px;right:10px;z-index:2;width:44px;height:44px;border:0;background:#f4eee4cc;font-size:18px;cursor:pointer;color:var(--ebony)}
+  .eb-fine{font-size:13px;color:#6a655d}
+  .eb-drawer{position:fixed;inset:0 0 0 auto;width:min(440px,100vw);height:100dvh;max-height:none;margin:0;padding:0;border:0;background:var(--ivory);color:var(--ebony);display:none;flex-direction:column}
+  .eb-drawer[open]{display:flex;animation:eb-in .5s cubic-bezier(.16,1,.3,1)}
+  @keyframes eb-in{from{transform:translateX(100%)}}
+  .eb-drawer-head{display:flex;align-items:center;justify-content:space-between;padding:22px 24px;border-bottom:1px solid #12121222}
+  .eb-drawer-head h2{font-size:1.8rem}
+  .eb-drawer-head button{width:44px;height:44px;border:0;background:none;font-size:18px;cursor:pointer;color:var(--ebony)}
+  .eb-lines{flex:1;overflow:auto;margin:0;padding:8px 24px;list-style:none}
+  .eb .cart-line{display:grid;grid-template-columns:72px 1fr auto;gap:14px;align-items:center;padding:16px 0;border-bottom:1px solid #12121218}
+  .eb .cart-line img,.eb .cart-thumb{display:block;width:72px;height:72px;object-fit:cover;background:#ebe3d6}
+  .eb .cart-line-info{display:flex;flex-direction:column;line-height:1.4}
+  .eb .cart-line-info b{font:400 1.1rem "Bodoni Moda",serif}
+  .eb .cart-line-info small{color:#6a655d}
+  .eb .cart-qty{display:flex;align-items:center;gap:6px}
+  .eb .cart-qty button{width:32px;height:32px;border:1px solid #12121244;background:none;cursor:pointer;color:var(--ebony)}
+  .eb .cart-empty{padding:40px 0;text-align:center;color:#6a655d}
+  .eb-sum{display:grid;gap:10px;padding:20px 24px 26px;border-top:1px solid #12121222}
+  .eb-sum p{display:flex;justify-content:space-between}
+  .eb-total{font:400 1.3rem "Bodoni Moda",serif}
+  .eb-gift{display:flex;gap:10px;align-items:flex-start;font-size:14px;color:#5a554e}
+  .eb-gift input{width:18px;height:18px;margin-top:3px;accent-color:var(--ebony)}
+  @media(max-width:860px){
+    .eb-head{grid-template-columns:auto 1fr}.eb-head nav{display:none}
+    .eb-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:36px 14px}
+    .eb-taller,.eb-product{grid-template-columns:1fr}
+    .eb-product[open]{display:block}
+    .eb-services{grid-template-columns:1fr}
+    .eb-hero::after{background:linear-gradient(0deg,#121212f0 30%,#12121244)}
+    .eb-hero{align-items:flex-end}
+  }
+  @media(max-width:400px){.eb-logo img{height:30px}.eb-card h3{font-size:1.1rem}}
+  @media(prefers-reduced-motion:reduce){.eb-btn,.eb-card-open .ph-img{transition:none}.eb-drawer[open]{animation:none}}
+</style>

@@ -1,0 +1,160 @@
+---
+import SampleLayout from '../../components/samples/SampleLayout.astro';
+import Photo from '../../components/samples/Photo.astro';
+import Logo from '../../components/samples/Logo.astro';
+const S = 'la-navaja';
+const prices = [['Corte clásico', 'Tijera y máquina, lavado y peinado', 35000], ['Fade / degradado', 'Con navaja en los contornos', 40000], ['Barba completa', 'Toalla caliente, perfilado y bálsamo', 30000], ['Afeitado tradicional', 'Navaja libre, espuma de brocha y loción', 38000], ['Corte + barba', 'El ritual completo', 60000], ['Corte niño', 'Hasta 12 años', 25000]] as [string, string, number][];
+const barbers = [['Don Ernesto', 'ER', 'Maestro barbero desde 1987. Especialista en afeitado con navaja.'], ['Mateo', 'MA', 'Degradados y diseños. Paciencia infinita con los primerizos.'], ['Jhon Fredy', 'JF', 'Barbas largas, perfilado y cortes clásicos de tijera.']];
+const cuts = [['corte-clasico', 'Raya al lado'], ['fade', 'Skin fade'], ['barba', 'Barba perfilada']];
+const cop = (n: number) => '$' + n.toLocaleString('es-CO');
+---
+<SampleLayout slug={S} title="La Navaja Barbería — El corte de siempre" description="Barbería clásica en Bogotá desde 1987. Cortes, barba y afeitado con navaja. Reserva tu turno en línea." theme="#1E2A3A"
+  fonts={[{ family: 'Alfa Slab One', file: 'alfa-slab-one-latin-400-normal.woff2', weight: 400 }, { family: 'Oswald', file: 'oswald-latin-400-normal.woff2', weight: 400 }, { family: 'Oswald', file: 'oswald-latin-500-normal.woff2', weight: 500 }, { family: 'Oswald', file: 'oswald-latin-600-normal.woff2', weight: 600 }]}>
+  <div class="nv">
+    <header class="nv-head">
+      <a href="#inicio" aria-label="La Navaja Barbería, inicio"><Logo brand={S} variant="logo-inversa" height={48} /></a>
+      <nav aria-label="Secciones"><a href="#precios">Precios</a><a href="#barberos">Barberos</a><a href="#cortes">Cortes</a></nav>
+      <a class="nv-btn nv-btn-sm" href="#reservar">Reservar turno</a>
+    </header>
+    <main id="inicio">
+      <section class="nv-hero">
+        <div class="nv-hero-copy">
+          <p class="nv-est">— Est. 1987 · Chapinero, Bogotá —</p>
+          <h1>El corte<br />de&nbsp;siempre</h1>
+          <p class="nv-lead">Toalla caliente, navaja afilada y buena conversación. Tres generaciones de barberos cuidando la misma esquina.</p>
+          <a class="nv-btn" href="#reservar">Apartar mi silla</a>
+        </div>
+        <div class="nv-hero-photo"><Photo site={S} slot="hero" ratio="4/5" eager alt="Barbero afeitando a un cliente con navaja y toalla caliente" sizes="(max-width: 860px) 100vw, 42vw" /></div>
+      </section>
+      <div class="nv-pole" aria-hidden="true"></div>
+
+      <section class="nv-board" id="precios" aria-labelledby="precios-t">
+        <div class="nv-board-inner" data-reveal>
+          <h2 id="precios-t">Lista de precios</h2>
+          <ul>{prices.map(([n, d, p]) => <li><div><b>{n}</b><span>{d}</span></div><i aria-hidden="true"></i><strong>{cop(p)}</strong></li>)}</ul>
+          <p class="nv-board-note">Martes de abuelos y nietos: 20 % menos en el segundo corte.</p>
+        </div>
+      </section>
+
+      <section class="nv-section" id="barberos" aria-labelledby="barb-t">
+        <h2 id="barb-t" class="nv-h2" data-reveal>Los de la silla</h2>
+        <div class="nv-barbers">{barbers.map(([n, ini, d]) => <article data-reveal><span class="nv-seal" aria-hidden="true">{ini}</span><h3>{n}</h3><p>{d}</p></article>)}</div>
+      </section>
+
+      <section class="nv-section nv-cuts" id="cortes" aria-labelledby="cortes-t">
+        <h2 id="cortes-t" class="nv-h2" data-reveal>Hecho aquí</h2>
+        <div class="nv-gallery">{cuts.map(([slot, label]) => <figure data-reveal><Photo site={S} slot={slot} ratio="1/1" alt={`Corte: ${label}`} sizes="(max-width: 860px) 100vw, 33vw" /><figcaption>{label}</figcaption></figure>)}</div>
+      </section>
+
+      <section class="nv-book" id="reservar" aria-labelledby="res-t">
+        <div class="nv-book-card" data-reveal>
+          <h2 id="res-t">Reserva tu turno</h2>
+          <form data-book novalidate>
+            <label>Servicio<select name="s">{prices.map(([n, , p]) => <option value={n}>{n} · {cop(p)}</option>)}</select></label>
+            <label>Barbero<select name="b"><option>El primero disponible</option>{barbers.map(([n]) => <option>{n}</option>)}</select></label>
+            <fieldset><legend>Día</legend><div class="nv-chips" data-days></div></fieldset>
+            <fieldset><legend>Hora</legend><div class="nv-chips">{['9:00', '10:00', '11:30', '2:00', '3:30', '5:00', '6:30'].map((h, i) => <label><input type="radio" name="h" value={h} checked={i === 0} disabled={i === 2 || i === 4} /><span>{h}{i === 2 || i === 4 ? ' · ocupado' : ''}</span></label>)}</div></fieldset>
+            <button class="nv-btn" type="submit">Confirmar turno</button>
+          </form>
+        </div>
+        <div class="nv-visit" data-reveal>
+          <Photo site={S} slot="local" ratio="3/2" alt="Interior de la barbería con sillas de cuero vino y piso ajedrezado" sizes="(max-width: 860px) 100vw, 45vw" />
+          <h3>Visítanos</h3>
+          <p>Calle 57 # 9-21, Chapinero · Bogotá</p>
+          <p>Mar a sáb 9 a. m. – 8 p. m. · Dom 10 a. m. – 3 p. m.</p>
+          <p>Tinto o cerveza de cortesía mientras esperas.</p>
+        </div>
+      </section>
+    </main>
+    <footer class="nv-foot"><Logo brand={S} variant="logo-inversa" height={60} /><p>El corte de siempre · desde 1987</p></footer>
+  </div>
+</SampleLayout>
+
+<script>
+  const days = document.querySelector<HTMLElement>('[data-days]')!;
+  const out: string[] = []; const d = new Date();
+  while (out.length < 5) { d.setDate(d.getDate() + 1); if (d.getDay() !== 1) out.push(d.toLocaleDateString('es-CO', { weekday: 'short', day: 'numeric' })); }
+  days.innerHTML = out.map((x, i) => `<label><input type="radio" name="d" value="${x}" ${i ? '' : 'checked'}><span>${x}</span></label>`).join('');
+  const form = document.querySelector<HTMLFormElement>('[data-book]')!;
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const v = (n: string) => (form.elements.namedItem(n) as RadioNodeList).value;
+    (window as any).sdOrder(`Quiubo, La Navaja. Quiero apartar un turno:\nServicio: ${v('s')}\nBarbero: ${v('b')}\nDía: ${v('d')} a las ${v('h')}\nNombre: `);
+  });
+</script>
+
+<style is:global>
+  .nv{--wine:#7A1F2B;--cream:#F1E6D2;--navy:#1E2A3A;--brass:#B8914B;background:var(--cream);color:var(--navy);font:400 18px/1.55 Oswald,system-ui,sans-serif;letter-spacing:.01em}
+  .nv *{box-sizing:border-box}
+  .nv h1,.nv h2,.nv h3{margin:0;font-family:"Alfa Slab One",Georgia,serif;font-weight:400;line-height:1.02}
+  .nv p{margin:0}
+  .nv a{color:inherit}
+  .nv :focus-visible{outline:3px solid var(--brass);outline-offset:3px}
+  .nv-head{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:28px;padding:10px clamp(16px,5vw,64px);background:var(--navy);color:var(--cream);border-bottom:4px double var(--brass)}
+  .nv-head img{display:block;height:48px;width:auto}
+  .nv-head nav{display:flex;gap:26px;margin-left:auto;text-transform:uppercase;letter-spacing:.14em;font-size:15px}
+  .nv-head nav a{text-decoration:none}.nv-head nav a:hover{color:var(--brass)}
+  .nv-btn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:10px 28px;border:2px solid var(--wine);border-radius:4px;background:var(--wine);color:var(--cream)!important;font:600 16px Oswald,sans-serif;letter-spacing:.16em;text-transform:uppercase;text-decoration:none;cursor:pointer;box-shadow:inset 0 0 0 3px var(--cream),0 0 0 0 var(--wine);transition:box-shadow .2s}
+  .nv-btn:hover{box-shadow:inset 0 0 0 3px var(--cream),4px 4px 0 var(--navy)}
+  .nv-btn-sm{min-height:42px;padding:6px 16px;font-size:14px}
+  .nv-hero{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(30px,5vw,80px);align-items:center;padding:clamp(50px,7vw,100px) clamp(16px,5vw,64px);background:radial-gradient(circle at 30% 30%,#fff8ea,var(--cream) 60%)}
+  .nv-est{font-size:15px;letter-spacing:.3em;text-transform:uppercase;color:var(--wine)}
+  .nv-hero h1{margin:18px 0 22px;font-size:clamp(3.2rem,7.4vw,6.4rem);color:var(--navy);text-shadow:4px 4px 0 var(--brass)}
+  .nv-lead{max-width:40ch;font-size:1.25rem;color:#3a4657;margin-bottom:30px}
+  .nv-hero-photo{padding:14px;border:2px solid var(--navy);background:#fffaf0;box-shadow:10px 10px 0 var(--wine)}
+  .nv-hero-photo .ph-img,.nv-hero-photo .ph{filter:sepia(.18) contrast(1.05)}
+  .nv-pole{height:22px;background:repeating-linear-gradient(-45deg,var(--wine) 0 22px,var(--cream) 22px 44px,var(--navy) 44px 66px,var(--cream) 66px 88px);border-block:3px solid var(--navy)}
+  .nv-board{padding:clamp(60px,8vw,110px) clamp(16px,5vw,64px);background:var(--navy)}
+  .nv-board-inner{max-width:860px;margin:0 auto;padding:clamp(26px,5vw,60px);border:10px solid #6b4a2b;border-radius:6px;background:#22302a;color:#efe9dc;box-shadow:inset 0 0 60px #000a,0 20px 50px #0008}
+  .nv-board h2{text-align:center;font-size:clamp(2.2rem,5vw,3.6rem);color:#f6efe0;margin-bottom:26px}
+  .nv-board ul{margin:0;padding:0;list-style:none}
+  .nv-board li{display:flex;align-items:baseline;gap:10px;padding:14px 0}
+  .nv-board li div{display:flex;flex-direction:column}
+  .nv-board b{font-size:1.3rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase}
+  .nv-board span{font-size:15px;color:#c9c2b2}
+  .nv-board i{flex:1;border-bottom:2px dotted #efe9dc66}
+  .nv-board strong{font:400 1.4rem "Alfa Slab One",serif;color:#f0d79a}
+  .nv-board-note{margin-top:22px;text-align:center;color:#f0d79a;font-size:16px}
+  .nv-section{padding:clamp(60px,8vw,110px) clamp(16px,5vw,64px)}
+  .nv-h2{text-align:center;font-size:clamp(2.4rem,6vw,4.4rem);margin-bottom:46px;color:var(--wine)}
+  .nv-barbers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+  .nv-barbers article{display:flex;flex-direction:column;align-items:center;gap:10px;padding:32px 24px;border:2px solid var(--navy);background:#fffaf0;text-align:center}
+  .nv-seal{display:grid;place-items:center;width:96px;height:96px;border-radius:50%;border:3px double var(--brass);background:var(--navy);color:var(--cream);font:400 2rem "Alfa Slab One",serif}
+  .nv-barbers h3{font-size:1.7rem}
+  .nv-barbers p{color:#3a4657}
+  .nv-cuts{background:#e9dcc3}
+  .nv-gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+  .nv-gallery figure{margin:0;padding:10px 10px 0;background:#fffaf0;border:2px solid var(--navy)}
+  .nv-gallery .ph-img,.nv-gallery .ph{filter:sepia(.15)}
+  .nv-gallery figcaption{padding:12px 4px;text-align:center;font-size:1.1rem;letter-spacing:.14em;text-transform:uppercase}
+  .nv-book{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,4vw,60px);padding:clamp(60px,8vw,110px) clamp(16px,5vw,64px)}
+  .nv-book-card{padding:clamp(22px,4vw,44px);border:3px solid var(--navy);background:#fffaf0;box-shadow:10px 10px 0 var(--navy)}
+  .nv-book-card h2{font-size:clamp(2rem,4vw,3rem);margin-bottom:22px;color:var(--wine)}
+  .nv-book form{display:grid;gap:18px}
+  .nv-book label{display:flex;flex-direction:column;gap:6px;font-size:15px;letter-spacing:.12em;text-transform:uppercase}
+  .nv-book select{min-height:50px;padding:8px 12px;border:2px solid var(--navy);border-radius:4px;background:var(--cream);color:var(--navy);font:400 17px Oswald,sans-serif;letter-spacing:0;text-transform:none}
+  .nv-book fieldset{margin:0;padding:0;border:0}
+  .nv-book legend{margin-bottom:8px;font-size:15px;letter-spacing:.12em;text-transform:uppercase}
+  .nv-chips{display:flex;flex-wrap:wrap;gap:8px}
+  .nv-chips label{position:relative;display:block}
+  .nv-chips input{position:absolute;inset:0;opacity:0;margin:0;cursor:pointer}
+  .nv-chips span{display:inline-flex;align-items:center;min-height:44px;padding:6px 14px;border:2px solid var(--navy);border-radius:4px;font-size:16px;letter-spacing:.04em;text-transform:capitalize}
+  .nv-chips input:checked+span{background:var(--navy);color:var(--cream)}
+  .nv-chips input:disabled+span{opacity:.45;text-decoration:line-through;text-transform:none}
+  .nv-chips input:focus-visible+span{outline:3px solid var(--brass);outline-offset:2px}
+  .nv-visit{display:flex;flex-direction:column;gap:8px}
+  .nv-visit .ph-img,.nv-visit .ph{border:2px solid var(--navy);margin-bottom:14px}
+  .nv-visit h3{font-size:2rem;color:var(--wine)}
+  .nv-visit p{color:#3a4657}
+  .nv-foot{display:flex;flex-direction:column;align-items:center;gap:10px;padding:40px 16px;background:var(--navy);color:var(--cream);letter-spacing:.2em;text-transform:uppercase;font-size:14px;border-top:4px double var(--brass)}
+  .nv-foot img{height:60px;width:auto}
+  @media(max-width:860px){
+    .nv-head nav{display:none}.nv-head .nv-btn-sm{margin-left:auto}
+    .nv-hero,.nv-book{grid-template-columns:1fr}
+    .nv-barbers,.nv-gallery{grid-template-columns:1fr}
+    .nv-hero-photo{box-shadow:6px 6px 0 var(--wine)}
+    .nv-board li{flex-wrap:wrap}.nv-board i{display:none}.nv-board li div{flex:1 1 60%}
+  }
+  @media(max-width:400px){.nv-head img{height:38px}.nv-head .nv-btn-sm{padding:6px 10px;font-size:13px;letter-spacing:.08em}}
+  @media(prefers-reduced-motion:reduce){.nv-btn{transition:none}}
+</style>

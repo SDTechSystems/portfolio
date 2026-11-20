@@ -1,0 +1,191 @@
+---
+import SampleLayout from '../../components/samples/SampleLayout.astro';
+import Photo from '../../components/samples/Photo.astro';
+import Logo from '../../components/samples/Logo.astro';
+const S = 'michi-firulais';
+const products = [
+  { id: 'concentrado-perro', n: 'Concentrado Adulto 8 kg', pet: 'perro', type: 'alimento', p: 154900, old: 172000, r: 4.8, k: 'comida croquetas' , badge: '−10 %' },
+  { id: 'arena-gato', n: 'Arena aglomerante 10 kg', pet: 'gato', type: 'accesorios', p: 48900, r: 4.7, k: 'arenero' },
+  { id: 'cama', n: 'Cama dona antiestrés', pet: 'perro gato', type: 'camas', p: 119900, r: 4.9, k: 'cojin descanso', badge: 'Favorito' },
+  { id: 'rascador', n: 'Rascador torre 3 niveles', pet: 'gato', type: 'juguetes', p: 189900, r: 4.6, k: 'sisal mueble' },
+  { id: 'pelota', n: 'Pelotas mordedoras × 3', pet: 'perro', type: 'juguetes', p: 32900, r: 4.8, k: 'juguete caucho' },
+  { id: 'collar', n: 'Collar con placa grabada', pet: 'perro', type: 'accesorios', p: 45900, r: 4.5, k: 'placa nombre', badge: 'Nuevo' },
+  { id: 'snacks', n: 'Galletas de hueso 500 g', pet: 'perro', type: 'alimento', p: 27900, r: 4.9, k: 'premios snack' },
+  { id: 'comedero', n: 'Comedero doble de cerámica', pet: 'perro gato', type: 'accesorios', p: 69900, r: 4.7, k: 'plato agua' },
+];
+const cop = (n: number) => '$' + n.toLocaleString('es-CO');
+---
+<SampleLayout slug={S} title="Michi & Firulais — Todo para tu peludo" description="Tienda de mascotas en línea: alimento, juguetes, camas y accesorios para perros y gatos. Envío gratis desde $120.000." theme="#FF8A3D"
+  fonts={[{ family: 'Fredoka', file: 'fredoka-latin-700-normal.woff2', weight: 700 }, { family: 'Nunito', file: 'nunito-latin-400-normal.woff2', weight: 400 }, { family: 'Fredoka', file: 'fredoka-latin-500-normal.woff2', weight: 500 }, { family: 'Nunito', file: 'nunito-latin-700-normal.woff2', weight: 700 }, { family: 'Nunito', file: 'nunito-latin-800-normal.woff2', weight: 800 }]}>
+  <div class="mf">
+    <p class="mf-promo">🚚 Envío gratis desde $120.000 en Bogotá · Entrega el mismo día antes de las 2 p. m.</p>
+    <header class="mf-head">
+      <a href="#inicio" aria-label="Michi & Firulais, inicio"><Logo brand={S} height={50} /></a>
+      <label class="mf-search"><span class="mf-sr">Buscar productos</span><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="m20 20-4-4" /></svg><input type="search" placeholder="Busca croquetas, juguetes…" data-search /></label>
+      <button class="mf-cart-btn" type="button" data-cart-open aria-label="Abrir carrito"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 7h14l-1.5 10h-11zM9 7a3 3 0 0 1 6 0" /></svg><span class="mf-count" data-cart-count>0</span></button>
+    </header>
+    <main id="inicio">
+      <section class="mf-hero">
+        <div class="mf-hero-copy">
+          <p class="mf-tag">¡Hola, humano! 🐾</p>
+          <h1>Todo para tu <span>peludo</span>, a un clic.</h1>
+          <p>Alimento, juguetes y camitas elegidos por veterinarios y aprobados por nuestros catadores de cuatro patas.</p>
+          <a class="mf-btn" href="#tienda">Ir a la tienda</a>
+        </div>
+        <Photo site={S} slot="hero" ratio="16/9" eager alt="Un perro golden y un gato naranja sentados juntos entre juguetes" class="mf-hero-img" sizes="(max-width: 900px) 100vw, 55vw" />
+      </section>
+
+      <section class="mf-perks" aria-label="Beneficios">
+        <div><b>🚚</b><span>Mismo día en Bogotá</span></div><div><b>🩺</b><span>Asesoría veterinaria gratis</span></div><div><b>↩️</b><span>Cambios sin preguntas</span></div><div><b>💳</b><span>Paga como quieras</span></div>
+      </section>
+
+      <section class="mf-shop" id="tienda" aria-labelledby="tienda-t">
+        <div class="mf-shop-head"><h2 id="tienda-t">La tienda</h2><span class="mf-results" data-result-count aria-live="polite"></span></div>
+        <div class="mf-filters">
+          <div class="mf-chips" role="group" aria-label="Mascota">
+            <button type="button" data-filter-group="pet" data-value="all" aria-pressed="true">Todos</button>
+            <button type="button" data-filter-group="pet" data-value="perro" aria-pressed="false">🐶 Perros</button>
+            <button type="button" data-filter-group="pet" data-value="gato" aria-pressed="false">🐱 Gatos</button>
+          </div>
+          <div class="mf-chips" role="group" aria-label="Categoría">
+            {[['all', 'Todo'], ['alimento', 'Alimento'], ['juguetes', 'Juguetes'], ['accesorios', 'Accesorios'], ['camas', 'Camas']].map(([v, l], i) => <button type="button" data-filter-group="type" data-value={v} aria-pressed={i === 0 ? 'true' : 'false'}>{l}</button>)}
+          </div>
+        </div>
+        <div class="mf-grid">
+          {products.map(p => (
+            <article class="mf-card" data-product={p.id} data-name={p.n} data-price={p.p} data-tags={`${p.pet} ${p.type}`} data-keywords={p.k}>
+              <div class="mf-card-img"><Photo site={S} slot={p.id} ratio="1/1" alt={p.n} sizes="(max-width: 640px) 50vw, 25vw" />{p.badge && <span class="mf-badge">{p.badge}</span>}</div>
+              <p class="mf-rate" aria-label={`Calificación ${p.r} de 5`}>★ {String(p.r).replace('.', ',')}</p>
+              <h3>{p.n}</h3>
+              <p class="mf-price"><b>{cop(p.p)}</b>{p.old && <s>{cop(p.old)}</s>}</p>
+              <button class="mf-add" type="button" data-add={p.id} aria-label={`Agregar ${p.n} al carrito`}>Agregar <span aria-hidden="true">+</span></button>
+            </article>
+          ))}
+        </div>
+        <p class="mf-empty" data-empty-state hidden>No encontramos eso 😿. Prueba con otra palabra o escríbenos y lo conseguimos.</p>
+      </section>
+
+      <section class="mf-club" aria-labelledby="club-t">
+        <h2 id="club-t" data-reveal>Club Patitas</h2>
+        <p data-reveal>Acumula huellitas en cada compra y cámbialas por baños, juguetes y consultas. El cumpleaños de tu peludo viene con regalo.</p>
+        <button class="mf-btn mf-btn-dark" type="button" data-order="¡Hola, Michi & Firulais! 🐾 Quiero unirme al Club Patitas.&#10;Nombre de mi mascota: &#10;Fecha de cumpleaños: ">Quiero unirme</button>
+      </section>
+    </main>
+    <footer class="mf-foot"><Logo brand={S} variant="logo-inversa" height={50} /><p>Calle 85 # 15-30 · Bogotá · Lun a dom 9 a. m. – 8 p. m.</p></footer>
+
+    <dialog class="mf-drawer" data-cart-drawer aria-labelledby="cart-t">
+      <div class="mf-drawer-head"><h2 id="cart-t">Tu carrito</h2><button type="button" data-cart-close aria-label="Cerrar carrito">✕</button></div>
+      <div class="mf-ship"><p data-ship-note></p><span class="mf-bar" data-ship-bar><i></i></span></div>
+      <ul class="mf-lines" data-cart-lines></ul>
+      <div class="mf-sum">
+        <p><span>Subtotal</span><b data-cart-subtotal>$0</b></p>
+        <p><span>Envío</span><b data-cart-ship>Gratis</b></p>
+        <p class="mf-total"><span>Total</span><b data-cart-total>$0</b></p>
+        <button class="mf-btn" type="button" data-checkout>Pedir por WhatsApp</button>
+      </div>
+    </dialog>
+    <p class="mf-sr" data-cart-live aria-live="polite"></p>
+  </div>
+</SampleLayout>
+
+<script>
+  import { createStore, createFilters } from '../../scripts/sample-store';
+  createStore({ greeting: '¡Hola, Michi & Firulais! 🐾 Quiero hacer este pedido:', freeShipping: 120000, shipping: 9900 });
+  createFilters();
+</script>
+
+<style is:global>
+  .mf{--or:#FF8A3D;--tq:#18A5A7;--tq-d:#0e7476;--night:#1F2D4A;--cream:#FFF6E9;background:var(--cream);color:var(--night);font:400 17px/1.55 Nunito,system-ui,sans-serif}
+  .mf *{box-sizing:border-box}
+  .mf h1,.mf h2,.mf h3{margin:0;font-family:Fredoka,sans-serif;font-weight:700;line-height:1.08}
+  .mf p{margin:0}
+  .mf a{color:inherit}
+  .mf :focus-visible{outline:3px solid var(--tq);outline-offset:3px}
+  .mf-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+  .mf-promo{padding:8px 16px;background:var(--night);color:#fff;text-align:center;font-weight:700;font-size:14px}
+  .mf-head{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:20px;padding:10px clamp(14px,4vw,56px);background:#fff6e9f2;backdrop-filter:blur(10px);border-bottom:2px solid #1f2d4a14}
+  .mf-head img{display:block;height:50px;width:auto}
+  .mf-search{flex:1;max-width:520px;margin-left:auto;display:flex;align-items:center;gap:10px;padding:0 16px;border:2px solid var(--night);border-radius:999px;background:#fff}
+  .mf-search input{flex:1;min-width:0;min-height:46px;border:0;background:transparent;font:inherit;color:var(--night);outline:none}
+  .mf-search:focus-within{outline:3px solid var(--tq);outline-offset:2px}
+  .mf-cart-btn{position:relative;display:grid;place-items:center;width:52px;height:52px;border:2px solid var(--night);border-radius:16px;background:var(--or);color:var(--night);cursor:pointer;box-shadow:3px 3px 0 var(--night)}
+  .mf-cart-btn.bump{animation:mf-bump .45s}
+  @keyframes mf-bump{40%{transform:scale(1.15) rotate(-6deg)}}
+  .mf-count{position:absolute;top:-8px;right:-8px;display:grid;place-items:center;min-width:24px;height:24px;padding:0 6px;border-radius:999px;background:var(--tq-d);color:#fff;font:700 13px Nunito,sans-serif}
+  .mf-count[data-empty]{display:none}
+  .mf-btn{display:inline-flex;align-items:center;justify-content:center;min-height:54px;padding:12px 28px;border:2px solid var(--night);border-radius:18px;background:var(--or);color:var(--night)!important;font:700 17px Fredoka,sans-serif;text-decoration:none;cursor:pointer;box-shadow:4px 4px 0 var(--night);transition:transform .15s,box-shadow .15s}
+  .mf-btn:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--night)}
+  .mf-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+  .mf-btn-dark{background:#fff}
+  .mf-hero{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(24px,4vw,60px);align-items:center;padding:clamp(30px,5vw,70px) clamp(14px,4vw,56px)}
+  .mf-tag{display:inline-block;padding:6px 14px;border-radius:999px;background:#18a5a722;color:var(--tq-d);font-weight:800}
+  .mf-hero h1{margin:16px 0;font-size:clamp(2.6rem,6vw,4.8rem)}
+  .mf-hero h1 span{background:linear-gradient(transparent 60%,var(--or) 60% 92%,transparent 0)}
+  .mf-hero-copy>p:not(.mf-tag){max-width:42ch;margin-bottom:26px;font-size:1.12rem}
+  .mf-hero-img{border:3px solid var(--night);border-radius:32px;box-shadow:8px 8px 0 var(--tq)}
+  .mf-perks{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding:0 clamp(14px,4vw,56px)}
+  .mf-perks div{display:flex;align-items:center;gap:10px;padding:14px 16px;border-radius:18px;background:#fff;font-weight:800;font-size:15px}
+  .mf-perks b{font-size:22px}
+  .mf-shop{padding:clamp(50px,7vw,90px) clamp(14px,4vw,56px)}
+  .mf-shop-head{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-bottom:20px}
+  .mf-shop h2{font-size:clamp(2.2rem,5vw,3.4rem)}
+  .mf-results{font-weight:700;color:#5b6680}
+  .mf-filters{display:flex;flex-wrap:wrap;gap:12px 28px;margin-bottom:26px}
+  .mf-chips{display:flex;flex-wrap:wrap;gap:8px}
+  .mf-chips button{min-height:44px;padding:8px 16px;border:2px solid var(--night);border-radius:999px;background:#fff;color:var(--night);font:700 15px Nunito,sans-serif;cursor:pointer}
+  .mf-chips button[aria-pressed=true]{background:var(--night);color:#fff}
+  .mf-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}
+  .mf-card{display:flex;flex-direction:column;gap:6px;padding:12px 12px 14px;border:2px solid var(--night);border-radius:24px;background:#fff;transition:transform .2s,box-shadow .2s}
+  .mf-card:hover{transform:translateY(-4px);box-shadow:5px 5px 0 var(--or)}
+  .mf-card[hidden]{display:none}
+  .mf-card-img{position:relative;overflow:hidden;border-radius:16px;background:var(--cream)}
+  .mf-badge{position:absolute;top:10px;left:10px;padding:4px 10px;border-radius:999px;background:var(--tq-d);color:#fff;font-weight:800;font-size:13px}
+  .mf-rate{margin-top:6px;color:#9a5a00;font-weight:800;font-size:14px}
+  .mf-card h3{font-size:1.15rem;font-weight:500}
+  .mf-price{display:flex;align-items:baseline;gap:8px;margin-top:auto}
+  .mf-price b{font:700 1.3rem Fredoka,sans-serif}
+  .mf-price s{color:#5b6680;font-size:14px}
+  .mf-add{display:flex;align-items:center;justify-content:center;gap:8px;min-height:46px;margin-top:6px;border:2px solid var(--night);border-radius:14px;background:var(--cream);color:var(--night);font:700 16px Fredoka,sans-serif;cursor:pointer;transition:background .2s}
+  .mf-add:hover{background:var(--or)}
+  .mf-add span{font-size:20px;line-height:1}
+  .mf-empty{margin-top:20px;padding:24px;border:2px dashed var(--night);border-radius:20px;text-align:center;font-weight:700}
+  .mf-club{display:flex;flex-direction:column;align-items:center;gap:16px;margin:0 clamp(14px,4vw,56px) clamp(50px,7vw,90px);padding:clamp(40px,6vw,70px) 20px;border:3px solid var(--night);border-radius:36px;background:var(--tq-d);color:#fff;text-align:center}
+  .mf-club h2{font-size:clamp(2.2rem,5vw,3.6rem)}
+  .mf-club p{max-width:52ch;font-size:1.1rem}
+  .mf-foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px;padding:28px clamp(14px,4vw,56px);background:var(--night);color:#dfe5f1;font-size:14px}
+  .mf-foot img{height:50px;width:auto}
+  .mf-drawer{position:fixed;inset:0 0 0 auto;width:min(420px,100vw);height:100dvh;max-height:none;margin:0;padding:0;border:0;border-left:3px solid var(--night);background:var(--cream);color:var(--night);display:none;flex-direction:column}
+  .mf-drawer[open]{display:flex;animation:mf-in .35s cubic-bezier(.16,1,.3,1)}
+  @keyframes mf-in{from{transform:translateX(100%)}}
+  .mf-drawer::backdrop{background:#1f2d4a99}
+  .mf-drawer-head{display:flex;align-items:center;justify-content:space-between;padding:18px 20px;border-bottom:2px solid #1f2d4a1a}
+  .mf-drawer-head h2{font-size:1.7rem}
+  .mf-drawer-head button{width:44px;height:44px;border:2px solid var(--night);border-radius:12px;background:#fff;font-size:18px;cursor:pointer;color:var(--night)}
+  .mf-ship{padding:14px 20px;background:#fff;font-weight:700;font-size:15px}
+  .mf-bar{display:block;height:10px;margin-top:8px;border-radius:999px;background:#1f2d4a1a;overflow:hidden}
+  .mf-bar i{display:block;height:100%;width:calc(var(--p,0)*100%);background:var(--tq);border-radius:inherit;transition:width .4s}
+  .mf-lines{flex:1;overflow:auto;margin:0;padding:10px 20px;list-style:none}
+  .cart-line{display:grid;grid-template-columns:64px 1fr auto;gap:12px;align-items:center;padding:12px 0;border-bottom:1px dashed #1f2d4a33}
+  .cart-line img,.cart-thumb{width:64px;height:64px;border-radius:12px;object-fit:cover;background:#fff;display:block}
+  .cart-line-info{display:flex;flex-direction:column;font-size:15px;line-height:1.35}
+  .cart-line-info small{color:#5b6680}
+  .cart-line-info span{font-weight:800}
+  .cart-qty{display:flex;align-items:center;gap:4px}
+  .cart-qty button{width:34px;height:34px;border:2px solid var(--night);border-radius:10px;background:#fff;color:var(--night);font-size:18px;cursor:pointer}
+  .cart-qty output{min-width:22px;text-align:center;font-weight:800}
+  .cart-empty{padding:30px 0;text-align:center;color:#5b6680;font-weight:700}
+  .mf-sum{display:grid;gap:8px;padding:18px 20px 22px;border-top:2px solid #1f2d4a1a;background:#fff}
+  .mf-sum p{display:flex;justify-content:space-between}
+  .mf-total{font:700 1.25rem Fredoka,sans-serif}
+  .mf-sum .mf-btn{margin-top:8px}
+  @media(max-width:900px){.mf-hero{grid-template-columns:1fr}.mf-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.mf-perks{grid-template-columns:1fr 1fr}}
+  @media(max-width:640px){
+    .mf-head{flex-wrap:wrap;gap:10px}.mf-head img{height:40px}
+    .mf-search{order:3;flex-basis:100%;max-width:none;margin:0}
+    .mf-cart-btn{margin-left:auto;width:46px;height:46px}
+    .mf-grid{gap:12px}.mf-card{padding:8px 8px 10px;border-radius:18px}.mf-card h3{font-size:1rem}
+    .mf-add{font-size:14px}
+    .mf-perks div{font-size:13px;padding:12px}
+  }
+  @media(prefers-reduced-motion:reduce){.mf-btn,.mf-card,.mf-add,.mf-bar i{transition:none}.mf-drawer[open],.mf-cart-btn.bump{animation:none}}
+</style>

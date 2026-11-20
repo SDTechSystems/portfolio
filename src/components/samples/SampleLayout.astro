@@ -1,0 +1,99 @@
+---
+// Shell for the sample websites in /muestras/: a thin SD Tech bar on top, then the fictional
+// business site. Content is in Spanish; fonts are self-hosted (SIL OFL, from Fontsource).
+import { sites, kindLabel } from '../../data/sites';
+import { waLink, waMessages } from '../../data/catalog';
+type Font = { family: string; file: string; weight: number; style?: 'normal' | 'italic' };
+const { slug, title, description, fonts, theme = '#111' } = Astro.props as { slug: string; title: string; description: string; fonts: Font[]; theme?: string };
+const base = import.meta.env.BASE_URL;
+const site = sites.find(s => s.slug === slug)!;
+const url = new URL(`${base}muestras/${slug}/`, Astro.site).href;
+const wa = waLink(waMessages.site(site.name, kindLabel(site.kind, 'es'), url, 'es'));
+const fontFaces = fonts.map(f => `@font-face{font-family:"${f.family}";src:url("${base}muestras/_fonts/${f.file}") format("woff2");font-weight:${f.weight};font-style:${f.style ?? 'normal'};font-display:swap}`).join('');
+const preload = fonts.slice(0, 2);
+---
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{title}</title><meta name="description" content={description} /><meta name="theme-color" content={theme} />
+  <meta http-equiv="Content-Security-Policy" content="form-action 'none'; frame-src 'none'; connect-src 'none'; object-src 'none'; base-uri 'self'" />
+  <link rel="canonical" href={url} />
+  <meta property="og:type" content="website" /><meta property="og:title" content={title} /><meta property="og:description" content={description} /><meta property="og:url" content={url} />
+  <link rel="icon" href={`${base}marcas/${site.brand}/logo-simbolo.svg`} type="image/svg+xml" />
+  {preload.map(f => <link rel="preload" href={`${base}muestras/_fonts/${f.file}`} as="font" type="font/woff2" crossorigin />)}
+  <style set:html={fontFaces}></style>
+</head>
+<body>
+  <a class="sd-skip" href="#inicio">Saltar al contenido</a>
+  <div class="sd-bar" role="region" aria-label="Aviso de SD Tech Systems">
+    <a class="sd-bar-back" href={`${base}es/paginas/`}><span aria-hidden="true">←</span> <b>SD Tech Systems</b></a>
+    <span class="sd-bar-note">{kindLabel(site.kind, 'es')} de ejemplo · negocio y datos ficticios</span>
+    <a class="sd-bar-cta" href={wa} target="_blank" rel="noopener noreferrer">Quiero una así <span aria-hidden="true">↗</span></a>
+  </div>
+  <slot />
+  <dialog class="sd-order" id="sd-order" aria-labelledby="sd-order-title">
+    <p class="sd-order-tag">Vista previa</p>
+    <h2 id="sd-order-title">Así llegaría el mensaje al negocio</h2>
+    <p class="sd-order-chat" id="sd-order-text"></p>
+    <p class="sd-order-note">En una página real este botón abre el WhatsApp del negocio con el mensaje listo para enviar. Esta es una muestra: no se envía nada.</p>
+    <div class="sd-order-actions"><button type="button" data-sd-close>Seguir viendo</button><a href={wa} target="_blank" rel="noopener noreferrer">Quiero una página así ↗</a></div>
+  </dialog>
+  <footer class="sd-foot"><span>Página de ejemplo diseñada y desarrollada por <a href={`${base}es/`}>SD Tech Systems</a>.</span><span>{site.name} es una marca ficticia de la sección <a href={`${base}es/marcas/${site.brand}/`}>Marcas</a>.</span></footer>
+  <script>
+    // Order / booking buttons show the WhatsApp message they would send (window.sdOrder for scripted ones).
+    const dialog = document.querySelector<HTMLDialogElement>('#sd-order')!;
+    const show = (text: string) => { dialog.querySelector('#sd-order-text')!.textContent = text; dialog.showModal(); };
+    (window as any).sdOrder = show;
+    document.addEventListener('click', e => {
+      const trigger = (e.target as Element).closest<HTMLElement>('[data-order]');
+      if (trigger) { e.preventDefault(); show(trigger.dataset.order!); }
+    });
+    dialog.querySelector('[data-sd-close]')!.addEventListener('click', () => dialog.close());
+    dialog.addEventListener('click', e => { if (e.target === dialog) dialog.close(); });
+  </script>
+  <script>
+    // Sections fade in one by one as they reach the screen; images below the fold load as they arrive.
+    const items = [...document.querySelectorAll<HTMLElement>('[data-reveal]')];
+    const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if ('IntersectionObserver' in window && !calm) {
+      const queue: HTMLElement[] = []; let timer = 0;
+      const next = () => { const el = queue.shift(); if (!el) { timer = 0; return; } el.classList.add('is-in'); timer = window.setTimeout(next, 90); };
+      const io = new IntersectionObserver(entries => {
+        entries.filter(e => e.isIntersecting).forEach(e => { io.unobserve(e.target); queue.push(e.target as HTMLElement); });
+        if (!timer) next();
+      }, { threshold: 0.1 });
+      items.forEach(el => { el.classList.add('will-reveal'); io.observe(el); });
+    }
+  </script>
+  <style is:global>
+    .sd-skip{position:absolute;left:12px;top:-60px;z-index:100;padding:10px 14px;background:#061C45;color:#fff;border-radius:8px;font:600 14px system-ui,sans-serif}
+    .sd-skip:focus{top:12px}
+    .sd-bar{position:relative;z-index:80;display:flex;align-items:center;gap:14px;min-height:40px;padding:6px 16px;background:#07111F;color:#C9D6E4;font:13px/1.3 system-ui,-apple-system,"Segoe UI",sans-serif}
+    .sd-bar a{color:#F4F8FC;text-decoration:none}
+    .sd-bar-back b{font-weight:700}
+    .sd-bar-note{flex:1;color:#A7B9CD;font-size:12px}
+    .sd-bar-cta{flex:none;padding:6px 12px;border:1px solid #00BDE8;border-radius:999px;background:#061C45;font-weight:600}
+    .sd-bar-cta:hover{background:#2563EB}
+    .sd-bar a:focus-visible{outline:2px solid #00BDE8;outline-offset:3px;border-radius:6px}
+    .sd-foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 24px;padding:18px 20px 22px;background:#07111F;color:#A7B9CD;font:12px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif}
+    .sd-foot a{color:#F4F8FC}
+    @media(max-width:640px){.sd-bar-note{display:none}.sd-bar{justify-content:space-between}}
+    .sd-order{width:min(440px,calc(100vw - 32px));padding:26px;border:0;border-radius:20px;background:#fff;color:#1b1b1b;box-shadow:0 30px 80px #0008;font:15px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}
+    .sd-order::backdrop{background:#0009}
+    .sd-order h2{margin:4px 0 14px;font:700 20px/1.3 system-ui,-apple-system,"Segoe UI",sans-serif;letter-spacing:0;text-transform:none}
+    .sd-order-tag{margin:0;color:#2563EB;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase}
+    .sd-order-chat{position:relative;margin:0;padding:12px 14px;border-radius:12px 12px 4px 12px;background:#dcf8c6;white-space:pre-line;overflow-wrap:anywhere}
+    .sd-order-note{margin:14px 0 0;color:#555;font-size:13px}
+    .sd-order-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+    .sd-order-actions>*{flex:1 1 160px;display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:10px 14px;border-radius:12px;font:600 14px system-ui,sans-serif;text-decoration:none;cursor:pointer}
+    .sd-order-actions button{border:1px solid #ccc;background:#fff;color:#1b1b1b}
+    .sd-order-actions a{border:1px solid #061C45;background:#061C45;color:#fff}
+    .sd-order-actions a:hover{background:#2563EB}
+    .will-reveal{opacity:0;transform:translateY(18px)}
+    .will-reveal.is-in{opacity:1;transform:none;transition:opacity .7s ease,transform .8s cubic-bezier(.16,1,.3,1)}
+    .ph{display:block;width:100%;background:rgba(127,127,127,.12)}
+    img.ph-img{display:block;width:100%;height:auto;object-fit:cover}
+  </style>
+</body>
+</html>

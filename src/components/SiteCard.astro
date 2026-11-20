@@ -1,0 +1,31 @@
+---
+import WhatsAppIcon from './WhatsAppIcon.astro';
+import { waLink, waMessages, type Locale } from '../data/catalog';
+import { siteHref, kindLabel, type SampleSite } from '../data/sites';
+import { publicExists } from '../lib/public-file';
+const { site: s, locale, index, eager = false, heading = 'h3' } = Astro.props as { site: SampleSite; locale: Locale; index: number; eager?: boolean; heading?: 'h2' | 'h3' };
+const base = import.meta.env.BASE_URL, es = locale === 'es';
+const href = siteHref(base, s, locale);
+const kind = kindLabel(s.kind, locale);
+const wa = waLink(waMessages.site(s.name, kind, new URL(href, Astro.site).href, locale));
+const hasCover = publicExists(s.cover);
+const H = heading;
+---
+<article class="site-card" data-kind={s.kind}>
+  <a class="site-visual" href={href} aria-label={`${es ? 'Abrir la página de ejemplo' : 'Open the sample website'} ${s.name}`} style={`--c1:${s.colors[0]};--c2:${s.colors[1]}`}>
+    <span class="site-visual-top"><span>{String(index + 1).padStart(2, '0')} / {kind}</span><span>{es ? '↗ VER PÁGINA' : '↗ OPEN SITE'}</span></span>
+    <span class="site-frame">
+      <span class="site-frame-bar" aria-hidden="true"><i></i><i></i><i></i><span>{s.slug}.com</span></span>
+      {hasCover
+        ? <img src={`${base}${s.cover}`} alt="" width="1440" height="900" loading={eager ? 'eager' : 'lazy'} decoding="async" />
+        : <span class="site-frame-blank" aria-hidden="true"><b>{s.name}</b></span>}
+    </span>
+  </a>
+  <div class="site-card-head"><H><a href={href}>{s.name}</a></H><span class="site-style">{s.style[locale]}</span></div>
+  <p class="site-sector">{s.sector[locale]}</p>
+  <p class="site-summary">{s.summary[locale]}</p>
+  <div class="site-card-foot">
+    <span class="brand-dots" aria-hidden="true">{s.colors.map(c => <i style={`background:${c}`}></i>)}</span>
+    <a class="wa-link" href={wa} target="_blank" rel="noopener noreferrer" aria-label={`${es ? 'Quiero una página como' : 'I want a website like'} ${s.name} (WhatsApp)`}><WhatsAppIcon />{es ? 'Quiero una así' : 'I want one'}</a>
+  </div>
+</article>

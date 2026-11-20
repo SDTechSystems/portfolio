@@ -6,20 +6,19 @@ export const categories = [
   { id: 'pos', label: { es: 'Punto de venta', en: 'Point of sale' }, visible: true },
   { id: 'custom', label: { es: 'Software a medida', en: 'Custom software' }, visible: true },
   { id: 'akashic', label: { es: 'Akashic Vault', en: 'Akashic Vault' }, visible: true },
-  { id: 'websites', label: { es: 'Páginas web a medida', en: 'Custom websites' }, visible: true },
-  { id: 'landing', label: { es: 'Landing pages', en: 'Landing pages' }, visible: true },
 ];
 export const assignments: Record<string, string[]> = {
   'akashic-vault': ['akashic'],
   openmultipos: ['erp', 'pos', 'custom'],
   'easy-drink': ['pos'],
   'akashic-tv': ['custom'],
-  invitacion: ['websites', 'custom'],
-  tasktone: ['custom', 'websites'],
+  tasktone: ['custom'],
 };
+// The home "Software" section lists these; websites (the wedding invitation included) live in /paginas/.
+export const softwareProjectIds = Object.keys(assignments);
 export const siteConfig = {
   name: 'SD Tech Systems',
-  author: 'Juan Sebastián Duque Valencia',
+  author: 'SD Tech Systems',
   email: 'contacto@sdtechsystems.dev',
   github: 'https://github.com/SDTechSystems',
   // WhatsApp Business with country code, digits only (57 = Colombia).
@@ -42,6 +41,11 @@ export const waMessages = {
   brand: (name:string,style:string,url:string,locale:Locale) => locale==='es'
     ? `Hola Juan, me gustó el diseño de marca «${name}» (${style.toLowerCase()}) de tu portafolio y quiero algo así para mi negocio: ${url}`
     : `Hi Juan, I liked the «${name}» brand design (${style.toLowerCase()}) in your portfolio and I’d like something like it for my business: ${url}`,
+  sites: { es:'Hola Juan, vi las páginas web de ejemplo de tu portafolio y quiero cotizar una para mi negocio.', en:'Hi Juan, I saw the sample websites in your portfolio and I’d like a quote for my business.' },
+  // Names the sample website the client liked, with its link.
+  site: (name:string,kind:string,url:string,locale:Locale) => locale==='es'
+    ? `Hola Juan, me gustó la ${kind.toLowerCase()} de ejemplo «${name}» de tu portafolio y quiero una así para mi negocio: ${url}`
+    : `Hi Juan, I liked the «${name}» sample ${kind.toLowerCase()} in your portfolio and I’d like one like it for my business: ${url}`,
   demo: (name:string,locale:Locale) => locale==='es'
     ? `Hola Juan, estuve probando la demo de ${name} en tu portafolio y quiero saber más.`
     : `Hi Juan, I was trying the ${name} demo in your portfolio and would like to know more.`,

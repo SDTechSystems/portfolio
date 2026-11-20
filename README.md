@@ -10,6 +10,10 @@ Portafolio de software y desarrollo web de SD Tech Systems. Presenta soluciones 
 
 Cada proyecto incluye su propósito, funciones, tecnologías y estado de desarrollo. Las categorías permiten explorar puntos de venta, software ERP, aplicaciones a medida y páginas web.
 
+La sección [Páginas web](https://sdtechsystems.dev/es/paginas/) reúne 9 sitios de ejemplo: seis landing pages (llamativa, minimalista, de lujo, tecnológica, sobria y retro), dos tiendas online con carrito y pedido por WhatsApp, y la web de boda entregada. Cada muestra usa una marca de la sección Marcas y vive en /muestras/<marca>/ (código en src/pages/muestras/, datos en src/data/sites.ts). Las fotos se generan aparte y se convierten con 
+ode tools/sample-sites/convert.mjs (ver 	ools/sample-sites/images.json); mientras falte una foto, la página muestra un espacio en blanco con la misma proporción. Las portadas de la galería salen de 
+ode tools/sample-sites/covers.cjs <url-del-preview>.
+
 Las demostraciones permiten recorrer una caja, administrar inventario de ejemplo, explorar asistentes locales, navegar un catálogo de televisión y conocer el concepto de TaskTone. La muestra de invitación incluye una web completa con historia, eventos y confirmación de asistencia simulada.
 
 La sección [Marcas](https://sdtechsystems.dev/es/marcas/) reúne 42 identidades ficticias en nueve estilos. Cada una muestra el logotipo y sus versiones, la paleta, las tipografías, las piezas para redes y una portada fotográfica. Las identidades que incluyen un personaje tienen una sección de mascota. El generador está en [tools/brand-showcase](tools/brand-showcase/README.md).

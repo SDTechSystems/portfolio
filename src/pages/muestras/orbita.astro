@@ -1,0 +1,217 @@
+---
+import SampleLayout from '../../components/samples/SampleLayout.astro';
+import Photo from '../../components/samples/Photo.astro';
+import Logo from '../../components/samples/Logo.astro';
+const S = 'orbita';
+const services = [
+  { t: 'Productos web', d: 'Plataformas SaaS, paneles y portales con arquitectura lista para crecer.', i: 'M3 5h18v12H3zM8 21h8M12 17v4' },
+  { t: 'Apps móviles', d: 'iOS y Android con una sola base de código y publicación en tiendas.', i: 'M7 2h10v20H7zM11 18h2' },
+  { t: 'Integraciones', d: 'Pagos, facturación electrónica, ERP y APIs que hablan entre sí.', i: 'M8 12h8M5 7a3 3 0 1 0 0 .1M19 17a3 3 0 1 0 0 .1M7 9l9 6' },
+  { t: 'Inteligencia artificial', d: 'Asistentes, búsqueda semántica y automatización sobre tus datos.', i: 'M12 3l2.5 5.5L20 11l-5.5 2.5L12 19l-2.5-5.5L4 11l5.5-2.5z' },
+  { t: 'Diseño de producto', d: 'Investigación, prototipos y sistemas de diseño que se pueden medir.', i: 'M4 20l4-1 11-11-3-3L5 16zM14 6l3 3' },
+  { t: 'Nube y DevOps', d: 'Infraestructura como código, monitoreo y despliegues sin miedo.', i: 'M7 18h10a4 4 0 0 0 .5-8A6 6 0 0 0 6 9.5 4.3 4.3 0 0 0 7 18z' },
+];
+const steps = [['Descubrir', 'Dos semanas para entender el problema, a tus usuarios y la métrica que importa.'], ['Prototipar', 'Un prototipo navegable que validamos con usuarios reales antes de escribir código.'], ['Construir', 'Sprints de dos semanas con demo en cada cierre y acceso al tablero del proyecto.'], ['Lanzar y crecer', 'Publicamos, medimos y seguimos mejorando con un equipo dedicado.']];
+const plans = [
+  { n: 'Arranque', m: 18, y: 15, d: 'Para validar una idea con un MVP.', f: ['1 producto en desarrollo', 'Diseñador + 2 desarrolladores', 'Demo cada dos semanas', 'Soporte en horario laboral'] },
+  { n: 'Escala', m: 34, y: 29, d: 'Para productos con usuarios que crecen.', f: ['Hasta 3 frentes en paralelo', 'Equipo de 5 personas', 'QA automatizado y analítica', 'Soporte prioritario'], hot: true },
+  { n: 'Empresa', m: 0, y: 0, d: 'Para operaciones críticas y equipos internos.', f: ['Equipo a la medida', 'Arquitecto y líder técnico', 'SLA 99,9 % y guardia 24/7', 'Acompañamiento de seguridad'] },
+];
+---
+<SampleLayout slug={S} title="Órbita Software — Ideas en órbita" description="Estudio de desarrollo de software: productos web, apps móviles e inteligencia artificial." theme="#0B0F2A"
+  fonts={[{ family: 'Space Grotesk', file: 'space-grotesk-latin-700-normal.woff2', weight: 700 }, { family: 'Inter', file: 'inter-latin-400-normal.woff2', weight: 400 }, { family: 'Space Grotesk', file: 'space-grotesk-latin-500-normal.woff2', weight: 500 }, { family: 'Inter', file: 'inter-latin-500-normal.woff2', weight: 500 }, { family: 'Inter', file: 'inter-latin-600-normal.woff2', weight: 600 }]}>
+  <div class="ob">
+    <header class="ob-head">
+      <a href="#inicio" aria-label="Órbita Software, inicio"><Logo brand={S} variant="logo-inversa" height={34} /></a>
+      <nav aria-label="Secciones"><a href="#servicios">Servicios</a><a href="#proceso">Proceso</a><a href="#planes">Planes</a></nav>
+      <a class="ob-btn ob-btn-sm" href="#contacto">Agenda una llamada</a>
+    </header>
+    <main id="inicio">
+      <section class="ob-hero">
+        <div class="ob-hero-copy">
+          <p class="ob-pill"><span></span> 40 productos en producción</p>
+          <h1>Convertimos ideas en <em>productos</em> que la gente usa.</h1>
+          <p class="ob-lead">Diseño, desarrollo e inteligencia artificial para startups y empresas que quieren lanzar rápido sin deuda técnica.</p>
+          <div class="ob-ctas"><a class="ob-btn" href="#contacto">Cuéntanos tu idea →</a><a class="ob-btn ob-btn-ghost" href="#proceso">Cómo trabajamos</a></div>
+        </div>
+        <div class="ob-hero-art"><Photo site={S} slot="hero" ratio="16/10" eager alt="Planeta violeta con un anillo cian y un satélite en órbita" sizes="(max-width: 900px) 100vw, 50vw" /></div>
+      </section>
+
+      <section class="ob-clients" aria-label="Clientes"><p>Confían en nosotros</p><div><span>NÓMADA</span><span>finca·app</span><span>Kuanto</span><span>MEDIX</span><span>rutaverde</span><span>Lumen&amp;Co</span></div></section>
+
+      <section class="ob-section" id="servicios" aria-labelledby="serv-t">
+        <div class="ob-title" data-reveal><p class="ob-over">// Servicios</p><h2 id="serv-t">Todo lo que tu producto necesita para despegar</h2></div>
+        <div class="ob-grid">{services.map(s => <article class="ob-card" data-reveal><svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={s.i} /></svg><h3>{s.t}</h3><p>{s.d}</p></article>)}</div>
+      </section>
+
+      <section class="ob-metrics" aria-label="Resultados">
+        <div data-reveal><b data-count="40">0</b><span>productos lanzados</span></div>
+        <div data-reveal><b data-count="98" data-suffix="%">0</b><span>clientes que repiten</span></div>
+        <div data-reveal><b data-count="12" data-suffix=" sem">0</b><span>promedio a primera versión</span></div>
+        <div data-reveal><b data-count="4.9" data-decimals="1">0</b><span>calificación en Clutch</span></div>
+      </section>
+
+      <section class="ob-section" id="proceso" aria-labelledby="proc-t">
+        <div class="ob-title" data-reveal><p class="ob-over">// Proceso</p><h2 id="proc-t">De la servilleta a producción en cuatro etapas</h2></div>
+        <ol class="ob-steps">{steps.map(([t, d], i) => <li data-reveal><span>0{i + 1}</span><h3>{t}</h3><p>{d}</p></li>)}</ol>
+      </section>
+
+      <section class="ob-team">
+        <Photo site={S} slot="equipo" ratio="3/2" alt="Equipo de desarrollo trabajando junto en una oficina" sizes="(max-width: 900px) 100vw, 50vw" class="ob-team-img" />
+        <div data-reveal><p class="ob-over">// Equipo</p><h2>32 personas entre Bogotá, Medellín y remoto</h2><p>Ingeniería, diseño y datos bajo el mismo techo. Sin intermediarios: hablas con quien construye tu producto.</p></div>
+      </section>
+
+      <section class="ob-section" id="planes" aria-labelledby="plan-t">
+        <div class="ob-title ob-title-row" data-reveal><div><p class="ob-over">// Planes</p><h2 id="plan-t">Un equipo dedicado, sin sorpresas</h2></div>
+          <div class="ob-switch" role="group" aria-label="Periodo de pago"><button type="button" data-period="m" aria-pressed="true">Mensual</button><button type="button" data-period="y" aria-pressed="false">Anual <small>−15 %</small></button></div></div>
+        <div class="ob-plans">{plans.map(p => (
+          <article class:list={['ob-plan', { hot: p.hot }]} data-reveal>
+            {p.hot && <span class="ob-badge">Más elegido</span>}
+            <h3>{p.n}</h3><p>{p.d}</p>
+            <div class="ob-price">{p.m ? <><b data-m={p.m} data-y={p.y}>${p.m} M</b><span>COP / mes</span></> : <b>A la medida</b>}</div>
+            <ul>{p.f.map(f => <li>{f}</li>)}</ul>
+            <a class:list={['ob-btn', { 'ob-btn-ghost': !p.hot }]} href="#contacto">{p.m ? 'Empezar' : 'Hablar con ventas'}</a>
+          </article>))}</div>
+      </section>
+
+      <section class="ob-contact" id="contacto" aria-labelledby="contact-t">
+        <div data-reveal><p class="ob-over">// Contacto</p><h2 id="contact-t">Cuéntanos qué quieres construir</h2><p>Respondemos en menos de 24 horas hábiles con una propuesta de siguiente paso, aunque solo tengas una idea.</p></div>
+        <form class="ob-form" data-contact novalidate>
+          <label>Nombre<input name="name" required autocomplete="name" /></label>
+          <label>Correo de trabajo<input name="email" type="email" required autocomplete="email" /></label>
+          <label>Tipo de proyecto<select name="type"><option>Producto nuevo (MVP)</option><option>Mejorar un producto existente</option><option>Equipo dedicado</option><option>Inteligencia artificial</option></select></label>
+          <label>Presupuesto estimado<select name="budget"><option>Menos de $50 M</option><option>$50 M – $150 M</option><option>Más de $150 M</option></select></label>
+          <label class="ob-wide">Mensaje<textarea name="msg" rows="4" placeholder="Qué problema resuelve, para quién y para cuándo"></textarea></label>
+          <button class="ob-btn ob-wide" type="submit">Enviar mensaje</button>
+          <p class="ob-msg ob-wide" role="status" aria-live="polite"></p>
+        </form>
+      </section>
+    </main>
+    <footer class="ob-foot"><Logo brand={S} variant="logo-inversa" height={30} /><p>© 2026 Órbita Software S.A.S. · Bogotá, Colombia</p></footer>
+  </div>
+</SampleLayout>
+
+<script>
+  // Plans: monthly / yearly switch.
+  const buttons = document.querySelectorAll<HTMLButtonElement>('[data-period]');
+  buttons.forEach(b => b.addEventListener('click', () => {
+    buttons.forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+    document.querySelectorAll<HTMLElement>('[data-m]').forEach(p => { p.textContent = `$${b.dataset.period === 'y' ? p.dataset.y : p.dataset.m} M`; });
+  }));
+  // Metrics count up once when they appear.
+  const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const finish = (el: HTMLElement, v: number) => { el.textContent = v.toLocaleString('es-CO', { minimumFractionDigits: +(el.dataset.decimals ?? 0), maximumFractionDigits: +(el.dataset.decimals ?? 0) }) + (el.dataset.suffix ?? ''); };
+  const counters = document.querySelectorAll<HTMLElement>('[data-count]');
+  const io = new IntersectionObserver(entries => entries.forEach(e => {
+    if (!e.isIntersecting) return; io.unobserve(e.target);
+    const el = e.target as HTMLElement, end = Number(el.dataset.count);
+    if (calm) return finish(el, end);
+    const t0 = performance.now();
+    const tick = (t: number) => { const k = Math.min(1, (t - t0) / 1400); finish(el, end * (1 - Math.pow(1 - k, 3))); if (k < 1) requestAnimationFrame(tick); };
+    requestAnimationFrame(tick);
+  }), { threshold: .6 });
+  counters.forEach(c => io.observe(c));
+  // Contact form: validation and a confirmation (nothing is sent).
+  const form = document.querySelector<HTMLFormElement>('[data-contact]')!;
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const bad = [...form.querySelectorAll<HTMLInputElement>('input')].find(i => !i.value || !i.checkValidity());
+    const msg = form.querySelector('.ob-msg')!;
+    if (bad) { msg.textContent = bad.type === 'email' ? 'Revisa el correo.' : 'Escribe tu nombre.'; bad.focus(); return; }
+    msg.textContent = '¡Gracias! Un líder técnico te escribirá pronto. (Muestra: no se envió ningún dato.)';
+    form.reset();
+  });
+</script>
+
+<style is:global>
+  .ob{--v:#6C4CFF;--c:#29D3F5;--night:#0B0F2A;--ice:#EEF1FF;--line:#ffffff1a;background:var(--night);color:var(--ice);font:400 16px/1.65 Inter,system-ui,sans-serif}
+  .ob *{box-sizing:border-box}
+  .ob h1,.ob h2,.ob h3{margin:0;font-family:"Space Grotesk",sans-serif;font-weight:700;letter-spacing:-.03em;line-height:1.05}
+  .ob p{margin:0}
+  .ob a{color:inherit}
+  .ob :focus-visible{outline:2px solid var(--c);outline-offset:3px}
+  .ob-head{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:30px;padding:14px clamp(16px,5vw,72px);background:#0b0f2acc;backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+  .ob-head img{display:block;height:34px;width:auto}
+  .ob-head nav{display:flex;gap:28px;margin-left:auto;font-size:15px;color:#c3c8ea}
+  .ob-head nav a{text-decoration:none}.ob-head nav a:hover{color:#fff}
+  .ob-btn{display:inline-flex;align-items:center;justify-content:center;min-height:50px;padding:12px 24px;border:1px solid transparent;border-radius:12px;background:linear-gradient(135deg,var(--v),#8f73ff);color:#fff!important;font:600 15px Inter,sans-serif;text-decoration:none;cursor:pointer;box-shadow:0 10px 30px #6c4cff55;transition:transform .2s,box-shadow .2s}
+  .ob-btn:hover{transform:translateY(-2px);box-shadow:0 16px 40px #6c4cff77}
+  .ob-btn-sm{min-height:42px;padding:8px 16px;font-size:14px}
+  .ob-btn-ghost{background:transparent;border-color:#ffffff33;box-shadow:none}
+  .ob-btn-ghost:hover{border-color:var(--c);box-shadow:none}
+  .ob-hero{position:relative;display:grid;grid-template-columns:1.05fr .95fr;align-items:center;gap:40px;padding:clamp(50px,8vw,120px) clamp(16px,5vw,72px);overflow:hidden}
+  .ob-hero::before{content:"";position:absolute;inset:-30% -10% auto auto;width:70vw;height:70vw;max-width:900px;max-height:900px;background:radial-gradient(circle,#6c4cff40,transparent 60%);pointer-events:none}
+  .ob-hero>*{position:relative}
+  .ob-pill{display:inline-flex;align-items:center;gap:10px;padding:6px 14px;border:1px solid var(--line);border-radius:999px;background:#ffffff0a;font-size:14px;color:#c3c8ea}
+  .ob-pill span{width:8px;height:8px;border-radius:50%;background:var(--c);box-shadow:0 0 12px var(--c)}
+  .ob-hero h1{margin:24px 0;font-size:clamp(2.6rem,5.6vw,5rem)}
+  .ob-hero em{font-style:normal;background:linear-gradient(90deg,var(--c),var(--v));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .ob-lead{max-width:48ch;font-size:1.1rem;color:#c3c8ea}
+  .ob-ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
+  .ob-hero-art{border-radius:24px;padding:1px;background:linear-gradient(135deg,#29d3f566,#6c4cff66,transparent 70%);box-shadow:0 30px 80px #000a}
+  .ob-hero-art .ph-img,.ob-hero-art .ph{border-radius:23px}
+  .ob-clients{display:flex;align-items:center;gap:30px;padding:26px clamp(16px,5vw,72px);border-block:1px solid var(--line);color:#8f95c2}
+  .ob-clients p{flex:none;font-size:13px;text-transform:uppercase;letter-spacing:.14em}
+  .ob-clients div{display:flex;flex-wrap:wrap;justify-content:space-around;gap:16px 40px;flex:1;font:700 1.25rem "Space Grotesk",sans-serif;color:#b9bee3;opacity:.75}
+  .ob-section{padding:clamp(70px,9vw,130px) clamp(16px,5vw,72px)}
+  .ob-over{font:500 14px "Space Grotesk",monospace;color:var(--c)}
+  .ob-title{max-width:760px;margin-bottom:50px}
+  .ob-title h2{margin-top:14px;font-size:clamp(2rem,4.4vw,3.6rem)}
+  .ob-title-row{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:24px;max-width:none}
+  .ob-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+  .ob-card{padding:28px;border:1px solid var(--line);border-radius:20px;background:linear-gradient(160deg,#ffffff0d,#ffffff03);transition:border-color .3s,transform .3s}
+  .ob-card:hover{border-color:#6c4cff99;transform:translateY(-4px)}
+  .ob-card svg{color:var(--c)}
+  .ob-card h3{margin:18px 0 8px;font-size:1.35rem}
+  .ob-card p{color:#aab0d8}
+  .ob-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border-block:1px solid var(--line)}
+  .ob-metrics div{display:flex;flex-direction:column;gap:6px;padding:40px clamp(16px,3vw,40px);background:var(--night)}
+  .ob-metrics b{font:700 clamp(2.4rem,5vw,4rem)/1 "Space Grotesk",sans-serif;background:linear-gradient(90deg,#fff,var(--c));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .ob-metrics span{color:#aab0d8}
+  .ob-steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;margin:0;padding:0;list-style:none;counter-reset:s}
+  .ob-steps li{position:relative;padding:26px 22px;border-top:2px solid var(--v)}
+  .ob-steps span{font:500 14px "Space Grotesk",monospace;color:var(--c)}
+  .ob-steps h3{margin:10px 0;font-size:1.4rem}
+  .ob-steps p{color:#aab0d8}
+  .ob-team{display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,5vw,80px);align-items:center;padding:0 clamp(16px,5vw,72px)}
+  .ob-team-img{border-radius:24px}
+  .ob-team h2{margin:14px 0 16px;font-size:clamp(1.8rem,3.6vw,2.8rem)}
+  .ob-team p:not(.ob-over){color:#aab0d8}
+  .ob-switch{display:inline-flex;padding:4px;border:1px solid var(--line);border-radius:12px;background:#ffffff08}
+  .ob-switch button{min-height:42px;padding:8px 16px;border:0;border-radius:9px;background:transparent;color:#c3c8ea;font:500 14px Inter,sans-serif;cursor:pointer}
+  .ob-switch button[aria-pressed=true]{background:var(--ice);color:var(--night)}
+  .ob-switch small{color:#1fa26e;font-weight:700}
+  .ob-switch button[aria-pressed=false] small{color:var(--c)}
+  .ob-plans{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;align-items:start}
+  .ob-plan{position:relative;display:flex;flex-direction:column;gap:14px;padding:30px;border:1px solid var(--line);border-radius:22px;background:#ffffff06}
+  .ob-plan.hot{border-color:transparent;background:linear-gradient(var(--night),var(--night)) padding-box,linear-gradient(135deg,var(--c),var(--v)) border-box;box-shadow:0 30px 70px #6c4cff33}
+  .ob-badge{position:absolute;top:-13px;right:22px;padding:4px 12px;border-radius:999px;background:var(--c);color:var(--night);font-size:13px;font-weight:600}
+  .ob-plan h3{font-size:1.5rem}
+  .ob-plan>p{color:#aab0d8}
+  .ob-price{display:flex;align-items:baseline;gap:8px;padding:10px 0;border-bottom:1px solid var(--line)}
+  .ob-price b{font:700 2.4rem "Space Grotesk",sans-serif}
+  .ob-price span{color:#8f95c2;font-size:14px}
+  .ob-plan ul{display:grid;gap:10px;margin:6px 0 10px;padding:0;list-style:none;color:#d4d8f5}
+  .ob-plan li::before{content:"✓";margin-right:10px;color:var(--c)}
+  .ob-contact{display:grid;grid-template-columns:.8fr 1.2fr;gap:clamp(30px,5vw,80px);padding:clamp(70px,9vw,130px) clamp(16px,5vw,72px);background:radial-gradient(80% 100% at 0% 100%,#6c4cff30,transparent 60%),#090c22;border-top:1px solid var(--line)}
+  .ob-contact h2{margin:14px 0 16px;font-size:clamp(2rem,4vw,3.2rem)}
+  .ob-contact>div>p:not(.ob-over){color:#aab0d8}
+  .ob-form{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .ob-wide{grid-column:1/-1}
+  .ob-form label{display:flex;flex-direction:column;gap:8px;font-size:14px;color:#c3c8ea}
+  .ob-form input,.ob-form select,.ob-form textarea{min-height:50px;padding:12px 14px;border:1px solid #ffffff26;border-radius:12px;background:#ffffff0a;color:var(--ice);font:400 16px Inter,sans-serif;color-scheme:dark}
+  .ob-form input:focus,.ob-form select:focus,.ob-form textarea:focus{border-color:var(--c);outline:none;box-shadow:0 0 0 3px #29d3f533}
+  .ob-msg{min-height:1.6em;color:var(--c)}
+  .ob-foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;padding:30px clamp(16px,5vw,72px);border-top:1px solid var(--line);color:#8f95c2;font-size:14px}
+  .ob-foot img{height:30px;width:auto}
+  @media(max-width:900px){
+    .ob-head nav{display:none}.ob-head .ob-btn-sm{margin-left:auto}
+    .ob-hero,.ob-team,.ob-contact{grid-template-columns:1fr}
+    .ob-grid,.ob-plans{grid-template-columns:1fr}
+    .ob-metrics{grid-template-columns:1fr 1fr}
+    .ob-steps{grid-template-columns:1fr 1fr}
+    .ob-clients{flex-direction:column;align-items:flex-start}
+  }
+  @media(max-width:560px){.ob-steps,.ob-form{grid-template-columns:1fr}.ob-head img{height:28px}.ob-head .ob-btn-sm{padding:8px 12px;font-size:13px}}
+  @media(prefers-reduced-motion:reduce){.ob-btn,.ob-card{transition:none}}
+</style>

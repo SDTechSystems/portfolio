@@ -1,0 +1,168 @@
+---
+import SampleLayout from '../../components/samples/SampleLayout.astro';
+import Photo from '../../components/samples/Photo.astro';
+import Logo from '../../components/samples/Logo.astro';
+const S = 'aurelia';
+const suites = [
+  { id: 'jardin', name: 'Suite Jardín', rate: 690000, size: '42 m²', d: 'Terraza privada hacia el jardín de orquídeas y tina de piedra.' },
+  { id: 'montana', name: 'Suite Montaña', rate: 890000, size: '55 m²', d: 'Balcón con vista a la cordillera, chimenea y sala de lectura.' },
+  { id: 'villa', name: 'Villa Aurelia', rate: 1450000, size: '110 m²', d: 'Dos habitaciones, piscina privada climatizada y mayordomo.' },
+];
+const cop = (n: number) => '$' + n.toLocaleString('es-CO');
+---
+<SampleLayout slug={S} title="Aurelia Hotel & Spa — Donde el tiempo descansa" description="Hotel boutique y spa en el Eje Cafetero. Suites, gastronomía de autor y experiencias entre montañas." theme="#0F3B32"
+  fonts={[{ family: 'Cinzel', file: 'cinzel-latin-400-normal.woff2', weight: 400 }, { family: 'Montserrat', file: 'montserrat-latin-300-normal.woff2', weight: 300 }, { family: 'Cinzel', file: 'cinzel-latin-600-normal.woff2', weight: 600 }, { family: 'Montserrat', file: 'montserrat-latin-400-normal.woff2', weight: 400 }, { family: 'Montserrat', file: 'montserrat-latin-500-normal.woff2', weight: 500 }]}>
+  <div class="au">
+    <header class="au-head">
+      <nav class="au-nav" aria-label="Secciones"><a href="#suites">Suites</a><a href="#experiencias">Experiencias</a></nav>
+      <a href="#inicio" class="au-logo" aria-label="Aurelia Hotel & Spa, inicio"><Logo brand={S} variant="logo-blanco" height={40} /></a>
+      <a class="au-btn au-btn-line" href="#reservar">Reservar</a>
+    </header>
+    <main id="inicio">
+      <section class="au-hero">
+        <Photo site={S} slot="hero" ratio="16/9" eager alt="Hotel con piscina infinita frente a montañas verdes al atardecer" class="au-hero-img" sizes="100vw" />
+        <div class="au-hero-copy">
+          <p class="au-over">Hotel boutique & spa · Eje Cafetero</p>
+          <h1>Donde el tiempo<br />descansa</h1>
+          <a class="au-btn" href="#reservar">Consultar disponibilidad</a>
+        </div>
+      </section>
+
+      <section class="au-intro" data-reveal>
+        <span class="au-orn" aria-hidden="true">✦</span>
+        <p>Veinte suites entre cafetales y niebla, un spa de piedra volcánica y una cocina que cambia con la cosecha. Aurelia es para quedarse, sin prisa.</p>
+        <div class="au-awards"><span>Condé Nast Traveler<br /><small>Lista dorada 2026</small></span><span>Relais du Silence<br /><small>Miembro</small></span><span>4,9 / 5<br /><small>1.200 huéspedes</small></span></div>
+      </section>
+
+      <section class="au-suites" id="suites" aria-labelledby="suites-t">
+        <Photo site={S} slot="suite" ratio="4/5" alt="Suite con cama king, sillón de terciopelo verde y ventanal a las montañas" class="au-suite-img" sizes="(max-width: 860px) 100vw, 45vw" />
+        <div class="au-suites-copy">
+          <p class="au-over">Habitaciones</p>
+          <h2 id="suites-t">Suites</h2>
+          <ul>{suites.map(s => <li data-reveal><div><h3>{s.name}</h3><p>{s.d}</p><small>{s.size} · Desayuno incluido</small></div><span>desde<b>{cop(s.rate)}</b>por noche</span></li>)}</ul>
+        </div>
+      </section>
+
+      <section class="au-exp" id="experiencias" aria-labelledby="exp-t">
+        <div class="au-center" data-reveal><p class="au-over">Experiencias</p><h2 id="exp-t">Tres maneras de no hacer nada</h2></div>
+        <div class="au-exp-grid">
+          <article data-reveal><Photo site={S} slot="spa" ratio="4/5" alt="Sala de spa con velas, toallas y orquídeas" sizes="(max-width: 860px) 100vw, 33vw" /><h3>Spa de piedra</h3><p>Ritual de café y cacao, circuito de aguas termales y masajes a cuatro manos.</p></article>
+          <article data-reveal><Photo site={S} slot="mesa" ratio="4/5" alt="Plato de alta cocina colombiana servido a la luz de las velas" sizes="(max-width: 860px) 100vw, 33vw" /><h3>Mesa Aurelia</h3><p>Menú de siete tiempos con productos de la finca y maridaje de vinos naturales.</p></article>
+          <article data-reveal><Photo site={S} slot="cafe" ratio="4/5" alt="Pareja caminando entre cafetales al amanecer" sizes="(max-width: 860px) 100vw, 33vw" /><h3>Ruta del café</h3><p>Caminata al amanecer por la finca, cosecha y catación con nuestro barista.</p></article>
+        </div>
+      </section>
+
+      <section class="au-quote" data-reveal><p>“No recordaba la última vez que dormí con el sonido de la lluvia y desperté con el olor a café.”</p><span>— Isabela y Martín, aniversario de bodas</span></section>
+
+      <section class="au-book" id="reservar" aria-labelledby="book-t">
+        <div class="au-book-copy" data-reveal><p class="au-over">Reservas</p><h2 id="book-t">Planea tu estadía</h2><p>Elige las fechas y la suite. Calculamos el valor al instante y un anfitrión confirma la disponibilidad contigo en menos de una hora.</p><p class="au-fine">Tarifas por noche para dos personas, con desayuno, impuestos incluidos. Huésped adicional $180.000 por noche.</p></div>
+        <form class="au-form" data-stay novalidate>
+          <div class="au-row"><label>Llegada<input type="date" name="in" required /></label><label>Salida<input type="date" name="out" required /></label></div>
+          <div class="au-row"><label>Huéspedes<select name="guests"><option>1</option><option selected>2</option><option>3</option><option>4</option></select></label>
+          <label>Suite<select name="suite">{suites.map(s => <option value={s.id} data-rate={s.rate}>{s.name}</option>)}</select></label></div>
+          <div class="au-total" aria-live="polite"><span data-nights>Elige tus fechas</span><b data-total>—</b></div>
+          <button class="au-btn" type="submit">Solicitar reserva</button>
+        </form>
+      </section>
+    </main>
+    <footer class="au-foot"><Logo brand={S} variant="logo-blanco" height={36} /><p>Vereda La Esmeralda, km 7 · Salento, Quindío</p><p>reservas@aureliahotel.co · +57 606 000 0000</p></footer>
+  </div>
+</SampleLayout>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('[data-stay]')!;
+  const $ = (n: string) => form.elements.namedItem(n) as HTMLInputElement & HTMLSelectElement;
+  const cop = (n: number) => '$' + n.toLocaleString('es-CO');
+  const iso = (d: Date) => d.toISOString().slice(0, 10);
+  const today = new Date(); const tomorrow = new Date(Date.now() + 864e5); const later = new Date(Date.now() + 3 * 864e5);
+  $('in').min = iso(today); $('in').value = iso(tomorrow); $('out').value = iso(later); $('out').min = iso(tomorrow);
+  const quote = () => {
+    const nights = Math.round((new Date($('out').value).getTime() - new Date($('in').value).getTime()) / 864e5);
+    const opt = $('suite').selectedOptions[0];
+    if (!nights || nights < 1) { form.querySelector('[data-nights]')!.textContent = 'La salida debe ser después de la llegada'; form.querySelector('[data-total]')!.textContent = '—'; return null; }
+    const extra = Math.max(0, Number($('guests').value) - 2) * 180000;
+    const total = nights * (Number(opt.dataset.rate) + extra);
+    form.querySelector('[data-nights]')!.textContent = `${nights} ${nights === 1 ? 'noche' : 'noches'} · ${opt.textContent}`;
+    form.querySelector('[data-total]')!.textContent = cop(total);
+    return { nights, total, suite: opt.textContent };
+  };
+  form.addEventListener('input', quote);
+  form.addEventListener('change', () => { $('out').min = $('in').value; quote(); });
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const q = quote(); if (!q) return;
+    const f = (v: string) => new Date(v + 'T12:00').toLocaleDateString('es-CO', { weekday: 'short', day: 'numeric', month: 'long' });
+    (window as any).sdOrder(`Buenas tardes, Aurelia. Quisiera reservar:\n${q.suite}\nLlegada: ${f($('in').value)}\nSalida: ${f($('out').value)}\nHuéspedes: ${$('guests').value}\nValor estimado: ${cop(q.total)} (${q.nights} noches)\n\n¿Me confirman disponibilidad?`);
+  });
+  quote();
+</script>
+
+<style is:global>
+  .au{--em:#0F3B32;--em-d:#0a2a24;--gold:#C9A45C;--ivory:#F3EDE1;--sage:#8FA89A;background:var(--em);color:var(--ivory);font:300 16px/1.8 Montserrat,system-ui,sans-serif}
+  .au *{box-sizing:border-box}
+  .au h1,.au h2,.au h3{margin:0;font-family:Cinzel,serif;font-weight:400;letter-spacing:.08em;line-height:1.15}
+  .au p{margin:0}
+  .au a{color:inherit}
+  .au :focus-visible{outline:1px solid var(--gold);outline-offset:4px}
+  .au-over{font:500 12px/1 Montserrat,sans-serif;letter-spacing:.32em;text-transform:uppercase;color:var(--gold)}
+  .au-head{position:sticky;top:0;z-index:50;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:16px clamp(20px,5vw,70px);background:#0f3b32f0;backdrop-filter:blur(8px);border-bottom:1px solid #c9a45c33}
+  .au-nav{display:flex;gap:30px;font-size:12px;letter-spacing:.24em;text-transform:uppercase}
+  .au-nav a{text-decoration:none}.au-nav a:hover{color:var(--gold)}
+  .au-logo img{display:block;height:40px;width:auto}
+  .au-head .au-btn{justify-self:end}
+  .au-btn{display:inline-flex;align-items:center;justify-content:center;min-height:50px;padding:12px 30px;border:1px solid var(--gold);background:var(--gold);color:var(--em)!important;font:500 12px Montserrat,sans-serif;letter-spacing:.26em;text-transform:uppercase;text-decoration:none;cursor:pointer;transition:background .4s,color .4s}
+  .au-btn:hover,.au-btn-line{background:transparent;color:var(--gold)!important}
+  .au-btn-line:hover{background:var(--gold);color:var(--em)!important}
+  .au-hero{position:relative;min-height:min(88vh,860px);display:grid;place-items:center;overflow:hidden;background:var(--em-d)}
+  .au-hero-img{position:absolute;inset:0;height:100%!important;aspect-ratio:auto!important}
+  .au-hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,#0a2a2455,#0a2a24cc)}
+  .au-hero-copy{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:28px;padding:80px 20px;text-align:center}
+  .au-hero h1{font-size:clamp(2.6rem,7vw,6rem)}
+  .au-intro{max-width:880px;margin:0 auto;padding:clamp(80px,10vw,140px) 24px;text-align:center}
+  .au-orn{display:block;color:var(--gold);font-size:22px;margin-bottom:28px}
+  .au-intro p{font:400 clamp(1.3rem,2.4vw,1.9rem)/1.6 Cinzel,serif;letter-spacing:.03em}
+  .au-awards{display:flex;flex-wrap:wrap;justify-content:center;gap:20px 60px;margin-top:50px;font:400 14px/1.6 Cinzel,serif;color:var(--gold);letter-spacing:.1em}
+  .au-awards small{font:300 12px Montserrat,sans-serif;color:#d8d1c1;letter-spacing:.08em}
+  .au-suites{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(30px,6vw,100px);align-items:center;padding:clamp(60px,8vw,110px) clamp(20px,5vw,70px);background:var(--ivory);color:var(--em)}
+  .au-suites h2{margin:16px 0 26px;font-size:clamp(2.4rem,5vw,4rem)}
+  .au-suites ul{margin:0;padding:0;list-style:none}
+  .au-suites li{display:flex;justify-content:space-between;gap:24px;padding:26px 0;border-top:1px solid #0f3b3226}
+  .au-suites h3{font-size:1.35rem}
+  .au-suites li p{margin-top:6px;color:#3f5a52}
+  .au-suites small{display:block;margin-top:8px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#6b5a37}
+  .au-suites .au-over{color:#6b5a37}
+  .au-suites li>span{flex:none;display:flex;flex-direction:column;align-items:flex-end;font-size:12px;letter-spacing:.08em;color:#55706a}
+  .au-suites li b{font:400 1.35rem Cinzel,serif;color:var(--em)}
+  .au-exp{padding:clamp(80px,10vw,140px) clamp(20px,5vw,70px)}
+  .au-center{text-align:center;margin-bottom:56px}
+  .au-center h2{margin-top:18px;font-size:clamp(2rem,4.5vw,3.4rem)}
+  .au-exp-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(20px,3vw,44px)}
+  .au-exp-grid article{display:flex;flex-direction:column;gap:12px}
+  .au-exp-grid .ph-img,.au-exp-grid .ph{border-radius:200px 200px 0 0}
+  .au-exp-grid h3{margin-top:12px;font-size:1.4rem;color:var(--gold)}
+  .au-exp-grid p{color:#d8d1c1}
+  .au-quote{padding:clamp(70px,9vw,120px) clamp(20px,14vw,240px);background:var(--em-d);text-align:center}
+  .au-quote p{font:400 clamp(1.3rem,2.6vw,2rem)/1.6 Cinzel,serif}
+  .au-quote span{display:block;margin-top:22px;color:var(--gold);font-size:13px;letter-spacing:.2em;text-transform:uppercase}
+  .au-book{display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,6vw,100px);padding:clamp(80px,10vw,140px) clamp(20px,5vw,70px)}
+  .au-book h2{margin:16px 0 22px;font-size:clamp(2.2rem,4.6vw,3.6rem)}
+  .au-book-copy>p:not(.au-over){color:#d8d1c1}
+  .au-fine{margin-top:16px;font-size:13px}
+  .au-form{display:grid;gap:18px;padding:clamp(22px,3vw,40px);border:1px solid #c9a45c66}
+  .au-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .au-form label{display:flex;flex-direction:column;gap:8px;font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--gold)}
+  .au-form input,.au-form select{min-height:50px;padding:10px 12px;border:0;border-bottom:1px solid #f3ede166;background:#0a2a24;color:var(--ivory);font:400 16px Montserrat,sans-serif;letter-spacing:0;text-transform:none;color-scheme:dark}
+  .au-total{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:18px 0;border-top:1px solid #c9a45c44;color:#d8d1c1}
+  .au-total b{font:400 1.8rem Cinzel,serif;color:var(--ivory)}
+  .au-foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px 40px;padding:40px clamp(20px,5vw,70px);border-top:1px solid #c9a45c33;font-size:13px;color:#d8d1c1}
+  .au-foot img{height:36px;width:auto}
+  @media(max-width:860px){
+    .au-head{grid-template-columns:auto 1fr;gap:12px}.au-nav{display:none}.au-head .au-btn{padding:10px 18px}
+    .au-suites,.au-book{grid-template-columns:1fr}
+    .au-exp-grid{grid-template-columns:1fr;gap:56px}
+    .au-suites li{flex-direction:column;gap:10px}.au-suites li>span{align-items:flex-start}
+    .au-row{grid-template-columns:1fr}
+  }
+  @media(max-width:380px){.au-logo img{height:30px}}
+  @media(prefers-reduced-motion:reduce){.au-btn{transition:none}}
+</style>

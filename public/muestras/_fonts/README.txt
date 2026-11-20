@@ -1,0 +1,1 @@
+Fuentes de las paginas de ejemplo (/muestras/). Todas son SIL Open Font License 1.1, descargadas de Fontsource (subconjunto latino): Anton, Barlow, Jost, Karla, Cinzel, Montserrat, Space Grotesk, Inter, Plus Jakarta Sans, Nunito Sans, Alfa Slab One, Oswald, Fredoka, Nunito, Bodoni Moda y Raleway. Texto de la licencia: OFL.txt (cada familia conserva el copyright de sus autores).

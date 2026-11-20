@@ -1,7 +1,7 @@
 ---
 import SiteLayout from './SiteLayout.astro';
-import LanguageSwitch from './LanguageSwitch.astro';
-import Brand from './Brand.astro';
+import SiteHeader from './SiteHeader.astro';
+import TerminalTitle from './TerminalTitle.astro';
 import { getProjects, words } from '../i18n';
 import WhatsAppIcon from './WhatsAppIcon.astro';
 import { siteConfig, interactiveDemos, demoLabel, waLink, waMessages, formatUpdated, type Locale } from '../data/catalog';
@@ -15,13 +15,14 @@ const es=locale==='es', wa=waLink(waMessages.project(p.name,locale));
 const updated=`${es?'Actualizado':'Updated'} ${formatUpdated(p.updated,locale)}`;
 ---
 <SiteLayout locale={locale} title={`${p.name} — SD Tech Systems`} description={p.description} projectId={p.id}>
-  <nav class="wrap detail-nav" aria-label={t.projects}><a href={`${base}${locale}/#proyectos`}>← {t.back}</a><Brand href={`${base}${locale}/`}/><LanguageSwitch locale={locale} projectId={p.id}/></nav>
+  <SiteHeader locale={locale} section="proyecto" projectId={p.id}/>
+  <nav class="wrap page-crumb" aria-label={es?'Ruta':'Breadcrumb'}><a class="detail-back" href={`${base}${locale}/${p.id==='invitacion'?'paginas/':'#software'}`}>← {p.id==='invitacion'?(es?'Todas las páginas web':'All websites'):t.back}</a></nav>
   <main id="contenido">
-    <section class="wrap detail-hero"><p class="eyebrow">{p.category.toUpperCase()}</p><h1>{p.name}<span class="accent">.</span></h1><div class="detail-intro"><p>{p.description}</p><div class="detail-status"><span class="status"><i></i>{p.status} · {p.version}</span><span class="updated">{updated}</span></div></div><div class="project-actions">{demoHref&&<a class="project-inquiry open-demo" href={demoHref}>{demoLabel(p.id,locale)} ↗</a>}<a class="project-inquiry project-wa" href={wa} target="_blank" rel="noopener noreferrer"><WhatsAppIcon/>{es?'Preguntar por WhatsApp':'Ask on WhatsApp'}</a><a class="project-inquiry" href={inquiry}>{inquiryLabel} ↗</a></div></section>
+    <section class="wrap detail-hero"><p class="eyebrow">{p.category.toUpperCase()}</p><TerminalTitle id="proyecto-titulo" first={p.name} /><div class="detail-intro"><p>{p.description}</p><div class="detail-status"><span class="status"><i></i>{p.status} · {p.version}</span><span class="updated">{updated}</span></div></div><div class="project-actions">{demoHref&&<a class="project-inquiry open-demo" href={demoHref}>{demoLabel(p.id,locale)} ↗</a>}<a class="project-inquiry project-wa" href={wa} target="_blank" rel="noopener noreferrer"><WhatsAppIcon/>{es?'Preguntar por WhatsApp':'Ask on WhatsApp'}</a><a class="project-inquiry" href={inquiry}>{inquiryLabel} ↗</a></div></section>
     <figure class="detail-image" style="margin:0">{demoHref?<a class="demo-image-link" href={demoHref} aria-label={`${demoLabel(p.id,locale)}: ${p.name}`}><img src={`${base}screenshots/${p.image}`} alt={`${locale==='es'?'Interfaz de':'Interface of'} ${p.name}`} width="1440" height="900"/></a>:<button id="enlarge" aria-label={`${t.zoom} ${p.name}`}><img src={`${base}screenshots/${p.image}`} alt={`${locale==='es'?'Interfaz de':'Interface of'} ${p.name}`} width="1440" height="900"/></button>}<figcaption class="caption">↗ {demoHref?(locale==='es'?'Explora la interfaz y sus recorridos interactivos.':'Explore the interface and interactive workflows.'):t.zoomHint} {p.capture}</figcaption></figure>
     <section class="wrap client-section"><p class="eyebrow">{t.what}</p><div class="client-facts"><div><h2>{t.audience}</h2><p>{p.details.audience}</p></div><div><h2>{t.purpose}</h2><p>{p.details.purpose}</p></div></div></section>
     <section class="wrap detail-body"><div><p class="eyebrow">{t.construction}</p><h2>{t.architecture}</h2><p class="client-copy">{p.details.architecture}</p><div class="stack-list" aria-label={t.tech}>{p.stack.map(s=><span>{s}</span>)}</div><h2>{t.deployment}</h2><p class="client-copy">{p.details.deployment}</p><h2>{t.features}</h2><ul class="feature-list">{p.features.map(f=><li>{f}</li>)}</ul>{p.details.attribution&&<p class="attribution">{p.details.attribution}</p>}{!p.private&&<a class="source-link" href={`https://github.com/SDTechSystems/${p.source}`} target="_blank" rel="noopener noreferrer">{t.source} ↗</a>}</div><aside class="development"><p class="eyebrow">{t.status}</p><h2>{p.status}</h2><p class="updated">{p.version} · {updated}</p><p>{p.progress}</p><h2>{t.considerations}</h2><p>{p.details.considerations}</p><p>{t.terms}</p><div class="project-actions"><a class="project-inquiry project-wa" href={wa} target="_blank" rel="noopener noreferrer"><WhatsAppIcon/>{es?'Hablemos por WhatsApp':'Chat on WhatsApp'}</a><a class="project-inquiry" href={inquiry}>{p.details.inquiryLabel||t.contact} ↗</a></div></aside></section>
-    <nav class="wrap detail-next" aria-label={t.projects}><a href={`${base}${locale}/#proyectos`}>← {t.back}</a><div><p>{t.next}</p><a class="source-link" style="margin:0" href={`${base}${locale}/proyectos/${next.id}/`}>{next.name} ↗</a></div></nav>
+    <nav class="wrap detail-next" aria-label={t.projects}><a href={`${base}${locale}/#software`}>← {t.back}</a><div><p>{t.next}</p><a class="source-link" style="margin:0" href={`${base}${locale}/proyectos/${next.id}/`}>{next.name} ↗</a></div></nav>
   </main>
   {!demoHref&&<dialog id="capture-dialog" aria-label={`${t.zoom} ${p.name}`}><button id="close-dialog" type="button">{t.close} ✕</button><img src={`${base}screenshots/${p.image}`} alt={`${t.zoom} ${p.name}`}/><p>{p.capture}</p></dialog>}
 <script>

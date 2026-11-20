@@ -1,0 +1,10 @@
+---
+// Logo of a sample brand (public/marcas/<brand>/<variant>.svg), sized by height with the right proportions.
+import fs from 'node:fs';
+import path from 'node:path';
+const { brand, variant = 'logo-horizontal', height = 40, alt = '', class: cls = '' } = Astro.props as { brand: string; variant?: string; height?: number; alt?: string; class?: string };
+const svg = fs.readFileSync(path.join(process.cwd(), 'public', 'marcas', brand, `${variant}.svg`), 'utf8');
+const [, , vw, vh] = (svg.match(/viewBox="([^"]+)"/)?.[1] ?? '0 0 100 100').split(/\s+/).map(Number);
+const width = Math.round(height * vw / vh);
+---
+<img class={cls} src={`${import.meta.env.BASE_URL}marcas/${brand}/${variant}.svg`} alt={alt} width={width} height={height} decoding="async" />

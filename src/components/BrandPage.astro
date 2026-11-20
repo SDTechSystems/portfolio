@@ -1,8 +1,8 @@
 ---
 import SiteLayout from './SiteLayout.astro';
-import LanguageSwitch from './LanguageSwitch.astro';
-import Brand from './Brand.astro';
 import BrandImage from './BrandImage.astro';
+import SiteHeader from './SiteHeader.astro';
+import TerminalTitle from './TerminalTitle.astro';
 import WhatsAppIcon from './WhatsAppIcon.astro';
 import { brands, brandAsset, styleLabel, versionLabels, kitPieces, misuses, packageItems, corporateItems, zipTree } from '../data/brands';
 import { waLink, waMessages, type Locale } from '../data/catalog';
@@ -41,12 +41,13 @@ const sections = es
 const num = (n: number) => String(n).padStart(2, '0');
 ---
 <SiteLayout locale={locale} title={`${b.name} — ${es ? 'Diseño de marca' : 'Brand design'} · SD Tech Systems`} description={b.concept[locale]} path={path}>
-  <nav class="wrap detail-nav" aria-label={es ? 'Navegación' : 'Navigation'}><a href={`${base}${locale}/marcas/`}>← {es ? 'Todas las marcas' : 'All brands'}</a><Brand href={`${base}${locale}/`} /><LanguageSwitch locale={locale} path={path} /></nav>
+  <SiteHeader locale={locale} section="marcas" path={path} />
+  <nav class="wrap page-crumb" aria-label={es ? 'Ruta' : 'Breadcrumb'}><a href={`${base}${locale}/marcas/`}>← {es ? 'Todas las marcas' : 'All brands'}</a></nav>
   <main id="contenido" class="brand-page" style={`--brand-strong:${s.strong};--brand-strong-text:${s.strongText};--brand-light:${s.light};--brand-light-text:${s.lightText}`}>
     <section class="wrap bp-hero" aria-labelledby="marca-titulo">
       <div>
         <p class="eyebrow">{es ? 'EJEMPLO' : 'SAMPLE'} {num(b.n)} / {brands.length} · {style.toUpperCase()}</p>
-        <h1 id="marca-titulo">{b.name}<span class="accent">.</span></h1>
+        <TerminalTitle id="marca-titulo" first={b.name} />
         <p class="bp-concept">{b.concept[locale]}</p>
         <div class="bp-meta"><span class="chip">{b.sector[locale]}</span><span class="chip">{b.logoKind[locale]}</span>{b.personality[locale].map(p => <span class="chip">{p}</span>)}</div>
         <p class="bp-tagline">{es ? 'Eslogan' : 'Tagline'}: <strong>«{b.tagline.es}»</strong>{!es && <> ({b.tagline.en})</>}</p>

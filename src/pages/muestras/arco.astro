@@ -1,0 +1,190 @@
+---
+import SampleLayout from '../../components/samples/SampleLayout.astro';
+import Photo from '../../components/samples/Photo.astro';
+import Logo from '../../components/samples/Logo.astro';
+const S = 'arco';
+const treatments = [
+  { id: 'valoracion', t: 'Valoración y limpieza', d: 'Diagnóstico completo, radiografía panorámica y profilaxis.', p: 'Gratis la primera vez', i: 'M9 11l3 3 8-8M20 12v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h9' },
+  { id: 'ortodoncia', t: 'Ortodoncia', d: 'Brackets estéticos y alineadores invisibles con plan digital.', p: 'Desde $180.000 / mes', i: 'M3 12h18M6 8v8M10 8v8M14 8v8M18 8v8' },
+  { id: 'estetica', t: 'Diseño de sonrisa', d: 'Carillas de resina o porcelana diseñadas a tu medida.', p: 'Desde $450.000 por diente', i: 'M4 10c2 6 14 6 16 0M8 4l1 2M16 4l-1 2M12 3v3' },
+  { id: 'implantes', t: 'Implantes', d: 'Reemplazo de piezas con implantes de titanio y corona.', p: 'Desde $3.200.000', i: 'M12 2v6M8 8h8l-1 5H9zM10 13l1 9h2l1-9' },
+  { id: 'blanqueamiento', t: 'Blanqueamiento', d: 'Hasta ocho tonos más claros en una sesión de consultorio.', p: '$690.000', i: 'M12 3l1.8 4.6L18 9l-4.2 1.4L12 15l-1.8-4.6L6 9l4.2-1.4zM19 15l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z' },
+  { id: 'ninos', t: 'Odontopediatría', d: 'Consultas tranquilas para niños desde el primer diente.', p: 'Desde $90.000', i: 'M12 21a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM9 11h.01M15 11h.01M9 15c1.5 1.5 4.5 1.5 6 0' },
+];
+const team = [
+  { slot: 'dra-salazar', n: 'Dra. Camila Salazar', r: 'Rehabilitación oral · Directora', y: '18 años de experiencia' },
+  { slot: 'dr-ortiz', n: 'Dr. Andrés Ortiz', r: 'Ortodoncia y alineadores', y: '11 años de experiencia' },
+  { slot: 'dra-mejia', n: 'Dra. Valentina Mejía', r: 'Odontopediatría', y: '7 años de experiencia' },
+];
+const reviews = [
+  ['Me daba pánico el odontólogo y salí de la valoración riéndome. Explican todo antes de hacerlo.', 'Paula R.', 'Ortodoncia invisible'],
+  ['Me hicieron el implante y la corona en los tiempos que prometieron. Cero sorpresas en el precio.', 'Jorge A.', 'Implantes'],
+  ['Mi hijo de cuatro años pregunta cuándo vuelve. Eso lo dice todo.', 'Natalia G.', 'Odontopediatría'],
+];
+---
+<SampleLayout slug={S} title="Arco Odontología — Sonríe con confianza" description="Clínica odontológica en Cali: ortodoncia, diseño de sonrisa, implantes y odontopediatría. Agenda tu cita en línea." theme="#1C5DB0"
+  fonts={[{ family: 'Plus Jakarta Sans', file: 'plus-jakarta-sans-latin-800-normal.woff2', weight: 800 }, { family: 'Nunito Sans', file: 'nunito-sans-latin-400-normal.woff2', weight: 400 }, { family: 'Plus Jakarta Sans', file: 'plus-jakarta-sans-latin-600-normal.woff2', weight: 600 }, { family: 'Nunito Sans', file: 'nunito-sans-latin-700-normal.woff2', weight: 700 }]}>
+  <div class="ar">
+    <div class="ar-top"><span>Lun a vie 7 a. m. – 7 p. m. · Sáb 8 a. m. – 1 p. m.</span><a href="#cita" data-order="Hola, Arco Odontología. Tengo una urgencia dental y necesito atención hoy.">Urgencias: 315 000 0000</a></div>
+    <header class="ar-head">
+      <a href="#inicio" aria-label="Arco Odontología, inicio"><Logo brand={S} height={40} /></a>
+      <nav aria-label="Secciones"><a href="#tratamientos">Tratamientos</a><a href="#equipo">Equipo</a><a href="#opiniones">Opiniones</a></nav>
+      <a class="ar-btn ar-btn-sm" href="#cita">Agendar cita</a>
+    </header>
+    <main id="inicio">
+      <section class="ar-hero">
+        <div>
+          <p class="ar-chip">✓ Primera valoración sin costo</p>
+          <h1>Sonríe con <span>confianza.</span></h1>
+          <p class="ar-lead">Odontología moderna y sin afanes en el sur de Cali. Te explicamos cada paso, te damos el presupuesto por escrito y respetamos tu tiempo.</p>
+          <div class="ar-ctas"><a class="ar-btn" href="#cita">Agendar mi valoración</a><a class="ar-link" href="#tratamientos">Ver tratamientos →</a></div>
+          <ul class="ar-trust"><li><b>+8.500</b> pacientes</li><li><b>4,9 ★</b> en Google</li><li><b>15</b> años</li></ul>
+        </div>
+        <Photo site={S} slot="hero" ratio="4/5" eager alt="Paciente sonriendo en la silla junto a su odontóloga" class="ar-hero-img" sizes="(max-width: 880px) 100vw, 45vw" />
+      </section>
+
+      <section class="ar-section" id="tratamientos" aria-labelledby="trat-t">
+        <div class="ar-title" data-reveal><p class="ar-over">Tratamientos</p><h2 id="trat-t">Todo tu cuidado dental en un solo lugar</h2></div>
+        <div class="ar-grid">{treatments.map(t => <article class="ar-card" data-reveal><span class="ar-icon"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={t.i} /></svg></span><h3>{t.t}</h3><p>{t.d}</p><strong>{t.p}</strong></article>)}</div>
+      </section>
+
+      <section class="ar-clinic">
+        <Photo site={S} slot="consultorio" ratio="3/2" alt="Consultorio odontológico moderno y luminoso" sizes="(max-width: 880px) 100vw, 50vw" class="ar-clinic-img" />
+        <div data-reveal><p class="ar-over">La clínica</p><h2>Tecnología que se nota en la silla</h2>
+          <ul class="ar-checks"><li>Radiografía digital con 90 % menos radiación</li><li>Escáner intraoral: sin moldes de pasta</li><li>Esterilización certificada en cada cita</li><li>Parqueadero y acceso para sillas de ruedas</li></ul></div>
+      </section>
+
+      <section class="ar-section" id="equipo" aria-labelledby="team-t">
+        <div class="ar-title" data-reveal><p class="ar-over">Equipo</p><h2 id="team-t">Especialistas que explican antes de tratar</h2></div>
+        <div class="ar-team">{team.map(m => <article data-reveal><Photo site={S} slot={m.slot} ratio="1/1" alt={`Retrato de ${m.n}`} sizes="(max-width: 880px) 100vw, 30vw" /><h3>{m.n}</h3><p>{m.r}</p><small>{m.y}</small></article>)}</div>
+      </section>
+
+      <section class="ar-section ar-reviews" id="opiniones" aria-labelledby="rev-t">
+        <div class="ar-title" data-reveal><p class="ar-over">Opiniones</p><h2 id="rev-t">Lo que dicen nuestros pacientes</h2></div>
+        <div class="ar-grid">{reviews.map(([q, n, t]) => <figure data-reveal><p class="ar-stars" aria-label="5 de 5 estrellas">★★★★★</p><blockquote>“{q}”</blockquote><figcaption><b>{n}</b> · {t}</figcaption></figure>)}</div>
+        <p class="ar-partners" data-reveal>Atendemos con medicina prepagada, pólizas de salud y planes empresariales. Financiación hasta en 24 cuotas.</p>
+      </section>
+
+      <section class="ar-book" id="cita" aria-labelledby="cita-t">
+        <div class="ar-book-copy" data-reveal><p class="ar-over">Agenda</p><h2 id="cita-t">Pide tu cita en tres pasos</h2><p>Elige el tratamiento, el día y la hora. Te confirmamos por WhatsApp en minutos.</p></div>
+        <form class="ar-form" data-booking novalidate>
+          <fieldset><legend><span>1</span> ¿Qué necesitas?</legend><div class="ar-options">{treatments.map((t, i) => <label><input type="radio" name="t" value={t.t} checked={i === 0} /><span>{t.t}</span></label>)}</div></fieldset>
+          <fieldset><legend><span>2</span> ¿Qué día?</legend><div class="ar-options ar-days" data-days></div></fieldset>
+          <fieldset><legend><span>3</span> ¿A qué hora?</legend><div class="ar-options ar-hours">{['8:00 a. m.', '9:30 a. m.', '11:00 a. m.', '2:00 p. m.', '3:30 p. m.', '5:00 p. m.'].map((h, i) => <label><input type="radio" name="h" value={h} checked={i === 1} /><span>{h}</span></label>)}</div></fieldset>
+          <div class="ar-row"><label>Nombre completo<input name="name" required autocomplete="name" /></label><label>Celular<input name="phone" type="tel" required autocomplete="tel" inputmode="tel" /></label></div>
+          <p class="ar-msg" role="status" aria-live="polite"></p>
+          <button class="ar-btn" type="submit">Solicitar cita</button>
+        </form>
+      </section>
+    </main>
+    <footer class="ar-foot"><Logo brand={S} variant="logo-inversa" height={36} /><p>Carrera 100 # 16-20, consultorio 302 · Cali</p><p>Habilitada por la Secretaría de Salud · Registro de ejemplo</p></footer>
+  </div>
+</SampleLayout>
+
+<script>
+  // Next six working days as choices.
+  const days = document.querySelector<HTMLElement>('[data-days]')!;
+  const list: Date[] = []; const d = new Date();
+  while (list.length < 6) { d.setDate(d.getDate() + 1); if (d.getDay() !== 0) list.push(new Date(d)); }
+  days.innerHTML = list.map((x, i) => {
+    const label = x.toLocaleDateString('es-CO', { weekday: 'short', day: 'numeric', month: 'short' });
+    return `<label><input type="radio" name="d" value="${label}" ${i === 0 ? 'checked' : ''}><span>${label}</span></label>`;
+  }).join('');
+  const form = document.querySelector<HTMLFormElement>('[data-booking]')!;
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const v = (n: string) => (form.elements.namedItem(n) as RadioNodeList | HTMLInputElement).value;
+    const msg = form.querySelector('.ar-msg')!;
+    const name = form.elements.namedItem('name') as HTMLInputElement, phone = form.elements.namedItem('phone') as HTMLInputElement;
+    if (!name.value.trim()) { msg.textContent = 'Escribe tu nombre.'; name.focus(); return; }
+    if (phone.value.replace(/\D/g, '').length < 7) { msg.textContent = 'Escribe un celular válido.'; phone.focus(); return; }
+    msg.textContent = '';
+    (window as any).sdOrder(`Hola, Arco Odontología. Quiero agendar una cita:\nTratamiento: ${v('t')}\nDía: ${v('d')}\nHora: ${v('h')}\nNombre: ${name.value}\nCelular: ${phone.value}`);
+  });
+</script>
+
+<style is:global>
+  .ar{--blue:#1C5DB0;--blue-d:#154a8d;--aqua:#35C2C9;--cloud:#F4F9FC;--slate:#2B3443;background:#fff;color:var(--slate);font:400 17px/1.65 "Nunito Sans",system-ui,sans-serif}
+  .ar *{box-sizing:border-box}
+  .ar h1,.ar h2,.ar h3{margin:0;font-family:"Plus Jakarta Sans",sans-serif;font-weight:800;letter-spacing:-.02em;line-height:1.1;color:#14263f}
+  .ar p{margin:0}
+  .ar a{color:inherit}
+  .ar :focus-visible{outline:3px solid var(--aqua);outline-offset:3px}
+  .ar-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 20px;padding:8px clamp(16px,5vw,72px);background:var(--slate);color:#dce6f2;font-size:14px}
+  .ar-top a{font-weight:700;color:#fff;text-decoration:none}
+  .ar-top a::before{content:"● ";color:#ff6b6b}
+  .ar-head{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:30px;padding:14px clamp(16px,5vw,72px);background:#fffffff2;backdrop-filter:blur(10px);border-bottom:1px solid #e3ecf4}
+  .ar-head img{display:block;height:40px;width:auto}
+  .ar-head nav{display:flex;gap:28px;margin-left:auto;font-weight:700;font-size:15px}
+  .ar-head nav a{text-decoration:none}.ar-head nav a:hover{color:var(--blue)}
+  .ar-btn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:12px 26px;border:0;border-radius:12px;background:var(--blue);color:#fff!important;font:600 16px "Plus Jakarta Sans",sans-serif;text-decoration:none;cursor:pointer;transition:background .2s}
+  .ar-btn:hover{background:var(--blue-d)}
+  .ar-btn-sm{min-height:44px;padding:8px 18px;font-size:15px}
+  .ar-link{font-weight:700;color:var(--blue)!important;text-decoration:none}
+  .ar-hero{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(30px,5vw,80px);align-items:center;padding:clamp(40px,6vw,90px) clamp(16px,5vw,72px);background:linear-gradient(180deg,var(--cloud),#fff)}
+  .ar-chip{display:inline-block;padding:6px 14px;border-radius:999px;background:#35c2c922;color:#0f6c71;font-weight:700;font-size:14px}
+  .ar-hero h1{margin:20px 0;font-size:clamp(2.6rem,5.8vw,4.8rem)}
+  .ar-hero h1 span{color:var(--blue)}
+  .ar-lead{max-width:46ch;font-size:1.12rem;color:#4a5568}
+  .ar-ctas{display:flex;flex-wrap:wrap;align-items:center;gap:22px;margin-top:30px}
+  .ar-trust{display:flex;flex-wrap:wrap;gap:12px 32px;margin:36px 0 0;padding:24px 0 0;border-top:1px solid #e3ecf4;list-style:none;color:#5b6676;font-size:15px}
+  .ar-trust b{display:block;font:800 1.5rem "Plus Jakarta Sans",sans-serif;color:var(--slate)}
+  .ar-hero-img{border-radius:28px;box-shadow:0 30px 60px #1c5db026}
+  .ar-section{padding:clamp(60px,8vw,110px) clamp(16px,5vw,72px)}
+  .ar-over{font-weight:700;font-size:14px;letter-spacing:.12em;text-transform:uppercase;color:var(--blue)}
+  .ar-title{max-width:640px;margin-bottom:44px}
+  .ar-title h2{margin-top:12px;font-size:clamp(2rem,4vw,3rem)}
+  .ar-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+  .ar-card{display:flex;flex-direction:column;gap:10px;padding:28px;border:1px solid #e3ecf4;border-radius:20px;background:#fff;transition:box-shadow .3s,border-color .3s}
+  .ar-card:hover{border-color:#cfe0ef;box-shadow:0 20px 40px #1c5db014}
+  .ar-icon{display:grid;place-items:center;width:52px;height:52px;border-radius:14px;background:var(--cloud);color:var(--blue)}
+  .ar-card h3{margin-top:8px;font-size:1.3rem}
+  .ar-card p{color:#5b6676}
+  .ar-card strong{margin-top:auto;padding-top:8px;color:#0f6c71;font-size:15px}
+  .ar-clinic{display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,5vw,80px);align-items:center;padding:clamp(60px,8vw,100px) clamp(16px,5vw,72px);background:var(--cloud)}
+  .ar-clinic-img{border-radius:24px}
+  .ar-clinic h2{margin:12px 0 22px;font-size:clamp(2rem,4vw,3rem)}
+  .ar-checks{display:grid;gap:14px;margin:0;padding:0;list-style:none}
+  .ar-checks li{position:relative;padding-left:36px}
+  .ar-checks li::before{content:"✓";position:absolute;left:0;top:1px;display:grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--aqua);color:#fff;font-size:13px;font-weight:700}
+  .ar-team{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+  .ar-team .ph-img,.ar-team .ph{border-radius:24px;background-color:var(--cloud)}
+  .ar-team h3{margin-top:18px;font-size:1.25rem}
+  .ar-team p{color:var(--blue);font-weight:700}
+  .ar-team small{color:#6b7684}
+  .ar-reviews{background:linear-gradient(180deg,#fff,var(--cloud))}
+  .ar-reviews figure{margin:0;padding:28px;border-radius:20px;background:#fff;box-shadow:0 10px 30px #2b344312}
+  .ar-stars{color:#f5a524;letter-spacing:3px}
+  .ar-reviews blockquote{margin:12px 0 16px;font-size:1.05rem}
+  .ar-reviews figcaption{color:#6b7684;font-size:15px}
+  .ar-partners{margin-top:36px;padding:20px 24px;border-left:4px solid var(--aqua);background:#fff;border-radius:0 14px 14px 0}
+  .ar-book{display:grid;grid-template-columns:.8fr 1.2fr;gap:clamp(30px,5vw,80px);padding:clamp(60px,8vw,110px) clamp(16px,5vw,72px);background:var(--blue);color:#fff}
+  .ar-book h2{margin:12px 0 16px;font-size:clamp(2rem,4vw,3rem);color:#fff}
+  .ar-book .ar-over{color:#bfe9ec}
+  .ar-book-copy>p:last-child{color:#dce8f7}
+  .ar-form{display:grid;gap:18px;padding:clamp(20px,3vw,34px);border-radius:24px;background:#fff;color:var(--slate)}
+  .ar-form fieldset{margin:0;padding:0;border:0}
+  .ar-form legend{display:flex;align-items:center;gap:10px;margin-bottom:12px;font:600 1.05rem "Plus Jakarta Sans",sans-serif}
+  .ar-form legend span{display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--blue);color:#fff;font-size:14px}
+  .ar-options{display:flex;flex-wrap:wrap;gap:8px}
+  .ar-options label{position:relative}
+  .ar-options input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
+  .ar-options span{display:inline-flex;align-items:center;min-height:44px;padding:8px 14px;border:1.5px solid #d6e2ee;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer}
+  .ar-days span{text-transform:capitalize}
+  .ar-options input:checked+span{border-color:var(--blue);background:#1c5db014;color:var(--blue)}
+  .ar-options input:focus-visible+span{outline:3px solid var(--aqua);outline-offset:2px}
+  .ar-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .ar-row label{display:flex;flex-direction:column;gap:6px;font-weight:700;font-size:15px}
+  .ar-row input{min-height:50px;padding:10px 14px;border:1.5px solid #d6e2ee;border-radius:10px;font:inherit;font-weight:400}
+  .ar-msg{min-height:1.4em;color:#b42318;font-weight:700}
+  .ar-foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px 30px;padding:34px clamp(16px,5vw,72px);background:var(--slate);color:#c7d2e0;font-size:14px}
+  .ar-foot img{height:36px;width:auto}
+  @media(max-width:880px){
+    .ar-head nav{display:none}.ar-head .ar-btn-sm{margin-left:auto}
+    .ar-hero,.ar-clinic,.ar-book{grid-template-columns:1fr}
+    .ar-grid,.ar-team{grid-template-columns:1fr}
+    .ar-hero-img{max-width:480px}
+  }
+  @media(max-width:520px){.ar-row{grid-template-columns:1fr}.ar-head img{height:32px}.ar-top span{display:none}}
+  @media(prefers-reduced-motion:reduce){.ar-btn,.ar-card{transition:none}}
+</style>

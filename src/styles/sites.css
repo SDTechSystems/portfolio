@@ -1,0 +1,29 @@
+/* Sample websites: /paginas/ gallery and the home teaser. Uses the site tokens from styles.css. */
+.site-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:48px 26px;margin-top:32px}
+.site-card{min-width:0}
+.site-card[hidden]{display:none}
+.site-visual{position:relative;display:block;padding:18px 20px 0;border:1px solid var(--line);border-radius:18px;background:radial-gradient(120% 90% at 85% 0%,color-mix(in srgb,var(--c1) 38%,transparent),transparent 60%),linear-gradient(160deg,#0d2240,#08121f 75%);overflow:hidden;isolation:isolate}
+.site-visual-top{display:flex;justify-content:space-between;gap:8px;margin-bottom:16px;font:.5625rem "SD Mono",monospace;letter-spacing:.6px;color:var(--sd-muted);text-transform:uppercase}
+.site-frame{display:block;border-radius:10px 10px 0 0;overflow:hidden;background:#fff;box-shadow:0 18px 40px #0008;transform:translateY(6px);transition:transform .6s cubic-bezier(.16,1,.3,1)}
+.site-frame-bar{display:flex;align-items:center;gap:4px;height:22px;padding:0 9px;background:#eaeae8}
+.site-frame-bar i{width:5px;height:5px;border-radius:50%;background:#b6b6b1}
+.site-frame-bar span{margin:auto;padding-right:24px;font:.5rem "SD Mono",monospace;color:#6a6a64}
+.site-frame img,.site-frame-blank{display:block;width:100%;height:auto;aspect-ratio:16/10;object-fit:cover;object-position:top}
+.site-frame-blank{display:grid;place-items:center;background:linear-gradient(135deg,var(--c1),var(--c2))}
+.site-frame-blank b{padding:8px 14px;border-radius:8px;background:#0006;color:#fff;font-size:1rem}
+@media(hover:hover) and (pointer:fine){.site-visual:hover .site-frame{transform:translateY(-6px)}}
+.site-visual:focus-visible .site-frame{transform:translateY(-6px)}
+.site-card-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-top:18px}
+.site-card-head :is(h2,h3){margin:0;font-size:1.3rem;letter-spacing:-.5px;line-height:1.2}
+.site-style{flex:none;padding:4px 10px;border:1px solid #2f4664;border-radius:20px;font:.625rem "SD Mono",monospace;color:#c6f2ff;letter-spacing:.5px;text-transform:uppercase}
+.site-sector{margin-top:6px;font:.6875rem "SD Mono",monospace;color:var(--muted)}
+.site-summary{margin-top:12px;color:#c9d6e4;font-size:.92rem;line-height:1.65}
+.site-card-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:16px}
+.sites-hero h1{max-width:16ch}
+.sites-teaser{padding-top:110px}
+.sites-more{display:flex;flex-wrap:wrap;gap:12px;margin-top:40px}
+@media(max-width:1000px){.site-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:640px){.site-grid{grid-template-columns:minmax(0,1fr);gap:40px}.site-visual{padding:14px 14px 0}.sites-teaser{padding-top:80px}.sites-more .brand-btn{width:100%;justify-content:center}}
+@media(prefers-reduced-motion:reduce){.site-frame{transition:none}}
+:root[data-motion] .site-frame{transition:none}
+html[data-contrast] .site-visual{background:#000}

@@ -1,0 +1,97 @@
+{
+  "about": "Photos for the 8 fictional sample websites of SD Tech Systems (/muestras/<site>/). Save each image as PNG at tools/sample-sites/images-src/<site>/<slot>.png with the exact aspect ratio. tools/sample-sites/convert.mjs turns them into WebP for public/muestras/<site>/.",
+  "rules": [
+    "Photorealistic commercial photography unless the prompt says otherwise. Colombian setting and people where people appear (diverse Latin American adults).",
+    "NO text, letters, numbers, logos, watermarks or brand names anywhere in the image (signs, packaging, labels and screens stay blank or abstract).",
+    "Respect the aspect ratio exactly (crop if needed). Minimum 1200 px on the long side.",
+    "Keep the palette listed for each site so the photo sits well with the page colors."
+  ],
+  "sites": [
+    {
+      "site": "brasa-brava", "style": "Bold street-food burger joint, flame grill. Palette: ember red #E1341E, mustard #FFC12E, charcoal #1B1615, cream #FFF3E2.",
+      "images": [
+        { "slot": "hero", "ratio": "4:5", "prompt": "Dramatic close-up of a tall double smash burger with melted cheddar dripping, charred edges, toasted brioche bun, flames and sparks blurred behind it, dark charcoal background, hard warm rim light, juicy, appetizing, editorial food photography" },
+        { "slot": "combo-clasica", "ratio": "1:1", "prompt": "Classic cheeseburger with lettuce, tomato and pickles on red-and-white wax paper with a basket of golden fries, top-down 45 degree angle, mustard-yellow background, punchy food photography" },
+        { "slot": "combo-picante", "ratio": "1:1", "prompt": "Spicy burger with jalapeños, grilled onions and red chipotle sauce dripping, on a dark slate board, scattered chili flakes, red background, punchy food photography" },
+        { "slot": "combo-bbq", "ratio": "1:1", "prompt": "BBQ bacon burger with crispy onion rings stacked on top and smoky glaze, wooden board, cream background, warm light, punchy food photography" },
+        { "slot": "local", "ratio": "16:9", "prompt": "Interior of a lively urban burger restaurant at night in Medellín, open flame grill counter with cooks, neon-free warm red and orange lighting, brick and steel, customers blurred, no signs or text" }
+      ]
+    },
+    {
+      "site": "sereno", "style": "Minimal skincare brand. Calm, airy, lots of negative space. Palette: bone #F4F0EA, sand #DCCFBE, sage #8C9A84, charcoal #2E2E2C.",
+      "images": [
+        { "slot": "hero", "ratio": "4:5", "prompt": "Minimal still life of an unlabeled frosted glass serum bottle with dropper standing on a smooth travertine stone block, soft morning sunlight and long gentle shadow, bone-white background, sage leaf beside it, calm, lots of empty space" },
+        { "slot": "limpiar", "ratio": "3:4", "prompt": "Close-up of creamy white cleanser foam texture swatch on a sand-colored ceramic surface, soft diffused light, minimal" },
+        { "slot": "tratar", "ratio": "3:4", "prompt": "Single drop of clear golden serum falling from a glass dropper onto a sage-green stone, macro, soft light, minimal" },
+        { "slot": "proteger", "ratio": "3:4", "prompt": "Unlabeled matte white cream jar with lid open beside a small sprig of dried grass on linen fabric, warm soft shadow, minimal" },
+        { "slot": "piel", "ratio": "16:9", "prompt": "Serene close portrait of a Latin American woman in her thirties with natural glowing skin, eyes closed, soft window light, neutral bone background, no makeup look, calm, wide composition with empty space on the left" }
+      ]
+    },
+    {
+      "site": "aurelia", "style": "Luxury boutique hotel and spa in the Colombian coffee region mountains. Palette: emerald #0F3B32, gold #C9A45C, ivory #F3EDE1, sage #8FA89A.",
+      "images": [
+        { "slot": "hero", "ratio": "16:9", "prompt": "Elegant boutique hotel with infinity pool overlooking misty green Andean mountains at golden hour, colonial-style white architecture with wooden balconies, palm trees, serene luxury, cinematic wide shot" },
+        { "slot": "suite", "ratio": "4:5", "prompt": "Luxury hotel suite with king bed in ivory linens, emerald velvet armchair, brass details, large window to green mountains, soft afternoon light, refined interior photography" },
+        { "slot": "spa", "ratio": "4:5", "prompt": "Candle-lit spa treatment room with stone massage table, folded ivory towels, orchids, warm stone walls and a small water feature, tranquil luxury" },
+        { "slot": "mesa", "ratio": "4:5", "prompt": "Fine dining plate of Colombian-inspired cuisine elegantly plated on white porcelain on a dark green table, gold cutlery, candlelight, shallow depth of field" },
+        { "slot": "cafe", "ratio": "3:2", "prompt": "Coffee plantation path at sunrise with a couple in linen clothes walking among coffee plants, mist over the hills, warm golden tones, seen from behind" }
+      ]
+    },
+    {
+      "site": "orbita", "style": "Software development studio, futuristic and precise. Palette: violet #6C4CFF, cyan #29D3F5, night blue #0B0F2A, ice #EEF1FF.",
+      "images": [
+        { "slot": "hero", "ratio": "16:10", "prompt": "Abstract 3D render of a glossy violet planet with a thin glowing cyan ring and a small white satellite orbiting, floating geometric glass shapes, deep night-blue background, soft volumetric light, high-end tech brand visual, no text" },
+        { "slot": "equipo", "ratio": "3:2", "prompt": "Small diverse Latin American software team collaborating around a table in a modern Bogotá office at dusk, laptops with abstract colorful UI (no readable text), violet and cyan ambient light, candid" }
+      ]
+    },
+    {
+      "site": "arco", "style": "Friendly modern dental clinic. Clean, bright, trustworthy. Palette: clinical blue #1C5DB0, aquamarine #35C2C9, cloud white #F4F9FC, slate #2B3443.",
+      "images": [
+        { "slot": "hero", "ratio": "4:5", "prompt": "Smiling Latin American woman patient in a dental chair giving thumbs up next to a friendly female dentist in light blue scrubs, bright modern clinic, soft daylight, clean white and blue tones" },
+        { "slot": "consultorio", "ratio": "3:2", "prompt": "Modern bright dental office with ergonomic white dental chair, aquamarine accents, large window with plants, spotless and welcoming, interior photography" },
+        { "slot": "dra-salazar", "ratio": "1:1", "prompt": "Professional headshot of a Colombian female dentist in her forties, warm smile, navy scrubs, white background, soft light" },
+        { "slot": "dr-ortiz", "ratio": "1:1", "prompt": "Professional headshot of a Colombian male orthodontist in his thirties, friendly smile, white coat over light blue scrubs, white background, soft light" },
+        { "slot": "dra-mejia", "ratio": "1:1", "prompt": "Professional headshot of a Colombian female pediatric dentist in her late twenties, cheerful smile, aquamarine scrubs, white background, soft light" }
+      ]
+    },
+    {
+      "site": "la-navaja", "style": "Classic retro barbershop. Vintage, warm, film grain feel. Palette: wine #7A1F2B, cream #F1E6D2, navy #1E2A3A, brass #B8914B.",
+      "images": [
+        { "slot": "hero", "ratio": "4:5", "prompt": "Barber giving a classic straight razor shave to a client with hot towel in a vintage barbershop, burgundy leather barber chair, brass details, warm tungsten light, subtle film grain, moody" },
+        { "slot": "corte-clasico", "ratio": "1:1", "prompt": "Side profile of a man with a classic side-part haircut, neatly combed with pomade, dark backdrop, warm vintage portrait lighting" },
+        { "slot": "fade", "ratio": "1:1", "prompt": "Back-side view of a man with a sharp skin fade haircut and textured top, dark backdrop, warm vintage portrait lighting" },
+        { "slot": "barba", "ratio": "1:1", "prompt": "Close portrait of a man with a perfectly shaped full beard being trimmed with scissors and comb, warm vintage lighting, film grain" },
+        { "slot": "local", "ratio": "3:2", "prompt": "Interior of a vintage barbershop with three burgundy leather chairs, checkered black and cream floor, large mirrors, brass fixtures, wood shelves with unlabeled bottles, warm light, no signs or text" }
+      ]
+    },
+    {
+      "site": "michi-firulais", "style": "Cheerful pet shop online store. Bright, playful. Palette: orange #FF8A3D, turquoise #18A5A7, night blue #1F2D4A, cream #FFF6E9. Product photos: single product centered on plain cream #FFF6E9 background, soft shadow, unbranded packaging with no text.",
+      "images": [
+        { "slot": "hero", "ratio": "16:9", "prompt": "Happy golden retriever and an orange tabby cat sitting together on a turquoise rug surrounded by colorful toys, bright cheerful studio photo, cream background, playful" },
+        { "slot": "concentrado-perro", "ratio": "1:1", "prompt": "Unbranded orange kraft bag of dry dog food with a few kibbles scattered in front, plain cream background, product photo" },
+        { "slot": "arena-gato", "ratio": "1:1", "prompt": "Unbranded turquoise bag of clumping cat litter, plain cream background, product photo" },
+        { "slot": "cama", "ratio": "1:1", "prompt": "Round fluffy orange plush pet bed, plain cream background, product photo" },
+        { "slot": "rascador", "ratio": "1:1", "prompt": "Small cat scratching tower with sisal posts and turquoise platforms, plain cream background, product photo" },
+        { "slot": "pelota", "ratio": "1:1", "prompt": "Set of three colorful rubber dog balls orange turquoise and yellow, plain cream background, product photo" },
+        { "slot": "collar", "ratio": "1:1", "prompt": "Turquoise nylon dog collar with a brass bone-shaped tag (blank), plain cream background, product photo" },
+        { "slot": "snacks", "ratio": "1:1", "prompt": "Glass jar of bone-shaped dog biscuits with a few biscuits outside, plain cream background, product photo" },
+        { "slot": "comedero", "ratio": "1:1", "prompt": "Double ceramic pet food bowl in orange and turquoise on a bamboo stand, plain cream background, product photo" }
+      ]
+    },
+    {
+      "site": "ebano", "style": "Designer jewelry boutique online store. Refined, quiet luxury, high contrast. Palette: ebony #121212, champagne gold #C9A96E, ivory #F4EEE4, pearl gray #BDB7AE. Product photos: single piece on plain ivory #F4EEE4 background, soft shadow, macro jewelry photography.",
+      "images": [
+        { "slot": "hero", "ratio": "16:9", "prompt": "Elegant close crop of a Latin American woman's neck and shoulder wearing a fine champagne-gold necklace with a faceted dark stone pendant, black off-shoulder dress, chiaroscuro lighting, black background, luxury editorial, empty dark space on the left" },
+        { "slot": "anillo-solitario", "ratio": "1:1", "prompt": "Champagne gold solitaire ring with a faceted black onyx stone, plain ivory background, macro jewelry photography" },
+        { "slot": "argollas", "ratio": "1:1", "prompt": "Pair of minimal champagne gold wedding bands interlocked, plain ivory background, macro jewelry photography" },
+        { "slot": "aretes-gota", "ratio": "1:1", "prompt": "Pair of champagne gold drop earrings with small pearls, plain ivory background, macro jewelry photography" },
+        { "slot": "collar-gema", "ratio": "1:1", "prompt": "Fine gold chain necklace with a faceted emerald pendant laid in a soft curve, plain ivory background, macro jewelry photography" },
+        { "slot": "pulsera", "ratio": "1:1", "prompt": "Slim champagne gold bangle bracelet with a row of tiny diamonds, plain ivory background, macro jewelry photography" },
+        { "slot": "argolla-sello", "ratio": "1:1", "prompt": "Gold signet ring with a smooth blank oval face, plain ivory background, macro jewelry photography" },
+        { "slot": "aretes-aro", "ratio": "1:1", "prompt": "Pair of small sculptural gold hoop earrings, plain ivory background, macro jewelry photography" },
+        { "slot": "dije-luna", "ratio": "1:1", "prompt": "Delicate gold crescent moon pendant on a thin chain, plain ivory background, macro jewelry photography" },
+        { "slot": "taller", "ratio": "3:2", "prompt": "Jeweler's hands setting a stone into a gold ring at a wooden workbench with fine tools, warm lamp light, dark background, artisan craft, shallow depth of field" }
+      ]
+    }
+  ]
+}

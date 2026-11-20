@@ -1,10 +1,31 @@
 <script>
-  // Keep content visible if JavaScript or animation APIs are unavailable.
-  const targets = document.querySelectorAll<HTMLElement>('.section-heading, .project-card, .about-grid, .contact-heading, .quote-card');
-  if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches && !document.documentElement.hasAttribute('data-motion')) {
-    const observer = new IntersectionObserver(entries => entries.forEach(entry => {
-      if (entry.isIntersecting) { entry.target.classList.add('reveal-in'); observer.unobserve(entry.target); }
-    }), { threshold: 0.08 });
+  // Cards fade in one at a time as they reach the screen, so a slow phone paints and downloads
+  // a few at once instead of the whole page. Content stays visible without JavaScript or with reduced motion.
+  const targets = document.querySelectorAll<HTMLElement>('.section-heading, .project-card, .site-card, .about-grid, .contact-heading, .quote-card, .package-card');
+  const calm = matchMedia('(prefers-reduced-motion: reduce)').matches || document.documentElement.hasAttribute('data-motion');
+  if ('IntersectionObserver' in window && !calm) {
+    const queue: HTMLElement[] = [];
+    let timer = 0;
+    const next = () => {
+      const target = queue.shift();
+      if (!target) { timer = 0; return; }
+      target.classList.add('reveal-in');
+      // Lazy images inside the card start downloading now, one card after another.
+      target.querySelectorAll<HTMLImageElement>('img[loading="lazy"]').forEach(img => { img.loading = 'eager'; });
+      timer = window.setTimeout(next, queue.length > 6 ? 60 : 120);
+    };
+    const observer = new IntersectionObserver(entries => {
+      entries.filter(entry => entry.isIntersecting).forEach(entry => {
+        observer.unobserve(entry.target);
+        queue.push(entry.target as HTMLElement);
+      });
+      if (!timer) next();
+    }, { threshold: 0.08, rootMargin: '0px 0px -4% 0px' });
     targets.forEach(target => { target.classList.add('reveal'); observer.observe(target); });
+    // Never leave anything hidden if a card is filtered out or the observer misses it.
+    addEventListener('pagehide', () => observer.disconnect());
+    document.addEventListener('click', e => {
+      if ((e.target as Element).closest?.('[data-filter],[data-brand-filter],[data-site-filter]')) targets.forEach(t => t.classList.add('reveal-in'));
+    });
   }
 </script>

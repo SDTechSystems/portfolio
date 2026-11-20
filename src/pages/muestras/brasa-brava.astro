@@ -1,0 +1,216 @@
+---
+import SampleLayout from '../../components/samples/SampleLayout.astro';
+import Photo from '../../components/samples/Photo.astro';
+import Logo from '../../components/samples/Logo.astro';
+const S = 'brasa-brava';
+const combos = [
+  { slot: 'combo-clasica', name: 'La Clásica', desc: 'Carne smash de 150 g, cheddar, lechuga, tomate, pepinillos y salsa de la casa. Con papas rústicas y bebida.', price: 28900, tag: 'La más pedida' },
+  { slot: 'combo-picante', name: 'La Brava', desc: 'Doble carne, jalapeños, cebolla asada, queso pepper jack y chipotle ahumado. Solo para valientes.', price: 34900, tag: 'Picante 🌶🌶' },
+  { slot: 'combo-bbq', name: 'La Ahumada', desc: 'Carne de 200 g, tocineta crocante, aros de cebolla y salsa BBQ de panela. Con papas y bebida.', price: 36900, tag: 'Nueva' },
+];
+const menu = {
+  Hamburguesas: [['La Clásica', 'Smash de 150 g, cheddar y salsa de la casa', 21900], ['La Brava', 'Doble carne, jalapeños y chipotle', 27900], ['La Ahumada', 'Tocineta, aros de cebolla y BBQ', 29900], ['La Verde', 'Hamburguesa de garbanzo y aguacate', 23900], ['Brasita', 'Para niños, con papas y jugo', 17900]],
+  Acompañantes: [['Papas rústicas', 'Con sal de ajo y perejil', 8900], ['Papas Brava', 'Con queso fundido, tocineta y jalapeño', 14900], ['Aros de cebolla', 'Apanados en cerveza', 10900], ['Maduritos', 'Con queso costeño', 8900]],
+  Bebidas: [['Limonada de coco', '400 ml', 9900], ['Gaseosa', '400 ml', 5900], ['Malteada de arequipe', '350 ml', 13900], ['Cerveza artesanal', 'Rubia o roja, 330 ml', 12900]],
+} as Record<string, [string, string, number][]>;
+const cop = (n: number) => '$' + n.toLocaleString('es-CO');
+const order = (item: string, price: number) => `¡Hola Brasa Brava! 🔥 Quiero pedir:\n1 × ${item} (${cop(price)})\nDirección: \nPago: efectivo o transferencia`;
+---
+<SampleLayout slug={S} title="Brasa Brava — Hamburguesas al carbón" description="Hamburguesas al carbón y sin miedo. Pide tu combo por WhatsApp en Medellín." theme="#1B1615"
+  fonts={[{ family: 'Anton', file: 'anton-latin-400-normal.woff2', weight: 400 }, { family: 'Barlow', file: 'barlow-latin-400-normal.woff2', weight: 400 }, { family: 'Barlow', file: 'barlow-latin-600-normal.woff2', weight: 600 }, { family: 'Barlow', file: 'barlow-latin-700-normal.woff2', weight: 700 }]}>
+  <div class="bb">
+    <header class="bb-head">
+      <a href="#inicio" class="bb-logo" aria-label="Brasa Brava, inicio"><Logo brand={S} variant="logo-inversa" height={46} /></a>
+      <nav class="bb-nav" aria-label="Secciones"><a href="#combos">Combos</a><a href="#menu">Menú</a><a href="#sedes">Sedes</a></nav>
+      <span class="bb-status" data-status>Abierto de 12 m. a 11 p. m.</span>
+      <a class="bb-btn bb-btn-sm" href="#combos">Pedir ya</a>
+    </header>
+
+    <main id="inicio">
+      <section class="bb-hero">
+        <div class="bb-hero-copy">
+          <p class="bb-kicker">Hamburguesas al carbón · Medellín</p>
+          <h1><span>Al carbón</span><span class="bb-outline">y sin</span><span class="bb-yellow">miedo.</span></h1>
+          <p class="bb-lead">Carne 100 % de res, pan brioche horneado cada mañana y fuego de verdad. Pide en dos minutos y recíbela caliente en 25.</p>
+          <div class="bb-ctas"><a class="bb-btn" href="#combos">Pedir por WhatsApp</a><a class="bb-btn bb-btn-ghost" href="#menu">Ver el menú</a></div>
+        </div>
+        <div class="bb-hero-media">
+          <Photo site={S} slot="hero" ratio="4/5" eager alt="Hamburguesa doble con queso fundido frente a las llamas de la parrilla" sizes="(max-width: 860px) 100vw, 45vw" class="bb-hero-img" />
+          <span class="bb-sticker" aria-hidden="true">2×1<small>los martes</small></span>
+        </div>
+      </section>
+
+      <div class="bb-ticker" aria-hidden="true"><div>{Array.from({ length: 2 }, () => <span>SMASH ✦ DOBLE QUESO ✦ PAPAS RÚSTICAS ✦ SALSA DE LA CASA ✦ CARBÓN DE VERDAD ✦ </span>)}</div></div>
+
+      <section class="bb-section" id="combos" aria-labelledby="combos-t">
+        <div class="bb-heading" data-reveal><p class="bb-kicker">Los favoritos</p><h2 id="combos-t">Combos que no fallan</h2></div>
+        <div class="bb-combos">
+          {combos.map(c => (
+            <article class="bb-combo" data-reveal>
+              <div class="bb-combo-media"><Photo site={S} slot={c.slot} ratio="1/1" alt={`Combo ${c.name}`} sizes="(max-width: 860px) 100vw, 33vw" /><span class="bb-tag">{c.tag}</span></div>
+              <h3>{c.name}</h3>
+              <p>{c.desc}</p>
+              <div class="bb-combo-foot"><strong>{cop(c.price)}</strong><button class="bb-btn bb-btn-sm" type="button" data-order={order(`Combo ${c.name}`, c.price)}>Pedir este combo</button></div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section class="bb-section bb-menu" id="menu" aria-labelledby="menu-t">
+        <div class="bb-heading" data-reveal><p class="bb-kicker">Carta completa</p><h2 id="menu-t">El menú</h2></div>
+        <div class="bb-tabs" role="tablist" aria-label="Categorías del menú">
+          {Object.keys(menu).map((k, i) => <button role="tab" type="button" id={`tab-${i}`} aria-controls={`panel-${i}`} aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1}>{k}</button>)}
+        </div>
+        {Object.entries(menu).map(([k, items], i) => (
+          <div role="tabpanel" id={`panel-${i}`} aria-labelledby={`tab-${i}`} hidden={i !== 0}><ul class="bb-list">
+            {items.map(([n, d, p]) => <li><div><b>{n}</b><span>{d}</span></div><i aria-hidden="true"></i><strong>{cop(p)}</strong></li>)}
+          </ul></div>
+        ))}
+      </section>
+
+      <section class="bb-facts" aria-label="Por qué Brasa Brava">
+        <div data-reveal><b>100 %</b><span>carne de res madurada</span></div>
+        <div data-reveal><b>25 min</b><span>tiempo promedio de entrega</span></div>
+        <div data-reveal><b>4,8 ★</b><span>en más de 2.300 reseñas</span></div>
+      </section>
+
+      <section class="bb-section" id="sedes" aria-labelledby="sedes-t">
+        <div class="bb-heading" data-reveal><p class="bb-kicker">Ven a la brasa</p><h2 id="sedes-t">Nuestras sedes</h2></div>
+        <div class="bb-places">
+          <Photo site={S} slot="local" ratio="16/9" alt="Interior del restaurante con la parrilla encendida" class="bb-place-img" sizes="(max-width: 860px) 100vw, 55vw" />
+          <div class="bb-place-list">
+            <article data-reveal><h3>Laureles</h3><p>Circular 4 # 70-12 · Medellín</p><p>Lun a jue 12 m. – 11 p. m. · Vie y sáb hasta la 1 a. m.</p></article>
+            <article data-reveal><h3>El Poblado</h3><p>Calle 10 # 38-25 · Medellín</p><p>Todos los días 12 m. – 11 p. m.</p></article>
+            <article data-reveal><h3>Domicilios</h3><p>Toda Medellín, Envigado y Sabaneta.</p><p>Domicilio gratis desde $60.000.</p></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="bb-final" aria-labelledby="final-t">
+        <h2 id="final-t" data-reveal>¿Hambre?<br />Pide en 2 minutos.</h2>
+        <button class="bb-btn" type="button" data-order={order('Combo La Clásica', 28900)}>Pedir por WhatsApp</button>
+      </section>
+    </main>
+    <footer class="bb-foot"><Logo brand={S} variant="logo-blanco" height={54} /><p>Al carbón y sin miedo · @brasabrava</p></footer>
+  </div>
+</SampleLayout>
+
+<script>
+  // Open / closed badge from the visitor's clock (Fri and Sat until 1 a.m.).
+  const badge = document.querySelector<HTMLElement>('[data-status]');
+  if (badge) {
+    const now = new Date(), h = now.getHours() + now.getMinutes() / 60, d = now.getDay();
+    const late = (d === 6 || d === 0) && h < 1;
+    const open = (h >= 12 && h < 23) || late || ((d === 5 || d === 6) && h >= 23);
+    badge.textContent = open ? 'Abierto ahora' : 'Cerrado · abrimos a las 12 m.';
+    badge.classList.toggle('is-closed', !open);
+  }
+  // Menu tabs with arrow-key navigation.
+  const tabs = [...document.querySelectorAll<HTMLButtonElement>('.bb-tabs [role=tab]')];
+  const select = (tab: HTMLButtonElement) => tabs.forEach(t => {
+    const on = t === tab; t.setAttribute('aria-selected', String(on)); t.tabIndex = on ? 0 : -1;
+    document.getElementById(t.getAttribute('aria-controls')!)!.hidden = !on;
+  });
+  tabs.forEach((t, i) => {
+    t.addEventListener('click', () => select(t));
+    t.addEventListener('keydown', e => {
+      const dir = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+      if (dir) { const n = tabs[(i + dir + tabs.length) % tabs.length]; select(n); n.focus(); }
+    });
+  });
+</script>
+
+<style is:global>
+  .bb{--red:#E1341E;--red-d:#B8260F;--hero:#C8301A;--mustard:#FFC12E;--orange:#F57A1F;--coal:#1B1615;--cream:#FFF3E2;background:var(--coal);color:var(--cream);font:400 17px/1.55 Barlow,system-ui,sans-serif}
+  .bb *{box-sizing:border-box}
+  .bb h1,.bb h2,.bb h3{font-family:Anton,Impact,sans-serif;font-weight:400;text-transform:uppercase;letter-spacing:.5px;margin:0;line-height:.95}
+  .bb p{margin:0}
+  .bb a{color:inherit}
+  .bb :focus-visible{outline:3px solid var(--mustard);outline-offset:3px}
+  .bb-head{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:22px;padding:10px clamp(16px,4vw,48px);background:#1b1615f2;backdrop-filter:blur(10px);border-bottom:3px solid var(--red)}
+  .bb-logo img{display:block;height:46px;width:auto}
+  .bb-nav{display:flex;gap:22px;margin-left:auto;font-weight:700;text-transform:uppercase;letter-spacing:1px;font-size:15px}
+  .bb-nav a{text-decoration:none}.bb-nav a:hover{color:var(--mustard)}
+  .bb-status{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:600;white-space:nowrap}
+  .bb-status::before{content:"";width:9px;height:9px;border-radius:50%;background:#3ddc6b;box-shadow:0 0 0 4px #3ddc6b33}
+  .bb-status.is-closed::before{background:var(--orange);box-shadow:0 0 0 4px #f57a1f33}
+  .bb-btn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:12px 26px;border:3px solid var(--mustard);border-radius:999px;background:var(--mustard);color:var(--coal)!important;font:700 16px Barlow,sans-serif;text-transform:uppercase;letter-spacing:1px;text-decoration:none;cursor:pointer;box-shadow:5px 5px 0 var(--coal);transition:transform .15s,box-shadow .15s}
+  .bb-btn:hover{transform:translate(-2px,-2px);box-shadow:7px 7px 0 var(--coal)}
+  .bb-btn-sm{min-height:44px;padding:8px 18px;font-size:14px;box-shadow:none}
+  .bb-btn-sm:hover{box-shadow:none;transform:translateY(-2px)}
+  .bb-btn-ghost{background:transparent;color:var(--cream)!important;border-color:var(--cream)}
+  .bb-hero{display:grid;grid-template-columns:1.1fr .9fr;align-items:center;gap:clamp(24px,4vw,64px);padding:clamp(40px,6vw,90px) clamp(16px,4vw,48px);background:var(--hero);overflow:hidden}
+  .bb-kicker{font-weight:700;text-transform:uppercase;letter-spacing:3px;font-size:14px;color:var(--mustard)}
+  .bb-hero .bb-kicker{color:var(--cream)}
+  .bb-hero h1{display:flex;flex-direction:column;margin:16px 0 22px;font-size:clamp(4rem,12vw,10.5rem);line-height:.86;color:var(--cream)}
+  .bb-outline{color:transparent;-webkit-text-stroke:3px var(--cream)}
+  .bb-yellow{color:var(--mustard)}
+  .bb-lead{max-width:36ch;font-size:clamp(1.05rem,1.6vw,1.3rem);font-weight:600}
+  .bb-ctas{display:flex;flex-wrap:wrap;gap:14px;margin-top:30px}
+  .bb-hero-media{position:relative}
+  .bb-hero-img{border-radius:28px;border:4px solid var(--coal);box-shadow:14px 14px 0 var(--coal)}
+  .bb-sticker{position:absolute;left:-26px;bottom:34px;display:grid;place-items:center;width:132px;height:132px;border-radius:50%;background:var(--mustard);color:var(--coal);font:400 46px/1 Anton,sans-serif;text-align:center;transform:rotate(-12deg);box-shadow:5px 5px 0 var(--coal);animation:bb-spin 9s ease-in-out infinite alternate}
+  .bb-sticker small{display:block;margin-top:-28px;font:700 14px Barlow,sans-serif;text-transform:uppercase}
+  @keyframes bb-spin{to{transform:rotate(8deg) scale(1.05)}}
+  .bb-ticker{overflow:hidden;background:var(--mustard);color:var(--coal);border-block:3px solid var(--coal);font:400 clamp(1.4rem,3vw,2.2rem)/1 Anton,sans-serif;white-space:nowrap}
+  .bb-ticker>div{display:inline-flex;padding:14px 0;animation:bb-run 22s linear infinite}
+  @keyframes bb-run{to{transform:translateX(-50%)}}
+  .bb-section{padding:clamp(60px,8vw,110px) clamp(16px,4vw,48px)}
+  .bb-heading{margin-bottom:36px}
+  .bb-heading h2{margin-top:10px;font-size:clamp(2.8rem,7vw,5.5rem)}
+  .bb-combos{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:26px}
+  .bb-combo{display:flex;flex-direction:column;gap:12px;padding:16px;border:3px solid var(--cream);border-radius:26px;background:#251e1c}
+  .bb-combo-media{position:relative;overflow:hidden;border-radius:16px}
+  .bb-combo-media .ph-img{transition:transform .5s}
+  .bb-combo:hover .bb-combo-media .ph-img{transform:scale(1.05)}
+  .bb-tag{position:absolute;top:12px;left:12px;padding:5px 12px;border-radius:999px;background:var(--hero);color:#fff;font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:1px}
+  .bb-combo h3{margin-top:6px;font-size:2.2rem;color:var(--mustard)}
+  .bb-combo p{color:#e9dccb;font-size:16px}
+  .bb-combo-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:auto;padding-top:8px}
+  .bb-combo-foot strong{font:400 2rem Anton,sans-serif}
+  .bb-menu{background:var(--cream);color:var(--coal)}
+  .bb-menu .bb-kicker{color:var(--red-d)}
+  .bb-tabs{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:26px}
+  .bb-tabs button{min-height:46px;padding:8px 20px;border:3px solid var(--coal);border-radius:999px;background:transparent;color:var(--coal);font:700 15px Barlow,sans-serif;text-transform:uppercase;letter-spacing:1px;cursor:pointer}
+  .bb-tabs button[aria-selected=true]{background:var(--coal);color:var(--mustard)}
+  .bb-tabs button:focus-visible{outline-color:var(--red)}
+  .bb-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 48px;margin:0;padding:0;list-style:none}
+  [role=tabpanel][hidden]{display:none}
+  .bb-list li{display:flex;align-items:baseline;gap:10px;padding:16px 0;border-bottom:2px dashed #1b161533}
+  .bb-list li div{display:flex;flex-direction:column}
+  .bb-list b{font-size:1.15rem;text-transform:uppercase;letter-spacing:.5px}
+  .bb-list span{color:#5d4f49;font-size:15px}
+  .bb-list i{flex:1}
+  .bb-list strong{font:400 1.5rem Anton,sans-serif;color:var(--red-d)}
+  .bb-facts{display:grid;grid-template-columns:repeat(3,1fr);background:var(--orange);color:var(--coal);border-block:3px solid var(--coal)}
+  .bb-facts div{display:flex;flex-direction:column;gap:4px;padding:34px clamp(16px,4vw,48px);border-right:3px solid var(--coal)}
+  .bb-facts div:last-child{border-right:0}
+  .bb-facts b{font:400 clamp(2.4rem,5vw,4rem)/1 Anton,sans-serif}
+  .bb-facts span{font-weight:700;text-transform:uppercase;letter-spacing:1px;font-size:14px}
+  .bb-places{display:grid;grid-template-columns:1.2fr .8fr;gap:26px;align-items:start}
+  .bb-place-img{border-radius:26px;border:3px solid var(--cream)}
+  .bb-place-list{display:grid;gap:16px}
+  .bb-place-list article{padding:22px;border-radius:20px;background:#251e1c;border-left:8px solid var(--red)}
+  .bb-place-list h3{font-size:2rem;color:var(--mustard);margin-bottom:6px}
+  .bb-place-list p{color:#e9dccb;font-size:16px}
+  .bb-final{display:flex;flex-direction:column;align-items:center;gap:28px;padding:clamp(70px,10vw,130px) 16px;background:var(--mustard);color:var(--coal);text-align:center}
+  .bb-final h2{font-size:clamp(3rem,9vw,7rem)}
+  .bb-final .bb-btn{background:var(--coal);color:var(--mustard)!important;border-color:var(--coal);box-shadow:5px 5px 0 var(--red)}
+  .bb-foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;padding:30px clamp(16px,4vw,48px);border-top:3px solid var(--red)}
+  .bb-foot img{height:54px;width:auto}
+  @media(max-width:860px){
+    .bb-nav,.bb-status{display:none}
+    .bb-head .bb-btn-sm{margin-left:auto}
+    .bb-hero,.bb-places{grid-template-columns:1fr}
+    .bb-hero-media{max-width:460px;margin:10px auto 0;width:100%}
+    .bb-sticker{left:-6px;width:104px;height:104px;font-size:36px}
+    .bb-sticker small{margin-top:-20px;font-size:12px}
+    .bb-combos{grid-template-columns:1fr}
+    .bb-list{grid-template-columns:1fr}
+    .bb-facts{grid-template-columns:1fr}
+    .bb-facts div{border-right:0;border-bottom:3px solid var(--coal);padding:22px 16px}
+    .bb-facts div:last-child{border-bottom:0}
+  }
+  @media(max-width:420px){.bb-ctas .bb-btn{width:100%}.bb-combo-foot{flex-wrap:wrap}.bb-combo-foot .bb-btn{flex:1}}
+  @media(prefers-reduced-motion:reduce){.bb-ticker>div,.bb-sticker{animation:none}.bb-btn,.bb-combo-media .ph-img{transition:none}}
+</style>

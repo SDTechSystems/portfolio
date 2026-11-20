@@ -1,7 +1,7 @@
 /* Brand design showcase: gallery, brand pages and the home teaser. Uses the site tokens from styles.css. */
 .brands-hero{padding-top:56px;padding-bottom:30px}
 .brands-hero h1{margin:22px 0 26px;max-width:15ch;font-size:clamp(2.6rem,6.6vw,5.4rem);line-height:1.02;letter-spacing:-3px}
-.brands-hero h1 span{color:var(--accent)}
+.brands-hero h1 em{color:var(--accent)}
 .brands-lead{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:28px 40px}
 .brands-lead p{max-width:660px;color:var(--muted);font-size:1.0625rem;line-height:1.75}
 .brands-note{margin-top:22px;font:.6875rem/1.7 "SD Mono",monospace;color:var(--muted)}

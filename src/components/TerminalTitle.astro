@@ -1,6 +1,9 @@
 ---
-const { first, second } = Astro.props as { first: string; second: string };
-const lastLine = Array.from(second);
+// Page title typed letter by letter like a terminal, ending in a blinking "_" caret.
+// The second line (optional) is rendered in <em> so each page can give it the accent color.
+const { first, second, id = 'titulo' } = Astro.props as { first: string; second?: string; id?: string };
+const firstLine = Array.from(first), lastLine = Array.from(second ?? '');
+const caretIn = (line: string[], index: number, last: boolean) => last && index === line.length - 1 ? 'after' : undefined;
 ---
 <script is:inline>
   // Hide only while the animation initializes. Failed scripts reveal the full title.
@@ -11,7 +14,7 @@ const lastLine = Array.from(second);
     }, 1600);
   }
 </script>
-<h1 id="titulo" class="terminal-heading" aria-label={`${first} ${second}`} data-terminal-state="complete"><span aria-hidden="true"><span data-terminal-line>{Array.from(first).map(letter => <span data-terminal-char>{letter}</span>)}</span><br/><em data-terminal-line>{lastLine.map((letter, index) => <span data-terminal-char data-caret={index === lastLine.length - 1 ? 'after' : undefined}>{letter}</span>)}</em></span></h1>
+<h1 id={id} class="terminal-heading" aria-label={second ? `${first} ${second}` : first} data-terminal-state="complete"><span aria-hidden="true"><span data-terminal-line>{firstLine.map((letter, index) => <span data-terminal-char data-caret={caretIn(firstLine, index, !second)}>{letter}</span>)}</span>{second && <><br/><em data-terminal-line>{lastLine.map((letter, index) => <span data-terminal-char data-caret={caretIn(lastLine, index, true)}>{letter}</span>)}</em></>}</span></h1>
 <script>
   import '../scripts/terminal-title';
 </script>
