@@ -56,7 +56,7 @@ El catálogo Nintendo Switch se retiró en noviembre de 2026; su código complet
 
 - [Guía de configuración](docs/CONFIGURACION.md).
 - [Funcionamiento de las demos](docs/DEMOS_SOFTWARE.md).
-- [Vista móvil](docs/preview-mobile.png) y [copia navegable sin instalación](docs/vista-previa.zip).
+- [Vista móvil](docs/preview-mobile.png) y [copia navegable sin instalación](docs/vista-previa.zip): se descomprime y se abre `index.html` con doble clic. Para regenerarla, compilar con `npm run build` y ejecutar `node tools/vista-previa/build.mjs` (requiere el comando `zip`).
 
 Para comprobar las demos, instalar Chromium con `npx playwright install chromium`, compilar con `npm run build` y ejecutar `npm run test:demos`.
 
