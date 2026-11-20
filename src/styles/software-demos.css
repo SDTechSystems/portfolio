@@ -3683,3 +3683,127 @@ html[data-motion] *::after {
     width: 100%;
   }
 }
+/* EasyDrink: brand purple, receivables and storeroom. */
+.demo-easy-drink {
+  --action: #451eb8;
+  --soft: #efeafc;
+}
+.debt-banner {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 26px;
+  padding: 18px 22px;
+  border-radius: 14px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  text-decoration: none;
+  color: var(--text);
+}
+.debt-banner > span:nth-child(2) {
+  flex: 1;
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+.debt-banner small {
+  color: var(--muted);
+  font-size: 0.75rem;
+}
+.debt-banner strong {
+  font-size: 1.35rem;
+}
+.debt-banner:hover {
+  border-color: var(--action);
+}
+.debt-accounts {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+  gap: 18px;
+}
+.debt-card {
+  display: grid;
+  gap: 14px;
+  align-content: start;
+  min-width: 0;
+}
+.debt-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.debt-head h2 {
+  font-size: 1.05rem;
+  margin-bottom: 4px;
+}
+.warning-text {
+  color: #9a4a00;
+  font-weight: 600;
+}
+.debt-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+.debt-list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 0.85rem;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 8px;
+  min-width: 0;
+}
+.debt-list li > span:first-child {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.debt-list li > span:last-child {
+  white-space: nowrap;
+  text-align: right;
+}
+.debt-history {
+  font-size: 0.78rem;
+}
+.debt-actions,
+.move-buttons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.receipt-logo {
+  display: block;
+  width: 96px;
+  height: auto;
+  margin: 0 auto 10px;
+}
+.form-note {
+  color: #9a4a00;
+  font-size: 0.85rem;
+  margin: 8px 0 0;
+  min-height: 0;
+}
+.backup-card {
+  margin-top: 18px;
+}
+html[data-contrast] .warning-text,
+html[data-contrast] .form-note {
+  color: inherit;
+}
+@media (max-width: 600px) {
+  .debt-list li {
+    flex-direction: column;
+    gap: 4px;
+  }
+  .debt-list li > span:last-child {
+    text-align: left;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+}

@@ -162,9 +162,44 @@ async function business(page, id) {
         assert.equal(await page.locator("#sale-customer").inputValue(), "c2");
       }
     });
+  if (id === "easy-drink") await receivables(page);
   await page.locator("[data-nav=sales]:visible").first().click();
   await page.locator("#product-search").fill("");
   await screenshot(page, id, "-checkout");
+}
+async function receivables(page) {
+  await page.locator("[data-nav=debts]:visible").first().click();
+  const before = await page.locator("#debts-total").innerText();
+  await page.locator(".debt-card").first().locator(".debt-actions .primary").click();
+  assert.ok(await page.locator("#payment-dialog").evaluate((d) => d.open));
+  await page.locator("#payment-amount").fill("30000");
+  await page.locator("#payment-form button[type=submit]").click();
+  assert.notEqual(await page.locator("#debts-total").innerText(), before);
+  assert.ok((await page.locator(".debt-card").first().innerText()).match(/5[.,]500/));
+  await page.locator(".debt-card").nth(2).locator(".debt-actions .secondary").click();
+  assert.ok(await page.locator("#statement-dialog").evaluate((d) => d.open));
+  assert.ok((await page.locator("#statement-total").innerText()).includes("9"));
+  await page.keyboard.press("Escape");
+  await page.locator("[data-nav=sales]:visible").first().click();
+  await page.locator("#product-search").fill("DEMO-101");
+  await page.locator(".product-tile").click();
+  await page.locator("#sale-customer").selectOption("walk-in");
+  await page.locator("#start-checkout").click();
+  await page.locator("[name=payment][value=credit]").check();
+  await page.locator("#checkout-form button[type=submit]").click();
+  assert.ok((await page.locator("#credit-note").innerText()).length > 0);
+  await page.keyboard.press("Escape");
+  await page.locator("#sale-customer").selectOption("c3");
+  await page.locator("#start-checkout").click();
+  await page.locator("[name=payment][value=credit]").check();
+  await page.locator("#checkout-form button[type=submit]").click();
+  assert.ok(await page.locator("#receipt-dialog").evaluate((d) => d.open));
+  await page.keyboard.press("Escape");
+  await page.locator("[data-nav=debts]:visible").first().click();
+  assert.equal(await page.locator(".debt-card").nth(2).locator(".debt-list li").count(), 2);
+  await page.locator("[data-nav=settings]:visible").first().click();
+  await page.locator("#backup-now").click();
+  assert.ok((await page.locator("#backup-status").innerText()).length > 0);
 }
 async function vault(page) {
   await page.locator("[data-prompt=ideas]").click();

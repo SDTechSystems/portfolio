@@ -1,7 +1,9 @@
 import {
   sampleProducts,
   sampleCustomers,
+  sampleAccounts,
   type DemoProduct,
+  type DemoAccount,
 } from "../data/business-demo";
 import {
   $,
@@ -20,6 +22,10 @@ const products = sampleProducts(es ? "es" : "en").filter(
   (p) => erp || p.brand === "a",
 );
 const customers = sampleCustomers(es ? "es" : "en");
+const accounts: DemoAccount[] = erp ? [] : sampleAccounts(es ? "es" : "en");
+let paymentAccount: DemoAccount | undefined;
+const owedBy = (a: DemoAccount) =>
+  a.purchases.reduce((sum, p) => sum + p.amount - p.paid, 0);
 let brand = "a";
 const cart = new Map<string, number>();
 type Sale = {
@@ -250,7 +256,9 @@ function renderInventory() {
         "text-button",
       ),
     );
-    tr.append(name, node("td", p.sku), node("td", money(p.price)), qty, action);
+    tr.append(name, node("td", p.sku), node("td", money(p.price)), qty);
+    if (!erp) tr.append(node("td", String(p.stored)));
+    tr.append(action);
     rows.append(tr);
   });
   $("#inventory-empty").hidden = matching.length > 0;
@@ -265,6 +273,44 @@ function showProduct(p: DemoProduct) {
     node("p", "SKU · " + p.sku),
     node("p", l("Precio de ejemplo · ", "Sample price · ") + money(p.price)),
     node("p", l("Existencias de ejemplo · ", "Sample stock · ") + p.stock),
+    ...(erp
+      ? []
+      : [
+          node(
+            "p",
+            l("En el local · ", "In the shop · ") +
+              (p.stock - p.stored) +
+              l(" · En bodega · ", " · In storeroom · ") +
+              p.stored,
+            "stock-split",
+          ),
+          (() => {
+            const row = node("div", "", "move-buttons");
+            const move = (toStore: boolean) => {
+              if (toStore ? p.stock - p.stored <= 0 : p.stored <= 0)
+                return notice(
+                  l("No hay unidades para mover.", "No units to move."),
+                );
+              p.stored += toStore ? 1 : -1;
+              renderInventory();
+              $(".stock-split").textContent =
+                l("En el local · ", "In the shop · ") +
+                (p.stock - p.stored) +
+                l(" · En bodega · ", " · In storeroom · ") +
+                p.stored;
+              notice(
+                toStore
+                  ? l("1 unidad pasó a la bodega.", "1 unit moved to the storeroom.")
+                  : l("1 unidad pasó al local.", "1 unit moved to the shop."),
+              );
+            };
+            row.append(
+              button(l("← 1 al local", "← 1 to shop"), () => move(false)),
+              button(l("1 a bodega →", "1 to storeroom →"), () => move(true)),
+            );
+            return row;
+          })(),
+        ]),
     node(
       "p",
       l(
@@ -319,6 +365,119 @@ function renderReports() {
       values.map((v, i) => days[i] + " " + money(v)).join("; "),
   );
 }
+function renderDebts() {
+  if (erp) return;
+  const owing = accounts.filter((a) => owedBy(a) > 0);
+  const totalOwed = accounts.reduce((s, a) => s + owedBy(a), 0);
+  const pending = accounts.reduce(
+    (s, a) => s + a.purchases.filter((p) => p.amount > p.paid).length,
+    0,
+  );
+  const countText =
+    owing.length === 1
+      ? l("1 cliente con saldo pendiente", "1 customer with a balance")
+      : owing.length +
+        l(" clientes con saldo pendiente", " customers with a balance");
+  $("[data-metric=owed]").textContent = money(totalOwed);
+  $("[data-metric=owed-count]").textContent = countText;
+  $("#debts-total").textContent = money(totalOwed);
+  $("#debts-count").textContent = countText;
+  $("#debts-purchases").textContent = String(pending);
+  $("#debts-credit").textContent = money(
+    accounts.reduce((s, a) => s + a.credit, 0),
+  );
+  const box = $("#debt-accounts");
+  box.replaceChildren();
+  accounts.forEach((a) => {
+    const card = node("article", "", "surface debt-card");
+    const head = node("div", "", "debt-head");
+    const who = node("div");
+    who.append(node("h2", a.name));
+    const owed = owedBy(a);
+    who.append(
+      node(
+        "small",
+        owed
+          ? l("Debe ", "Owes ") + money(owed)
+          : l("Al día", "Up to date"),
+        owed ? "warning-text" : "positive",
+      ),
+    );
+    head.append(who);
+    if (a.credit)
+      head.append(
+        node("span", l("Saldo a favor ", "Store credit ") + money(a.credit), "pill"),
+      );
+    card.append(head);
+    const list = node("ul", "", "debt-list");
+    const open = a.purchases.filter((p) => p.amount > p.paid);
+    if (!open.length)
+      list.append(node("li", l("Sin compras pendientes.", "No unpaid purchases."), "muted"));
+    open.forEach((p) => {
+      const li = node("li");
+      const info = node("span");
+      info.append(
+        node("strong", p.date + " · " + p.items),
+        node(
+          "small",
+          p.id + (p.paid ? l(" · Abonado ", " · Paid ") + money(p.paid) : ""),
+          "muted",
+        ),
+      );
+      li.append(info, node("span", money(p.amount - p.paid)));
+      list.append(li);
+    });
+    card.append(list);
+    if (a.payments.length)
+      card.append(
+        node(
+          "p",
+          l("Últimos abonos: ", "Recent payments: ") +
+            a.payments
+              .slice(-3)
+              .map((p) => p.date + " " + money(p.amount))
+              .join(" · "),
+          "muted debt-history",
+        ),
+      );
+    const actions = node("div", "", "debt-actions");
+    const pay = button(l("Registrar abono", "Record payment"), () => {
+      paymentAccount = a;
+      $("#payment-context").textContent =
+        a.name + " · " + l("Debe ", "Owes ") + money(owedBy(a));
+      const input = $<HTMLInputElement>("#payment-amount");
+      input.value = String(Math.min(Math.max(owedBy(a), 500), 500000));
+      $<HTMLDialogElement>("#payment-dialog").showModal();
+    }, "primary");
+    pay.setAttribute("aria-label", l("Registrar abono de ", "Record payment for ") + a.name);
+    const statement = button(l("Estado de cuenta", "Statement"), () => showStatement(a));
+    statement.setAttribute("aria-label", l("Estado de cuenta de ", "Statement for ") + a.name);
+    actions.append(pay, statement);
+    card.append(actions);
+    box.append(card);
+  });
+}
+function showStatement(a: DemoAccount) {
+  $("#statement-customer").textContent = a.name;
+  const lines = $("#statement-lines");
+  lines.replaceChildren();
+  a.purchases
+    .filter((p) => p.amount > p.paid)
+    .forEach((p) => {
+      const row = node("p", "", "receipt-line");
+      row.append(node("span", p.date + " · " + p.items), node("span", money(p.amount - p.paid)));
+      lines.append(row);
+    });
+  if (a.credit) {
+    const row = node("p", "", "receipt-line");
+    row.append(node("span", l("Saldo a favor", "Store credit")), node("span", "− " + money(a.credit)));
+    lines.append(row);
+  }
+  if (!lines.childElementCount)
+    lines.append(node("p", l("Sin saldo pendiente.", "No balance due.")));
+  $("#statement-total").textContent = money(owedBy(a));
+  $<HTMLDialogElement>("#statement-dialog").showModal();
+}
 function render() {
   renderCatalog();
   renderCart();
@@ -337,6 +496,7 @@ function render() {
     products.filter((p) => eligible(p) && p.stock <= 5).length,
   );
   saleList("#recent-sales");
+  renderDebts();
 }
 initDialogs();
 const show = initScreens();
@@ -389,6 +549,16 @@ $("#checkout-form").addEventListener("submit", (e) => {
     field.reportValidity();
     return;
   }
+  const method = $<HTMLInputElement>("[name=payment]:checked").value;
+  const customerId = $<HTMLSelectElement>("#sale-customer").value;
+  if (method === "credit" && customerId === "walk-in") {
+    $("#credit-note").textContent = l(
+      "Para vender a crédito, elige un cliente en la cesta.",
+      "To sell on credit, choose a customer in the basket.",
+    );
+    return;
+  }
+  if (!erp) $("#credit-note").textContent = "";
   const amount = total();
   const itemLines: string[] = [];
   const receipt = $("#receipt-lines");
@@ -445,6 +615,26 @@ $("#checkout-form").addEventListener("submit", (e) => {
     customer,
     amountByBrand,
   });
+  if (method === "credit") {
+    const account = accounts.find((a) => a.id === customerId)!;
+    let due = amount;
+    const used = Math.min(account.credit, due);
+    account.credit -= used;
+    account.purchases.push({
+      id: sales[sales.length - 1].id,
+      date: l("Hoy", "Today"),
+      items: itemLines.join(", "),
+      amount: due,
+      paid: used,
+    });
+    receipt.append(
+      node(
+        "p",
+        l("A crédito · queda por cobrar a ", "On credit · added to the account of ") +
+          account.name,
+      ),
+    );
+  }
   $("#receipt-total").textContent = money(amount);
   cart.clear();
   field.value = "0";
@@ -458,6 +648,49 @@ $("#receipt-dialog").addEventListener("close", () =>
 $("#receipt-dialog [data-close-receipt]").addEventListener("click", () =>
   $<HTMLDialogElement>("#receipt-dialog").close(),
 );
+if (!erp) {
+  $<HTMLButtonElement>("#payment-form button[type=submit]").disabled = false;
+  $("#payment-form").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const input = $<HTMLInputElement>("#payment-amount");
+    if (!paymentAccount || !input.checkValidity()) return input.reportValidity();
+    let left = Math.round(Number(input.value));
+    paymentAccount.payments.push({ date: l("Hoy", "Today"), amount: left });
+    for (const p of paymentAccount.purchases) {
+      const part = Math.min(left, p.amount - p.paid);
+      p.paid += part;
+      left -= part;
+    }
+    paymentAccount.credit += left;
+    renderDebts();
+    $<HTMLDialogElement>("#payment-dialog").close();
+    notice(
+      left
+        ? l("Abono registrado. Sobraron ", "Payment recorded. ") +
+            money(left) +
+            l(" como saldo a favor.", " became store credit.")
+        : l("Abono registrado en la cuenta.", "Payment recorded on the account."),
+    );
+  });
+  $("#statement-share").addEventListener("click", () =>
+    notice(
+      l(
+        "En la aplicación se abre el chat de WhatsApp del cliente con el estado de cuenta. En esta demo no se envía nada.",
+        "In the app this opens the customer’s WhatsApp chat with the statement. Nothing is sent in this demo.",
+      ),
+    ),
+  );
+  $("#backup-now").addEventListener("click", () => {
+    $("#backup-status").textContent = l(
+      "Conectada · última copia hace un momento (simulada)",
+      "Connected · last copy just now (simulated)",
+    );
+    notice(l("Copia simulada. No se envió ningún dato.", "Simulated backup. No data was sent."));
+  });
+  $$<HTMLInputElement>("[name=payment]").forEach((r) =>
+    r.addEventListener("change", () => ($("#credit-note").textContent = "")),
+  );
+}
 $$<HTMLButtonElement>("[data-accent]").forEach((b) =>
   b.addEventListener("click", () => {
     document.body.style.setProperty("--action", b.dataset.accent!);

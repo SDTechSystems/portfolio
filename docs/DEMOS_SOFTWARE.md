@@ -8,7 +8,7 @@ Las imágenes y los botones «Explorar demo» abren una página independiente pa
 | --- | --- | --- |
 | `akashic-vault` | Reconstrucción visual independiente | Modos de chat, respuestas predefinidas, perfiles de modelo, historial y bóveda en memoria, bloqueo visual, estudio con imagen preparada y animación de video simulada, tema claro/oscuro. |
 | `openmultipos` | Adaptación de la estructura y paleta del panel original | Dos negocios ficticios, filtros, inventario, clientes, cesta conjunta, descuento, cobro simulado, recibo desglosado por negocio e indicadores separados. Sin Frappe, SQLite, contabilidad o impresión. |
-| `easy-drink` | Reconstrucción visual independiente | Panel, caja, búsqueda/categorías, cantidades, descuento, pago ficticio, inventario, recibo, informes y acento visual. Sin IndexedDB, PWA, Capacitor ni dispositivos. |
+| `easy-drink` | Reconstrucción visual independiente | Panel con total por cobrar, caja, búsqueda/categorías, cantidades, descuento, pago ficticio o a crédito, inventario con unidades en bodega, recibo con logo, cuentas por cliente con abonos, saldo a favor y estado de cuenta, informes, copia en la nube simulada y acento visual. Sin IndexedDB, PWA, Capacitor, WhatsApp, nube ni dispositivos. |
 | `akashic-tv` | Reconstrucción visual independiente | Catálogo local, películas/series, géneros/años, fichas, episodios, flechas del teclado, reproductor simulado con avance y ajustes. Sin proveedores, metadata remota, iframes ni películas. |
 | `tasktone` | Portada adaptada y recorrido conceptual reconstruido | Roles de muestra, encargos, filtros, audio local preparado, propuesta/ejecución/revisión/aprobación, ajustes y comentarios en memoria. No implica que esas funciones estén implementadas en el backend del prototipo. |
 

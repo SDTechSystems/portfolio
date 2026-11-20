@@ -23,7 +23,7 @@ export const projects = [
   },
   {
     id: 'easy-drink', name: 'EasyDrink', category: 'Punto de venta · PWA', group: 'gestion', private: false,
-    status: 'En uso', version: 'Web + Android', updated: '2026-11-20', year: '2026', image: 'demo-easy-drink-f49e29a23133.png', color: '#e9d9c4',
+    status: 'En uso', version: 'Web + Android', updated: '2026-11-20', year: '2026', image: 'demo-easy-drink-694ee156c9c6.png', color: '#e9d9c4',
     title: 'El negocio sigue, incluso sin conexión.',
     description: 'Punto de venta para pequeños comercios, adaptado de FreeKasir. Funciona en el navegador, como aplicación instalable o en Android, guarda los datos en el dispositivo y puede respaldarlos solo en la nube.',
     features: ['Caja con descuentos, ventas a crédito y cuentas abiertas que se conservan al cambiar de pantalla.', 'Productos con fotos, códigos de barras e inventario repartido en dos ubicaciones.', 'Cuentas por cobrar por cliente, abonos, saldo a favor y estados de cuenta por WhatsApp.', 'Copia automática en la nube, usuarios con PIN, recibos con logo e informes.'],
