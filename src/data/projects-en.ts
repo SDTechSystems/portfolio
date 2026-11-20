@@ -17,11 +17,11 @@ export const english: Record<string, { name?: string; category: string; status: 
   capture:'Demo dashboard adapted from the administration workspace, with fictional data.',
  },
  'easy-drink':{
-  category:'Point of sale · PWA',status:'Evolving',version:'Web + Android',
+  category:'Point of sale · PWA',status:'In use',version:'Web + Android',
   title:'Business keeps moving, even offline.',
-  description:'An offline point-of-sale adaptation based on FreeKasir. A shared codebase supports a PWA and an Android application, with local storage and Spanish/English interfaces.',
-  features:['Checkout, discounts, payments and open bills.','Products, barcodes and inventory.','Customers, suppliers, expenses, debts and reports.','PIN-based users, backups and thermal printing.'],
-  progress:'An evolving point of sale for web and Android. The latest version runs fully locally, with no cloud, billing or telemetry, uses Colombian pesos (COP) and opens in Spanish by default. Printer and device setup is defined for each implementation.',
+  description:'A point of sale for small shops, adapted from FreeKasir. It runs in the browser, as an installable app or on Android, keeps data on the device and can back it up to the cloud automatically.',
+  features:['Checkout with discounts, credit sales and open bills that persist across screens.','Products with photos, barcodes and stock split across two locations.','Per-customer receivables, partial payments, store credit and statements sent over WhatsApp.','Automatic cloud backup, PIN-based users, branded receipts and reports.'],
+  progress:'In daily use at a small shop. The November 2026 release adds per-customer receivables, shareable statements, stock across two locations, catalog photos, a profit split between partners and automatic cloud backup with a private key. It uses Colombian pesos (COP), opens in Spanish and has no online payments or telemetry.',
   capture:'Reconstructed demo interface with fictional products and sales.',
  },
  'akashic-tv':{

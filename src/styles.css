@@ -1223,6 +1223,16 @@ html[data-motion] .project-visual .screenshot-frame,html[data-motion] .project-c
 .catalog-empty[hidden]{display:none}
 .catalog-empty a{color:var(--sd-white);text-decoration:underline}
 .client-section{padding-top:55px}
+.how-section{padding-top:55px}
+.how-section>h2{font-size:1.4rem;margin:10px 0 25px}
+.how-steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.how-steps li{border:1px solid #24406a;border-radius:12px;padding:22px;background:rgba(6,28,69,.35);min-width:0}
+.how-num{display:block;font-family:"SD Mono",monospace;color:var(--sd-cyan);font-size:.85rem;margin-bottom:10px}
+.how-steps h3{font-size:1.05rem;margin-bottom:10px}
+.how-steps p{font-size:.92rem;line-height:1.8;color:var(--muted);overflow-wrap:anywhere}
+html[data-contrast] .how-steps p{color:white}
+@media(max-width:850px){.how-steps{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.how-steps{grid-template-columns:1fr}.how-section{padding-top:35px}}
 .client-facts{display:grid;grid-template-columns:1fr 1fr;gap:50px;margin-top:25px}
 .client-facts h2{font-size:1.4rem;margin-bottom:16px}
 .client-facts p,.client-copy{font-size:.95rem;line-height:1.9;color:var(--muted);overflow-wrap:anywhere}
