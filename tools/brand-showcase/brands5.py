@@ -37,9 +37,12 @@ def tide(c, mono):
 
 
 def nimbo(c, mono):
-    cloud = P("M15 70a15 15 0 0 1-4-29 21 21 0 0 1 33-15 19 19 0 0 1 35 13 16 16 0 0 1 4 31Z", c["ink"])
-    bolt = "M56 48 39 74h13l-5 20 24-31H57z"
-    return knock(cloud, P(bolt, "#000")) + P(bolt, c["signal"]) if not mono else knock(cloud, P(bolt, "#000")) + P("M52 74h11L47 94z", c["ink"])
+    # A geometric cloud (three circles on a rounded base) crossed by a bolt with a clear gap around it.
+    ink = c["ink"]
+    cloud = C(32, 55, 17, ink) + C(53, 42, 24, ink) + C(74, 56, 15, ink) + P("M15 55h74v8.5a8.5 8.5 0 0 1-8.5 8.5h-57A8.5 8.5 0 0 1 15 63.5z", ink)
+    bolt = "M60 22 40 60h13L45 94l28-42H59l9-30z"
+    gap = P(bolt, "#000") + S(bolt, "#000", 6)
+    return knock(cloud, gap) + P(bolt, ink if mono else c["signal"])
 
 
 def stratum(c, mono):
@@ -109,4 +112,5 @@ BRANDS = [
              ("baloo-2", 800), fosforo, ["box", "cup", "apron", "bag", "menu", "storefront"]),
 ]
 BRANDS[1].notes = {"can": ["Mandarina eléctrica", "Lima chispeante"]}
+BRANDS[1].sym_k = 1.32  # the cloud fills only part of its square, so it needs more height
 BRANDS[3].notes = {"bars": ["70% Cacao", "Cacao y nibs"]}

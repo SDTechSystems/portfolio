@@ -547,6 +547,7 @@ async function testSampleSites() {
     const response = await page.goto(`${base}muestras/${slug}/`, { waitUntil: "networkidle" });
     assert.equal(response.status(), 200);
     assert.equal(await page.locator("html").getAttribute("lang"), "es");
+    assert.equal(await page.evaluate(() => getComputedStyle(document.body).margin), "0px", `${slug}: page reaches the screen edges`);
     const axe = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa"]).analyze();
     assert.deepEqual(axe.violations.map((v) => `${v.id}: ${v.nodes.map((n) => n.target).join(" ")}`), [], `${slug}: accessibility`);
     for (const width of [360, 390, 768, 1440]) {
